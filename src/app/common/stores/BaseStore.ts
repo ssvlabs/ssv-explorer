@@ -40,7 +40,7 @@ class BaseStore {
     const storeNameParts = name.split('/');
     const storeName = storeNameParts[storeNameParts.length - 1];
     if (!BaseStore.stores[storeName]) {
-      let StoreClass: any = require(`~app/common/stores/${name}.store`).default;
+      const StoreClass: any = require(`~app/common/stores/${name}.store`).default;
       BaseStore.stores[storeName] = new StoreClass();
     }
     return BaseStore.stores[storeName];

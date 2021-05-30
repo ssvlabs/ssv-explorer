@@ -45,9 +45,9 @@ export default class ApiRequest {
         } else {
           this.xhr.send(JSON.stringify(this.data));
         }
-        return;
+      } else {
+        this.xhr.send();
       }
-      this.xhr.send();
     });
   }
 }

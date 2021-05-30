@@ -2,19 +2,26 @@ import React from 'react';
 import { observer } from 'mobx-react';
 import { Switch, Route } from 'react-router-dom';
 import config from '~app/common/config';
-import Welcome from '~app/components/Welcome';
+import Overview from '~app/components/Overview';
+import Operator from '~app/components/Operator/Operator';
+import OperatorsList from '~app/components/OperatorsList';
+import Validator from '~app/components/Validator/Validator';
+import ValidatorsList from '~app/components/ValidatorsList';
 
 const Routes = () => {
   return (
     <Switch>
       <Route exact path={config.routes.HOME}>
-        <Welcome />
+        <Overview />
       </Route>
 
       <Route path={config.routes.OPERATORS.HOME}>
         <Switch>
           <Route exact path={config.routes.OPERATORS.HOME}>
-            Operators Home
+            <OperatorsList />
+          </Route>
+          <Route path={config.routes.OPERATORS.OPERATOR}>
+            <Operator />
           </Route>
         </Switch>
       </Route>
@@ -22,7 +29,10 @@ const Routes = () => {
       <Route path={config.routes.VALIDATORS.HOME}>
         <Switch>
           <Route exact path={config.routes.VALIDATORS.HOME}>
-            Validators Home
+            <ValidatorsList />
+          </Route>
+          <Route exact path={config.routes.VALIDATORS.VALIDATOR}>
+            <Validator />
           </Route>
         </Switch>
       </Route>
