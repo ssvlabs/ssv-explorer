@@ -193,6 +193,7 @@
     "@types/underscore": "^1.11.2",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.6.1",
     "babel-plugin-inline-react-svg": "^2.0.1",
+    "bfj": "^7.0.2",
     "body-parser": "^1.19.0",
     "concurrently": "^6.2.0",
     "cors": "^2.8.5",
