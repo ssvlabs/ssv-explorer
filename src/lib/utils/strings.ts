@@ -1,7 +1,3 @@
-export const longStringShorten = (key: string) => {
-  return `${key.substr(0, 10)}...${key.substr(key.length - 10, 10)}`;
-};
-
-export const normalizeNumber = (number: number, friction = 2) => {
-  return number.toFixed(friction);
+export const longStringShorten = (key: string, len: number = 6) => {
+  return `${key.substr(0, len)}...${key.substr(key.length - len, len)}`;
 };

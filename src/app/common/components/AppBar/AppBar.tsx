@@ -5,6 +5,7 @@ import List from '@material-ui/core/List';
 import AppBar from '@material-ui/core/AppBar';
 import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button';
+import { useLocation } from 'react-router-dom';
 import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import ListItem from '@material-ui/core/ListItem';
@@ -32,6 +33,14 @@ const AppBarComponent = () => {
   const [isDrawerOpened, toggleDrawer] = useState(false);
   const joinSsvLink = 'https://app.testnet.ssv.network'; // TODO: move to env -> config
 
+  const isRouteActive = (routeLink: string, returnValue: any, exact: boolean = false) => {
+    const location = useLocation();
+    if (exact) {
+      return routeLink === location.pathname ? returnValue : '';
+    }
+    return location.pathname.startsWith(routeLink) ? returnValue : '';
+  };
+
   return (
     <div className={classes.root}>
       <AppBar position="fixed">
@@ -41,17 +50,32 @@ const AppBarComponent = () => {
           </Typography>
 
           <Box className={classes.toolbarLinks} component="div" display={{ xs: 'none', sm: 'none', md: 'block' }}>
-            <Link href={config.routes.HOME} className={classes.appBarLink}>Overview</Link>
-            <Link href={config.routes.OPERATORS.HOME} className={classes.appBarLink}>Operators</Link>
-            <Link href={config.routes.VALIDATORS.HOME} className={classes.appBarLink}>Validators</Link>
+            <Link
+              href={config.routes.HOME}
+              className={`${classes.appBarLink} ${isRouteActive(config.routes.HOME, classes.appBarLinkActive, true)}`}
+            >
+              Overview
+            </Link>
+            <Link
+              href={config.routes.OPERATORS.HOME}
+              className={`${classes.appBarLink} ${isRouteActive(config.routes.OPERATORS.HOME, classes.appBarLinkActive)}`}
+            >
+              Operators
+            </Link>
+            <Link
+              href={config.routes.VALIDATORS.HOME}
+              className={`${classes.appBarLink} ${isRouteActive(config.routes.VALIDATORS.HOME, classes.appBarLinkActive)}`}
+            >
+              Validators
+            </Link>
           </Box>
 
           <Box className={classes.toolbarButtons} component="div" display={{ xs: 'none', sm: 'none', md: 'block' }}>
             <Link href={joinSsvLink} target="_blank">
-              <Button variant="outlined" className={classes.appBarLink}>Join SSV Network</Button>
+              <Button variant="outlined" className={classes.appBarButton}>Join SSV Network</Button>
             </Link>
             <Badge variant="dot" color="secondary" anchorOrigin={{ vertical: 'top', horizontal: 'left' }} className={classes.buttonBadge}>
-              <Button variant="outlined" className={classes.appBarLink} color="primary">Pyrmont Network</Button>
+              <Button variant="outlined" className={classes.appBarButton} color="primary">Pyrmont Network</Button>
             </Badge>
           </Box>
 

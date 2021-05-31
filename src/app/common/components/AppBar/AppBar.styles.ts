@@ -19,6 +19,23 @@ export const useStyles = makeStyles((theme) => ({
         maxWidth: 200,
     },
     appBarLink: {
+        fontSize: 16,
+        margin: 'auto',
+        color: 'white',
+        borderColor: 'white!important',
+        marginRight: 10,
+        '& > a': {
+            color: 'white',
+            borderColor: 'white',
+        },
+        '& > a:hover, & > a:active, & > a:focus': {
+            color: '#D7D7D7',
+        },
+    },
+    appBarLinkActive: {
+        color: '#D7D7D7!important',
+    },
+    appBarButton: {
         margin: 'auto',
         color: 'white',
         borderColor: 'white!important',

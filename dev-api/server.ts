@@ -3,6 +3,7 @@ import cors from 'cors';
 import Express from 'express';
 import bodyParser from 'body-parser';
 const operators = require('./data/operators.json');
+const validators = require('./data/validators.json');
 
 const app = Express();
 
@@ -34,6 +35,32 @@ app.get('/api/overview', (req: Express.Request, res: Express.Response) => {
   }
 });
 
+app.get('/api/validators', (req: Express.Request, res: Express.Response) => {
+  try {
+    const perPage: number = parseInt(String(req.query.perPage ?? 10), 10);
+    const page: number = parseInt(String(req.query.page ?? 1), 10);
+    const validatorsList = paginate(validators, perPage, page);
+    return res.json({
+      validators: validatorsList,
+      pagination: {
+        page,
+        pages: Math.ceil(validators.length / perPage),
+        perPage,
+        total: validators.length,
+      },
+    });
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .json({
+        status: 500,
+        message: 'Unable to retrieve validators',
+        error,
+      });
+  }
+});
+
 /**
  * Paginated operators list
  */
@@ -48,6 +75,7 @@ app.get('/api/operators', (req: Express.Request, res: Express.Response) => {
         page,
         pages: Math.ceil(operators.length / perPage),
         perPage,
+        total: operators.length,
       },
     });
   } catch (error) {
@@ -86,6 +114,7 @@ app.get('/api/operators/:operator', (req: Express.Request, res: Express.Response
     });
     const operator = operatorsList.length ? ({ ...operatorsList[0] }) : null;
     const pages = Math.ceil(operator.validators.length / perPage);
+    const total = operator?.validators?.length || 0;
     if (operator) {
       // Paginate operator validators
       operator.validators = paginate(operator.validators, perPage, page);
@@ -96,6 +125,7 @@ app.get('/api/operators/:operator', (req: Express.Request, res: Express.Response
         page,
         pages,
         perPage,
+        total,
       },
     });
   } catch (error) {

@@ -20,6 +20,13 @@ class SsvNetwork {
     return SsvNetwork.instance;
   }
 
+  async fetchValidators(page: number = 1, perPage: number = 10) {
+    return new ApiRequest({
+      url: `${this.baseUrl}/api/validators/?page=${page}&perPage=${perPage}`,
+      method: 'GET',
+    }).sendRequest();
+  }
+
   async fetchOperators(page: number = 1, perPage: number = 10) {
     return new ApiRequest({
       url: `${this.baseUrl}/api/operators/?page=${page}&perPage=${perPage}`,

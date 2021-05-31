@@ -115,6 +115,12 @@ export const useStyles = makeStyles((theme) => ({
     alignSelf: 'center',
     marginTop: theme.spacing(1),
   },
+  paperContainer: {
+    padding: 30,
+  },
+  tableWithBorder: {
+    border: '1px solid rgba(242,242,242,1)',
+  },
 }));
 
 const size = {
