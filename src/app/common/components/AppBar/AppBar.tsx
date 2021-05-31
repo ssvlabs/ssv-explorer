@@ -42,7 +42,7 @@ const AppBarComponent = () => {
   };
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} id="back-to-top-anchor">
       <AppBar position="fixed">
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
