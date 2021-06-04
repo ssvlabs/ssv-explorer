@@ -1,6 +1,9 @@
 module.exports = {
-  extends: 'airbnb-typescript',
+  extends: [
+    'airbnb-typescript',
+  ],
   rules: {
+    '@typescript-eslint/ban-types': 0,
     'prettier/prettier': 0,
     // A temporary hack related to IDE not resolving correct package.json
     'import/no-extraneous-dependencies': 'off',

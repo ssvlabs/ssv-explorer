@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
+import Link from '@material-ui/core/Link';
 import Table from '@material-ui/core/Table';
 import { Skeleton } from '@material-ui/lab';
 import TableRow from '@material-ui/core/TableRow';
@@ -9,13 +10,14 @@ import { Paper as MaterialPaper } from '@material-ui/core';
 import TableContainer from '@material-ui/core/TableContainer';
 import config from '~app/common/config';
 import SsvNetwork from '~lib/api/SsvNetwork';
+import { useStyles } from '~app/components/Styles';
 import { longStringShorten } from '~lib/utils/strings';
 import StyledRow from '~app/common/components/Table/StyledRow';
 import StyledCell from '~app/common/components/Table/StyledCell';
-import ActiveCell from '~app/common/components/Table/ActiveCell';
-import FullWidthLink from '~app/common/components/Links/FullWidthLink';
+import CenteredCell from '~app/common/components/Table/CenteredCell';
 
 const Operators = () => {
+  const classes = useStyles();
   const [operators, setOperators] = useState([]);
   const [loadingOperators, setLoadingOperators] = useState(false);
 
@@ -31,8 +33,10 @@ const Operators = () => {
   const loadOperators = () => {
     setLoadingOperators(true);
     SsvNetwork.getInstance().fetchOperators(1).then((result: any) => {
-      setOperators(result.operators);
-      setLoadingOperators(false);
+      setTimeout(() => {
+        setOperators(result.operators);
+        setLoadingOperators(false);
+      }, 2000);
     });
   };
 
@@ -51,19 +55,19 @@ const Operators = () => {
           {operators.map((row: any, rowIndex) => (
             <StyledRow key={rowIndex}>
               <StyledCell>
-                <FullWidthLink href={`/operators/${row.address}`}>
+                <Link href={`/operators/${row.address}`} className={classes.Link}>
                   {longStringShorten(row.address)}
-                </FullWidthLink>
+                </Link>
               </StyledCell>
               <StyledCell>
-                <FullWidthLink href={`/operators/${row.address}`}>
+                <Link href={`/operators/${row.address}`} className={classes.Link}>
                   {row.name}
-                </FullWidthLink>
+                </Link>
               </StyledCell>
               <StyledCell>
-                <FullWidthLink href={`/operators/${row.address}`}>
+                <Link href={`/operators/${row.address}`} className={classes.Link}>
                   {row.validatorsCount}
-                </FullWidthLink>
+                </Link>
               </StyledCell>
             </StyledRow>
           ))}
@@ -84,11 +88,11 @@ const Operators = () => {
 
           {operators.length ? (
             <TableRow>
-              <ActiveCell colSpan={3}>
-                <FullWidthLink href={config.routes.OPERATORS.HOME}>
+              <CenteredCell colSpan={3}>
+                <Link href={config.routes.OPERATORS.HOME} className={classes.Link}>
                   Load more
-                </FullWidthLink>
-              </ActiveCell>
+                </Link>
+              </CenteredCell>
             </TableRow>
           ) : <TableRow />}
         </TableBody>

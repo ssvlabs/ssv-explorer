@@ -22,8 +22,10 @@ const Stats = () => {
   useEffect(() => {
     if (loading) {
       SsvNetwork.getInstance().fetchStats().then((overview: any) => {
-        setStats(overview);
-        setLoading(false);
+        setTimeout(() => {
+          setStats(overview);
+          setLoading(false);
+        }, 2000);
       });
     }
   });

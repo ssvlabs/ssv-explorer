@@ -3,11 +3,11 @@ const config = {
         HOME: '/',
         OPERATORS: {
             HOME: '/operators',
-            OPERATOR: '/operators/:address?/:validatorsPage?',
+            OPERATOR: '/operators/:address?',
         },
         VALIDATORS: {
             HOME: '/validators',
-            VALIDATOR: '/validators/:address?/:dutiesPage?',
+            VALIDATOR: '/validators/:address',
         },
     },
     FEATURE: {

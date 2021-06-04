@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
+import Link from '@material-ui/core/Link';
 import config from '~app/common/config';
 import ApiParams from '~lib/api/ApiParams';
 import SsvNetwork from '~lib/api/SsvNetwork';
 import Layout from '~app/common/components/Layout';
+import { useStyles } from '~app/components/Styles';
 import { longStringShorten } from '~lib/utils/strings';
 import DataTable from '~app/common/components/DataTable';
-import FullWidthLink from '~app/common/components/Links/FullWidthLink';
-import { BreadCrumb, BreadCrumbDivider, BreadCrumbsContainer } from '~app/common/components/Breadcrumbs';
 import ContentContainer from '~app/common/components/ContentContainer';
+import { BreadCrumb, BreadCrumbDivider, BreadCrumbsContainer } from '~app/common/components/Breadcrumbs';
 
 const OperatorsList = () => {
+  const classes = useStyles();
   const [loading, setLoading] = useState(false);
-  const [operators, setOperators] = useState([]);
+  const defaultOperators: Record<string, any>[] = [];
+  const [operators, setOperators] = useState(defaultOperators);
   const [pagination, setPagination] = useState(ApiParams.DEFAULT_PAGINATION);
 
   /**
@@ -33,9 +36,11 @@ const OperatorsList = () => {
 
     setLoading(true);
     SsvNetwork.getInstance().fetchOperators(page, perPage).then((result: any) => {
-      setOperators(result.operators);
-      setPagination(result.pagination);
-      setLoading(false);
+      setTimeout(() => {
+        setOperators(result.operators);
+        setPagination(result.pagination);
+        setLoading(false);
+      }, 2000);
     });
   };
 
@@ -67,23 +72,23 @@ const OperatorsList = () => {
 
         <DataTable
           headers={['Address', 'Name', 'Validators', 'Performance (24h)', 'Performance (All time)']}
-          data={operators.map((operator: any) => {
+          data={(operators || []).map((operator: any) => {
             return [
-              <FullWidthLink href={`${config.routes.OPERATORS.HOME}/${operator.address}`}>
+              <Link href={`${config.routes.OPERATORS.HOME}/${operator.address}`} className={classes.Link}>
                 {longStringShorten(operator.address, 10)}
-              </FullWidthLink>,
-              <FullWidthLink href={`${config.routes.OPERATORS.HOME}/${operator.address}`}>
+              </Link>,
+              <Link href={`${config.routes.OPERATORS.HOME}/${operator.address}`} className={classes.Link}>
                 {operator.name}
-              </FullWidthLink>,
-              <FullWidthLink href={`${config.routes.OPERATORS.HOME}/${operator.address}`}>
+              </Link>,
+              <Link href={`${config.routes.OPERATORS.HOME}/${operator.address}`} className={classes.Link}>
                 {operator.validatorsCount}
-              </FullWidthLink>,
-              <FullWidthLink href={`${config.routes.OPERATORS.HOME}/${operator.address}`}>
+              </Link>,
+              <Link href={`${config.routes.OPERATORS.HOME}/${operator.address}`} className={classes.Link}>
                 {`${operator.performance['24h']}%`}
-              </FullWidthLink>,
-              <FullWidthLink href={`${config.routes.OPERATORS.HOME}/${operator.address}`}>
+              </Link>,
+              <Link href={`${config.routes.OPERATORS.HOME}/${operator.address}`} className={classes.Link}>
                 {`${operator.performance.all}%`}
-              </FullWidthLink>,
+              </Link>,
             ];
           })}
           totalCount={pagination.total}

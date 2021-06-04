@@ -15,6 +15,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import { Badge, Box, Divider, Link } from '@material-ui/core';
 import config from '~app/common/config';
 import { useStyles } from './AppBar.styles';
+import { useStyles as useAppStyles } from '~app/components/Styles';
+import DarkModeSwitcher from '~app/common/components/DarkModeSwitcher';
 
 const DrawerButtonsContainers = styled.div`
   display: flex;
@@ -25,11 +27,14 @@ const DrawerButtonsContainers = styled.div`
 `;
 
 const DrawerButton = styled(Link)`
+  width: 100%;
+  margin: auto;
   margin-top: 10px;
 `;
 
 const AppBarComponent = () => {
   const classes = useStyles();
+  const appClasses = useAppStyles();
   const [isDrawerOpened, toggleDrawer] = useState(false);
   const joinSsvLink = 'https://app.testnet.ssv.network'; // TODO: move to env -> config
 
@@ -46,7 +51,9 @@ const AppBarComponent = () => {
       <AppBar position="fixed">
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
-            <b>ssv.network</b> explorer
+            <Link href={config.routes.HOME} className={appClasses.Link}>
+              <b>ssv.network</b> explorer
+            </Link>
           </Typography>
 
           <Box className={classes.toolbarLinks} component="div" display={{ xs: 'none', sm: 'none', md: 'block' }}>
@@ -72,12 +79,14 @@ const AppBarComponent = () => {
 
           <Box className={classes.toolbarButtons} component="div" display={{ xs: 'none', sm: 'none', md: 'block' }}>
             <Link href={joinSsvLink} target="_blank">
-              <Button variant="outlined" className={classes.appBarButton}>Join SSV Network</Button>
+              <Button variant="outlined" className={`${classes.appBarButton} ${classes.appBarButtonWhite}`}>Join SSV Network</Button>
             </Link>
             <Badge variant="dot" color="secondary" anchorOrigin={{ vertical: 'top', horizontal: 'left' }} className={classes.buttonBadge}>
-              <Button variant="outlined" className={classes.appBarButton} color="primary">Pyrmont Network</Button>
+              <Button variant="outlined" className={`${classes.appBarButton} ${classes.appBarButtonWhite}`}>Pyrmont Network</Button>
             </Badge>
           </Box>
+
+          <DarkModeSwitcher />
 
           <Box className={classes.menuButton} component="div" display={{ xs: 'block', sm: 'block', md: 'none' }}>
             <IconButton edge="end" className={classes.menuButton} color="inherit" aria-label="menu" onClick={() => toggleDrawer(true)}>
@@ -95,21 +104,21 @@ const AppBarComponent = () => {
                 </ListItem>
                 <Divider />
 
-                <Link href={config.routes.HOME}>
+                <Link href={config.routes.HOME} className={appClasses.Link}>
                   <ListItem button>
                     <ListItemText primary="Overview" />
                   </ListItem>
                 </Link>
                 <Divider />
 
-                <Link href={config.routes.OPERATORS.HOME}>
+                <Link href={config.routes.OPERATORS.HOME} className={appClasses.Link}>
                   <ListItem button>
                     <ListItemText primary="Operators" />
                   </ListItem>
                 </Link>
                 <Divider />
 
-                <Link href={config.routes.VALIDATORS.HOME}>
+                <Link href={config.routes.VALIDATORS.HOME} className={appClasses.Link}>
                   <ListItem button>
                     <ListItemText primary="Validators" />
                   </ListItem>
@@ -117,14 +126,23 @@ const AppBarComponent = () => {
                 <Divider />
 
                 <DrawerButtonsContainers>
-                  <DrawerButton href={joinSsvLink} target="_blank">
-                    <Badge className={classes.buttonBadge}>
-                      <Button variant="outlined" color="primary" className={classes.buttonBadge}>Join SSV Network</Button>
-                    </Badge>
+                  <DrawerButton>
+                    <Link href={joinSsvLink} target="_blank">
+                      <Button variant="outlined" className={classes.appBarButton} style={{ width: '90%', margin: 'auto' }}>
+                        Join SSV Network
+                      </Button>
+                    </Link>
                   </DrawerButton>
                   <DrawerButton>
-                    <Badge variant="dot" color="secondary" anchorOrigin={{ vertical: 'top', horizontal: 'left' }} className={classes.buttonBadge}>
-                      <Button variant="outlined" color="primary">Pyrmont Network</Button>
+                    <Badge
+                      variant="dot"
+                      color="secondary"
+                      anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
+                      className={classes.buttonBadge}
+                    >
+                      <Button variant="outlined" className={classes.appBarButton} color="primary" style={{ margin: 'auto' }}>
+                        Pyrmont Network
+                      </Button>
                     </Badge>
                   </DrawerButton>
                 </DrawerButtonsContainers>

@@ -2,16 +2,23 @@ import React from 'react';
 import { observer } from 'mobx-react';
 import { ThemeProvider } from 'styled-components';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
 import Routes from '~app/components/Routes';
+import { useStores } from '~app/hooks/useStores';
 import AppBar from '~app/common/components/AppBar';
+import ApplicationStore from '~app/common/stores/Application.store';
 
 const App = () => {
+  const stores = useStores();
+  const applicationStore: ApplicationStore = stores.Application;
   return (
-    <ThemeProvider theme={{}}>
-      <AppBar />
-      <Routes />
-      <CssBaseline />
-    </ThemeProvider>
+    <MuiThemeProvider theme={applicationStore.muiTheme}>
+      <ThemeProvider theme={applicationStore.muiTheme}>
+        <AppBar />
+        <Routes />
+        <CssBaseline />
+      </ThemeProvider>
+    </MuiThemeProvider>
   );
 };
 

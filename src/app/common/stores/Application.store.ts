@@ -1,5 +1,6 @@
 import { action, computed, observable } from 'mobx';
 import BaseStore from '~app/common/stores/BaseStore';
+import { createMuiTheme, Theme } from '@material-ui/core/styles';
 import NotificationsStore from '~app/common/stores/Notifications.store';
 
 /**
@@ -8,6 +9,20 @@ import NotificationsStore from '~app/common/stores/Notifications.store';
  */
 class ApplicationStore extends BaseStore {
   @observable isShowingLoading: boolean = false;
+  // @ts-ignore
+  @observable theme: Theme;
+  @observable darkMode: boolean = false;
+
+  constructor() {
+    super();
+    const darkModeSaved = localStorage.getItem('isDarkMode');
+    if (darkModeSaved) {
+      this.darkMode = darkModeSaved === '1';
+      this.switchDarkMode(this.darkMode);
+    } else {
+      this.switchDarkMode(false);
+    }
+  }
 
   @action.bound
   setIsLoading(status: boolean) {
@@ -17,6 +32,26 @@ class ApplicationStore extends BaseStore {
   @computed
   get isLoading() {
     return this.isShowingLoading;
+  }
+
+  @action.bound
+  switchDarkMode(isDarkMode?: boolean) {
+    this.darkMode = isDarkMode ?? !this.darkMode;
+    localStorage.setItem('isDarkMode', this.darkMode ? '1' : '0');
+    this.theme = createMuiTheme({
+      palette: {
+        type: this.darkMode ? 'dark' : 'light',
+      },
+    });
+  }
+
+  @computed
+  get isDarkMode() {
+    return this.darkMode;
+  }
+
+  get muiTheme(): Theme {
+    return this.theme;
   }
 
   /**

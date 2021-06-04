@@ -119,7 +119,11 @@ export const useStyles = makeStyles((theme) => ({
     padding: 30,
   },
   tableWithBorder: {
-    border: '1px solid rgba(242,242,242,1)',
+    border: `1px solid ${theme.palette.divider}`,
+  },
+  Link: {
+    color: `${theme.palette.text.primary}!important`,
+    borderColor: `${theme.palette.text.primary}!important`,
   },
 }));
 

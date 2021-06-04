@@ -22,6 +22,7 @@ function genOperators() {
     const operator = {
       address: `0x${randomValueHex(32)}`,
       name: `Name${randomValueHex(5)}`,
+      status: getRandomArbitrary(0, 1) > 0.3 ? 'active' : 'inactive',
       validatorsCount: 0,
       performance: {
         '24h': parseFloat(getRandomArbitrary(80, 100).toFixed(2)),
@@ -83,7 +84,7 @@ function genValidators() {
 }
 
 function main() {
-  // genOperators();
+  genOperators();
   // genValidators();
 }
 

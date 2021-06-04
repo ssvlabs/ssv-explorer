@@ -37,12 +37,20 @@ export const useStyles = makeStyles((theme) => ({
     },
     appBarButton: {
         margin: 'auto',
-        color: 'white',
-        borderColor: 'white!important',
+        color: theme.palette.text.primary,
+        borderColor: theme.palette.text.primary,
         marginRight: 10,
         '& > a, & > a:hover, & > a:active, & > a:focus': {
             color: 'white',
             borderColor: 'white',
+        },
+    },
+    appBarButtonWhite: {
+        color: 'white!important',
+        borderColor: 'white!important',
+        '& > a, & > a:hover, & > a:active, & > a:focus': {
+            color: 'white!important',
+            borderColor: 'white!important',
         },
     },
     toolbarLinks: {

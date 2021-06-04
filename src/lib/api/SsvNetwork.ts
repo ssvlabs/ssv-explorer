@@ -48,11 +48,35 @@ class SsvNetwork {
   }
 
   /**
+   * Fetch one validator by address
+   * @param validatorAddress
+   * @param page
+   * @param perPage
+   */
+  async fetchValidator(validatorAddress: string, page: number = 1, perPage: number = 10) {
+    return new ApiRequest({
+      url: `${this.baseUrl}/api/validators/${validatorAddress}?page=${page}&perPage=${perPage}`,
+      method: 'GET',
+    }).sendRequest();
+  }
+
+  /**
    * Load statistics for overview page
    */
   async fetchStats() {
     return new ApiRequest({
       url: `${this.baseUrl}/api/overview`,
+      method: 'GET',
+    }).sendRequest();
+  }
+
+  /**
+   * Search operators and validators
+   * @param query
+   */
+  async search(query: string) {
+    return new ApiRequest({
+      url: `${this.baseUrl}/api/search/?query=${query}`,
       method: 'GET',
     }).sendRequest();
   }

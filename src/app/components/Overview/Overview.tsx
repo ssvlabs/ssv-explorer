@@ -14,14 +14,10 @@ import { OperatorsTable, ValidatorsTable } from '~app/components/Overview/compon
 const Overview = () => {
   const classes = useStyles();
 
-  const onSearchClicked = async () => {
-    console.log('TODO: search');
-  };
-
   return (
     <Layout>
       <Grid container wrap="nowrap" spacing={0} className={classes.gridContainer}>
-        <Hero onSearchClicked={onSearchClicked} />
+        <Hero />
         <Stats />
         <Container container spacing={5}>
           <Column item xs={12} md={6}>

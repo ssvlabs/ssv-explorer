@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
+import Link from '@material-ui/core/Link';
 import { Skeleton } from '@material-ui/lab';
 import Table from '@material-ui/core/Table';
 import TableRow from '@material-ui/core/TableRow';
@@ -9,13 +10,14 @@ import { Paper as MaterialPaper } from '@material-ui/core';
 import TableContainer from '@material-ui/core/TableContainer';
 import config from '~app/common/config';
 import SsvNetwork from '~lib/api/SsvNetwork';
+import { useStyles } from '~app/components/Styles';
 import { longStringShorten } from '~lib/utils/strings';
 import StyledRow from '~app/common/components/Table/StyledRow';
 import StyledCell from '~app/common/components/Table/StyledCell';
-import ActiveCell from '~app/common/components/Table/ActiveCell';
-import FullWidthLink from '~app/common/components/Links/FullWidthLink';
+import CenteredCell from '~app/common/components/Table/CenteredCell';
 
 const Validators = () => {
+  const classes = useStyles();
   const [validators, setValidators] = useState([]);
   const [loadingValidators, setLoadingValidators] = useState(false);
 
@@ -31,8 +33,10 @@ const Validators = () => {
   const loadValidators = () => {
     setLoadingValidators(true);
     SsvNetwork.getInstance().fetchValidators(1).then((result: any) => {
-      setValidators(result.validators);
-      setLoadingValidators(false);
+      setTimeout(() => {
+        setValidators(result.validators);
+        setLoadingValidators(false);
+      }, 2000);
     });
   };
 
@@ -49,15 +53,32 @@ const Validators = () => {
           {validators.map((row: any, rowIndex: number) => (
             <StyledRow key={rowIndex}>
               <StyledCell>
-                <FullWidthLink href={`/validators/${row.publicKey}`}>
+                <Link href={`/validators/${row.publicKey}`} className={classes.Link}>
                   {longStringShorten(row.publicKey)}
-                </FullWidthLink>
+                </Link>
               </StyledCell>
               <StyledCell>
-                <FullWidthLink href={`/validators/${row.publicKey}`}>
-                  {row.operators.slice(0, 3).map((operator: any) => operator.name).join(', ')} &nbsp;
-                  {row.operators.slice(3).length ? `+${row.operators.slice(3).length}` : ''}
-                </FullWidthLink>
+                <>
+                  {row.operators.slice(0, 3).map((operator: any) => (
+                    <span key={`operator-link-${operator.address}`}>
+                      <Link
+                        href={`${config.routes.OPERATORS.HOME}/${operator.address}`}
+                        className={classes.Link}
+                      >
+                        {operator.name}
+                      </Link>
+                      &nbsp;
+                    </span>
+                  ))}
+                  {row.operators.slice(3).length ? (
+                    <Link
+                      href={`${config.routes.VALIDATORS.HOME}/${row.publicKey}`}
+                      className={classes.Link}
+                    >
+                      {`+${row.operators.slice(3).length}`}
+                    </Link>
+                  ) : ''}
+                </>
               </StyledCell>
             </StyledRow>
           ))}
@@ -75,11 +96,11 @@ const Validators = () => {
 
           {validators.length ? (
             <TableRow>
-              <ActiveCell colSpan={2}>
-                <FullWidthLink href={config.routes.VALIDATORS.HOME}>
+              <CenteredCell colSpan={2}>
+                <Link href={config.routes.VALIDATORS.HOME} className={classes.Link}>
                   Load more
-                </FullWidthLink>
-              </ActiveCell>
+                </Link>
+              </CenteredCell>
             </TableRow>
           ) : <TableRow />}
         </TableBody>
