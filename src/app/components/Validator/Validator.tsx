@@ -255,7 +255,15 @@ const Validator = () =>
                     duty.slot,
                     capitalize(duty.duty),
                     capitalize(duty.status),
-                    duty.operators.map((operator: any, operatorIndex: number) => (
+                    duty.operators.sort((o1: any, o2: any) => {
+                      if (o1.status === 'success' && o2.status === 'failed') {
+                        return 1;
+                      }
+                      if (o1.status === 'failed' && o2.status === 'success') {
+                        return -1;
+                      }
+                      return 0;
+                    }).map((operator: any, operatorIndex: number) => (
                       <ChipLink
                         key={`operator-${operatorIndex}`}
                         href={`${config.routes.OPERATORS.HOME}/${operator.address}`}

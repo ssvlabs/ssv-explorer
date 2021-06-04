@@ -51,7 +51,7 @@ const AppBarComponent = () => {
       <AppBar position="fixed">
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
-            <Link href={config.routes.HOME} className={appClasses.Link}>
+            <Link href={config.routes.HOME} style={{ color: 'white' }}>
               <b>ssv.network</b> explorer
             </Link>
           </Typography>
