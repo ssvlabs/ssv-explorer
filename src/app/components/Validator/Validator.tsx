@@ -143,7 +143,7 @@ const Validator = () =>
         </BreadCrumbsContainer>
 
         <Grid container alignContent="center" alignItems="center">
-          <Grid item xs={12} md={4}>
+          <Grid item xs={12} md={3}>
             <StatsBlock maxWidth={400} style={{ paddingRight: 15 }}>
               <Heading>
                 Validator
@@ -163,13 +163,13 @@ const Validator = () =>
           </Grid>
           {!notFound && (
             <>
-              <Grid item xs={12} md={4}>
+              <Grid item xs={12} md={4} style={{ paddingLeft: 30 }}>
                 <StatsBlock>
                   <Heading>{validator?.operators?.length ?? <Skeleton />}</Heading>
                   <BreadCrumb style={nonLinkBreadCrumbStyle} className={classes.Link}>Operators</BreadCrumb>
                 </StatsBlock>
               </Grid>
-              <Grid item xs={12} md={4}>
+              <Grid item xs={12} md={5}>
                 <StatsBlock>
                   <Heading>{validator?.status ? validator.status : <Skeleton />}</Heading>
                   <BreadCrumb style={nonLinkBreadCrumbStyle} className={classes.Link}>

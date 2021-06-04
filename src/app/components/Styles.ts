@@ -96,7 +96,6 @@ export const useStyles = makeStyles((theme) => ({
   gridContainer: {
     flexGrow: 1,
     flexDirection: 'column',
-    // marginTop: 50,
   },
   rowGridContainer: {
     flexGrow: 1,

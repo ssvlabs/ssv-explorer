@@ -93,7 +93,7 @@ const Operator = () => {
 
         <NotFoundScreen notFound={notFound}>
           <Grid container alignContent="center" alignItems="center">
-            <Grid item xs={12} md={3}>
+            <Grid item xs={12} md={5}>
               <StatsBlock maxWidth={400} style={{ paddingRight: 15 }}>
                 <Heading>
                   {operator.name ? (
@@ -111,13 +111,13 @@ const Operator = () => {
                 </BreadCrumb>
               </StatsBlock>
             </Grid>
-            <Grid item xs={12} md={3}>
+            <Grid item xs={12} md={2}>
               <StatsBlock>
                 <Heading>{operator.validatorsCount ?? <Skeleton />}</Heading>
                 <BreadCrumb style={nonLinkBreadCrumbStyle} className={classes.Link}>Validators</BreadCrumb>
               </StatsBlock>
             </Grid>
-            <Grid item xs={12} md={3}>
+            <Grid item xs={12} md={2}>
               <StatsBlock>
                 <Heading>{operator.performance?.all ? `${operator.performance?.all}%` : <Skeleton />}</Heading>
                 <BreadCrumb style={nonLinkBreadCrumbStyle} className={classes.Link}>Performance</BreadCrumb>

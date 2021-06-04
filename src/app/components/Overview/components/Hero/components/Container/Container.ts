@@ -6,8 +6,9 @@ const Container = styled.div`
     height: 170px;
     min-height: 170px;
     background-color: ${theme.palette.background.paper};
-    width: 100%;
     border: 0;
+    border-bottom: 1px solid ${theme.palette.divider};
+    width: 100%;
     text-align: center;
     display: flex;
     flex-grow: 1;
