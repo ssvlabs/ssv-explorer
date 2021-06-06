@@ -60,8 +60,8 @@ app.get('/api/search', (req: Express.Request, res: Express.Response) => {
     });
 
     return res.json({
-      operators: operatorsList.slice(0, 10),
-      validators: validatorsList.slice(0, 10),
+      operators: operatorsList.slice(0, 5),
+      validators: validatorsList.slice(0, 5),
     });
   } catch (error) {
     console.error(error);

@@ -1,10 +1,16 @@
 import React, { useState } from 'react';
+import throttle from 'lodash/throttle';
+import Link from '@material-ui/core/Link';
+import Grid from '@material-ui/core/Grid';
 import SearchIcon from '@material-ui/icons/Search';
-import { CircularProgress } from '@material-ui/core';
+import Typography from '@material-ui/core/Typography';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import InputAdornment from '@material-ui/core/InputAdornment';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { AutocompleteRenderInputParams } from '@material-ui/lab/Autocomplete/Autocomplete';
+import config from '~app/common/config';
 import SsvNetwork from '~lib/api/SsvNetwork';
+import { useStyles } from '~app/components/Styles';
 import SearchInput from '~app/common/components/SmartSearch/components/SearchInput';
 import SearchButton from '~app/common/components/SmartSearch/components/SearchButton';
 
@@ -14,44 +20,47 @@ type SmartSearchProps = {
 
 const SmartSearch = (props: SmartSearchProps) => {
   const { placeholder } = props;
+  const classes = useStyles();
+  const [, setQuery] = useState('');
   const [loading, setLoading] = useState(false);
-  const [query, setQuery] = useState('');
   const [searchResults, setSearchResults]: [any[], any] = useState([]);
-  const WAIT_INTERVAL = 700;
-  let timerID: any;
+  let searchTimeout: any;
+  const SEARCH_TIMEOUT_DELAY = 700;
 
-  const onChange = (event: any, newValue?: string) => {
-    const queryString: string = event?.target?.value ?? newValue;
-    setQuery(queryString);
-
-    timerID && clearTimeout(timerID);
-
-    if (queryString.length < 3) {
-      return;
-    }
-
-    timerID = setTimeout(() => {
-      setLoading(true);
-      SsvNetwork.getInstance().search(queryString).then((results: any) => {
-        const convolutedResults: any[] = results.operators.map((operator: any) => {
-          return {
-            type: 'Operators',
-            name: operator.name,
-            address: operator.address,
-          };
-        });
-        results.validators.map((validator: any) => {
-          convolutedResults.push({
-            type: 'Validators',
-            publicKey: validator.publicKey,
+  const fetch = React.useMemo(
+    () => throttle((request: { input: string }, callback: any) => {
+        setLoading(true);
+        SsvNetwork.getInstance().search(request.input).then((results: any) => {
+          const convolutedResults: any[] = results.validators.map((validator: any) => {
+            return {
+              type: 'Validators',
+              publicKey: validator.publicKey,
+            };
           });
-          return validator;
+          results.operators.map((operator: any) => {
+            const op = {
+              type: 'Operators',
+              name: operator.name,
+              address: operator.address,
+            };
+            convolutedResults.push(op);
+            return op;
+          });
+          callback(convolutedResults);
         });
+      }, 200),
+    [],
+  );
 
-        setSearchResults(convolutedResults);
+  const onInputChange = (event: any, newInputValue: string) => {
+    searchTimeout && clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(() => {
+      setQuery(newInputValue);
+      fetch({ input: newInputValue }, (results: any) => {
+        setSearchResults(results);
         setLoading(false);
       });
-    }, WAIT_INTERVAL);
+    }, SEARCH_TIMEOUT_DELAY);
   };
 
   return (
@@ -69,25 +78,73 @@ const SmartSearch = (props: SmartSearchProps) => {
         return '';
       }}
       loading={loading}
+      autoComplete
+      fullWidth
+      clearOnEscape
+      selectOnFocus
+      clearOnBlur
+      filterSelectedOptions
       filterOptions={(options) => options}
-      onInputChange={onChange}
-      filterSelectedOptions={false}
+      onChange={(event, newValue) => {
+        setSearchResults(newValue ? [newValue, ...searchResults] : searchResults);
+      }}
+      onInputChange={onInputChange}
+      value=""
+      renderOption={(option: any) => (
+        <>
+          {option.type === 'Validators' && (
+            <Link
+              href={`${config.routes.VALIDATORS.HOME}/${option.publicKey}`}
+              className={classes.Link}
+              style={{ width: '100%' }}
+            >
+              <Typography noWrap>
+                {option.publicKey}
+              </Typography>
+            </Link>
+          )}
+          {option.type === 'Operators' && (
+            <Link
+              href={`${config.routes.OPERATORS.HOME}/${option.address}`}
+              className={classes.Link}
+              style={{ width: '100%' }}
+            >
+              <Grid container style={{ width: '100%' }}>
+                <Grid item xs={5} md={5}>
+                  <Typography noWrap style={{ width: '100%' }} component="div">
+                    {option.name}
+                  </Typography>
+                </Grid>
+                <Grid item xs={7} md={7}>
+                  <Typography noWrap style={{ width: '100%' }} component="div">
+                    {option.address}
+                  </Typography>
+                </Grid>
+              </Grid>
+            </Link>
+          )}
+        </>
+      )}
       renderInput={(params: AutocompleteRenderInputParams) => (
         <SearchInput
           {...params}
           data-testid="smart-search"
           placeholder={placeholder || 'Search for validators and operators...'}
-          value={query}
-          endAdornment={(
-            <InputAdornment position="end">
-              {loading && <CircularProgress color="inherit" size={20} />}
-              {!loading && (
-                <SearchButton edge="end">
-                  <SearchIcon />
-                </SearchButton>
-              )}
-            </InputAdornment>
-          )}
+          variant="outlined"
+          value=""
+          InputProps={{
+            ...params.InputProps,
+            endAdornment: (
+              <InputAdornment position="end">
+                {loading && <CircularProgress color="inherit" size={20} />}
+                {!loading && (
+                  <SearchButton edge="end">
+                    <SearchIcon />
+                  </SearchButton>
+                )}
+              </InputAdornment>
+            ),
+          }}
         />
       )}
     />
