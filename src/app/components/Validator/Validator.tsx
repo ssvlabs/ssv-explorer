@@ -60,7 +60,7 @@ const Validator = () =>
   const defaultOperator: Record<string, any> = {};
   const [notFound, setNotFound] = useState(false);
   const [validator, setValidator] = useState(defaultOperator);
-  const [performance, setPerformance] = useState('all');
+  const [performance, setPerformance] = useState('24h');
   const [pagination, setPagination] = useState(ApiParams.DEFAULT_PAGINATION);
   const nonLinkBreadCrumbStyle = { color: 'black', display: 'flex', alignItems: 'center', alignContent: 'center' };
   const performanceRowStyle: any = {
@@ -163,7 +163,7 @@ const Validator = () =>
           </Grid>
           {!notFound && (
             <>
-              <Grid item xs={12} md={4} style={{ paddingLeft: 30 }}>
+              <Grid item xs={12} md={4}>
                 <StatsBlock>
                   <Heading>{validator?.operators?.length ?? <Skeleton />}</Heading>
                   <BreadCrumb style={nonLinkBreadCrumbStyle} className={classes.Link}>Operators</BreadCrumb>
@@ -173,7 +173,7 @@ const Validator = () =>
                 <StatsBlock>
                   <Heading>{validator?.status ? validator.status : <Skeleton />}</Heading>
                   <BreadCrumb style={nonLinkBreadCrumbStyle} className={classes.Link}>
-                    Status <InfoTooltip message="Status description" />
+                    Status <InfoTooltip message="Refers to the validator’s status in the SSV network (not beacon chain), and reflects whether its operators are consistently performing their duties (according to last 2 epochs)." />
                   </BreadCrumb>
                 </StatsBlock>
               </Grid>
@@ -204,7 +204,7 @@ const Validator = () =>
                       Name
                     </Grid>
                     <Grid item xs={6} md={6} style={{ textAlign: 'right', display: 'flex', alignItems: 'center', alignContent: 'center', justifyContent: 'flex-end' }}>
-                      Performance <InfoTooltip message="Performance description" />
+                      Performance <InfoTooltip message="Operators technical scoring metric - calculated by the percentage of attended duties within a time-frame." />
                     </Grid>
                   </Grid>
                   <Grid container style={{ width: '100%' }}>

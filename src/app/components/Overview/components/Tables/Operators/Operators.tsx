@@ -65,9 +65,7 @@ const Operators = () => {
                 </Link>
               </StyledCell>
               <StyledCell>
-                <Link href={`/operators/${row.address}`} className={classes.Link}>
-                  {row.validatorsCount}
-                </Link>
+                {row.validatorsCount}
               </StyledCell>
             </StyledRow>
           ))}

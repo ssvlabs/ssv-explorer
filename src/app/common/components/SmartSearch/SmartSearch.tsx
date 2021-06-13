@@ -68,15 +68,6 @@ const SmartSearch = (props: SmartSearchProps) => {
       data-testid="smart-search-autocomplete"
       options={searchResults}
       groupBy={(option: any) => option.type}
-      getOptionLabel={(option: any) => {
-        if (option.type === 'Validators') {
-          return option.publicKey;
-        }
-        if (option.type === 'Operators') {
-          return `${option.name} - ${option.address}`;
-        }
-        return '';
-      }}
       loading={loading}
       autoComplete
       fullWidth

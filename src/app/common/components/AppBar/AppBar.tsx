@@ -46,6 +46,11 @@ const AppBarComponent = () => {
     return location.pathname.startsWith(routeLink) ? returnValue : '';
   };
 
+  const isOverviewPage = () => {
+    const location = useLocation();
+    return location.pathname === '/';
+  };
+
   return (
     <div className={classes.root} id="back-to-top-anchor">
       <AppBar position="fixed">
@@ -126,13 +131,15 @@ const AppBarComponent = () => {
                 <Divider />
 
                 <DrawerButtonsContainers>
-                  <DrawerButton>
-                    <Link href={joinSsvLink} target="_blank">
-                      <Button variant="outlined" className={classes.appBarButton} style={{ width: '90%', margin: 'auto' }}>
-                        Join SSV Network
-                      </Button>
-                    </Link>
-                  </DrawerButton>
+                  {isOverviewPage() && (
+                    <DrawerButton>
+                      <Link href={joinSsvLink} target="_blank">
+                        <Button variant="outlined" className={classes.appBarButton} style={{ width: '90%', margin: 'auto' }}>
+                          Join SSV Network
+                        </Button>
+                      </Link>
+                    </DrawerButton>
+                  )}
                   <DrawerButton>
                     <Badge
                       variant="dot"

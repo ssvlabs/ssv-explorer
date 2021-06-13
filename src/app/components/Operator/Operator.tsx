@@ -120,7 +120,9 @@ const Operator = () => {
             <Grid item xs={12} md={2}>
               <StatsBlock>
                 <Heading>{operator.performance?.all ? `${operator.performance?.all}%` : <Skeleton />}</Heading>
-                <BreadCrumb style={nonLinkBreadCrumbStyle} className={classes.Link}>Performance</BreadCrumb>
+                <BreadCrumb style={nonLinkBreadCrumbStyle} className={classes.Link}>
+                  Performance <InfoTooltip message="Performance description" />
+                </BreadCrumb>
               </StatsBlock>
             </Grid>
             <Grid item xs={12} md={3}>
