@@ -10,8 +10,10 @@ import { Paper as MaterialPaper } from '@material-ui/core';
 import TableContainer from '@material-ui/core/TableContainer';
 import config from '~app/common/config';
 import SsvNetwork from '~lib/api/SsvNetwork';
+import { useStores } from '~app/hooks/useStores';
 import { useStyles } from '~app/components/Styles';
 import { longStringShorten } from '~lib/utils/strings';
+import OverviewStore from '~app/common/stores/Overview.store';
 import StyledRow from '~app/common/components/Table/StyledRow';
 import StyledCell from '~app/common/components/Table/StyledCell';
 import CenteredCell from '~app/common/components/Table/CenteredCell';
@@ -20,6 +22,8 @@ const Operators = () => {
   const classes = useStyles();
   const [operators, setOperators] = useState([]);
   const [loadingOperators, setLoadingOperators] = useState(false);
+  const stores = useStores();
+  const overviewStore: OverviewStore = stores.Overview;
 
   useEffect(() => {
     if (!operators.length && !loadingOperators) {
@@ -33,10 +37,9 @@ const Operators = () => {
   const loadOperators = () => {
     setLoadingOperators(true);
     SsvNetwork.getInstance().fetchOperators(1).then((result: any) => {
-      setTimeout(() => {
-        setOperators(result.operators);
-        setLoadingOperators(false);
-      }, 2000);
+      overviewStore.setTotalOperators(result.pagination.total);
+      setOperators(result.operators);
+      setLoadingOperators(false);
     });
   };
 

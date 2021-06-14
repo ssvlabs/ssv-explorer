@@ -16,8 +16,7 @@ import { BreadCrumb, BreadCrumbDivider, BreadCrumbsContainer } from '~app/common
 const ValidatorsList = () => {
   const classes = useStyles();
   const [loading, setLoading] = useState(false);
-  const defaultValidators: Record<string, any>[] = [];
-  const [validators, setValidators] = useState(defaultValidators);
+  const [validators, setValidators] = useState([]);
   const [pagination, setPagination] = useState(ApiParams.DEFAULT_PAGINATION);
 
   /**
@@ -33,12 +32,13 @@ const ValidatorsList = () => {
     const perPage: number = ApiParams.getInteger('validators', 'perPage', ApiParams.PER_PAGE);
 
     setLoading(true);
-    SsvNetwork.getInstance().fetchValidators(page, perPage).then((result: any) => {
-      setTimeout(() => {
+    SsvNetwork.getInstance().fetchValidators(page, perPage, true).then((result: any) => {
+      console.debug('result.validators:', result.validators);
+      // setTimeout(() => {
         setValidators(result.validators);
         setPagination(result.pagination);
         setLoading(false);
-      }, 2000);
+      // }, 2000);
     });
   };
 
@@ -71,7 +71,7 @@ const ValidatorsList = () => {
         <DataTable
           headers={['Public Key', 'Validators', '']}
           headersPositions={['left', 'left', 'right']}
-          data={(validators || []).map((validator: any) => {
+          data={validators.map((validator: any) => {
             return [
               <Link href={`${config.routes.VALIDATORS.HOME}/${validator.publicKey}`} className={classes.Link}>
                 {longStringShorten(validator.publicKey, 10)}

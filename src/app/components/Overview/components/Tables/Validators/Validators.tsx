@@ -9,9 +9,12 @@ import TableBody from '@material-ui/core/TableBody';
 import { Paper as MaterialPaper } from '@material-ui/core';
 import TableContainer from '@material-ui/core/TableContainer';
 import config from '~app/common/config';
+import ApiParams from '~lib/api/ApiParams';
 import SsvNetwork from '~lib/api/SsvNetwork';
+import { useStores } from '~app/hooks/useStores';
 import { useStyles } from '~app/components/Styles';
 import { longStringShorten } from '~lib/utils/strings';
+import OverviewStore from '~app/common/stores/Overview.store';
 import StyledRow from '~app/common/components/Table/StyledRow';
 import StyledCell from '~app/common/components/Table/StyledCell';
 import CenteredCell from '~app/common/components/Table/CenteredCell';
@@ -20,6 +23,8 @@ const Validators = () => {
   const classes = useStyles();
   const [validators, setValidators] = useState([]);
   const [loadingValidators, setLoadingValidators] = useState(false);
+  const stores = useStores();
+  const overviewStore: OverviewStore = stores.Overview;
 
   useEffect(() => {
     if (!validators.length && !loadingValidators) {
@@ -32,11 +37,11 @@ const Validators = () => {
    */
   const loadValidators = () => {
     setLoadingValidators(true);
-    SsvNetwork.getInstance().fetchValidators(1).then((result: any) => {
-      setTimeout(() => {
-        setValidators(result.validators);
-        setLoadingValidators(false);
-      }, 2000);
+    SsvNetwork.getInstance().fetchValidators(1, ApiParams.PER_PAGE, true).then((result: any) => {
+      overviewStore.setTotalValidators(result.pagination.total);
+      overviewStore.setTotalEth(result.pagination.total * 32);
+      setValidators(result.validators);
+      setLoadingValidators(false);
     });
   };
 

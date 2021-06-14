@@ -14,7 +14,11 @@ const config = {
 
     },
     links: {
-        API_BASE_URL: '',
+        API_BASE_URL: String(process.env.REACT_APP_API_BASE_URL),
+        COIN_API_BASE_URL: 'https://rest.coinapi.io',
+    },
+    COIN_API: {
+        API_KEY: '199192C7-3E2E-4730-995D-113D6654E525',
     },
 };
 

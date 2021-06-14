@@ -1,4 +1,5 @@
 import config from '~app/common/config';
+import ApiParams from '~lib/api/ApiParams';
 import ApiRequest from '~lib/utils/ApiRequest';
 
 class SsvNetwork {
@@ -11,23 +12,20 @@ class SsvNetwork {
 
   static getInstance(): SsvNetwork {
     if (!SsvNetwork.instance) {
-      let baseUrl: string = '';
-      if (process.env.NODE_ENV === 'production') {
-        baseUrl = config.links.API_BASE_URL;
-      }
-      SsvNetwork.instance = new SsvNetwork(baseUrl);
+      SsvNetwork.instance = new SsvNetwork(config.links.API_BASE_URL);
     }
     return SsvNetwork.instance;
   }
 
-  async fetchValidators(page: number = 1, perPage: number = 10) {
+  async fetchValidators(page: number = 1, perPage: number = ApiParams.PER_PAGE, detailed = false) {
+    const url = `${this.baseUrl}/api/validators/${detailed ? 'detailed/' : ''}?page=${page}&perPage=${perPage}`;
     return new ApiRequest({
-      url: `${this.baseUrl}/api/validators/?page=${page}&perPage=${perPage}`,
+      url,
       method: 'GET',
     }).sendRequest();
   }
 
-  async fetchOperators(page: number = 1, perPage: number = 10) {
+  async fetchOperators(page: number = 1, perPage: number = ApiParams.PER_PAGE) {
     return new ApiRequest({
       url: `${this.baseUrl}/api/operators/?page=${page}&perPage=${perPage}`,
       method: 'GET',
@@ -40,9 +38,22 @@ class SsvNetwork {
    * @param page
    * @param perPage
    */
-  async fetchOperator(operatorAddress: string, page: number = 1, perPage: number = 10) {
+  async fetchOperator(operatorAddress: string) {
     return new ApiRequest({
-      url: `${this.baseUrl}/api/operators/${operatorAddress}?page=${page}&perPage=${perPage}`,
+      url: `${this.baseUrl}/api/operators/${operatorAddress}/`,
+      method: 'GET',
+    }).sendRequest();
+  }
+
+  /**
+   * Fetch one operator by address
+   * @param operatorAddress
+   * @param page
+   * @param perPage
+   */
+  async fetchOperatorValidators(operatorAddress: string, page: number = 1, perPage: number = ApiParams.PER_PAGE) {
+    return new ApiRequest({
+      url: `${this.baseUrl}/api/validators/in_operator/?operator=${operatorAddress}&page=${page}&perPage=${perPage}`,
       method: 'GET',
     }).sendRequest();
   }
@@ -50,22 +61,25 @@ class SsvNetwork {
   /**
    * Fetch one validator by address
    * @param validatorAddress
-   * @param page
-   * @param perPage
    */
-  async fetchValidator(validatorAddress: string, page: number = 1, perPage: number = 10) {
+  async fetchValidator(validatorAddress: string) {
+    const url = `${this.baseUrl}/api/validators/${validatorAddress}/`;
     return new ApiRequest({
-      url: `${this.baseUrl}/api/validators/${validatorAddress}?page=${page}&perPage=${perPage}`,
+      url,
       method: 'GET',
     }).sendRequest();
   }
 
   /**
-   * Load statistics for overview page
+   * Get list of duties paginated for validator
+   * @param validatorAddress
+   * @param page
+   * @param perPage
    */
-  async fetchStats() {
+  async fetchValidatorDuties(validatorAddress: string, page = 1, perPage = ApiParams.PER_PAGE) {
+    const url = `${this.baseUrl}/api/validators/duties/?validator=${validatorAddress}&page=${page}&perPage=${perPage}`;
     return new ApiRequest({
-      url: `${this.baseUrl}/api/overview`,
+      url,
       method: 'GET',
     }).sendRequest();
   }

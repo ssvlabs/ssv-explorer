@@ -56,12 +56,22 @@ const Validator = () =>
 {
   const classes = useStyles();
   const params: Record<string, any> = useParams();
-  const [loading, setLoading] = useState(false);
-  const defaultOperator: Record<string, any> = {};
+
+  // Loading indicators
+  const [loadingValidator, setLoadingValidator] = useState(false);
+  const [loadingDuties, setLoadingDuties] = useState(false);
+
+  // Validator
+  const defaultValidator: Record<string, any> = {};
   const [notFound, setNotFound] = useState(false);
-  const [validator, setValidator] = useState(defaultOperator);
+  const [validator, setValidator] = useState(defaultValidator);
   const [performance, setPerformance] = useState('24h');
-  const [pagination, setPagination] = useState(ApiParams.DEFAULT_PAGINATION);
+
+  // Duties
+  const [dutiesPagination, setDutiesPagination] = useState(ApiParams.DEFAULT_PAGINATION);
+  const defaultDuties: Record<string, any>[] | null = null;
+  const [validatorDuties, setValidatorDuties] = useState(defaultDuties);
+
   const nonLinkBreadCrumbStyle = { color: 'black', display: 'flex', alignItems: 'center', alignContent: 'center' };
   const performanceRowStyle: any = {
     textAlign: 'left',
@@ -75,24 +85,38 @@ const Validator = () =>
   /**
    * Fetch one operator by it's address
    * @param address
-   * @param paginationPage
    */
-  const loadValidator = (address: string, paginationPage: number) => {
-    if (paginationPage) {
-      ApiParams.saveInStorage('validator:duties', 'page', paginationPage);
-    }
-    const page: number = ApiParams.getInteger('validator:duties', 'page', 1);
-    const perPage: number = ApiParams.getInteger('validator:duties', 'perPage', ApiParams.PER_PAGE);
-    setLoading(true);
-    SsvNetwork.getInstance().fetchValidator(address, page, perPage).then((result: any) => {
+  const loadValidator = (address: string) => {
+    setLoadingValidator(true);
+    SsvNetwork.getInstance().fetchValidator(address).then((result: any) => {
       if (result.status === 404) {
         setNotFound(true);
       } else {
-        setTimeout(() => {
-          setValidator(result.validator);
-          setPagination(result.pagination);
-          setLoading(false);
-        }, 2000);
+        setValidator(result);
+        setLoadingValidator(false);
+      }
+    });
+  };
+
+  /**
+   * Fetch all duties with pagination belonging to this validator
+   * @param address
+   * @param page
+   */
+  const loadValidatorDuties = (address: string, page: number) => {
+    if (page) {
+      ApiParams.saveInStorage('validator:duties', 'page', page);
+    }
+    const currentPage: number = ApiParams.getInteger('validator:duties', 'page', 1);
+    const perPage: number = ApiParams.getInteger('validator:duties', 'perPage', ApiParams.PER_PAGE);
+    setLoadingDuties(true);
+    SsvNetwork.getInstance().fetchValidatorDuties(address, currentPage, perPage).then((result: any) => {
+      if (result.status === 404) {
+        setNotFound(true);
+      } else {
+        setValidatorDuties(result.duties);
+        setDutiesPagination(result.pagination);
+        setLoadingDuties(false);
       }
     });
   };
@@ -103,7 +127,7 @@ const Validator = () =>
    */
   const onChangeRowsPerPage = (perPage: number) => {
     ApiParams.saveInStorage('validator:duties', 'perPage', perPage);
-    loadValidator(params.address, 1);
+    loadValidatorDuties(params.address, 1);
   };
 
   const getSortedOperators = () => {
@@ -124,10 +148,13 @@ const Validator = () =>
   };
 
   useEffect(() => {
-    if (!validator.address && !loading) {
-      loadValidator(params.address, 1);
+    if (!validator.publicKey && !loadingValidator) {
+      loadValidator(params.address);
     }
-  }, [params.address, validator?.address]);
+    if (validatorDuties === null && !loadingDuties) {
+      loadValidatorDuties(params.address, 1);
+    }
+  }, [params.address, validator?.publicKey, loadingValidator, loadingDuties]);
 
   return (
     <Layout>
@@ -249,7 +276,7 @@ const Validator = () =>
               <DataTable
                 title="Duties"
                 headers={['Epoch', 'Slot', 'Duty', 'Status', 'Operators']}
-                data={(validator?.duties ?? []).map((duty: any) => {
+                data={(validatorDuties ?? []).map((duty: any) => {
                   return [
                     duty.epoch,
                     duty.slot,
@@ -287,14 +314,14 @@ const Validator = () =>
                     )),
                   ];
                 })}
-                totalCount={pagination?.total || 0}
-                page={(pagination?.page ?? 1) - 1}
+                totalCount={dutiesPagination?.total || 0}
+                page={(dutiesPagination?.page ?? 1) - 1}
                 onChangePage={(page: number) => {
-                  loadValidator(params.address, page);
+                  loadValidatorDuties(params.address, page);
                 }}
                 onChangeRowsPerPage={onChangeRowsPerPage}
                 perPage={ApiParams.getInteger('validator:duties', 'perPage', ApiParams.PER_PAGE)}
-                isLoading={loading}
+                isLoading={loadingDuties}
               />
             </PaddedGridItem>
           </Grid>

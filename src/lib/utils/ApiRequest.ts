@@ -24,7 +24,7 @@ export default class ApiRequest {
     this.data = request.data ?? null;
   }
 
-  sendRequest() {
+  sendRequest(): Promise<any> {
     return new Promise((resolve, reject) => {
       this.xhr.addEventListener('load', () => {
         resolve(JSON.parse(this.xhr.responseText));

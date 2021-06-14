@@ -3,5 +3,8 @@ export const numberWithCommas = (x: number) => {
 };
 
 export const normalizeNumber = (number: number, friction = 2) => {
-  return number.toFixed(friction);
+  if (!number) {
+    return 0.0.toFixed(friction);
+  }
+  return parseFloat(String(number)).toFixed(friction);
 };

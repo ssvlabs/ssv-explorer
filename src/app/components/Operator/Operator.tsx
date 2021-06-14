@@ -33,34 +33,58 @@ const StatsBlock = styled.div<({ maxWidth?: number })>`
 const Operator = () => {
   const classes = useStyles();
   const params: any = useParams();
-  const [loading, setLoading] = useState(false);
+
+  // Loading indicators
+  const [loadingOperator, setLoadingOperator] = useState(false);
+  const [loadingValidators, setLoadingValidators] = useState(false);
+
+  // Operator
   const defaultOperator: Record<string, any> = {};
   const [operator, setOperator] = useState(defaultOperator);
+
+  // Validators
+  const [validatorsPagination, setValidatorsPagination] = useState(ApiParams.DEFAULT_PAGINATION);
+  const defaultValidators: Record<string, any>[] | null = [];
+  const [validators, setValidators] = useState(defaultValidators);
+
   const [notFound, setNotFound] = useState(false);
-  const [pagination, setPagination] = useState(ApiParams.DEFAULT_PAGINATION);
   const nonLinkBreadCrumbStyle = { color: 'black', display: 'flex', alignItems: 'center', alignContent: 'center' };
 
   /**
    * Fetch one operator by it's address
    * @param address
+   */
+  const loadOperator = (address: string) => {
+    setLoadingOperator(true);
+    SsvNetwork.getInstance().fetchOperator(address).then((result: any) => {
+      if (result.status === 404) {
+        setNotFound(true);
+      } else {
+        setOperator(result);
+        setLoadingOperator(false);
+      }
+    });
+  };
+
+  /**
+   * Load all validators by operator address
+   * @param address
    * @param paginationPage
    */
-  const loadOperator = (address: string, paginationPage: number) => {
+  const loadOperatorValidators = (address: string, paginationPage: number) => {
     if (paginationPage) {
       ApiParams.saveInStorage('operator:validators', 'page', paginationPage);
     }
     const page: number = ApiParams.getInteger('operator:validators', 'page', 1);
     const perPage: number = ApiParams.getInteger('operator:validators', 'perPage', ApiParams.PER_PAGE);
-    setLoading(true);
-    SsvNetwork.getInstance().fetchOperator(address, page, perPage).then((result: any) => {
+    setLoadingValidators(true);
+    SsvNetwork.getInstance().fetchOperatorValidators(address, page, perPage).then((result: any) => {
       if (result.status === 404) {
         setNotFound(true);
       } else {
-        setTimeout(() => {
-          setOperator(result.operator);
-          setPagination(result.pagination);
-          setLoading(false);
-        }, 2000);
+        setValidators(result.validators);
+        setValidatorsPagination(result.pagination);
+        setLoadingValidators(false);
       }
     });
   };
@@ -71,12 +95,15 @@ const Operator = () => {
    */
   const onChangeRowsPerPage = (perPage: number) => {
     ApiParams.saveInStorage('operator:validators', 'perPage', perPage);
-    loadOperator(params.address, 1);
+    loadOperatorValidators(params.address, 1);
   };
 
   useEffect(() => {
-    if (!operator.address && !loading) {
-      loadOperator(params.address, 1);
+    if (!operator.address && !loadingOperator) {
+      loadOperator(params.address);
+    }
+    if (!validators?.length && !loadingValidators) {
+      loadOperatorValidators(params.address, 1);
     }
   }, [params.address, operator.address]);
 
@@ -119,7 +146,7 @@ const Operator = () => {
             </Grid>
             <Grid item xs={12} md={2}>
               <StatsBlock>
-                <Heading>{operator.performance?.all ? `${operator.performance?.all}%` : <Skeleton />}</Heading>
+                <Heading>{operator.performance?.all >= 0 ? `${operator.performance?.all}%` : <Skeleton />}</Heading>
                 <BreadCrumb style={nonLinkBreadCrumbStyle} className={classes.Link}>
                   Performance <InfoTooltip message="Performance description" />
                 </BreadCrumb>
@@ -140,7 +167,7 @@ const Operator = () => {
           <DataTable
             headers={['Validators', '']}
             headersPositions={['left', 'right']}
-            data={(operator.validators || []).map((validator: any) => {
+            data={(validators || []).map((validator: any) => {
               return [
                 <Link href={`${config.routes.VALIDATORS.HOME}/${validator.publicKey}`} className={classes.Link}>
                   <Typography noWrap>
@@ -153,12 +180,12 @@ const Operator = () => {
                 </>,
               ];
             })}
-            totalCount={pagination.total}
-            page={pagination.page - 1}
-            onChangePage={(page: number) => { loadOperator(params.address, page); }}
+            totalCount={validatorsPagination.total}
+            page={validatorsPagination.page - 1}
+            onChangePage={(page: number) => { loadOperatorValidators(params.address, page); }}
             onChangeRowsPerPage={onChangeRowsPerPage}
             perPage={ApiParams.getInteger('operator:validators', 'perPage', ApiParams.PER_PAGE)}
-            isLoading={loading}
+            isLoading={loadingValidators}
           />
         </NotFoundScreen>
       </ContentContainer>

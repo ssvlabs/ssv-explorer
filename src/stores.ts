@@ -2,6 +2,7 @@ import { createContext } from 'react';
 import BaseStore from '~app/common/stores/BaseStore';
 
 const stores = [
+  'Overview',
   'Application',
   'Notifications',
 ];
