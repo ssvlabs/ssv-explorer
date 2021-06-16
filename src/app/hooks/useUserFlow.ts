@@ -1,6 +1,8 @@
 import _ from 'underscore';
 import { useHistory, useRouteMatch } from 'react-router-dom';
 import config from '~app/common/config';
+import ApplicationStore from '~app/common/stores/Application.store';
+import { useStores } from '~app/hooks/useStores';
 // import { useStores } from '~app/hooks/useStores';
 
 export type IUserFlow = {
@@ -53,11 +55,15 @@ const dispatchUserFlow = (
 };
 
 const setUserFlow = (userFlow: string) => {
-  localStorage.setItem('userFlow', userFlow);
+  const stores = useStores();
+  const applicationStore: ApplicationStore = stores.Application;
+  applicationStore.localStorage.setItem('userFlow', userFlow);
 };
 
 const getUserFlow = () => {
-  return localStorage.getItem('userFlow');
+  const stores = useStores();
+  const applicationStore: ApplicationStore = stores.Application;
+  return applicationStore.localStorage.getItem('userFlow');
 };
 
 const useUserFlow = () => {

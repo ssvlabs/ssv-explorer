@@ -1,3 +1,6 @@
+import { useStores } from '~app/hooks/useStores';
+import ApplicationStore from '~app/common/stores/Application.store';
+
 class ApiParams {
   static PER_PAGE: number = 10;
   static DEFAULT_PAGINATION = {
@@ -42,7 +45,9 @@ class ApiParams {
     const storage = this.getStorage();
     storage[entity] = storage[entity] || ApiParams.DEFAULT_PAGINATION;
     storage[entity][name] = value;
-    localStorage.setItem('params', JSON.stringify(storage));
+    const stores = useStores();
+    const applicationStore: ApplicationStore = stores.Application;
+    applicationStore.localStorage.setItem('params', JSON.stringify(storage));
   }
 
   /**
@@ -50,15 +55,19 @@ class ApiParams {
    */
   static getStorage() {
     ApiParams.initStorage();
-    return JSON.parse(<string>localStorage.getItem('params'));
+    const stores = useStores();
+    const applicationStore: ApplicationStore = stores.Application;
+    return JSON.parse(<string>applicationStore.localStorage.getItem('params'));
   }
 
   /**
    * Initialize storage
    */
   static initStorage() {
-    if (!localStorage.getItem('params')) {
-      localStorage.setItem('params', JSON.stringify({
+    const stores = useStores();
+    const applicationStore: ApplicationStore = stores.Application;
+    if (!applicationStore.localStorage.getItem('params')) {
+      applicationStore.localStorage.setItem('params', JSON.stringify({
         validators: {
           page: 1,
           perPage: ApiParams.PER_PAGE,
