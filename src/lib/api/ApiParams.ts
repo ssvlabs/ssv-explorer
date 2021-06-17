@@ -1,6 +1,3 @@
-import { useStores } from '~app/hooks/useStores';
-import ApplicationStore from '~app/common/stores/Application.store';
-
 class ApiParams {
   static PER_PAGE: number = 10;
   static DEFAULT_PAGINATION = {
@@ -45,9 +42,11 @@ class ApiParams {
     const storage = this.getStorage();
     storage[entity] = storage[entity] || ApiParams.DEFAULT_PAGINATION;
     storage[entity][name] = value;
-    const stores = useStores();
-    const applicationStore: ApplicationStore = stores.Application;
-    applicationStore.localStorage.setItem('params', JSON.stringify(storage));
+    try {
+      localStorage.setItem('params', JSON.stringify(storage));
+    } catch (e) {
+      console.error('Unable to use localStorage');
+    }
   }
 
   /**
@@ -55,32 +54,37 @@ class ApiParams {
    */
   static getStorage() {
     ApiParams.initStorage();
-    const stores = useStores();
-    const applicationStore: ApplicationStore = stores.Application;
-    return JSON.parse(<string>applicationStore.localStorage.getItem('params'));
+    try {
+      return JSON.parse(<string>localStorage.getItem('params'));
+    } catch (e) {
+      console.error('Unable to use localStorage');
+      return {};
+    }
   }
 
   /**
    * Initialize storage
    */
   static initStorage() {
-    const stores = useStores();
-    const applicationStore: ApplicationStore = stores.Application;
-    if (!applicationStore.localStorage.getItem('params')) {
-      applicationStore.localStorage.setItem('params', JSON.stringify({
-        validators: {
-          page: 1,
-          perPage: ApiParams.PER_PAGE,
-        },
-        operators: {
-          page: 1,
-          perPage: ApiParams.PER_PAGE,
-        },
-        'operator:validators': {
-          page: 1,
-          perPage: ApiParams.PER_PAGE,
-        },
-      }));
+    try {
+      if (!localStorage.getItem('params')) {
+        localStorage.setItem('params', JSON.stringify({
+          validators: {
+            page: 1,
+            perPage: ApiParams.PER_PAGE,
+          },
+          operators: {
+            page: 1,
+            perPage: ApiParams.PER_PAGE,
+          },
+          'operator:validators': {
+            page: 1,
+            perPage: ApiParams.PER_PAGE,
+          },
+        }));
+      }
+    } catch (e) {
+      console.error('Unable to use localStorage');
     }
   }
 }
