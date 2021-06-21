@@ -36,11 +36,9 @@ const OperatorsList = () => {
 
     setLoading(true);
     SsvNetwork.getInstance().fetchOperators(page, perPage).then((result: any) => {
-      setTimeout(() => {
-        setOperators(result.operators);
-        setPagination(result.pagination);
-        setLoading(false);
-      }, 2000);
+      setOperators(result.operators);
+      setPagination(result.pagination);
+      setLoading(false);
     });
   };
 

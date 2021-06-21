@@ -33,12 +33,9 @@ const ValidatorsList = () => {
 
     setLoading(true);
     SsvNetwork.getInstance().fetchValidators(page, perPage, true).then((result: any) => {
-      console.debug('result.validators:', result.validators);
-      // setTimeout(() => {
-        setValidators(result.validators);
-        setPagination(result.pagination);
-        setLoading(false);
-      // }, 2000);
+      setValidators(result.validators);
+      setPagination(result.pagination);
+      setLoading(false);
     });
   };
 
