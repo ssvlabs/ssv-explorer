@@ -73,7 +73,7 @@ const OperatorsList = () => {
           data={(operators || []).map((operator: any) => {
             return [
               <Link href={`${config.routes.OPERATORS.HOME}/${operator.address}`} className={classes.Link}>
-                {longStringShorten(operator.address, 10)}
+                0x{longStringShorten(operator.address, 4)}
               </Link>,
               <Link href={`${config.routes.OPERATORS.HOME}/${operator.address}`} className={classes.Link}>
                 {operator.name}

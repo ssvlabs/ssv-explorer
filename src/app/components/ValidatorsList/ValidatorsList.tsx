@@ -71,7 +71,7 @@ const ValidatorsList = () => {
           data={validators.map((validator: any) => {
             return [
               <Link href={`${config.routes.VALIDATORS.HOME}/${validator.publicKey}`} className={classes.Link}>
-                {longStringShorten(validator.publicKey, 10)}
+                0x{longStringShorten(validator.publicKey, 4)}
               </Link>,
               validator.operators.map((operator: any, operatorIndex: number) => {
                 return (
