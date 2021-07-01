@@ -15,6 +15,7 @@ const config = {
     },
     links: {
         API_BASE_URL: String(process.env.REACT_APP_API_BASE_URL),
+        LINK_SSV_WEBAPP: String(process.env.REACT_APP_LINK_SSV_WEBAPP),
         COIN_API_BASE_URL: 'https://rest.coinapi.io',
     },
     COIN_API: {

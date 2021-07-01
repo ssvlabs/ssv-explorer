@@ -36,7 +36,7 @@ const AppBarComponent = () => {
   const classes = useStyles();
   const appClasses = useAppStyles();
   const [isDrawerOpened, toggleDrawer] = useState(false);
-  const joinSsvLink = 'https://app.testnet.ssv.network'; // TODO: move to env -> config
+  const joinSsvLink = config.links.LINK_SSV_WEBAPP;
 
   const isRouteActive = (routeLink: string, returnValue: any, exact: boolean = false) => {
     const location = useLocation();
