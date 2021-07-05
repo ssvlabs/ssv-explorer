@@ -53,6 +53,9 @@ const SmartSearch = (props: SmartSearchProps) => {
   );
 
   const onInputChange = (event: any, newInputValue: string) => {
+    if (newInputValue.length < 3) {
+      return;
+    }
     searchTimeout && clearTimeout(searchTimeout);
     searchTimeout = setTimeout(() => {
       setQuery(newInputValue);
