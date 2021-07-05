@@ -66,7 +66,7 @@ const ValidatorsList = () => {
         <h1>Validators</h1>
 
         <DataTable
-          headers={['Public Key', 'Validators', '']}
+          headers={['Public Key', 'Operators', '']}
           headersPositions={['left', 'left', 'right']}
           data={validators.map((validator: any) => {
             return [
