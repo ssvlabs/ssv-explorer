@@ -65,9 +65,9 @@ class ApiParams {
   /**
    * Initialize storage
    */
-  static initStorage() {
+  static initStorage(force: boolean = false) {
     try {
-      if (!localStorage.getItem('params')) {
+      if (!localStorage.getItem('params') || force) {
         localStorage.setItem('params', JSON.stringify({
           validators: {
             page: 1,

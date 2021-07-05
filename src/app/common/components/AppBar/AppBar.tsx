@@ -14,6 +14,7 @@ import IconButton from '@material-ui/core/IconButton';
 import { Box, Divider, Link } from '@material-ui/core';
 import ListItemText from '@material-ui/core/ListItemText';
 import config from '~app/common/config';
+import ApiParams from '~lib/api/ApiParams';
 import { useStyles } from './AppBar.styles';
 import { useStyles as useAppStyles } from '~app/components/Styles';
 import DarkModeSwitcher from '~app/common/components/DarkModeSwitcher';
@@ -51,6 +52,10 @@ const AppBarComponent = () => {
     return location.pathname === '/';
   };
 
+  const clearPaginationMemory = () => {
+    ApiParams.initStorage(true);
+  };
+
   return (
     <div className={classes.root} id="back-to-top-anchor">
       <AppBar position="fixed">
@@ -71,12 +76,14 @@ const AppBarComponent = () => {
             <Link
               href={config.routes.OPERATORS.HOME}
               className={`${classes.appBarLink} ${isRouteActive(config.routes.OPERATORS.HOME, classes.appBarLinkActive)}`}
+              onClick={() => clearPaginationMemory()}
             >
               Operators
             </Link>
             <Link
               href={config.routes.VALIDATORS.HOME}
               className={`${classes.appBarLink} ${isRouteActive(config.routes.VALIDATORS.HOME, classes.appBarLinkActive)}`}
+              onClick={() => clearPaginationMemory()}
             >
               Validators
             </Link>
@@ -116,14 +123,14 @@ const AppBarComponent = () => {
                 </Link>
                 <Divider />
 
-                <Link href={config.routes.OPERATORS.HOME} className={appClasses.Link}>
+                <Link href={config.routes.OPERATORS.HOME} className={appClasses.Link} onClick={() => clearPaginationMemory()}>
                   <ListItem button>
                     <ListItemText primary="Operators" />
                   </ListItem>
                 </Link>
                 <Divider />
 
-                <Link href={config.routes.VALIDATORS.HOME} className={appClasses.Link}>
+                <Link href={config.routes.VALIDATORS.HOME} className={appClasses.Link} onClick={() => clearPaginationMemory()}>
                   <ListItem button>
                     <ListItemText primary="Validators" />
                   </ListItem>
