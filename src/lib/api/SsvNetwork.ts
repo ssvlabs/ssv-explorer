@@ -35,8 +35,6 @@ class SsvNetwork {
   /**
    * Fetch one operator by address
    * @param operatorAddress
-   * @param page
-   * @param perPage
    */
   async fetchOperator(operatorAddress: string) {
     return new ApiRequest({

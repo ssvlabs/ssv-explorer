@@ -11,8 +11,8 @@ import Toolbar from '@material-ui/core/Toolbar';
 import ListItem from '@material-ui/core/ListItem';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
+import { Box, Divider, Link } from '@material-ui/core';
 import ListItemText from '@material-ui/core/ListItemText';
-import { Badge, Box, Divider, Link } from '@material-ui/core';
 import config from '~app/common/config';
 import { useStyles } from './AppBar.styles';
 import { useStyles as useAppStyles } from '~app/components/Styles';
@@ -86,9 +86,9 @@ const AppBarComponent = () => {
             <Link href={joinSsvLink} target="_blank">
               <Button variant="outlined" className={`${classes.appBarButton} ${classes.appBarButtonWhite}`}>Join SSV Network</Button>
             </Link>
-            <Badge variant="dot" color="secondary" anchorOrigin={{ vertical: 'top', horizontal: 'left' }} className={classes.buttonBadge}>
-              <Button variant="outlined" className={`${classes.appBarButton} ${classes.appBarButtonWhite}`}>Pyrmont Network</Button>
-            </Badge>
+            {/* <Badge variant="dot" color="secondary" anchorOrigin={{ vertical: 'top', horizontal: 'left' }} className={classes.buttonBadge}> */}
+            <Button variant="outlined" className={`${classes.appBarButton} ${classes.appBarButtonWhite}`}>Prater Network</Button>
+            {/* </Badge> */}
           </Box>
 
           <DarkModeSwitcher />
@@ -141,16 +141,18 @@ const AppBarComponent = () => {
                     </DrawerButton>
                   )}
                   <DrawerButton>
-                    <Badge
-                      variant="dot"
-                      color="secondary"
-                      anchorOrigin={{ vertical: 'top', horizontal: 'left' }}
-                      className={classes.buttonBadge}
-                    >
-                      <Button variant="outlined" className={classes.appBarButton} color="primary" style={{ margin: 'auto' }}>
-                        Pyrmont Network
+                    {/* <Badge */}
+                    {/*  variant="dot" */}
+                    {/*  color="secondary" */}
+                    {/*  anchorOrigin={{ vertical: 'top', horizontal: 'left' }} */}
+                    {/*  className={classes.buttonBadge} */}
+                    {/* > */}
+                    <Link href="/">
+                      <Button variant="outlined" className={classes.appBarButton} color="primary" style={{ width: '90%', margin: 'auto' }}>
+                        Prater Network
                       </Button>
-                    </Badge>
+                    </Link>
+                    {/* </Badge> */}
                   </DrawerButton>
                 </DrawerButtonsContainers>
               </List>

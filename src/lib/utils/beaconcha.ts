@@ -1,6 +1,7 @@
 export const NETWORKS = {
   MAINNET: 1,
   GOERLI: 5,
+  PRATER: 99,
 };
 
 /**
@@ -11,6 +12,8 @@ export const NETWORKS = {
 export const getBaseBeaconchaUrl = (networkId?: number) => {
   const finalNetworkId = networkId ?? process.env.REACT_APP_BLOCKNATIVE_NETWORK_ID;
   switch (parseInt(String(finalNetworkId), 10)) {
+    case NETWORKS.PRATER:
+      return 'https://prater.beaconcha.in';
     case NETWORKS.GOERLI:
       return 'https://pyrmont.beaconcha.in';
     case NETWORKS.MAINNET:
