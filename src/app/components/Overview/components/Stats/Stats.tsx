@@ -40,7 +40,7 @@ const Stats = () => {
         </StatsBlockHeader>
         <StatsBlockContent>
           {overviewStore.totalUsd === null && <Skeleton />}
-          {overviewStore.totalUsd !== null ? `$${numberWithCommas(overviewStore.totalUsd)} Staked` : ''}
+          {overviewStore.totalUsd ? `$${numberWithCommas(overviewStore.totalUsd)} Staked` : ''}
         </StatsBlockContent>
       </StatsBlock>
     </StatsContainer>
