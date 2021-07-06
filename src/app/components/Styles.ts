@@ -121,6 +121,7 @@ export const useStyles = makeStyles((theme) => ({
     border: `1px solid ${theme.palette.divider}`,
   },
   Link: {
+    cursor: 'pointer',
     color: `${theme.palette.text.primary}!important`,
     borderColor: `${theme.palette.text.primary}!important`,
   },

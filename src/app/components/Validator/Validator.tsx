@@ -7,6 +7,7 @@ import { Skeleton } from '@material-ui/lab';
 import { Divider } from '@material-ui/core';
 import { useParams } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import TableContainer from '@material-ui/core/TableContainer';
 import config from '~app/common/config';
@@ -24,6 +25,15 @@ import CopyToClipboardIcon from '~app/common/components/CopyToClipboardIcon';
 import BeaconchaLink from '~app/common/components/BeaconchaLink/BeaconchaLink';
 import { SuccessChip, FailureChip, ChipLink } from '~app/common/components/Chips';
 import { BreadCrumb, BreadCrumbDivider, BreadCrumbsContainer } from '~app/common/components/Breadcrumbs';
+
+const useChipStyles = makeStyles(() => ({
+  chip: {
+    marginRight: 10,
+    '& > .MuiChip-label': {
+      display: 'inline-flex',
+    },
+  },
+}));
 
 const Heading = styled.h1`
   margin-bottom: 0;
@@ -55,6 +65,7 @@ const PaddedGridItem = styled(Grid)<({ paddingleft: number })>`
 const Validator = () =>
 {
   const classes = useStyles();
+  const chipClasses = useChipStyles();
   const params: Record<string, any> = useParams();
 
   // Loading indicators
@@ -114,9 +125,8 @@ const Validator = () =>
       if (result.status === 404) {
         setNotFound(true);
       } else {
-        const { dutiesList, pagination } = result.data;
-        setValidatorDuties(dutiesList);
-        setDutiesPagination(pagination);
+        setValidatorDuties(result.data.duties);
+        setDutiesPagination(result.data.pagination);
         setLoadingDuties(false);
       }
     });
@@ -146,6 +156,57 @@ const Validator = () =>
     }).map((operator: any) => {
       return { ...operator, performance: operator.performance[performance] };
     });
+  };
+
+  const getGroupedOperators = (operators: any[]) => {
+    const successOperators: any[] = [];
+    const failedOperators: any[] = [];
+    operators.map((operator: any) => {
+      if (operator.status === 'success') {
+        successOperators.push(operator);
+      } else {
+        failedOperators.push(operator);
+      }
+      return null;
+    });
+    return (
+      <>
+        {failedOperators.length ? (
+          <FailureChip
+            className={chipClasses.chip}
+            label={failedOperators.map((o) => (
+              <ChipLink
+                key={'operators-failed'}
+                className={classes.Link}
+                href={`${config.routes.OPERATORS.HOME}/${o.address}`}
+                style={{ maxWidth: 100 }}
+              >
+                <Typography noWrap style={{ fontSize: 14 }}>{o.name}</Typography>
+              </ChipLink>
+            ))}
+            onDelete={() => {}}
+            deleteIcon={<CheckCircleIcon />}
+          />
+        ) : ''}
+        {successOperators.length ? (
+          <SuccessChip
+            className={chipClasses.chip}
+            label={successOperators.map((o) => (
+              <ChipLink
+                key={'operators-success'}
+                className={classes.Link}
+                href={`${config.routes.OPERATORS.HOME}/${o.address}`}
+                style={{ maxWidth: 100 }}
+              >
+                <Typography noWrap style={{ fontSize: 14 }}>{o.name}</Typography>
+              </ChipLink>
+              ))
+            }
+            onDelete={() => {}}
+          />
+        ) : ''}
+      </>
+    );
   };
 
   useEffect(() => {
@@ -283,36 +344,7 @@ const Validator = () =>
                     duty.slot,
                     capitalize(duty.duty),
                     capitalize(duty.status),
-                    duty.operators.sort((o1: any, o2: any) => {
-                      if (o1.status === 'success' && o2.status === 'failed') {
-                        return 1;
-                      }
-                      if (o1.status === 'failed' && o2.status === 'success') {
-                        return -1;
-                      }
-                      return 0;
-                    }).map((operator: any, operatorIndex: number) => (
-                      <ChipLink
-                        key={`operator-${operatorIndex}`}
-                        href={`${config.routes.OPERATORS.HOME}/${operator.address}`}
-                        className={classes.Link}
-                      >
-                        {operator.status === 'success' ? (
-                          <SuccessChip
-                            label={operator.name}
-                            onDelete={() => {
-                            }}
-                          />
-                        ) : (
-                          <FailureChip
-                            label={operator.name}
-                            onDelete={() => {
-                            }}
-                            deleteIcon={<CheckCircleIcon />}
-                          />
-                        )}
-                      </ChipLink>
-                    )),
+                    getGroupedOperators(duty.operators),
                   ];
                 })}
                 totalCount={dutiesPagination?.total || 0}
