@@ -28,6 +28,7 @@ type DataTableProps = {
   onChangePage?: (page: number) => void,
   // eslint-disable-next-line no-unused-vars
   onChangeRowsPerPage?: (event: any) => void,
+  noDataMessage?: string,
 };
 
 const defaultPerPageOptions = [10, 25, 50, 100];
@@ -35,14 +36,49 @@ const skeletons = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 const DataTable = (props: DataTableProps) => {
   const { headers, data, rowsPerPageOptions, totalCount, perPage, page, isLoading,
-    onChangePage, onChangeRowsPerPage, headersPositions, title } = props;
+    onChangePage, onChangeRowsPerPage, headersPositions, title, noDataMessage } = props;
   const classes = useStyles();
+
+  const dataRows = () => {
+    if (isLoading) {
+      return skeletons.map((rowIndex: number) => (
+        <StyledRow hover role="checkbox" tabIndex={-1} key={`row-${rowIndex}`}>
+          {headers.map((header: string) => (
+            <StyledCell key={`cell-${header}`}>
+              <Skeleton />
+            </StyledCell>
+          ))}
+        </StyledRow>
+      ));
+    }
+    if (!data?.length) {
+      return (
+        <StyledRow hover role="checkbox" tabIndex={-1}>
+          <StyledCell align="center" colSpan={headers?.length || 1}>
+            {noDataMessage ?? 'No records'}
+          </StyledCell>
+        </StyledRow>
+      );
+    }
+    return data.map((row: any[], rowIndex: number) => (
+      <StyledRow hover role="checkbox" tabIndex={-1} key={`row-${rowIndex}`}>
+        {row.map((cell: any, cellIndex: number) => (
+          <StyledCell
+            key={`cell-${cellIndex}`}
+            align={headersPositions?.length ? headersPositions[cellIndex] : undefined}
+          >
+            {cell}
+          </StyledCell>
+        ))}
+      </StyledRow>
+    ));
+  };
 
   return (
     <div className={classes.tableWithBorder}>
       <TableContainer>
         {title ? <h3 style={{ paddingLeft: 15 }}>{title}</h3> : ''}
-        {perPage && perPage > defaultPerPageOptions[0] && (
+        {perPage && perPage > defaultPerPageOptions[0] && data?.length && (
           <TablePagination
             ActionsComponent={PaginationActions}
             colSpan={headers.length}
@@ -70,40 +106,23 @@ const DataTable = (props: DataTableProps) => {
             </StyledRow>
           </TableHead>
           <TableBody>
-            {!isLoading && data.map((row: any[], rowIndex: number) => (
-              <StyledRow hover role="checkbox" tabIndex={-1} key={`row-${rowIndex}`}>
-                {row.map((cell: any, cellIndex: number) => (
-                  <StyledCell
-                    key={`cell-${cellIndex}`}
-                    align={headersPositions?.length ? headersPositions[cellIndex] : undefined}
-                  >
-                    {cell}
-                  </StyledCell>
-                  ))}
-              </StyledRow>
-              ))}
-            {isLoading && skeletons.map((rowIndex: number) => (
-              <StyledRow hover role="checkbox" tabIndex={-1} key={`row-${rowIndex}`}>
-                {headers.map((header: string) => (
-                  <StyledCell key={`cell-${header}`}>
-                    <Skeleton />
-                  </StyledCell>
-                  ))}
-              </StyledRow>
-              ))}
+            {dataRows()}
           </TableBody>
         </Table>
-        <TablePagination
-          ActionsComponent={PaginationActions}
-          colSpan={headers.length}
-          rowsPerPageOptions={rowsPerPageOptions ?? defaultPerPageOptions}
-          component="div"
-          count={totalCount}
-          rowsPerPage={perPage ?? ApiParams.PER_PAGE}
-          page={page}
-          onChangePage={(event: any, changedPage: number) => onChangePage ? onChangePage(changedPage + 1) : null}
-          onChangeRowsPerPage={(event: any) => onChangeRowsPerPage ? onChangeRowsPerPage(event.target.value) : null}
-        />
+
+        {data?.length ? (
+          <TablePagination
+            ActionsComponent={PaginationActions}
+            colSpan={headers.length}
+            rowsPerPageOptions={rowsPerPageOptions ?? defaultPerPageOptions}
+            component="div"
+            count={totalCount}
+            rowsPerPage={perPage ?? ApiParams.PER_PAGE}
+            page={page}
+            onChangePage={(event: any, changedPage: number) => onChangePage ? onChangePage(changedPage + 1) : null}
+            onChangeRowsPerPage={(event: any) => onChangeRowsPerPage ? onChangeRowsPerPage(event.target.value) : null}
+          />
+        ) : ''}
       </TableContainer>
     </div>
   );

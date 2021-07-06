@@ -60,7 +60,7 @@ const Operator = () => {
       if (result.status === 404) {
         setNotFound(true);
       } else {
-        setOperator(result);
+        setOperator(result.data);
         setLoadingOperator(false);
       }
     });
@@ -82,8 +82,8 @@ const Operator = () => {
       if (result.status === 404) {
         setNotFound(true);
       } else {
-        setValidators(result.validators);
-        setValidatorsPagination(result.pagination);
+        setValidators(result.data.validators);
+        setValidatorsPagination(result.data.pagination);
         setLoadingValidators(false);
       }
     });
@@ -110,15 +110,15 @@ const Operator = () => {
   return (
     <Layout>
       <ContentContainer>
-        <BreadCrumbsContainer>
-          <BreadCrumb href={config.routes.HOME}>overview</BreadCrumb>
-          <BreadCrumbDivider />
-          <BreadCrumb href={config.routes.OPERATORS.HOME}>operators</BreadCrumb>
-          <BreadCrumbDivider />
-          <BreadCrumb href={`${config.routes.OPERATORS.HOME}/${params.address}`}>{longStringShorten(params.address, 4)}</BreadCrumb>
-        </BreadCrumbsContainer>
-
         <NotFoundScreen notFound={notFound}>
+          <BreadCrumbsContainer>
+            <BreadCrumb href={config.routes.HOME}>overview</BreadCrumb>
+            <BreadCrumbDivider />
+            <BreadCrumb href={config.routes.OPERATORS.HOME}>operators</BreadCrumb>
+            <BreadCrumbDivider />
+            <BreadCrumb href={`${config.routes.OPERATORS.HOME}/${params.address}`}>{longStringShorten(params.address, 4)}</BreadCrumb>
+          </BreadCrumbsContainer>
+
           <Grid container alignContent="center" alignItems="center">
             <Grid item xs={12} md={5}>
               <StatsBlock maxWidth={400} style={{ paddingRight: 15 }}>
@@ -165,6 +165,7 @@ const Operator = () => {
           <EmptyPlaceholder height={30} />
 
           <DataTable
+            noDataMessage={'No validators'}
             headers={['Validators', '']}
             headersPositions={['left', 'right']}
             data={(validators || []).map((validator: any) => {

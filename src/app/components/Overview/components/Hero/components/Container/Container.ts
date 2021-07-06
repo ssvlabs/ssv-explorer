@@ -3,8 +3,8 @@ import { mediaQueryDevices } from '~app/components/Styles';
 
 const Container = styled.div`
   ${({ theme }) => `
-    height: 170px;
-    min-height: 170px;
+    height: 200px;
+    min-height: 200px;
     background-color: ${theme.palette.background.paper};
     border: 0;
     border-bottom: 1px solid ${theme.palette.divider};

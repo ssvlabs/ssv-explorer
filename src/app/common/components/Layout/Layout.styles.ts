@@ -6,7 +6,7 @@ export const useStyles = makeStyles(() => ({
     maxWidth: '100%',
     overflow: 'hidden',
     height: 'auto',
-    marginTop: -10,
+    marginTop: -30,
     paddingTop: 10,
   },
 }));

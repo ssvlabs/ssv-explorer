@@ -4,8 +4,8 @@ const Header = styled.h1`
   ${({ theme }) => `
     font-size: 20px;
     font-weight: bold;
-    margin-top: 40px;
-    margin-bottom: 40px;
+    margin-top: 50px;
+    margin-bottom: 30px;
     color: ${theme.palette.text.primary}
   `}
 `;

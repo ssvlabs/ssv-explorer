@@ -37,8 +37,8 @@ const Operators = () => {
   const loadOperators = () => {
     setLoadingOperators(true);
     SsvNetwork.getInstance().fetchOperators(1).then((result: any) => {
-      overviewStore.setTotalOperators(result.pagination.total);
-      setOperators(result.operators);
+      overviewStore.setTotalOperators(result.data.pagination.total);
+      setOperators(result.data.operators);
       setLoadingOperators(false);
     });
   };

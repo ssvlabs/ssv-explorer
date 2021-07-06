@@ -25,12 +25,18 @@ export default class ApiRequest {
   }
 
   sendRequest(): Promise<any> {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       this.xhr.addEventListener('load', () => {
-        resolve(JSON.parse(this.xhr.responseText));
+        resolve({
+          data: JSON.parse(this.xhr.responseText),
+          status: this.xhr.status,
+        });
       });
       this.xhr.addEventListener('error', () => {
-        reject(JSON.parse(this.xhr.responseText));
+        resolve({
+          data: JSON.parse(this.xhr.responseText),
+          status: this.xhr.status,
+        });
       });
       // Open the request with the verb and the url
       this.xhr.open(this.method, this.url);

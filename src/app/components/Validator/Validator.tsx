@@ -92,7 +92,7 @@ const Validator = () =>
       if (result.status === 404) {
         setNotFound(true);
       } else {
-        setValidator(result);
+        setValidator(result.data);
         setLoadingValidator(false);
       }
     });
@@ -114,8 +114,9 @@ const Validator = () =>
       if (result.status === 404) {
         setNotFound(true);
       } else {
-        setValidatorDuties(result.duties);
-        setDutiesPagination(result.pagination);
+        const { dutiesList, pagination } = result.data;
+        setValidatorDuties(dutiesList);
+        setDutiesPagination(pagination);
         setLoadingDuties(false);
       }
     });
@@ -159,56 +160,56 @@ const Validator = () =>
   return (
     <Layout>
       <ContentContainer>
-        <BreadCrumbsContainer>
-          <BreadCrumb href={config.routes.HOME}>overview</BreadCrumb>
-          <BreadCrumbDivider />
-          <BreadCrumb href={config.routes.VALIDATORS.HOME}>validators</BreadCrumb>
-          <BreadCrumbDivider />
-          <BreadCrumb href={`${config.routes.VALIDATORS.HOME}/${params.address}`}>
-            {longStringShorten(params.address, 4)}
-          </BreadCrumb>
-        </BreadCrumbsContainer>
-
-        <Grid container alignContent="center" alignItems="center">
-          <Grid item xs={12} md={3}>
-            <StatsBlock maxWidth={400} style={{ paddingRight: 15 }}>
-              <Heading>
-                Validator
-                {!notFound && (
-                  <>
-                    <CopyToClipboardIcon data={params.address} style={{ marginLeft: 15 }} />
-                    <BeaconchaLink height={24} width={24} address={`validator/${params.address}`} />
-                  </>
-                )}
-              </Heading>
-              <BreadCrumb style={nonLinkBreadCrumbStyle} className={classes.Link}>
-                <Typography noWrap>
-                  {params.address}
-                </Typography>
-              </BreadCrumb>
-            </StatsBlock>
-          </Grid>
-          {!notFound && (
-            <>
-              <Grid item xs={12} md={4}>
-                <StatsBlock>
-                  <Heading>{validator?.operators?.length ?? <Skeleton />}</Heading>
-                  <BreadCrumb style={nonLinkBreadCrumbStyle} className={classes.Link}>Operators</BreadCrumb>
-                </StatsBlock>
-              </Grid>
-              <Grid item xs={12} md={5}>
-                <StatsBlock>
-                  <Heading>{validator?.status ? validator.status : <Skeleton />}</Heading>
-                  <BreadCrumb style={nonLinkBreadCrumbStyle} className={classes.Link}>
-                    Status <InfoTooltip message="Refers to the validator’s status in the SSV network (not beacon chain), and reflects whether its operators are consistently performing their duties (according to last 2 epochs)." />
-                  </BreadCrumb>
-                </StatsBlock>
-              </Grid>
-            </>
-          )}
-        </Grid>
-
         <NotFoundScreen notFound={notFound}>
+          <BreadCrumbsContainer>
+            <BreadCrumb href={config.routes.HOME}>overview</BreadCrumb>
+            <BreadCrumbDivider />
+            <BreadCrumb href={config.routes.VALIDATORS.HOME}>validators</BreadCrumb>
+            <BreadCrumbDivider />
+            <BreadCrumb href={`${config.routes.VALIDATORS.HOME}/${params.address}`}>
+              {longStringShorten(params.address, 4)}
+            </BreadCrumb>
+          </BreadCrumbsContainer>
+
+          <Grid container alignContent="center" alignItems="center">
+            <Grid item xs={12} md={3}>
+              <StatsBlock maxWidth={400} style={{ paddingRight: 15 }}>
+                <Heading>
+                  Validator
+                  {!notFound && (
+                    <>
+                      <CopyToClipboardIcon data={params.address} style={{ marginLeft: 15 }} />
+                      <BeaconchaLink height={24} width={24} address={`validator/${params.address}`} />
+                    </>
+                  )}
+                </Heading>
+                <BreadCrumb style={nonLinkBreadCrumbStyle} className={classes.Link}>
+                  <Typography noWrap>
+                    {params.address}
+                  </Typography>
+                </BreadCrumb>
+              </StatsBlock>
+            </Grid>
+            {!notFound && (
+              <>
+                <Grid item xs={12} md={4}>
+                  <StatsBlock>
+                    <Heading>{validator?.operators?.length ?? <Skeleton />}</Heading>
+                    <BreadCrumb style={nonLinkBreadCrumbStyle} className={classes.Link}>Operators</BreadCrumb>
+                  </StatsBlock>
+                </Grid>
+                <Grid item xs={12} md={5}>
+                  <StatsBlock>
+                    <Heading>{validator?.status ? validator.status : <Skeleton />}</Heading>
+                    <BreadCrumb style={nonLinkBreadCrumbStyle} className={classes.Link}>
+                      Status <InfoTooltip message="Refers to the validator’s status in the SSV network (not beacon chain), and reflects whether its operators are consistently performing their duties (according to last 2 epochs)." />
+                    </BreadCrumb>
+                  </StatsBlock>
+                </Grid>
+              </>
+            )}
+          </Grid>
+
           <EmptyPlaceholder height={30} />
 
           <Grid container>

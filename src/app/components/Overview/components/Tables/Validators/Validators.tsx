@@ -38,9 +38,9 @@ const Validators = () => {
   const loadValidators = () => {
     setLoadingValidators(true);
     SsvNetwork.getInstance().fetchValidators(1, ApiParams.PER_PAGE, true).then((result: any) => {
-      overviewStore.setTotalValidators(result.pagination.total);
-      overviewStore.setTotalEth(result.pagination.total * 32);
-      setValidators(result.validators);
+      overviewStore.setTotalValidators(result.data.pagination.total);
+      overviewStore.setTotalEth(result.data.pagination.total * 32);
+      setValidators(result.data.validators);
       setLoadingValidators(false);
     });
   };
