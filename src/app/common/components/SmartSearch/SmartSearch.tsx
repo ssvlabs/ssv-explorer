@@ -73,6 +73,7 @@ const SmartSearch = (props: SmartSearchProps) => {
       data-testid="smart-search-autocomplete"
       options={searchResults}
       groupBy={(option: any) => option.type}
+      getOptionLabel={(option: any) => option.address || option.publicKey || ''}
       loading={loading}
       autoComplete
       fullWidth
@@ -83,7 +84,22 @@ const SmartSearch = (props: SmartSearchProps) => {
       filterOptions={(options) => options}
       onChange={(event, newValue) => {
         setSearchResults(newValue ? [newValue, ...searchResults] : searchResults);
+        if (newValue) {
+          let url = '';
+          switch (newValue.type) {
+            case 'Operators':
+              url = `${config.routes.OPERATORS.HOME}/${newValue.address}`;
+              break;
+            case 'Validators':
+              url = `${config.routes.VALIDATORS.HOME}/${newValue.publicKey}`;
+              break;
+          }
+          if (url) {
+            window.location.href = url;
+          }
+        }
       }}
+      onBlur={() => { setSearchResults([]); }}
       onInputChange={onInputChange}
       value=""
       renderOption={(option: any) => (
