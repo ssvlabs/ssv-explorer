@@ -12,6 +12,7 @@ import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import TableContainer from '@material-ui/core/TableContainer';
 import config from '~app/common/config';
 import ApiParams from '~lib/api/ApiParams';
+import { infoIconStyle } from '~root/theme';
 import SsvNetwork from '~lib/api/SsvNetwork';
 import { useStyles } from '~app/components/Styles';
 import Layout from '~app/common/components/Layout';
@@ -19,6 +20,7 @@ import InfoTooltip from '~app/common/components/InfoTooltip';
 import { capitalize, longStringShorten } from '~lib/utils/strings';
 import NotFoundScreen from '~app/common/components/NotFoundScreen';
 import DataTable from '~app/common/components/DataTable/DataTable';
+import { Heading, SubHeading } from '~app/common/components/Headings';
 import ContentContainer from '~app/common/components/ContentContainer';
 import EmptyPlaceholder from '~app/common/components/EmptyPlaceholder';
 import CopyToClipboardIcon from '~app/common/components/CopyToClipboardIcon';
@@ -34,11 +36,6 @@ const useChipStyles = makeStyles(() => ({
     },
   },
 }));
-
-const Heading = styled.h1`
-  margin-bottom: 0;
-  text-transform: capitalize;
-`;
 
 const StatsBlock = styled.div<({ maxWidth?: number })>`
   max-width: ${({ maxWidth }) => `${maxWidth ?? 200}px`};
@@ -83,7 +80,6 @@ const Validator = () =>
   const defaultDuties: Record<string, any>[] | null = null;
   const [validatorDuties, setValidatorDuties] = useState(defaultDuties);
 
-  const nonLinkBreadCrumbStyle = { color: 'black', display: 'flex', alignItems: 'center', alignContent: 'center' };
   const performanceRowStyle: any = {
     textAlign: 'left',
     display: 'flex',
@@ -174,9 +170,9 @@ const Validator = () =>
         {failedOperators.length ? (
           <FailureChip
             className={chipClasses.chip}
-            label={failedOperators.map((o) => (
+            label={failedOperators.map((o, oi) => (
               <ChipLink
-                key={'operators-failed'}
+                key={`operators-failed-${oi}`}
                 className={classes.Link}
                 href={`${config.routes.OPERATORS.HOME}/${o.address}`}
                 style={{ maxWidth: 100 }}
@@ -191,9 +187,9 @@ const Validator = () =>
         {successOperators.length ? (
           <SuccessChip
             className={chipClasses.chip}
-            label={successOperators.map((o) => (
+            label={successOperators.map((o, oi) => (
               <ChipLink
-                key={'operators-success'}
+                key={`operators-success-${oi}`}
                 className={classes.Link}
                 href={`${config.routes.OPERATORS.HOME}/${o.address}`}
                 style={{ maxWidth: 100 }}
@@ -233,9 +229,9 @@ const Validator = () =>
           </BreadCrumbsContainer>
 
           <Grid container alignContent="center" alignItems="center">
-            <Grid item xs={12} md={3}>
+            <Grid item xs={12} md={4}>
               <StatsBlock maxWidth={400} style={{ paddingRight: 15 }}>
-                <Heading>
+                <Heading variant="h1">
                   Validator
                   {!notFound && (
                     <>
@@ -244,27 +240,27 @@ const Validator = () =>
                     </>
                   )}
                 </Heading>
-                <BreadCrumb style={nonLinkBreadCrumbStyle} className={classes.Link}>
+                <SubHeading>
                   <Typography noWrap>
                     {params.address}
                   </Typography>
-                </BreadCrumb>
+                </SubHeading>
               </StatsBlock>
             </Grid>
             {!notFound && (
               <>
                 <Grid item xs={12} md={4}>
                   <StatsBlock>
-                    <Heading>{validator?.operators?.length ?? <Skeleton />}</Heading>
-                    <BreadCrumb style={nonLinkBreadCrumbStyle} className={classes.Link}>Operators</BreadCrumb>
+                    <Heading variant="h1">{validator?.operators?.length ?? <Skeleton />}</Heading>
+                    <SubHeading>Operators</SubHeading>
                   </StatsBlock>
                 </Grid>
-                <Grid item xs={12} md={5}>
+                <Grid item xs={12} md={4}>
                   <StatsBlock>
-                    <Heading>{validator?.status ? validator.status : <Skeleton />}</Heading>
-                    <BreadCrumb style={nonLinkBreadCrumbStyle} className={classes.Link}>
-                      Status <InfoTooltip message="Refers to the validator’s status in the SSV network (not beacon chain), and reflects whether its operators are consistently performing their duties (according to last 2 epochs)." />
-                    </BreadCrumb>
+                    <Heading variant="h1">{validator?.status ? validator.status : <Skeleton />}</Heading>
+                    <SubHeading>
+                      Status <InfoTooltip style={infoIconStyle} message="Refers to the validator’s status in the SSV network (not beacon chain), and reflects whether its operators are consistently performing their duties (according to last 2 epochs)." />
+                    </SubHeading>
                   </StatsBlock>
                 </Grid>
               </>
@@ -293,7 +289,7 @@ const Validator = () =>
                       Name
                     </Grid>
                     <Grid item xs={6} md={6} style={{ textAlign: 'right', display: 'flex', alignItems: 'center', alignContent: 'center', justifyContent: 'flex-end' }}>
-                      Performance <InfoTooltip message="Operators technical scoring metric - calculated by the percentage of attended duties within a time-frame." />
+                      Performance <InfoTooltip style={infoIconStyle} message="Operators technical scoring metric - calculated by the percentage of attended duties within a time-frame." />
                     </Grid>
                   </Grid>
                   <Grid container style={{ width: '100%' }}>

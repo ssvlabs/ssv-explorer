@@ -125,18 +125,54 @@ export const useStyles = makeStyles((theme) => ({
     color: `${theme.palette.text.primary}!important`,
     borderColor: `${theme.palette.text.primary}!important`,
   },
+  overviewSearch: {
+    '& > .MuiFormControl-root': {
+      '& > .MuiInputBase-root, & > .MuiInputBase-root:hover, & > .MuiInputBase-root:focus, & > .MuiInputBase-root:active': {
+        // border: '1px solid #5B6C84',
+        borderBottomColor: 0,
+        borderTopColor: 0,
+        borderLeftColor: 0,
+        borderRightColor: 0,
+        '-webkit-appearance': 'none',
+        borderRadius: 6,
+        backgroundColor: 'white!important',
+        '& > .MuiInputAdornment-root > .MuiButtonBase-root': {
+          backgroundColor: '#5B6C84',
+          height: 38,
+          width: 38,
+          marginRight: -13,
+          borderBottomRightRadius: 5,
+          borderTopRightRadius: 5,
+        },
+        '& > .MuiInputAdornment-root > .MuiButtonBase-root > .MuiIconButton-label': {
+          color: 'white',
+        },
+        '& > .MuiInputBase-input': {
+          borderBottomColor: 0,
+          borderTopColor: 0,
+          borderLeftColor: 0,
+          borderRightColor: 0,
+        },
+      },
+    },
+  },
   appBarSearch: {
     display: 'inline-flex',
     '& > .MuiFormControl-root': {
       '& > .MuiInputBase-root': {
-        border: '1px solid white',
-        color: 'white',
+        border: '1px solid #5B6C84',
+        color: '#5B6C84',
         width: 340,
         display: 'inline-flex',
         margin: 'auto',
         marginRight: 10,
         '& > .MuiInputAdornment-root > .MuiButtonBase-root > .MuiIconButton-label': {
           color: 'white',
+        },
+        '& > .MuiInputAdornment-root > .MuiButtonBase-root': {
+          borderColor: 'white',
+        },
+        '& > .MuiInputBase-input': {
         },
       },
     },

@@ -2,10 +2,10 @@ import styled from 'styled-components';
 
 const BreadCrumbDivider = styled.div`
   font-family: 'Roboto-Regular', 'Roboto', sans-serif;
-  font-weight: 400;
+  font-weight: 700;
   font-style: normal;
-  font-size: 15px;
-  color: #7F7F7F;
+  font-size: 12px;
+  color: #A1ACBE;
   &:before {
     content: ' / ';
   }

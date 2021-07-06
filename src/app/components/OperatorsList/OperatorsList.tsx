@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
 import Link from '@material-ui/core/Link';
+import Typography from '@material-ui/core/Typography';
 import config from '~app/common/config';
 import ApiParams from '~lib/api/ApiParams';
 import SsvNetwork from '~lib/api/SsvNetwork';
@@ -66,7 +67,7 @@ const OperatorsList = () => {
           <BreadCrumb href={config.routes.OPERATORS.HOME}>operators</BreadCrumb>
         </BreadCrumbsContainer>
 
-        <h1>Operators</h1>
+        <Typography variant="h1">Operators</Typography>
 
         <DataTable
           headers={['Address', 'Name', 'Validators', 'Performance (24h)', 'Performance (All time)']}

@@ -8,6 +8,7 @@ import { useParams } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import config from '~app/common/config';
 import ApiParams from '~lib/api/ApiParams';
+import { infoIconStyle } from '~root/theme';
 import SsvNetwork from '~lib/api/SsvNetwork';
 import { useStyles } from '~app/components/Styles';
 import Layout from '~app/common/components/Layout';
@@ -15,16 +16,12 @@ import { longStringShorten } from '~lib/utils/strings';
 import InfoTooltip from '~app/common/components/InfoTooltip';
 import DataTable from '~app/common/components/DataTable/DataTable';
 import NotFoundScreen from '~app/common/components/NotFoundScreen';
+import { Heading, SubHeading } from '~app/common/components/Headings';
 import ContentContainer from '~app/common/components/ContentContainer';
 import EmptyPlaceholder from '~app/common/components/EmptyPlaceholder';
 import CopyToClipboardIcon from '~app/common/components/CopyToClipboardIcon';
 import BeaconchaLink from '~app/common/components/BeaconchaLink/BeaconchaLink';
 import { BreadCrumb, BreadCrumbDivider, BreadCrumbsContainer } from '~app/common/components/Breadcrumbs';
-
-const Heading = styled.h1`
-  margin-bottom: 0; 
-  text-transform: capitalize;
-`;
 
 const StatsBlock = styled.div<({ maxWidth?: number })>`
   max-width: ${({ maxWidth }) => `${maxWidth ?? 200}px`};
@@ -46,9 +43,7 @@ const Operator = () => {
   const [validatorsPagination, setValidatorsPagination] = useState(ApiParams.DEFAULT_PAGINATION);
   const defaultValidators: Record<string, any>[] | null = [];
   const [validators, setValidators] = useState(defaultValidators);
-
   const [notFound, setNotFound] = useState(false);
-  const nonLinkBreadCrumbStyle = { color: 'black', display: 'flex', alignItems: 'center', alignContent: 'center' };
 
   /**
    * Fetch one operator by it's address
@@ -122,7 +117,7 @@ const Operator = () => {
           <Grid container alignContent="center" alignItems="center">
             <Grid item xs={12} md={5}>
               <StatsBlock maxWidth={400} style={{ paddingRight: 15 }}>
-                <Heading>
+                <Heading variant="h1">
                   {operator.name ? (
                     <>
                       {operator.name} <CopyToClipboardIcon data={params.address} />
@@ -131,33 +126,33 @@ const Operator = () => {
                     <Skeleton />
                   )}
                 </Heading>
-                <BreadCrumb style={nonLinkBreadCrumbStyle} className={classes.Link}>
+                <SubHeading>
                   <Typography noWrap>
                     {params.address}
                   </Typography>
-                </BreadCrumb>
+                </SubHeading>
               </StatsBlock>
             </Grid>
             <Grid item xs={12} md={2}>
               <StatsBlock>
-                <Heading>{operator.validatorsCount ?? <Skeleton />}</Heading>
-                <BreadCrumb style={nonLinkBreadCrumbStyle} className={classes.Link}>Validators</BreadCrumb>
+                <Heading variant="h1">{operator.validatorsCount ?? <Skeleton />}</Heading>
+                <SubHeading>Validators</SubHeading>
               </StatsBlock>
             </Grid>
             <Grid item xs={12} md={2}>
               <StatsBlock>
-                <Heading>{operator.performance?.all >= 0 ? `${operator.performance?.all}%` : <Skeleton />}</Heading>
-                <BreadCrumb style={nonLinkBreadCrumbStyle} className={classes.Link}>
-                  Performance <InfoTooltip message="Performance description" />
-                </BreadCrumb>
+                <Heading variant="h1">{operator.performance?.all >= 0 ? `${parseFloat(String(operator.performance?.all || 0)).toFixed(2)}%` : <Skeleton />}</Heading>
+                <SubHeading>
+                  Performance <InfoTooltip message="Performance description" style={infoIconStyle} />
+                </SubHeading>
               </StatsBlock>
             </Grid>
             <Grid item xs={12} md={3}>
               <StatsBlock>
-                <Heading>{operator.status ? operator.status : <Skeleton />}</Heading>
-                <BreadCrumb style={nonLinkBreadCrumbStyle} className={classes.Link}>
-                  Status <InfoTooltip message="Status description" />
-                </BreadCrumb>
+                <Heading variant="h1">{operator.status ? operator.status : <Skeleton />}</Heading>
+                <SubHeading>
+                  Status <InfoTooltip message="Status description" style={infoIconStyle} />
+                </SubHeading>
               </StatsBlock>
             </Grid>
           </Grid>

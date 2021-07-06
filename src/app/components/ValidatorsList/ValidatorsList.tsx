@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
 import Link from '@material-ui/core/Link';
+import Typography from '@material-ui/core/Typography';
 import config from '~app/common/config';
 import ApiParams from '~lib/api/ApiParams';
 import SsvNetwork from '~lib/api/SsvNetwork';
@@ -63,7 +64,7 @@ const ValidatorsList = () => {
           <BreadCrumb href={config.routes.VALIDATORS.HOME}>validators</BreadCrumb>
         </BreadCrumbsContainer>
 
-        <h1>Validators</h1>
+        <Typography variant="h1">Validators</Typography>
 
         <DataTable
           headers={['Public Key', 'Operators', '']}

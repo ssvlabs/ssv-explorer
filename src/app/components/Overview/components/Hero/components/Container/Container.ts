@@ -5,7 +5,7 @@ const Container = styled.div`
   ${({ theme }) => `
     height: 200px;
     min-height: 200px;
-    background-color: ${theme.palette.background.paper};
+    background-color: rgba(201, 254, 244, 0.3);
     border: 0;
     border-bottom: 1px solid ${theme.palette.divider};
     width: 100%;

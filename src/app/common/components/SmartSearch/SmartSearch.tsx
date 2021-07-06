@@ -30,26 +30,26 @@ const SmartSearch = (props: SmartSearchProps) => {
 
   const fetch = React.useMemo(
     () => throttle((request: { input: string }, callback: any) => {
-        setLoading(true);
-        SsvNetwork.getInstance().search(request.input).then((results: any) => {
-          const convolutedResults: any[] = (results.data?.validators || []).map((validator: any) => {
-            return {
-              type: 'Validators',
-              publicKey: validator.public_key,
-            };
-          });
-          (results.data?.operators || []).map((operator: any) => {
-            const op = {
-              type: 'Operators',
-              name: operator.name,
-              address: operator.address,
-            };
-            convolutedResults.push(op);
-            return op;
-          });
-          callback(convolutedResults);
+      setLoading(true);
+      SsvNetwork.getInstance().search(request.input).then((results: any) => {
+        const convolutedResults: any[] = (results.data?.validators || []).map((validator: any) => {
+          return {
+            type: 'Validators',
+            publicKey: validator.public_key,
+          };
         });
-      }, 200),
+        (results.data?.operators || []).map((operator: any) => {
+          const op = {
+            type: 'Operators',
+            name: operator.name,
+            address: operator.address,
+          };
+          convolutedResults.push(op);
+          return op;
+        });
+        callback(convolutedResults);
+      });
+    }, 200),
     [],
   );
 
@@ -69,7 +69,7 @@ const SmartSearch = (props: SmartSearchProps) => {
 
   return (
     <Autocomplete
-      className={inAppBar ? classes.appBarSearch : ''}
+      className={`${classes.overviewSearch} ${(inAppBar ? classes.appBarSearch : '')}`}
       data-testid="smart-search-autocomplete"
       options={searchResults}
       groupBy={(option: any) => option.type}

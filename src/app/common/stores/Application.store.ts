@@ -1,5 +1,6 @@
 import { action, computed, observable } from 'mobx';
 import { createMuiTheme, Theme } from '@material-ui/core/styles';
+import { AppTheme } from '~root/theme';
 import BaseStore from '~app/common/stores/BaseStore';
 import NotificationsStore from '~app/common/stores/Notifications.store';
 
@@ -57,11 +58,7 @@ class ApplicationStore extends BaseStore {
   switchDarkMode(isDarkMode?: boolean) {
     this.darkMode = isDarkMode ?? !this.darkMode;
     this.localStorage.setItem('isDarkMode', this.darkMode ? '1' : '0');
-    this.theme = createMuiTheme({
-      palette: {
-        type: this.darkMode ? 'dark' : 'light',
-      },
-    });
+    this.theme = createMuiTheme(AppTheme({ isDarkMode: this.isDarkMode }));
   }
 
   @computed

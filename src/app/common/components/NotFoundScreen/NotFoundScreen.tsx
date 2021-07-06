@@ -1,6 +1,7 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
 import { useHistory, useParams } from 'react-router-dom';
 
 type NotFoundScreenProps = {
@@ -25,7 +26,7 @@ const NotFoundScreen = ({ notFound, children, query }: NotFoundScreenProps) => {
     return (
       <Grid container style={{ minHeight: 300, width: '100%' }}>
         <Grid item xs={12} md={12}>
-          <h1>No search results were found</h1>
+          <Typography variant="h1">No search results were found</Typography>
           <Grid container>
             We could not find what you were looking {queryParam ? `for "${queryParam}"` : ''}
           </Grid>
