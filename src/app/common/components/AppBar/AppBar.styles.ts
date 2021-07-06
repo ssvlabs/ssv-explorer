@@ -63,10 +63,19 @@ export const useStyles = makeStyles((theme) => ({
     },
     toolbarButtons: {
         float: 'right',
-        textAlign: 'right',
-        marginLeft: 'auto',
+        display: 'flex',
         marginRight: 0,
-        paddingRight: 0,
+        marginLeft: 'auto',
+        alignItems: 'center',
+        '& > .MuiButtonBase-root, & > .MuiTypography-root > .MuiButtonBase-root': {
+            width: '100%',
+            height: 40,
+            minWidth: 180,
+            marginRight: 10,
+        },
+        '& > .MuiTypography-root': {
+            marginRight: 10,
+        },
     },
     drawer: {
         '& > .MuiDrawer-paper': {

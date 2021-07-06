@@ -16,10 +16,11 @@ import SearchButton from '~app/common/components/SmartSearch/components/SearchBu
 
 type SmartSearchProps = {
   placeholder?: string;
+  inAppBar?: boolean;
 };
 
 const SmartSearch = (props: SmartSearchProps) => {
-  const { placeholder } = props;
+  const { placeholder, inAppBar } = props;
   const classes = useStyles();
   const [, setQuery] = useState('');
   const [loading, setLoading] = useState(false);
@@ -31,13 +32,13 @@ const SmartSearch = (props: SmartSearchProps) => {
     () => throttle((request: { input: string }, callback: any) => {
         setLoading(true);
         SsvNetwork.getInstance().search(request.input).then((results: any) => {
-          const convolutedResults: any[] = results.validators.map((validator: any) => {
+          const convolutedResults: any[] = (results.data?.validators || []).map((validator: any) => {
             return {
               type: 'Validators',
               publicKey: validator.public_key,
             };
           });
-          results.operators.map((operator: any) => {
+          (results.data?.operators || []).map((operator: any) => {
             const op = {
               type: 'Operators',
               name: operator.name,
@@ -68,6 +69,7 @@ const SmartSearch = (props: SmartSearchProps) => {
 
   return (
     <Autocomplete
+      className={inAppBar ? classes.appBarSearch : ''}
       data-testid="smart-search-autocomplete"
       options={searchResults}
       groupBy={(option: any) => option.type}

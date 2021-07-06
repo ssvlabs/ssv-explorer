@@ -16,6 +16,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import config from '~app/common/config';
 import ApiParams from '~lib/api/ApiParams';
 import { useStyles } from './AppBar.styles';
+import SmartSearch from '~app/common/components/SmartSearch';
 import { useStyles as useAppStyles } from '~app/components/Styles';
 import DarkModeSwitcher from '~app/common/components/DarkModeSwitcher';
 
@@ -66,7 +67,7 @@ const AppBarComponent = () => {
             </Link>
           </Typography>
 
-          <Box className={classes.toolbarLinks} component="div" display={{ xs: 'none', sm: 'none', md: 'block' }}>
+          <Box className={classes.toolbarLinks} component="div" display={{ xs: 'none', sm: 'none', md: 'none', lg: 'block' }}>
             <Link
               href={config.routes.HOME}
               className={`${classes.appBarLink} ${isRouteActive(config.routes.HOME, classes.appBarLinkActive, true)}`}
@@ -89,18 +90,22 @@ const AppBarComponent = () => {
             </Link>
           </Box>
 
-          <Box className={classes.toolbarButtons} component="div" display={{ xs: 'none', sm: 'none', md: 'block' }}>
-            <Link href={joinSsvLink} target="_blank">
-              <Button variant="outlined" className={`${classes.appBarButton} ${classes.appBarButtonWhite}`}>Join SSV Network</Button>
-            </Link>
-            {/* <Badge variant="dot" color="secondary" anchorOrigin={{ vertical: 'top', horizontal: 'left' }} className={classes.buttonBadge}> */}
-            <Button variant="outlined" className={`${classes.appBarButton} ${classes.appBarButtonWhite}`}>Prater Network</Button>
-            {/* </Badge> */}
+          <Box style={{ marginLeft: 'auto' }} component="div" display={{ xs: 'none', sm: 'none', md: 'none', lg: 'block' }}>
+            <div className={classes.toolbarButtons}>
+              {isOverviewPage() ? (
+                <Link href={joinSsvLink} target="_blank">
+                  <Button variant="outlined" className={`${classes.appBarButton} ${classes.appBarButtonWhite}`}>Join SSV Network</Button>
+                </Link>
+              ) : (
+                <SmartSearch inAppBar />
+              )}
+              <Button variant="outlined" className={`${classes.appBarButton} ${classes.appBarButtonWhite}`}>Prater Network</Button>
+              <DarkModeSwitcher style={{ marginLeft: 'auto', marginRight: 0, minWidth: 'auto', width: 40 }} />
+            </div>
           </Box>
 
-          <DarkModeSwitcher />
-
-          <Box className={classes.menuButton} component="div" display={{ xs: 'block', sm: 'block', md: 'none' }}>
+          <Box className={classes.menuButton} component="div" display={{ xs: 'block', sm: 'block', md: 'block', lg: 'none' }}>
+            <DarkModeSwitcher style={{ marginLeft: 'auto', marginRight: 0 }} />
             <IconButton edge="end" className={classes.menuButton} color="inherit" aria-label="menu" onClick={() => toggleDrawer(true)}>
               <MenuIcon />
             </IconButton>
@@ -148,18 +153,11 @@ const AppBarComponent = () => {
                     </DrawerButton>
                   )}
                   <DrawerButton>
-                    {/* <Badge */}
-                    {/*  variant="dot" */}
-                    {/*  color="secondary" */}
-                    {/*  anchorOrigin={{ vertical: 'top', horizontal: 'left' }} */}
-                    {/*  className={classes.buttonBadge} */}
-                    {/* > */}
                     <Link href="/">
                       <Button variant="outlined" className={classes.appBarButton} color="primary" style={{ width: '90%', margin: 'auto' }}>
                         Prater Network
                       </Button>
                     </Link>
-                    {/* </Badge> */}
                   </DrawerButton>
                 </DrawerButtonsContainers>
               </List>

@@ -125,6 +125,22 @@ export const useStyles = makeStyles((theme) => ({
     color: `${theme.palette.text.primary}!important`,
     borderColor: `${theme.palette.text.primary}!important`,
   },
+  appBarSearch: {
+    display: 'inline-flex',
+    '& > .MuiFormControl-root': {
+      '& > .MuiInputBase-root': {
+        border: '1px solid white',
+        color: 'white',
+        width: 340,
+        display: 'inline-flex',
+        margin: 'auto',
+        marginRight: 10,
+        '& > .MuiInputAdornment-root > .MuiButtonBase-root > .MuiIconButton-label': {
+          color: 'white',
+        },
+      },
+    },
+  },
 }));
 
 const size = {

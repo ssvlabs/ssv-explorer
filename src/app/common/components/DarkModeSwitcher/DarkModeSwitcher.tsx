@@ -11,12 +11,12 @@ const DarkModeButton = styled(IconButton)`
   cursor: pointer;
 `;
 
-const DarkModeSwitcher = () => {
+const DarkModeSwitcher = ({ style }: { style?: any }) => {
   const stores = useStores();
   const applicationStore: ApplicationStore = stores.Application;
 
   return (
-    <DarkModeButton onClick={() => applicationStore.switchDarkMode()} aria-label="Switch Dark/Light Mode">
+    <DarkModeButton onClick={() => applicationStore.switchDarkMode()} aria-label="Switch Dark/Light Mode" style={style ?? {}}>
       {!applicationStore.isDarkMode && <Brightness4Icon style={{ color: 'white' }} /> }
       {applicationStore.isDarkMode && <Brightness7Icon style={{ color: 'white' }} /> }
     </DarkModeButton>
