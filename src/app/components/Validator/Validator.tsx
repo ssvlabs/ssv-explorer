@@ -167,23 +167,6 @@ const Validator = () =>
     });
     return (
       <>
-        {failedOperators.length ? (
-          <FailureChip
-            className={chipClasses.chip}
-            label={failedOperators.map((o, oi) => (
-              <ChipLink
-                key={`operators-failed-${oi}`}
-                className={classes.Link}
-                href={`${config.routes.OPERATORS.HOME}/${o.address}`}
-                style={{ maxWidth: 100 }}
-              >
-                <Typography noWrap style={{ fontSize: 14 }}>{o.name}</Typography>
-              </ChipLink>
-            ))}
-            onDelete={() => {}}
-            deleteIcon={<CheckCircleIcon />}
-          />
-        ) : ''}
         {successOperators.length ? (
           <SuccessChip
             className={chipClasses.chip}
@@ -198,6 +181,23 @@ const Validator = () =>
               </ChipLink>
               ))
             }
+            onDelete={() => {}}
+            deleteIcon={<CheckCircleIcon />}
+          />
+        ) : ''}
+        {failedOperators.length ? (
+          <FailureChip
+            className={chipClasses.chip}
+            label={failedOperators.map((o, oi) => (
+              <ChipLink
+                key={`operators-failed-${oi}`}
+                className={classes.Link}
+                href={`${config.routes.OPERATORS.HOME}/${o.address}`}
+                style={{ maxWidth: 100 }}
+              >
+                <Typography noWrap style={{ fontSize: 14 }}>{o.name}</Typography>
+              </ChipLink>
+            ))}
             onDelete={() => {}}
           />
         ) : ''}
