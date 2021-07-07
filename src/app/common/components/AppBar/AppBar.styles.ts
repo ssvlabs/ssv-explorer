@@ -1,4 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
+import { defaultFont } from '~root/theme';
 
 export const useStyles = makeStyles((theme) => ({
     root: {
@@ -6,6 +7,7 @@ export const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
         '& > .MuiPaper-root > .MuiToolbar-root': {
             paddingRight: 5,
+            backgroundColor: '#A1ACBE',
         },
     },
     menuButton: {
@@ -17,10 +19,15 @@ export const useStyles = makeStyles((theme) => ({
         flexDirection: 'row',
         alignItems: 'center',
         maxWidth: 200,
+        marginTop: -5,
     },
     appBarLink: {
-        fontSize: 16,
+        textTransform: 'uppercase',
+        fontStyle: 'normal',
+        fontWeight: 'bold',
+        fontSize: 12,
         margin: 'auto',
+        fontFamily: defaultFont,
         color: 'white',
         borderColor: 'white!important',
         marginRight: 10,

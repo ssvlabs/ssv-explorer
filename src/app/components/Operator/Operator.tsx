@@ -106,6 +106,8 @@ const Operator = () => {
     <Layout>
       <ContentContainer>
         <NotFoundScreen notFound={notFound}>
+          <EmptyPlaceholder height={10} />
+
           <BreadCrumbsContainer>
             <BreadCrumb href={config.routes.HOME}>overview</BreadCrumb>
             <BreadCrumbDivider />
@@ -114,13 +116,15 @@ const Operator = () => {
             <BreadCrumb href={`${config.routes.OPERATORS.HOME}/${params.address}`}>{longStringShorten(params.address, 4)}</BreadCrumb>
           </BreadCrumbsContainer>
 
+          <EmptyPlaceholder height={20} />
+
           <Grid container alignContent="center" alignItems="center">
             <Grid item xs={12} md={5}>
               <StatsBlock maxWidth={400} style={{ paddingRight: 15 }}>
                 <Heading variant="h1">
                   {operator.name ? (
                     <>
-                      {operator.name} <CopyToClipboardIcon data={params.address} />
+                      {operator.name} <CopyToClipboardIcon data={params.address} style={{ marginLeft: 5, width: 22, height: 22 }} />
                     </>
                   ) : (
                     <Skeleton />
@@ -157,7 +161,7 @@ const Operator = () => {
             </Grid>
           </Grid>
 
-          <EmptyPlaceholder height={30} />
+          <EmptyPlaceholder height={40} />
 
           <DataTable
             noDataMessage={'No validators'}
@@ -170,10 +174,10 @@ const Operator = () => {
                     {validator.publicKey}
                   </Typography>
                 </Link>,
-                <>
+                <div style={{ marginTop: 3 }}>
                   <CopyToClipboardIcon data={validator.publicKey} />
                   <BeaconchaLink height={24} width={24} address={`validator/${validator.publicKey}`} />
-                </>,
+                </div>,
               ];
             })}
             totalCount={validatorsPagination.total}

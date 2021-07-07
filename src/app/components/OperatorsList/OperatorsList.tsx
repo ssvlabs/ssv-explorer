@@ -9,6 +9,7 @@ import Layout from '~app/common/components/Layout';
 import { useStyles } from '~app/components/Styles';
 import { longStringShorten } from '~lib/utils/strings';
 import DataTable from '~app/common/components/DataTable';
+import EmptyPlaceholder from '~app/common/components/EmptyPlaceholder';
 import ContentContainer from '~app/common/components/ContentContainer';
 import { BreadCrumb, BreadCrumbDivider, BreadCrumbsContainer } from '~app/common/components/Breadcrumbs';
 
@@ -61,6 +62,8 @@ const OperatorsList = () => {
   return (
     <Layout>
       <ContentContainer>
+        <EmptyPlaceholder height={10} />
+
         <BreadCrumbsContainer>
           <BreadCrumb href={config.routes.HOME}>overview</BreadCrumb>
           <BreadCrumbDivider />

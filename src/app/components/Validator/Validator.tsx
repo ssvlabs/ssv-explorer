@@ -217,6 +217,8 @@ const Validator = () =>
   return (
     <Layout>
       <ContentContainer>
+        <EmptyPlaceholder height={10} />
+
         <NotFoundScreen notFound={notFound}>
           <BreadCrumbsContainer>
             <BreadCrumb href={config.routes.HOME}>overview</BreadCrumb>
@@ -228,6 +230,8 @@ const Validator = () =>
             </BreadCrumb>
           </BreadCrumbsContainer>
 
+          <EmptyPlaceholder height={20} />
+
           <Grid container alignContent="center" alignItems="center">
             <Grid item xs={12} md={4}>
               <StatsBlock maxWidth={400} style={{ paddingRight: 15 }}>
@@ -235,8 +239,8 @@ const Validator = () =>
                   Validator
                   {!notFound && (
                     <>
-                      <CopyToClipboardIcon data={params.address} style={{ marginLeft: 15 }} />
-                      <BeaconchaLink height={24} width={24} address={`validator/${params.address}`} />
+                      <CopyToClipboardIcon data={params.address} style={{ marginLeft: 15, width: 22, height: 22 }} />
+                      <BeaconchaLink height={22} width={22} address={`validator/${params.address}`} />
                     </>
                   )}
                 </Heading>
@@ -267,7 +271,7 @@ const Validator = () =>
             )}
           </Grid>
 
-          <EmptyPlaceholder height={30} />
+          <EmptyPlaceholder height={40} />
 
           <Grid container>
             <Grid item xs={12} md={3} style={{ marginTop: 1, marginBottom: 30 }}>

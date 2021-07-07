@@ -14,6 +14,7 @@ import IconButton from '@material-ui/core/IconButton';
 import { Box, Divider, Link } from '@material-ui/core';
 import ListItemText from '@material-ui/core/ListItemText';
 import config from '~app/common/config';
+import { defaultFont } from '~root/theme';
 import ApiParams from '~lib/api/ApiParams';
 import { useStyles } from './AppBar.styles';
 import SmartSearch from '~app/common/components/SmartSearch';
@@ -62,8 +63,10 @@ const AppBarComponent = () => {
       <AppBar position="fixed">
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
-            <Link href={config.routes.HOME} style={{ color: 'white' }}>
-              <b>ssv.network</b> explorer
+            <Link href={config.routes.HOME} style={{ color: 'white', textDecoration: 'none' }}>
+              <span style={{ fontFamily: `"Fira Code", ${defaultFont}` }}>
+                ssv.network <b style={{ color: '#DCE0E8' }}>explorer</b>
+              </span>
             </Link>
           </Typography>
 

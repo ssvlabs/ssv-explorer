@@ -13,6 +13,7 @@ import BeaconchaLink from '~app/common/components/BeaconchaLink';
 import ContentContainer from '~app/common/components/ContentContainer';
 import CopyToClipboardIcon from '~app/common/components/CopyToClipboardIcon';
 import { BreadCrumb, BreadCrumbDivider, BreadCrumbsContainer } from '~app/common/components/Breadcrumbs';
+import EmptyPlaceholder from '~app/common/components/EmptyPlaceholder';
 
 const ValidatorsList = () => {
   const classes = useStyles();
@@ -58,6 +59,7 @@ const ValidatorsList = () => {
   return (
     <Layout>
       <ContentContainer>
+        <EmptyPlaceholder height={10} />
         <BreadCrumbsContainer>
           <BreadCrumb href={config.routes.HOME}>overview</BreadCrumb>
           <BreadCrumbDivider />
@@ -84,10 +86,10 @@ const ValidatorsList = () => {
                   </span>
                 );
               }),
-              <>
+              <div style={{ marginTop: 3 }}>
                 <CopyToClipboardIcon data={validator.publicKey} />
                 <BeaconchaLink height={24} width={24} address={`validator/${validator.publicKey}`} />
-              </>,
+              </div>,
             ];
           })}
           totalCount={pagination.total}

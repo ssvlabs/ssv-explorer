@@ -1,17 +1,15 @@
 import React from 'react';
-import styled from 'styled-components';
-import FileCopyOutlinedIcon from '@material-ui/icons/FileCopyOutlined';
+import CopyIcon from '~app/common/components/CopyIcon';
 import CopyToClipboard from '~app/common/components/CopyToClipboard';
-
-const CopyIcon = styled(FileCopyOutlinedIcon)`
-  cursor: pointer;
-`;
 
 const CopyToClipboardIcon = ({ data, style }: { data: string, style?: any }) => {
   return (
     <CopyToClipboard>
       {({ copy }) => (
-        <CopyIcon onClick={() => copy(data)} style={style || {}} />
+        // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
+        <span onClick={() => copy(data)}>
+          <CopyIcon style={style || {}} />
+        </span>
       )}
     </CopyToClipboard>
   );
