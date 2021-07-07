@@ -62,6 +62,7 @@ export const useStyles = makeStyles((theme) => ({
     },
     toolbarLinks: {
         textAlign: 'left',
+        marginLeft: 50,
         '& > a, & > a:hover, & > a:active, & > a:focus': {
             marginLeft: 30,
             float: 'left',
@@ -82,6 +83,9 @@ export const useStyles = makeStyles((theme) => ({
         },
         '& > .MuiTypography-root': {
             marginRight: 10,
+        },
+        '& > a, & > a:hover, & > a:active, & > a:focus': {
+            textDecoration: 'none',
         },
     },
     drawer: {

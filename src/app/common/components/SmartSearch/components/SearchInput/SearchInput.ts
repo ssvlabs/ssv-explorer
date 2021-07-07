@@ -12,7 +12,7 @@ const SearchInput = styled(TextField)`
   padding-right: 5px!important;
   
   @media (${mediaQueryDevices.tablet}) {
-    width: 500px;
+    width: 400px;
   }
   
   & > .MuiInputBase-root {

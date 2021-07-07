@@ -37,8 +37,8 @@ const useChipStyles = makeStyles(() => ({
   },
 }));
 
-const StatsBlock = styled.div<({ maxWidth?: number })>`
-  max-width: ${({ maxWidth }) => `${maxWidth ?? 200}px`};
+const StatsBlock = styled.div<({ maxWidth?: any })>`
+  max-width: ${({ maxWidth }) => `${Number.isNaN(maxWidth ?? 200) ? (maxWidth) : `${(maxWidth ?? 200)}px`}`};
 `;
 
 const PerformanceSwitcher = styled.span<({ selected?: boolean })>`
@@ -233,8 +233,8 @@ const Validator = () =>
           <EmptyPlaceholder height={20} />
 
           <Grid container alignContent="center" alignItems="center">
-            <Grid item xs={12} md={4}>
-              <StatsBlock maxWidth={400} style={{ paddingRight: 15 }}>
+            <Grid item xs={12} md={8}>
+              <StatsBlock maxWidth="100%" style={{ paddingRight: 15 }}>
                 <Heading variant="h1">
                   Validator
                   {!notFound && (
@@ -244,7 +244,7 @@ const Validator = () =>
                     </>
                   )}
                 </Heading>
-                <SubHeading>
+                <SubHeading style={{ width: '100%' }}>
                   <Typography noWrap>
                     {params.address}
                   </Typography>
@@ -253,13 +253,13 @@ const Validator = () =>
             </Grid>
             {!notFound && (
               <>
-                <Grid item xs={12} md={4}>
+                <Grid item xs={12} md={2}>
                   <StatsBlock>
                     <Heading variant="h1">{validator?.operators?.length ?? <Skeleton />}</Heading>
                     <SubHeading>Operators</SubHeading>
                   </StatsBlock>
                 </Grid>
-                <Grid item xs={12} md={4}>
+                <Grid item xs={12} md={2}>
                   <StatsBlock>
                     <Heading variant="h1">{validator?.status ? validator.status : <Skeleton />}</Heading>
                     <SubHeading>
