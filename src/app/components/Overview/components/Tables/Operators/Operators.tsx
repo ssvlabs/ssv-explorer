@@ -76,7 +76,7 @@ const Operators = () => {
             </StyledRow>
           ))}
 
-          {loadingOperators && (
+          {loadingOperators ? (
             <StyledRow key="operators-placeholder">
               <StyledCell style={overviewTableCellStyle}>
                 <Skeleton />
@@ -88,7 +88,7 @@ const Operators = () => {
                 <Skeleton />
               </StyledCell>
             </StyledRow>
-          )}
+          ) : ''}
 
           {operators.length ? (
             <TableRow>

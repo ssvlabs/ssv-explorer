@@ -2,6 +2,7 @@ import React from 'react';
 import { observer } from 'mobx-react';
 import { Skeleton } from '@material-ui/lab';
 import Table from '@material-ui/core/Table';
+import { TableCell } from '@material-ui/core';
 import TableRow from '@material-ui/core/TableRow';
 import TableHead from '@material-ui/core/TableHead';
 import TableBody from '@material-ui/core/TableBody';
@@ -12,7 +13,7 @@ import { useStyles } from '~app/components/Styles';
 import StyledRow from '~app/common/components/Table/StyledRow';
 import StyledCell from '~app/common/components/Table/StyledCell';
 import PaginationActions from '~app/common/components/DataTable/components/PaginationActions';
-import { TableCell } from '@material-ui/core';
+import { overviewTableHeadersStyle } from '~app/components/Overview/components/Tables/Operators/Operators';
 
 type HeaderPosition = 'inherit' | 'left' | 'center' | 'right' | 'justify';
 
@@ -80,7 +81,7 @@ const DataTable = (props: DataTableProps) => {
     <div className={classes.tableWithBorder}>
       <TableContainer>
         {title ? <h3 style={{ paddingLeft: 15 }}>{title}</h3> : ''}
-        {perPage && perPage > defaultPerPageOptions[0] && data?.length && (
+        {perPage && perPage > defaultPerPageOptions[0] && data?.length ? (
           <TablePagination
             ActionsComponent={PaginationActions}
             colSpan={headers.length}
@@ -92,14 +93,14 @@ const DataTable = (props: DataTableProps) => {
             onChangePage={(event: any, changedPage: number) => onChangePage ? onChangePage(changedPage + 1) : null}
             onChangeRowsPerPage={(event: any) => onChangeRowsPerPage ? onChangeRowsPerPage(event.target.value) : null}
           />
-        )}
+        ) : ''}
 
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
               {headers.map((header: string, headerIndex: number) => (
                 <TableCell
-                  style={{ backgroundColor: 'white' }}
+                  style={overviewTableHeadersStyle}
                   key={header}
                   align={headersPositions?.length ? headersPositions[headerIndex] : undefined}
                 >
