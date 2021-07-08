@@ -99,7 +99,7 @@ const DataTable = (props: DataTableProps) => {
             <TableRow>
               {headers.map((header: string, headerIndex: number) => (
                 <TableCell
-                  style={{ backgroundColor: 'transparent' }}
+                  style={{ backgroundColor: 'white' }}
                   key={header}
                   align={headersPositions?.length ? headersPositions[headerIndex] : undefined}
                 >

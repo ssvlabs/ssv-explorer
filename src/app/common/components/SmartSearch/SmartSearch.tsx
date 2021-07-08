@@ -34,13 +34,13 @@ const SmartSearch = (props: SmartSearchProps) => {
       SsvNetwork.getInstance().search(request.input).then((results: any) => {
         const convolutedResults: any[] = (results.data?.validators || []).map((validator: any) => {
           return {
-            type: 'Validators',
+            type: 'VALIDATORS',
             publicKey: validator.public_key,
           };
         });
         (results.data?.operators || []).map((operator: any) => {
           const op = {
-            type: 'Operators',
+            type: 'OPERATORS',
             name: operator.name,
             address: operator.address,
           };
@@ -87,10 +87,10 @@ const SmartSearch = (props: SmartSearchProps) => {
         if (newValue) {
           let url = '';
           switch (newValue.type) {
-            case 'Operators':
+            case 'OPERATORS':
               url = `${config.routes.OPERATORS.HOME}/${newValue.address}`;
               break;
-            case 'Validators':
+            case 'VALIDATORS':
               url = `${config.routes.VALIDATORS.HOME}/${newValue.publicKey}`;
               break;
           }
@@ -104,7 +104,7 @@ const SmartSearch = (props: SmartSearchProps) => {
       value=""
       renderOption={(option: any) => (
         <>
-          {option.type === 'Validators' && (
+          {option.type === 'VALIDATORS' && (
             <Link
               href={`${config.routes.VALIDATORS.HOME}/${option.publicKey}`}
               className={classes.Link}
@@ -115,7 +115,7 @@ const SmartSearch = (props: SmartSearchProps) => {
               </Typography>
             </Link>
           )}
-          {option.type === 'Operators' && (
+          {option.type === 'OPERATORS' && (
             <Link
               href={`${config.routes.OPERATORS.HOME}/${option.address}`}
               className={classes.Link}
