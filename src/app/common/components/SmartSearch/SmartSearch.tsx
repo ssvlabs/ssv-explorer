@@ -123,7 +123,7 @@ const SmartSearch = (props: SmartSearchProps) => {
             >
               <Grid container style={{ width: '100%' }}>
                 <Grid item xs={5} md={5}>
-                  <Typography noWrap style={{ width: '100%' }} component="div">
+                  <Typography noWrap style={{ width: '100%', paddingRight: 10 }} component="div">
                     {option.name}
                   </Typography>
                 </Grid>

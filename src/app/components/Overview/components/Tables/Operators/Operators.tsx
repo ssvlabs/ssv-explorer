@@ -88,7 +88,7 @@ const Operators = () => {
                 <Skeleton />
               </StyledCell>
             </StyledRow>
-          ) : ''}
+          ) : <></>}
 
           {operators.length ? (
             <TableRow>
