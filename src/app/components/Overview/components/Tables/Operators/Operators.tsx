@@ -18,6 +18,9 @@ import StyledRow from '~app/common/components/Table/StyledRow';
 import StyledCell from '~app/common/components/Table/StyledCell';
 import CenteredCell from '~app/common/components/Table/CenteredCell';
 
+export const overviewTableHeadersStyle: any = { textTransform: 'uppercase', fontSize: 12, fontWeight: 'bold' };
+export const overviewTableCellStyle: any = { fontSize: 14, height: 62 };
+
 const Operators = () => {
   const classes = useStyles();
   const [operators, setOperators] = useState([]);
@@ -48,26 +51,26 @@ const Operators = () => {
       <Table aria-label="Operators">
         <TableHead>
           <TableRow>
-            <StyledCell>Address</StyledCell>
-            <StyledCell>Name</StyledCell>
-            <StyledCell>Validators</StyledCell>
+            <StyledCell style={overviewTableHeadersStyle}>Address</StyledCell>
+            <StyledCell style={overviewTableHeadersStyle}>Name</StyledCell>
+            <StyledCell style={overviewTableHeadersStyle}>Validators</StyledCell>
           </TableRow>
         </TableHead>
 
         <TableBody>
           {operators.map((row: any, rowIndex) => (
             <StyledRow key={rowIndex}>
-              <StyledCell>
+              <StyledCell style={overviewTableCellStyle}>
                 <Link href={`/operators/${row.address}`} className={classes.Link}>
                   {longStringShorten(row.address)}
                 </Link>
               </StyledCell>
-              <StyledCell>
+              <StyledCell style={overviewTableCellStyle}>
                 <Link href={`/operators/${row.address}`} className={classes.Link}>
                   {row.name}
                 </Link>
               </StyledCell>
-              <StyledCell>
+              <StyledCell style={overviewTableCellStyle}>
                 {row.validatorsCount}
               </StyledCell>
             </StyledRow>
@@ -75,13 +78,13 @@ const Operators = () => {
 
           {loadingOperators && (
             <StyledRow key="operators-placeholder">
-              <StyledCell>
+              <StyledCell style={overviewTableCellStyle}>
                 <Skeleton />
               </StyledCell>
-              <StyledCell>
+              <StyledCell style={overviewTableCellStyle}>
                 <Skeleton />
               </StyledCell>
-              <StyledCell>
+              <StyledCell style={overviewTableCellStyle}>
                 <Skeleton />
               </StyledCell>
             </StyledRow>
@@ -89,7 +92,7 @@ const Operators = () => {
 
           {operators.length ? (
             <TableRow>
-              <CenteredCell colSpan={3}>
+              <CenteredCell colSpan={3} style={overviewTableCellStyle}>
                 <Link href={config.routes.OPERATORS.HOME} className={classes.Link}>
                   Load more
                 </Link>

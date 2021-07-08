@@ -1,20 +1,25 @@
 import styled from 'styled-components';
 import { mediaQueryDevices } from '~app/components/Styles';
+import BaseStore from '~app/common/stores/BaseStore';
+import ApplicationStore from '~app/common/stores/Application.store';
+
+const applicationStore: ApplicationStore = BaseStore.getInstance().getStore('Application');
 
 const Block = styled.div`
   ${({ theme }) => `
-    height: 98px;
-    min-height: 98px;
+    height: 108px;
+    min-height: 108px;
     width: 100%;
-    background-color: ${theme.palette.background.default};
+    background-color: ${applicationStore.isDarkMode ? theme.palette.background.default : '#fff'};
     border-radius: 5px;
-    border: 1px solid ${theme.palette.divider};
     margin: auto;
     margin-top: 15px;
     display: flex;
     flex-direction: column;
     align-items: center;
     align-content: center;
+    box-shadow: 0px 5px 13px rgba(91, 108, 132, 0.16);
+    border-radius: 6px;
   
     @media (${mediaQueryDevices.tablet}) {
       margin-right: 30px;

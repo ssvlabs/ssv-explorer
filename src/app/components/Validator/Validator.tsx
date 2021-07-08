@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
 import { Skeleton } from '@material-ui/lab';
-import { Divider } from '@material-ui/core';
 import { useParams } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
@@ -46,7 +45,7 @@ const PerformanceSwitcher = styled.span<({ selected?: boolean })>`
   float: right;
   margin-left: 10px;
   font-size: 15px;
-  font-weight: ${({ selected }) => selected ? 700 : 300};
+  font-weight: ${({ selected }) => selected ? 900 : 600};
   user-select: none;
   cursor: pointer;
 `;
@@ -84,10 +83,10 @@ const Validator = () =>
     textAlign: 'left',
     display: 'flex',
     flexDirection: 'column',
-    paddingTop: 3,
-    paddingBottom: 3,
+    paddingTop: 10,
+    paddingBottom: 10,
   };
-  const performanceRowRightStyle: any = { ...performanceRowStyle, textAlign: 'right', marginTop: 10 };
+  const performanceRowRightStyle: any = { ...performanceRowStyle, textAlign: 'right', marginTop: 13 };
 
   /**
    * Fetch one operator by it's address
@@ -263,7 +262,7 @@ const Validator = () =>
                   <StatsBlock>
                     <Heading variant="h1">{validator?.status ? validator.status : <Skeleton />}</Heading>
                     <SubHeading>
-                      Status <InfoTooltip style={infoIconStyle} message="Refers to the validator’s status in the SSV network (not beacon chain), and reflects whether its operators are consistently performing their duties (according to last 2 epochs)." />
+                      Status <InfoTooltip style={{ ...infoIconStyle, marginTop: 2 }} message="Refers to the validator’s status in the SSV network (not beacon chain), and reflects whether its operators are consistently performing their duties (according to last 2 epochs)." />
                     </SubHeading>
                   </StatsBlock>
                 </Grid>
@@ -280,7 +279,7 @@ const Validator = () =>
                   <Grid item xs={6} md={6}>
                     <h3 style={{ marginTop: 0 }}>Operators</h3>
                   </Grid>
-                  <Grid item xs={6} md={6}>
+                  <Grid item xs={6} md={6} style={{ marginTop: 3 }}>
                     <PerformanceSwitcher selected={performance === '24h'} onClick={() => setPerformance('24h')}>
                       24h
                     </PerformanceSwitcher>
@@ -288,7 +287,7 @@ const Validator = () =>
                       All Time
                     </PerformanceSwitcher>
                   </Grid>
-                  <Grid container style={{ marginBottom: 15, color: '#7F7F7F' }}>
+                  <Grid container style={{ marginBottom: 15, color: '#A1ACBE', textTransform: 'uppercase', fontSize: 12, fontWeight: 600 }}>
                     <Grid item xs={6} md={6}>
                       Name
                     </Grid>
@@ -303,21 +302,23 @@ const Validator = () =>
                       </Grid>
                     )}
                     {getSortedOperators().map((operator: any, operatorIndex: number) => (
-                      <span key={`operator-${operatorIndex}`} style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
+                      <span key={`operator-${operatorIndex}`} style={{ fontWeight: 500, fontSize: 14, display: 'flex', flexDirection: 'column', width: '100%' }}>
                         <span style={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
                           <Grid item xs={6} md={6} style={performanceRowStyle}>
                             <Typography noWrap>
                               <Link
                                 href={`${config.routes.OPERATORS.HOME}/${operator.address}`}
                                 className={classes.Link}
+                                style={{ fontWeight: 500, fontSize: 14 }}
                               >
                                 {operator.name}
                               </Link>
                             </Typography>
-                            <Typography noWrap style={{ fontSize: 12 }}>
+                            <Typography noWrap>
                               <Link
                                 href={`${config.routes.OPERATORS.HOME}/${operator.address}`}
                                 className={classes.Link}
+                                style={{ fontWeight: 500, fontSize: 14 }}
                               >
                                 {longStringShorten(operator.address)}
                               </Link>
@@ -327,7 +328,6 @@ const Validator = () =>
                             {parseFloat(String(operator.performance)).toFixed(2)}%
                           </Grid>
                         </span>
-                        {operatorIndex + 1 < getSortedOperators().length ? <Divider /> : ''}
                       </span>
                     ))}
                   </Grid>

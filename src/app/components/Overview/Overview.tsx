@@ -13,6 +13,9 @@ import { OperatorsTable, ValidatorsTable } from '~app/components/Overview/compon
 
 const Overview = () => {
   const classes = useStyles();
+  const tableContainerStyle = {
+    border: '1px solid #5B6C84',
+  };
 
   return (
     <Layout>
@@ -21,13 +24,13 @@ const Overview = () => {
         <Stats />
         <Container container spacing={5}>
           <Column item xs={12} md={6}>
-            <Paper>
+            <Paper style={tableContainerStyle}>
               <Header>Operators</Header>
               <OperatorsTable />
             </Paper>
           </Column>
           <Column item xs={12} md={6}>
-            <Paper>
+            <Paper style={tableContainerStyle}>
               <Header>Validators</Header>
               <ValidatorsTable />
             </Paper>

@@ -8,6 +8,7 @@ const BlockContent = styled.div`
   margin: auto;
   margin-top: 0;
   font-size: 14px;
+  color: #5B6C84;
 `;
 
 export default BlockContent;

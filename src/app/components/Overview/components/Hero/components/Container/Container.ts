@@ -2,12 +2,11 @@ import styled from 'styled-components';
 import { mediaQueryDevices } from '~app/components/Styles';
 
 const Container = styled.div`
-  ${({ theme }) => `
+  ${() => `
     height: 200px;
     min-height: 200px;
     background-color: rgba(201, 254, 244, 0.3);
     border: 0;
-    border-bottom: 1px solid ${theme.palette.divider};
     width: 100%;
     text-align: center;
     display: flex;

@@ -18,6 +18,10 @@ import OverviewStore from '~app/common/stores/Overview.store';
 import StyledRow from '~app/common/components/Table/StyledRow';
 import StyledCell from '~app/common/components/Table/StyledCell';
 import CenteredCell from '~app/common/components/Table/CenteredCell';
+import {
+  overviewTableCellStyle,
+  overviewTableHeadersStyle,
+} from '~app/components/Overview/components/Tables/Operators/Operators';
 
 const Validators = () => {
   const classes = useStyles();
@@ -50,19 +54,19 @@ const Validators = () => {
       <Table aria-label="Operators">
         <TableHead>
           <TableRow>
-            <StyledCell>Public Key</StyledCell>
-            <StyledCell>Operators</StyledCell>
+            <StyledCell style={overviewTableHeadersStyle}>Public Key</StyledCell>
+            <StyledCell style={overviewTableHeadersStyle}>Operators</StyledCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {validators.map((row: any, rowIndex: number) => (
             <StyledRow key={rowIndex}>
-              <StyledCell>
+              <StyledCell style={overviewTableCellStyle}>
                 <Link href={`/validators/${row.publicKey}`} className={classes.Link}>
                   {longStringShorten(row.publicKey)}
                 </Link>
               </StyledCell>
-              <StyledCell>
+              <StyledCell style={overviewTableCellStyle}>
                 <>
                   {row.operators.slice(0, 3).map((operator: any) => (
                     <span key={`operator-link-${operator.address}`}>
@@ -90,10 +94,10 @@ const Validators = () => {
 
           {loadingValidators && (
             <StyledRow key="validators-placeholder">
-              <StyledCell>
+              <StyledCell style={overviewTableCellStyle}>
                 <Skeleton />
               </StyledCell>
-              <StyledCell>
+              <StyledCell style={overviewTableCellStyle}>
                 <Skeleton />
               </StyledCell>
             </StyledRow>
@@ -101,7 +105,7 @@ const Validators = () => {
 
           {validators.length ? (
             <TableRow>
-              <CenteredCell colSpan={2}>
+              <CenteredCell colSpan={2} style={overviewTableCellStyle}>
                 <Link href={config.routes.VALIDATORS.HOME} className={classes.Link}>
                   Load more
                 </Link>

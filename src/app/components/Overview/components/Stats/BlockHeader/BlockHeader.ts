@@ -6,9 +6,10 @@ const BlockHeader = styled.div`
   padding-right: 10px;
   width: 100%;
   margin: auto;
-  font-weight: bold;
-  font-size: 25px;
+  font-weight: 900;
+  font-size: 28px;
   margin-bottom: 0;
+  color: #20EEC8;
 `;
 
 export default BlockHeader;

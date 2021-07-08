@@ -2,6 +2,7 @@ import React from 'react';
 import { observer } from 'mobx-react';
 import { Skeleton } from '@material-ui/lab';
 import Table from '@material-ui/core/Table';
+import TableRow from '@material-ui/core/TableRow';
 import TableHead from '@material-ui/core/TableHead';
 import TableBody from '@material-ui/core/TableBody';
 import TableContainer from '@material-ui/core/TableContainer';
@@ -11,6 +12,7 @@ import { useStyles } from '~app/components/Styles';
 import StyledRow from '~app/common/components/Table/StyledRow';
 import StyledCell from '~app/common/components/Table/StyledCell';
 import PaginationActions from '~app/common/components/DataTable/components/PaginationActions';
+import { TableCell } from '@material-ui/core';
 
 type HeaderPosition = 'inherit' | 'left' | 'center' | 'right' | 'justify';
 
@@ -94,16 +96,17 @@ const DataTable = (props: DataTableProps) => {
 
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
-            <StyledRow>
+            <TableRow>
               {headers.map((header: string, headerIndex: number) => (
-                <StyledCell
+                <TableCell
+                  style={{ backgroundColor: 'transparent' }}
                   key={header}
                   align={headersPositions?.length ? headersPositions[headerIndex] : undefined}
                 >
                   {header}
-                </StyledCell>
+                </TableCell>
                 ))}
-            </StyledRow>
+            </TableRow>
           </TableHead>
           <TableBody>
             {dataRows()}

@@ -1,4 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
+import { defaultFont } from '~root/theme';
 
 export const useStyles = makeStyles((theme) => ({
   mainContainer: {
@@ -119,6 +120,23 @@ export const useStyles = makeStyles((theme) => ({
   },
   tableWithBorder: {
     border: `1px solid ${theme.palette.divider}`,
+    borderRadius: 6,
+    fontSize: 18,
+    '& h3': {
+      fontFamily: defaultFont,
+      color: theme.palette.divider,
+      fontWeight: 900,
+      fontSize: 18,
+    },
+    '& > .MuiTableContainer-root': {
+      borderRadius: 6,
+    },
+    '& .MuiTableCell-head': {
+      fontWeight: 'bold',
+      fontSize: 12,
+      textTransform: 'uppercase',
+      color: '#A1ACBE',
+    },
   },
   Link: {
     cursor: 'pointer',

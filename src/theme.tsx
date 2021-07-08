@@ -15,8 +15,11 @@ export const AppTheme = ({ isDarkMode }: ThemeParams): any => {
   return {
     palette: {
       type: isDarkMode ? 'dark' : 'light',
+      divider: '#5B6C84',
     },
     typography: {
+      fontFamily: defaultFont,
+      color: '#2A323E',
       h1: {
         fontSize: 28,
         fontFamily: defaultFont,
