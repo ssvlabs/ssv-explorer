@@ -8,6 +8,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableHead from '@material-ui/core/TableHead';
 import { Paper as MaterialPaper } from '@material-ui/core';
 import TableContainer from '@material-ui/core/TableContainer';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import config from '~app/common/config';
 import SsvNetwork from '~lib/api/SsvNetwork';
 import { useStores } from '~app/hooks/useStores';
@@ -94,7 +95,7 @@ const Operators = () => {
             <TableRow>
               <CenteredCell colSpan={3} style={overviewTableCellStyle}>
                 <Link href={config.routes.OPERATORS.HOME} className={classes.Link}>
-                  Load more
+                  Load more <ArrowDropDownIcon />
                 </Link>
               </CenteredCell>
             </TableRow>

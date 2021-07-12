@@ -139,7 +139,11 @@ export const useStyles = makeStyles((theme) => ({
     },
   },
   Link: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    alignContent: 'center',
     cursor: 'pointer',
+    flexDirection: 'row',
     color: `${theme.palette.text.primary}!important`,
     borderColor: `${theme.palette.text.primary}!important`,
   },

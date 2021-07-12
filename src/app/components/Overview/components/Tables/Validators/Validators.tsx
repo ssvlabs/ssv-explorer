@@ -8,6 +8,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableBody from '@material-ui/core/TableBody';
 import { Paper as MaterialPaper } from '@material-ui/core';
 import TableContainer from '@material-ui/core/TableContainer';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import config from '~app/common/config';
 import ApiParams from '~lib/api/ApiParams';
 import SsvNetwork from '~lib/api/SsvNetwork';
@@ -107,7 +108,7 @@ const Validators = () => {
             <TableRow>
               <CenteredCell colSpan={2} style={overviewTableCellStyle}>
                 <Link href={config.routes.VALIDATORS.HOME} className={classes.Link}>
-                  Load more
+                  Load more <ArrowDropDownIcon />
                 </Link>
               </CenteredCell>
             </TableRow>
