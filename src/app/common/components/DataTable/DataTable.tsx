@@ -32,6 +32,7 @@ type DataTableProps = {
   // eslint-disable-next-line no-unused-vars
   onChangeRowsPerPage?: (event: any) => void,
   noDataMessage?: string,
+  hidePagination?: boolean,
 };
 
 const defaultPerPageOptions = [10, 25, 50, 100];
@@ -39,7 +40,7 @@ const skeletons = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 const DataTable = (props: DataTableProps) => {
   const { headers, data, rowsPerPageOptions, totalCount, perPage, page, isLoading,
-    onChangePage, onChangeRowsPerPage, headersPositions, title, noDataMessage } = props;
+    onChangePage, onChangeRowsPerPage, headersPositions, title, noDataMessage, hidePagination } = props;
   const classes = useStyles();
 
   const dataRows = () => {
@@ -81,7 +82,7 @@ const DataTable = (props: DataTableProps) => {
     <div className={classes.tableWithBorder}>
       <TableContainer>
         {title ? <h3 style={{ paddingLeft: 15 }}>{title}</h3> : ''}
-        {perPage && perPage > defaultPerPageOptions[0] && data?.length ? (
+        {!hidePagination && perPage && perPage > defaultPerPageOptions[0] && data?.length ? (
           <TablePagination
             ActionsComponent={PaginationActions}
             colSpan={headers.length}
@@ -114,7 +115,7 @@ const DataTable = (props: DataTableProps) => {
           </TableBody>
         </Table>
 
-        {data?.length ? (
+        {!hidePagination && data?.length ? (
           <TablePagination
             ActionsComponent={PaginationActions}
             colSpan={headers.length}

@@ -213,6 +213,134 @@ const Validator = () =>
     }
   }, [params.address, validator?.publicKey, loadingValidator, loadingDuties]);
 
+  const renderOperatorsWithIbft = () => {
+    return (
+      <>
+        <Grid item xs={12} md={3} style={{ marginTop: 1, marginBottom: 30 }}>
+          <TableContainer className={classes.tableWithBorder}>
+            <Grid container style={{ padding: 15 }}>
+              <Grid item xs={6} md={6}>
+                <h3 style={{ marginTop: 0 }}>Operators</h3>
+              </Grid>
+              <Grid item xs={6} md={6} style={{ marginTop: 3 }}>
+                <PerformanceSwitcher selected={performance === '24h'} onClick={() => setPerformance('24h')}>
+                  24h
+                </PerformanceSwitcher>
+                <PerformanceSwitcher selected={performance === 'all'} onClick={() => setPerformance('all')}>
+                  All Time
+                </PerformanceSwitcher>
+              </Grid>
+              <Grid container style={{ marginBottom: 15, color: '#A1ACBE', textTransform: 'uppercase', fontSize: 12, fontWeight: 600 }}>
+                <Grid item xs={6} md={6}>
+                  Name
+                </Grid>
+                <Grid item xs={6} md={6} style={{ textAlign: 'right', display: 'flex', alignItems: 'center', alignContent: 'center', justifyContent: 'flex-end' }}>
+                  Performance <InfoTooltip style={infoIconStyle} message="Operators technical scoring metric - calculated by the percentage of attended duties within a time-frame." />
+                </Grid>
+              </Grid>
+              <Grid container style={{ width: '100%' }}>
+                {!validator?.operators && (
+                  <Grid item xs={12} md={12}>
+                    <Skeleton />
+                  </Grid>
+                )}
+                {getSortedOperators().map((operator: any, operatorIndex: number) => (
+                  <span key={`operator-${operatorIndex}`} style={{ fontWeight: 500, fontSize: 14, display: 'flex', flexDirection: 'column', width: '100%' }}>
+                    <span style={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
+                      <Grid item xs={6} md={6} style={performanceRowStyle}>
+                        <Typography noWrap>
+                          <Link
+                            href={`${config.routes.OPERATORS.HOME}/${operator.address}`}
+                            className={classes.Link}
+                            style={{ fontWeight: 500, fontSize: 14 }}
+                                  >
+                            {operator.name}
+                          </Link>
+                        </Typography>
+                        <Typography noWrap>
+                          <Link
+                            href={`${config.routes.OPERATORS.HOME}/${operator.address}`}
+                            className={classes.Link}
+                            style={{ fontWeight: 500, fontSize: 14 }}
+                                  >
+                            {longStringShorten(operator.address)}
+                          </Link>
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={6} md={6} style={performanceRowRightStyle}>
+                        {parseFloat(String(operator.performance)).toFixed(2)}%
+                      </Grid>
+                    </span>
+                  </span>
+                ))}
+              </Grid>
+            </Grid>
+          </TableContainer>
+        </Grid>
+        <PaddedGridItem item xs={12} md={9} paddingleft={30}>
+          <DataTable
+            title="Duties"
+            headers={['Epoch', 'Slot', 'Duty', 'Status', 'Operators']}
+            data={(validatorDuties ?? []).map((duty: any) => {
+              return [
+                duty.epoch,
+                duty.slot,
+                capitalize(duty.duty),
+                capitalize(duty.status),
+                getGroupedOperators(duty.operators),
+              ];
+            })}
+            totalCount={dutiesPagination?.total || 0}
+            page={(dutiesPagination?.page ?? 1) - 1}
+            onChangePage={(page: number) => {
+              loadValidatorDuties(params.address, page);
+            }}
+            onChangeRowsPerPage={onChangeRowsPerPage}
+            perPage={ApiParams.getInteger('validator:duties', 'perPage', ApiParams.PER_PAGE)}
+            isLoading={loadingDuties}
+          />
+        </PaddedGridItem>
+      </>
+    );
+  };
+
+  const renderSimpleOperatorsTable = () => {
+    const sortedOperators = getSortedOperators();
+    return (
+      <Grid item xs={12} md={12}>
+        <DataTable
+          hidePagination
+          noDataMessage={'No operators'}
+          headers={['Name', 'Address', 'Action']}
+          headersPositions={['left', 'right', 'right']}
+          data={sortedOperators.map((operator: any) => {
+            return [
+              <Link href={`${config.routes.OPERATORS.HOME}/${operator.address}`} className={classes.Link}>
+                <Typography noWrap>
+                  {operator.name}
+                </Typography>
+              </Link>,
+              <Link href={`${config.routes.OPERATORS.HOME}/${operator.address}`} className={classes.Link} style={{ marginLeft: 'auto', marginRight: 0 }}>
+                <Typography noWrap>
+                  {operator.address}
+                </Typography>
+              </Link>,
+              <div style={{ marginTop: 3, marginLeft: 'auto', marginRight: 0 }}>
+                <CopyToClipboardIcon data={operator.address} />
+              </div>,
+            ];
+          })}
+          totalCount={sortedOperators.length}
+          page={0}
+          onChangePage={() => {}}
+          onChangeRowsPerPage={() => {}}
+          perPage={ApiParams.PER_PAGE}
+          isLoading={loadingValidator}
+        />
+      </Grid>
+    );
+  };
+
   return (
     <Layout>
       <ContentContainer>
@@ -250,7 +378,7 @@ const Validator = () =>
                 </SubHeading>
               </StatsBlock>
             </Grid>
-            {!notFound && (
+            {!notFound ? (
               <>
                 <Grid item xs={12} md={2}>
                   <StatsBlock>
@@ -259,104 +387,23 @@ const Validator = () =>
                   </StatsBlock>
                 </Grid>
                 <Grid item xs={12} md={2}>
-                  <StatsBlock>
-                    <Heading variant="h1">{validator?.status ? validator.status : <Skeleton />}</Heading>
-                    <SubHeading>
-                      Status <InfoTooltip style={{ ...infoIconStyle, marginTop: 2 }} message="Refers to the validator’s status in the SSV network (not beacon chain), and reflects whether its operators are consistently performing their duties (according to last 2 epochs)." />
-                    </SubHeading>
-                  </StatsBlock>
+                  {config.FEATURE.IBFT.ENABLED ? (
+                    <StatsBlock>
+                      <Heading variant="h1">{validator?.status ? validator.status : <Skeleton />}</Heading>
+                      <SubHeading>
+                        Status <InfoTooltip style={{ ...infoIconStyle, marginTop: 2 }} message="Refers to the validator’s status in the SSV network (not beacon chain), and reflects whether its operators are consistently performing their duties (according to last 2 epochs)." />
+                      </SubHeading>
+                    </StatsBlock>
+                  ) : ''}
                 </Grid>
               </>
-            )}
+            ) : ''}
           </Grid>
 
           <EmptyPlaceholder height={40} />
 
           <Grid container>
-            <Grid item xs={12} md={3} style={{ marginTop: 1, marginBottom: 30 }}>
-              <TableContainer className={classes.tableWithBorder}>
-                <Grid container style={{ padding: 15 }}>
-                  <Grid item xs={6} md={6}>
-                    <h3 style={{ marginTop: 0 }}>Operators</h3>
-                  </Grid>
-                  <Grid item xs={6} md={6} style={{ marginTop: 3 }}>
-                    <PerformanceSwitcher selected={performance === '24h'} onClick={() => setPerformance('24h')}>
-                      24h
-                    </PerformanceSwitcher>
-                    <PerformanceSwitcher selected={performance === 'all'} onClick={() => setPerformance('all')}>
-                      All Time
-                    </PerformanceSwitcher>
-                  </Grid>
-                  <Grid container style={{ marginBottom: 15, color: '#A1ACBE', textTransform: 'uppercase', fontSize: 12, fontWeight: 600 }}>
-                    <Grid item xs={6} md={6}>
-                      Name
-                    </Grid>
-                    <Grid item xs={6} md={6} style={{ textAlign: 'right', display: 'flex', alignItems: 'center', alignContent: 'center', justifyContent: 'flex-end' }}>
-                      Performance <InfoTooltip style={infoIconStyle} message="Operators technical scoring metric - calculated by the percentage of attended duties within a time-frame." />
-                    </Grid>
-                  </Grid>
-                  <Grid container style={{ width: '100%' }}>
-                    {!validator?.operators && (
-                      <Grid item xs={12} md={12}>
-                        <Skeleton />
-                      </Grid>
-                    )}
-                    {getSortedOperators().map((operator: any, operatorIndex: number) => (
-                      <span key={`operator-${operatorIndex}`} style={{ fontWeight: 500, fontSize: 14, display: 'flex', flexDirection: 'column', width: '100%' }}>
-                        <span style={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
-                          <Grid item xs={6} md={6} style={performanceRowStyle}>
-                            <Typography noWrap>
-                              <Link
-                                href={`${config.routes.OPERATORS.HOME}/${operator.address}`}
-                                className={classes.Link}
-                                style={{ fontWeight: 500, fontSize: 14 }}
-                              >
-                                {operator.name}
-                              </Link>
-                            </Typography>
-                            <Typography noWrap>
-                              <Link
-                                href={`${config.routes.OPERATORS.HOME}/${operator.address}`}
-                                className={classes.Link}
-                                style={{ fontWeight: 500, fontSize: 14 }}
-                              >
-                                {longStringShorten(operator.address)}
-                              </Link>
-                            </Typography>
-                          </Grid>
-                          <Grid item xs={6} md={6} style={performanceRowRightStyle}>
-                            {parseFloat(String(operator.performance)).toFixed(2)}%
-                          </Grid>
-                        </span>
-                      </span>
-                    ))}
-                  </Grid>
-                </Grid>
-              </TableContainer>
-            </Grid>
-            <PaddedGridItem item xs={12} md={9} paddingleft={30}>
-              <DataTable
-                title="Duties"
-                headers={['Epoch', 'Slot', 'Duty', 'Status', 'Operators']}
-                data={(validatorDuties ?? []).map((duty: any) => {
-                  return [
-                    duty.epoch,
-                    duty.slot,
-                    capitalize(duty.duty),
-                    capitalize(duty.status),
-                    getGroupedOperators(duty.operators),
-                  ];
-                })}
-                totalCount={dutiesPagination?.total || 0}
-                page={(dutiesPagination?.page ?? 1) - 1}
-                onChangePage={(page: number) => {
-                  loadValidatorDuties(params.address, page);
-                }}
-                onChangeRowsPerPage={onChangeRowsPerPage}
-                perPage={ApiParams.getInteger('validator:duties', 'perPage', ApiParams.PER_PAGE)}
-                isLoading={loadingDuties}
-              />
-            </PaddedGridItem>
+            {config.FEATURE.IBFT.ENABLED ? renderOperatorsWithIbft() : renderSimpleOperatorsTable()}
           </Grid>
         </NotFoundScreen>
       </ContentContainer>

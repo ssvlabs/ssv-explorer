@@ -144,20 +144,24 @@ const Operator = () => {
               </StatsBlock>
             </Grid>
             <Grid item xs={12} md={2}>
-              <StatsBlock>
-                <Heading variant="h1">{operator.performance?.all >= 0 ? `${parseFloat(String(operator.performance?.all || 0)).toFixed(2)}%` : <Skeleton />}</Heading>
-                <SubHeading>
-                  Performance <InfoTooltip message="Operators technical scoring metric - calculated by the percentage of attended duties across all of their managed validators." style={infoIconStyle} />
-                </SubHeading>
-              </StatsBlock>
+              {config.FEATURE.IBFT.ENABLED ? (
+                <StatsBlock>
+                  <Heading variant="h1">{operator.performance?.all >= 0 ? `${parseFloat(String(operator.performance?.all || 0)).toFixed(2)}%` : <Skeleton />}</Heading>
+                  <SubHeading>
+                    Performance <InfoTooltip message="Operators technical scoring metric - calculated by the percentage of attended duties across all of their managed validators." style={infoIconStyle} />
+                  </SubHeading>
+                </StatsBlock>
+              ) : ''}
             </Grid>
             <Grid item xs={12} md={3}>
-              <StatsBlock>
-                <Heading variant="h1">{operator.status ? operator.status : <Skeleton />}</Heading>
-                <SubHeading>
-                  Status <InfoTooltip message="Monitoring indication whether the operator is performing his network duties for the majority of his validators (per the last 2 epochs)." style={infoIconStyle} />
-                </SubHeading>
-              </StatsBlock>
+              {config.FEATURE.IBFT.ENABLED ? (
+                <StatsBlock>
+                  <Heading variant="h1">{operator.status ? operator.status : <Skeleton />}</Heading>
+                  <SubHeading>
+                    Status <InfoTooltip message="Monitoring indication whether the operator is performing his network duties for the majority of his validators (per the last 2 epochs)." style={infoIconStyle} />
+                  </SubHeading>
+                </StatsBlock>
+              ) : ''}
             </Grid>
           </Grid>
 

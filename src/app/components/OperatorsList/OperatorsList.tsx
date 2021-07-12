@@ -53,6 +53,52 @@ const OperatorsList = () => {
     loadOperators(1);
   };
 
+  const getOperatorsTableData = () => {
+    return (operators || []).map((operator: any) => {
+      const data = [
+        <Link href={`${config.routes.OPERATORS.HOME}/${operator.address}`} className={classes.Link}>
+          0x{longStringShorten(operator.address, 4)}
+        </Link>,
+        <Link href={`${config.routes.OPERATORS.HOME}/${operator.address}`} className={classes.Link}>
+          {operator.name}
+        </Link>,
+        <Link href={`${config.routes.OPERATORS.HOME}/${operator.address}`} className={classes.Link}>
+          {operator.validatorsCount}
+        </Link>,
+      ];
+
+      if (config.FEATURE.IBFT.ENABLED) {
+        data.push(
+          <Link href={`${config.routes.OPERATORS.HOME}/${operator.address}`} className={classes.Link}>
+            {`${operator.performance['24h']}%`}
+          </Link>,
+        );
+        data.push(
+          <Link href={`${config.routes.OPERATORS.HOME}/${operator.address}`} className={classes.Link}>
+            {`${operator.performance.all}%`}
+          </Link>,
+        );
+      }
+
+      return data;
+    });
+  };
+
+  const getOperatorsTableHeaders = () => {
+    const headers = [
+      'Address',
+      'Name',
+      'Validators',
+    ];
+
+    if (config.FEATURE.IBFT.ENABLED) {
+      headers.push('Performance (24h)');
+      headers.push('Performance (All time)');
+    }
+
+    return headers;
+  };
+
   useEffect(() => {
     if (!operators.length && !loading) {
       loadOperators();
@@ -73,26 +119,8 @@ const OperatorsList = () => {
         <Typography variant="h1">Operators</Typography>
 
         <DataTable
-          headers={['Address', 'Name', 'Validators', 'Performance (24h)', 'Performance (All time)']}
-          data={(operators || []).map((operator: any) => {
-            return [
-              <Link href={`${config.routes.OPERATORS.HOME}/${operator.address}`} className={classes.Link}>
-                0x{longStringShorten(operator.address, 4)}
-              </Link>,
-              <Link href={`${config.routes.OPERATORS.HOME}/${operator.address}`} className={classes.Link}>
-                {operator.name}
-              </Link>,
-              <Link href={`${config.routes.OPERATORS.HOME}/${operator.address}`} className={classes.Link}>
-                {operator.validatorsCount}
-              </Link>,
-              <Link href={`${config.routes.OPERATORS.HOME}/${operator.address}`} className={classes.Link}>
-                {`${operator.performance['24h']}%`}
-              </Link>,
-              <Link href={`${config.routes.OPERATORS.HOME}/${operator.address}`} className={classes.Link}>
-                {`${operator.performance.all}%`}
-              </Link>,
-            ];
-          })}
+          headers={getOperatorsTableHeaders()}
+          data={getOperatorsTableData()}
           totalCount={pagination.total}
           page={pagination.page - 1}
           onChangePage={loadOperators}
