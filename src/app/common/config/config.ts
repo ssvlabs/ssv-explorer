@@ -14,6 +14,9 @@ const config = {
         IBFT: {
             ENABLED: process.env.REACT_APP_FEATURE_ENABLE_IBFT,
         },
+        NETWORK: {
+            NAME: process.env.REACT_APP_NETWORK,
+        },
     },
     links: {
         API_BASE_URL: String(process.env.REACT_APP_API_BASE_URL),

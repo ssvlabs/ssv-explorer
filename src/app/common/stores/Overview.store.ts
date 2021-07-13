@@ -22,6 +22,9 @@ class OverviewStore extends BaseStore {
   @action.bound
   setTotalEth(totalEth: number) {
     this.totalEth = totalEth;
+    if (config.FEATURE.NETWORK.NAME !== 'mainnet') {
+      return;
+    }
     new ApiRequest({
       url: `${config.links.API_BASE_URL}/api/currency/convert?eth=${totalEth}`,
       method: 'GET',

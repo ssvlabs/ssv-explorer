@@ -1,6 +1,7 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 import { Skeleton } from '@material-ui/lab';
+import config from '~app/common/config';
 import { useStores } from '~app/hooks/useStores';
 import { numberWithCommas } from '~lib/utils/numbers';
 import OverviewStore from '~app/common/stores/Overview.store';
@@ -39,8 +40,12 @@ const Stats = () => {
           {overviewStore.totalEth !== null ? `${numberWithCommas(overviewStore.totalEth)} ETH` : ''}
         </StatsBlockHeader>
         <StatsBlockContent>
-          {overviewStore.totalUsd === null && <Skeleton />}
-          {overviewStore.totalUsd ? `$${numberWithCommas(overviewStore.totalUsd)} Staked` : ''}
+          {config.FEATURE.NETWORK.NAME === 'mainnet' ? (
+            <>
+              {overviewStore.totalUsd === null && <Skeleton />}
+              {overviewStore.totalUsd ? `$${numberWithCommas(overviewStore.totalUsd)} Staked` : ''}
+            </>
+          ) : ''}
         </StatsBlockContent>
       </StatsBlock>
     </StatsContainer>
