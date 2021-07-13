@@ -28,12 +28,7 @@ class OverviewStore extends BaseStore {
     })
     .sendRequest()
     .then(({ data }: { data: any }) => {
-      const rate = data.usd ?? 0;
-      if (!rate) {
-        this.totalUsd = NaN;
-        return;
-      }
-      this.totalUsd = parseInt(String(rate), 10) * parseInt(String(this.totalEth), 10);
+      this.totalUsd = data.usd ? parseInt(String(data.usd), 10) : NaN;
     });
   }
 
