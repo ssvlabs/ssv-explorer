@@ -97,12 +97,12 @@ const AppBarComponent = () => {
             <div className={classes.toolbarButtons}>
               {isOverviewPage() ? (
                 <Link href={joinSsvLink} target="_blank">
-                  <Button variant="outlined" className={`${classes.appBarButton} ${classes.appBarButtonWhite}`}>Join SSV Network</Button>
+                  <Button variant="outlined" className={`${classes.appBarButton} ${classes.appBarButtonWhite}`} style={{ textTransform: 'capitalize' }}>Join SSV Network</Button>
                 </Link>
               ) : (
                 <SmartSearch inAppBar />
               )}
-              <Button variant="outlined" className={`${classes.appBarButton} ${classes.appBarButtonWhite}`}>Prater Network</Button>
+              <Button variant="outlined" className={`${classes.appBarButton} ${classes.appBarButtonWhite}`} style={{ textTransform: 'capitalize' }}>Prater Network</Button>
               <DarkModeSwitcher style={{ marginLeft: 'auto', marginRight: 0, minWidth: 'auto', width: 40 }} />
             </div>
           </Box>

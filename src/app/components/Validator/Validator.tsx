@@ -311,8 +311,8 @@ const Validator = () =>
         <DataTable
           hidePagination
           noDataMessage={'No operators'}
-          headers={['Name', 'Address', 'Action']}
-          headersPositions={['left', 'right', 'right']}
+          headers={['Name', 'Address', '']}
+          headersPositions={['left', 'left', 'right']}
           data={sortedOperators.map((operator: any) => {
             return [
               <Link href={`${config.routes.OPERATORS.HOME}/${operator.address}`} className={classes.Link}>

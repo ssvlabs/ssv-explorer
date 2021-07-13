@@ -3,7 +3,6 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { useHistory, useParams } from 'react-router-dom';
-import { grayBackgroundColor } from '~root/theme';
 
 type NotFoundScreenProps = {
   notFound: boolean,
@@ -36,7 +35,7 @@ const NotFoundScreen = ({ notFound, children, query }: NotFoundScreenProps) => {
               onClick={onBackButtonClick}
               variant="contained"
               color="primary"
-              style={{ minWidth: 180, marginTop: 30, background: grayBackgroundColor }}
+              style={{ minWidth: 180, marginTop: 30, background: '#5B6C84', textTransform: 'capitalize' }}
             >
               Back
             </Button>
