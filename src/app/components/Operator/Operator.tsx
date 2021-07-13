@@ -121,7 +121,7 @@ const Operator = () => {
           <Grid container alignContent="center" alignItems="center">
             <Grid item xs={12} md={5}>
               <StatsBlock maxWidth={400} style={{ paddingRight: 15 }}>
-                <Heading variant="h1">
+                <Heading variant="h1" style={{ textTransform: 'none' }}>
                   {operator.name ? (
                     <>
                       {operator.name} <CopyToClipboardIcon data={params.address} style={{ marginLeft: 5, width: 22, height: 22 }} />
