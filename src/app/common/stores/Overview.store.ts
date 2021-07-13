@@ -33,8 +33,8 @@ class OverviewStore extends BaseStore {
       ],
     })
     .sendRequest()
-    .then(({ rate }: { rate: number }) => {
-      this.totalUsd = parseInt(String(rate), 10) * parseInt(String(this.totalEth), 10);
+    .then(({ data }: { data: any }) => {
+      this.totalUsd = parseInt(String(data.rate), 10) * parseInt(String(this.totalEth), 10);
     });
   }
 
