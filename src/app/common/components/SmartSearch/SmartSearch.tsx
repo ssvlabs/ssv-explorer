@@ -69,7 +69,7 @@ const SmartSearch = (props: SmartSearchProps) => {
 
   return (
     <Autocomplete
-      noOptionsText="No results"
+      noOptionsText="No matching results"
       className={`${classes.overviewSearch} ${(inAppBar ? classes.appBarSearch : '')}`}
       data-testid="smart-search-autocomplete"
       options={searchResults}
