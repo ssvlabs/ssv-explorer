@@ -1,7 +1,7 @@
 import { action, observable } from 'mobx';
-import BaseStore from '~app/common/stores/BaseStore';
-import ApiRequest from '~lib/utils/ApiRequest';
 import config from '~app/common/config';
+import ApiRequest from '~lib/utils/ApiRequest';
+import BaseStore from '~app/common/stores/BaseStore';
 
 class OverviewStore extends BaseStore {
   @observable totalEth: number | null = null;
@@ -23,18 +23,17 @@ class OverviewStore extends BaseStore {
   setTotalEth(totalEth: number) {
     this.totalEth = totalEth;
     new ApiRequest({
-      url: `${config.links.COIN_API_BASE_URL}/v1/exchangerate/ETH/USD?apikey=${config.COIN_API.API_KEY}`,
+      url: `${config.links.API_BASE_URL}/api/currency/convert?eth=${totalEth}`,
       method: 'GET',
-      headers: [
-        {
-          name: 'Accept',
-          value: 'application/json',
-        },
-      ],
     })
     .sendRequest()
     .then(({ data }: { data: any }) => {
-      this.totalUsd = parseInt(String(data.rate), 10) * parseInt(String(this.totalEth), 10);
+      const rate = data.usd ?? 0;
+      if (!rate) {
+        this.totalUsd = NaN;
+        return;
+      }
+      this.totalUsd = parseInt(String(rate), 10) * parseInt(String(this.totalEth), 10);
     });
   }
 
