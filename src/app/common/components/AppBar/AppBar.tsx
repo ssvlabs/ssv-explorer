@@ -35,6 +35,17 @@ const DrawerButton = styled(Link)`
   margin-top: 10px;
 `;
 
+const GreenDot = styled.div`
+  display: inline-block;
+  margin-right: 5px;
+  margin-left: 5px;
+  width: 8px;
+  height: 8px;
+  border-radius: 4px;
+  border-width: 0;
+  background-color: #20EEC8;
+`;
+
 const AppBarComponent = () => {
   const classes = useStyles();
   const appClasses = useAppStyles();
@@ -102,7 +113,9 @@ const AppBarComponent = () => {
               ) : (
                 <SmartSearch inAppBar />
               )}
-              <Button variant="outlined" disabled className={`${classes.appBarButton} ${classes.appBarButtonWhite}`} style={{ textTransform: 'capitalize' }}>Prater Network</Button>
+              <Button variant="outlined" disabled className={`${classes.appBarButton} ${classes.appBarButtonWhite}`} style={{ textTransform: 'capitalize' }}>
+                <GreenDot />  Prater Network
+              </Button>
               <DarkModeSwitcher style={{ marginLeft: 'auto', marginRight: 0, minWidth: 'auto', width: 40 }} />
             </div>
           </Box>
@@ -120,7 +133,7 @@ const AppBarComponent = () => {
             >
               <List>
                 <ListItem button disabled>
-                  <ListItemText primary="Menu" style={{ textAlign: 'center' }} />
+                  <ListItemText primary="Menu" style={{ textAlign: 'center', width: '100%' }} />
                 </ListItem>
                 <Divider />
 
@@ -158,7 +171,7 @@ const AppBarComponent = () => {
                   <DrawerButton>
                     <Link href="/">
                       <Button variant="outlined" className={classes.appBarButton} color="primary" style={{ width: '90%', margin: 'auto' }}>
-                        Prater Network
+                        <GreenDot /> Prater Network
                       </Button>
                     </Link>
                   </DrawerButton>
