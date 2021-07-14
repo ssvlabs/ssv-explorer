@@ -43,9 +43,9 @@ const Stats = () => {
           {config.FEATURE.NETWORK.NAME === 'mainnet' ? (
             <>
               {overviewStore.totalUsd === null && <Skeleton />}
-              {overviewStore.totalUsd ? `$${numberWithCommas(overviewStore.totalUsd)} Staked` : ''}
+              {overviewStore.totalUsd ? `$${numberWithCommas(overviewStore.totalUsd)}` : ''}
             </>
-          ) : ''}
+          ) : ''} Staked
         </StatsBlockContent>
       </StatsBlock>
     </StatsContainer>

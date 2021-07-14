@@ -19,7 +19,7 @@ export const useStyles = makeStyles((theme) => ({
         flexDirection: 'row',
         alignItems: 'center',
         maxWidth: 200,
-        marginTop: -5,
+        marginTop: -9,
     },
     appBarLink: {
         textTransform: 'uppercase',
@@ -45,19 +45,17 @@ export const useStyles = makeStyles((theme) => ({
     appBarButton: {
         margin: 'auto',
         color: theme.palette.text.primary,
-        borderColor: theme.palette.text.primary,
+        borderColor: '#5B6C84',
         marginRight: 10,
         '& > a, & > a:hover, & > a:active, & > a:focus': {
             color: 'white',
-            borderColor: 'white',
         },
     },
     appBarButtonWhite: {
         color: 'white!important',
-        borderColor: 'white!important',
+        borderColor: '#5B6C84',
         '& > a, & > a:hover, & > a:active, & > a:focus': {
             color: 'white!important',
-            borderColor: 'white!important',
         },
     },
     toolbarLinks: {
