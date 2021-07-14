@@ -102,7 +102,7 @@ const AppBarComponent = () => {
               ) : (
                 <SmartSearch inAppBar />
               )}
-              <Button variant="outlined" className={`${classes.appBarButton} ${classes.appBarButtonWhite}`} style={{ textTransform: 'capitalize' }}>Prater Network</Button>
+              <Button variant="outlined" disabled className={`${classes.appBarButton} ${classes.appBarButtonWhite}`} style={{ textTransform: 'capitalize' }}>Prater Network</Button>
               <DarkModeSwitcher style={{ marginLeft: 'auto', marginRight: 0, minWidth: 'auto', width: 40 }} />
             </div>
           </Box>
