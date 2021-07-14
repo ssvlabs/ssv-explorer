@@ -47,6 +47,9 @@ export const useStyles = makeStyles((theme) => ({
         color: theme.palette.text.primary,
         borderColor: '#5B6C84',
         marginRight: 10,
+        '&.Mui-disabled': {
+            border: '1px solid #5B6C84',
+        },
         '& > a, & > a:hover, & > a:active, & > a:focus': {
             color: 'white',
         },
