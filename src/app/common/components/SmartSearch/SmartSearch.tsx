@@ -22,7 +22,7 @@ type SmartSearchProps = {
 const SmartSearch = (props: SmartSearchProps) => {
   const { placeholder, inAppBar } = props;
   const classes = useStyles();
-  const [, setQuery] = useState('');
+  const [query, setQuery] = useState('');
   const [loading, setLoading] = useState(false);
   const [searchResults, setSearchResults]: [any[], any] = useState([]);
   let searchTimeout: any;
@@ -67,99 +67,181 @@ const SmartSearch = (props: SmartSearchProps) => {
     }, SEARCH_TIMEOUT_DELAY);
   };
 
-  return (
-    <Autocomplete
-      noOptionsText="No matching results"
-      className={`${classes.overviewSearch} ${(inAppBar ? classes.appBarSearch : '')}`}
-      data-testid="smart-search-autocomplete"
-      options={searchResults}
-      groupBy={(option: any) => option.type}
-      getOptionLabel={(option: any) => option.address || option.publicKey || ''}
-      loading={loading}
-      autoComplete
-      fullWidth
-      clearOnEscape
-      selectOnFocus
-      clearOnBlur
-      filterSelectedOptions
-      filterOptions={(options) => options}
-      onChange={(event, newValue) => {
-        setSearchResults(newValue ? [newValue, ...searchResults] : searchResults);
-        if (newValue) {
-          let url = '';
-          switch (newValue.type) {
-            case 'OPERATORS':
-              url = `${config.routes.OPERATORS.HOME}/${newValue.address}`;
-              break;
-            case 'VALIDATORS':
-              url = `${config.routes.VALIDATORS.HOME}/${newValue.publicKey}`;
-              break;
-          }
-          if (url) {
-            window.location.href = url;
+  /**
+   * When the search results changes
+   * @param event
+   * @param newValue
+   */
+  const onListChange = (event: any, newValue: any) => {
+    setSearchResults(newValue ? [newValue, ...searchResults] : searchResults);
+    if (newValue) {
+      let url = '';
+      switch (newValue.type) {
+        case 'OPERATORS':
+          url = `${config.routes.OPERATORS.HOME}/${newValue.address}`;
+          break;
+        case 'VALIDATORS':
+          url = `${config.routes.VALIDATORS.HOME}/${newValue.publicKey}`;
+          break;
+      }
+      if (url) {
+        window.location.href = url;
+      }
+    }
+  };
+
+  /**
+   * Redirect user to the search results page when user wants to do it immediatelly
+   * instead of selecting existing suggestions.
+   * @param currentValue
+   */
+  const redirectUserToSearchPage = (currentValue: string) => {
+    if (searchResults?.length > 0 && currentValue && !loading) {
+      let url = '';
+
+      // Search for exact match in operators
+      const operatorsList = searchResults.filter((entry: any) => {
+        return entry.type === 'OPERATORS';
+      });
+      for (let i = 0; i < operatorsList.length; i += 1) {
+        const operator = operatorsList[i];
+        if (currentValue === operator.name || currentValue === operator.address) {
+          url = `${config.routes.OPERATORS.HOME}/${operator.address}`;
+          break;
+        }
+      }
+      if (!url) {
+        const validatorsList = searchResults.filter((entry: any) => {
+          return entry.type === 'VALIDATORS';
+        });
+        for (let i = 0; i < validatorsList.length; i += 1) {
+          const validator = validatorsList[i];
+          if (currentValue === validator.publicKey) {
+            url = `${config.routes.VALIDATORS.HOME}/${validator.publicKey}`;
+            break;
           }
         }
-      }}
-      onBlur={() => { setSearchResults([]); }}
-      onInputChange={onInputChange}
-      value=""
-      renderOption={(option: any) => (
-        <>
-          {option.type === 'VALIDATORS' && (
-            <Link
-              href={`${config.routes.VALIDATORS.HOME}/${option.publicKey}`}
-              className={classes.Link}
-              style={{ width: '100%' }}
-            >
-              <Typography noWrap>
-                {option.publicKey}
+      }
+      if (url) {
+        window.location.href = url;
+      }
+    }
+  };
+
+  /**
+   * When user press Enter key in the input we should react.
+   * @param event
+   */
+  const onKeyDown = (event: any) => {
+    if (event.key === 'Enter' || event.keyCode === 13) {
+      redirectUserToSearchPage(event.target.value);
+    }
+  };
+
+  /**
+   * React on click on search icon addon in the query input.
+   */
+  const onSearchButtonClicked = () => {
+    setTimeout(() => {
+      redirectUserToSearchPage(query);
+    }, 10);
+  };
+
+  /**
+   * Rendering option of the search results
+   * @param option
+   */
+  const onRenderOption = (option: any) => (
+    <>
+      {option.type === 'VALIDATORS' && (
+        <Link
+          href={`${config.routes.VALIDATORS.HOME}/${option.publicKey}`}
+          className={classes.Link}
+          style={{ width: '100%' }}
+        >
+          <Typography noWrap>
+            {option.publicKey}
+          </Typography>
+        </Link>
+      )}
+      {option.type === 'OPERATORS' && (
+        <Link
+          href={`${config.routes.OPERATORS.HOME}/${option.address}`}
+          className={classes.Link}
+          style={{ width: '100%' }}
+        >
+          <Grid container style={{ width: '100%' }}>
+            <Grid item xs={5} md={5}>
+              <Typography noWrap style={{ width: '100%', paddingRight: 10 }} component="div">
+                {option.name}
               </Typography>
-            </Link>
-          )}
-          {option.type === 'OPERATORS' && (
-            <Link
-              href={`${config.routes.OPERATORS.HOME}/${option.address}`}
-              className={classes.Link}
-              style={{ width: '100%' }}
-            >
-              <Grid container style={{ width: '100%' }}>
-                <Grid item xs={5} md={5}>
-                  <Typography noWrap style={{ width: '100%', paddingRight: 10 }} component="div">
-                    {option.name}
-                  </Typography>
-                </Grid>
-                <Grid item xs={7} md={7}>
-                  <Typography noWrap style={{ width: '100%' }} component="div">
-                    {option.address}
-                  </Typography>
-                </Grid>
-              </Grid>
-            </Link>
-          )}
-        </>
+            </Grid>
+            <Grid item xs={7} md={7}>
+              <Typography noWrap style={{ width: '100%' }} component="div">
+                {option.address}
+              </Typography>
+            </Grid>
+          </Grid>
+        </Link>
       )}
-      renderInput={(params: AutocompleteRenderInputParams) => (
-        <SearchInput
-          {...params}
-          data-testid="smart-search"
-          placeholder={placeholder || 'Search for validators and operators...'}
-          variant="outlined"
-          value=""
-          InputProps={{
-            ...params.InputProps,
-            endAdornment: (
-              <InputAdornment position="end">
-                {loading && <CircularProgress color="inherit" size={20} />}
-                {!loading && (
-                  <SearchButton edge="end">
-                    <SearchIcon />
-                  </SearchButton>
-                )}
-              </InputAdornment>
-            ),
-          }}
-        />
-      )}
+    </>
+  );
+
+  /**
+   * Search input rendering component
+   * @param params
+   */
+  const onRenderSearchInput = (params: AutocompleteRenderInputParams) => (
+    <SearchInput
+      {...params}
+      value=""
+      variant="outlined"
+      data-testid="smart-search"
+      placeholder={placeholder || 'Search for validators and operators...'}
+      InputProps={{
+        ...params.InputProps,
+        endAdornment: (
+          <InputAdornment position="end">
+            {loading && <CircularProgress color="inherit" size={20} />}
+            {!loading && (
+              <SearchButton edge="end" onClick={onSearchButtonClicked}>
+                <SearchIcon />
+              </SearchButton>
+            )}
+          </InputAdornment>
+        ),
+      }}
+      onKeyDown={onKeyDown}
+      onChange={(event) => {
+        if (!event.target.value) {
+          setSearchResults([]);
+        }
+      }}
+    />
+  );
+
+  return (
+    <Autocomplete
+      value=""
+      fullWidth
+      clearOnBlur
+      autoComplete
+      clearOnEscape
+      selectOnFocus
+      loading={loading}
+      filterSelectedOptions
+      options={searchResults}
+      onChange={onListChange}
+      onInputChange={onInputChange}
+      renderOption={onRenderOption}
+      renderInput={onRenderSearchInput}
+      noOptionsText="No matching results"
+      data-testid="smart-search-autocomplete"
+      groupBy={(option: any) => option.type}
+      onBlur={() => { setSearchResults([]); }}
+      filterOptions={(options) => options}
+      getOptionLabel={(option: any) => option.address || option.publicKey || ''}
+      className={`${classes.overviewSearch} ${(inAppBar ? classes.appBarSearch : '')}`}
     />
   );
 };

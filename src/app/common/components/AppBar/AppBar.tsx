@@ -64,7 +64,7 @@ const AppBarComponent = () => {
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
             <Link href={config.routes.HOME} style={{ color: 'white', textDecoration: 'none' }}>
-              <span style={{ fontFamily: `"Fira Code", monospace, ${defaultFont}`, whiteSpace: 'nowrap' }}>
+              <span style={{ fontFamily: `"Fira Code", monospace, ${defaultFont}`, whiteSpace: 'nowrap', fontSize: 14 }}>
                 ssv.network <b style={{ color: '#DCE0E8' }}>explorer</b>
               </span>
             </Link>
