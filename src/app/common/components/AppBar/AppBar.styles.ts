@@ -91,7 +91,26 @@ export const useStyles = makeStyles((theme) => ({
     },
     drawer: {
         '& > .MuiDrawer-paper': {
+            backgroundColor: '#A1ABBE',
+            color: 'white',
+            fontWeight: 'bold',
             minWidth: 200,
+            textAlign: 'center',
+            fontSize: 12,
+            '& > ul > div': {
+                width: '100%',
+                textAlign: 'center',
+                fontWeight: 'bold',
+                '& > a': {
+                    width: '100%',
+                    fontWeight: 'bold',
+                    '& > .MuiListItem-root': {
+                        textAlign: 'center',
+                        color: 'white',
+                        fontWeight: 'bold',
+                    },
+                },
+            },
         },
     },
     buttonBadge: {

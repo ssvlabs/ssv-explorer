@@ -2,16 +2,17 @@ import React, { useState } from 'react';
 import { observer } from 'mobx-react';
 import styled from 'styled-components';
 import List from '@material-ui/core/List';
+import { Box, Link } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button';
 import { useLocation } from 'react-router-dom';
 import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
+import CloseIcon from '@material-ui/icons/Close';
 import ListItem from '@material-ui/core/ListItem';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
-import { Box, Divider, Link } from '@material-ui/core';
 import ListItemText from '@material-ui/core/ListItemText';
 import config from '~app/common/config';
 import { defaultFont } from '~root/theme';
@@ -22,11 +23,20 @@ import { useStyles as useAppStyles } from '~app/components/Styles';
 import DarkModeSwitcher from '~app/common/components/DarkModeSwitcher';
 
 const DrawerButtonsContainers = styled.div`
+  font-size: 12px;
+  font-weight: bold;
   display: flex;
   flex-direction: column;
   margin: auto;
   text-align: center;
   width: 100%;
+  & > * button, & > * button[disabled]  {
+    font-weight: bold;
+    color: white;
+    border-color: white;
+    text-decoration: none;
+    font-size: 12px;
+  }
 `;
 
 const DrawerButton = styled(Link)`
@@ -44,6 +54,23 @@ const GreenDot = styled.div`
   border-radius: 4px;
   border-width: 0;
   background-color: #20EEC8;
+`;
+
+const MobileMenuContainer = styled.div`
+  display: inline-flex;
+  flex-direction: column;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  max-width: 200px;
+  text-align: center;
+  align-content: center;
+  align-items: center;
+  & > * .MuiListItemText-primary {
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: bold;
+  }
 `;
 
 const AppBarComponent = () => {
@@ -127,39 +154,38 @@ const AppBarComponent = () => {
             </IconButton>
             <Drawer
               className={classes.drawer}
-              anchor="right"
+              anchor="top"
               open={isDrawerOpened}
               onClose={() => toggleDrawer(false)}
             >
-              <List>
-                <ListItem button disabled>
-                  <ListItemText primary="Menu" style={{ textAlign: 'center', width: '100%' }} />
+              <List style={{ textAlign: 'center', paddingBottom: 50 }}>
+                <ListItem style={{ paddingBottom: 15 }}>
+                  <CloseIcon
+                    onClick={() => { toggleDrawer(false); }}
+                    style={{ marginLeft: 'auto', marginRight: 0 }}
+                  />
                 </ListItem>
-                <Divider />
 
-                <Link href={config.routes.HOME} className={appClasses.Link}>
-                  <ListItem button>
-                    <ListItemText primary="Overview" />
-                  </ListItem>
-                </Link>
-                <Divider />
+                <MobileMenuContainer>
+                  <Link href={config.routes.HOME} className={appClasses.Link}>
+                    <ListItem button>
+                      <ListItemText primary="Overview" style={{ textTransform: 'uppercase' }} />
+                    </ListItem>
+                  </Link>
 
-                <Link href={config.routes.OPERATORS.HOME} className={appClasses.Link} onClick={() => clearPaginationMemory()}>
-                  <ListItem button>
-                    <ListItemText primary="Operators" />
-                  </ListItem>
-                </Link>
-                <Divider />
+                  <Link href={config.routes.OPERATORS.HOME} className={appClasses.Link} onClick={() => clearPaginationMemory()}>
+                    <ListItem button>
+                      <ListItemText primary="Operators" />
+                    </ListItem>
+                  </Link>
 
-                <Link href={config.routes.VALIDATORS.HOME} className={appClasses.Link} onClick={() => clearPaginationMemory()}>
-                  <ListItem button>
-                    <ListItemText primary="Validators" />
-                  </ListItem>
-                </Link>
-                <Divider />
+                  <Link href={config.routes.VALIDATORS.HOME} className={appClasses.Link} onClick={() => clearPaginationMemory()}>
+                    <ListItem button>
+                      <ListItemText primary="Validators" />
+                    </ListItem>
+                  </Link>
 
-                <DrawerButtonsContainers>
-                  {isOverviewPage() && (
+                  <DrawerButtonsContainers>
                     <DrawerButton>
                       <Link href={joinSsvLink} target="_blank">
                         <Button variant="outlined" className={classes.appBarButton} style={{ width: '90%', margin: 'auto' }}>
@@ -167,15 +193,15 @@ const AppBarComponent = () => {
                         </Button>
                       </Link>
                     </DrawerButton>
-                  )}
-                  <DrawerButton>
-                    <Link href="/">
-                      <Button variant="outlined" className={classes.appBarButton} color="primary" style={{ width: '90%', margin: 'auto' }}>
-                        <GreenDot /> Prater Network
-                      </Button>
-                    </Link>
-                  </DrawerButton>
-                </DrawerButtonsContainers>
+                    <DrawerButton>
+                      <Link href="/" onClick={(event: any) => { event.preventDefault(); event.stopPropagation(); }}>
+                        <Button disabled variant="outlined" className={classes.appBarButton} color="primary" style={{ width: '90%', margin: 'auto' }}>
+                          <GreenDot /> Prater Network
+                        </Button>
+                      </Link>
+                    </DrawerButton>
+                  </DrawerButtonsContainers>
+                </MobileMenuContainer>
               </List>
             </Drawer>
           </Box>
