@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
+import { Box } from '@material-ui/core';
 import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import config from '~app/common/config';
@@ -7,6 +8,7 @@ import ApiParams from '~lib/api/ApiParams';
 import SsvNetwork from '~lib/api/SsvNetwork';
 import { useStyles } from '~app/components/Styles';
 import Layout from '~app/common/components/Layout';
+import { longStringShorten } from '~lib/utils/strings';
 import DataTable from '~app/common/components/DataTable';
 import BeaconchaLink from '~app/common/components/BeaconchaLink';
 import ContentContainer from '~app/common/components/ContentContainer';
@@ -73,7 +75,12 @@ const ValidatorsList = () => {
           data={validators.map((validator: any) => {
             return [
               <Link href={`${config.routes.VALIDATORS.HOME}/${validator.publicKey}`} className={classes.Link}>
-                0x{validator.publicKey}
+                <Box component="div" display={{ xs: 'block', sm: 'block', md: 'none', lg: 'none' }}>
+                  0x{longStringShorten(validator.publicKey)}
+                </Box>
+                <Box component="div" display={{ xs: 'none', sm: 'none', md: 'block', lg: 'block' }}>
+                  0x{validator.publicKey}
+                </Box>
               </Link>,
               validator.operators.map((operator: any, operatorIndex: number) => {
                 return (

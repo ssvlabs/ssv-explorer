@@ -100,8 +100,10 @@ const SmartSearch = (props: SmartSearchProps) => {
       return;
     }
     let queryString = currentValue;
+    let startsWith0x = false;
     if (queryString.startsWith('0x')) {
       queryString = queryString.substr(2);
+      startsWith0x = true;
     }
     if (searchResults?.length > 0 && queryString) {
       let url = '';
@@ -112,7 +114,7 @@ const SmartSearch = (props: SmartSearchProps) => {
       });
       for (let i = 0; i < operatorsList.length; i += 1) {
         const operator = operatorsList[i];
-        if (queryString === operator.name || queryString === operator.address) {
+        if (queryString === operator.name || (startsWith0x && `0x${queryString}` === operator.name) || queryString === operator.address) {
           url = `${config.routes.OPERATORS.HOME}/${operator.address}`;
           break;
         }

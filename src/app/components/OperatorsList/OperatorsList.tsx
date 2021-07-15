@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
+import { Box } from '@material-ui/core';
 import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import config from '~app/common/config';
@@ -7,6 +8,7 @@ import ApiParams from '~lib/api/ApiParams';
 import SsvNetwork from '~lib/api/SsvNetwork';
 import Layout from '~app/common/components/Layout';
 import { useStyles } from '~app/components/Styles';
+import { longStringShorten } from '~lib/utils/strings';
 import DataTable from '~app/common/components/DataTable';
 import EmptyPlaceholder from '~app/common/components/EmptyPlaceholder';
 import ContentContainer from '~app/common/components/ContentContainer';
@@ -56,7 +58,12 @@ const OperatorsList = () => {
     return (operators || []).map((operator: any) => {
       const data = [
         <Link href={`${config.routes.OPERATORS.HOME}/${operator.address}`} className={classes.Link}>
-          {operator.address}
+          <Box component="div" display={{ xs: 'block', sm: 'block', md: 'none', lg: 'none' }}>
+            {longStringShorten(operator.address)}
+          </Box>
+          <Box component="div" display={{ xs: 'none', sm: 'none', md: 'block', lg: 'block' }}>
+            {operator.address}
+          </Box>
         </Link>,
         <Link href={`${config.routes.OPERATORS.HOME}/${operator.address}`} className={classes.Link}>
           {operator.name}
