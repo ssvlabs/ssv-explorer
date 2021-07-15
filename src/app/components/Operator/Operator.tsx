@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
 import styled from 'styled-components';
+import { Box } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
 import { Skeleton } from '@material-ui/lab';
@@ -175,7 +176,12 @@ const Operator = () => {
               return [
                 <Link href={`${config.routes.VALIDATORS.HOME}/${validator.publicKey}`} className={classes.Link}>
                   <Typography noWrap>
-                    0x{validator.publicKey}
+                    <Box component="div" display={{ xs: 'block', sm: 'block', md: 'none', lg: 'none' }}>
+                      0x{longStringShorten(validator.publicKey, 10)}
+                    </Box>
+                    <Box component="div" display={{ xs: 'none', sm: 'none', md: 'block', lg: 'block' }}>
+                      0x{validator.publicKey}
+                    </Box>
                   </Typography>
                 </Link>,
                 <div style={{ marginTop: 3, whiteSpace: 'nowrap' }}>

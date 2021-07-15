@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
 import styled from 'styled-components';
+import { Box } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
 import { Skeleton } from '@material-ui/lab';
@@ -323,7 +324,12 @@ const Validator = () =>
               </Link>,
               <Link href={`${config.routes.OPERATORS.HOME}/${operator.address}`} className={classes.Link} style={{ marginLeft: 'auto', marginRight: 0 }}>
                 <Typography noWrap>
-                  {operator.address}
+                  <Box component="div" display={{ xs: 'block', sm: 'block', md: 'none', lg: 'none' }}>
+                    {longStringShorten(operator.address)}
+                  </Box>
+                  <Box component="div" display={{ xs: 'none', sm: 'none', md: 'block', lg: 'block' }}>
+                    {operator.address}
+                  </Box>
                 </Typography>
               </Link>,
               <div style={{ marginTop: 3, marginLeft: 'auto', marginRight: 0 }}>
