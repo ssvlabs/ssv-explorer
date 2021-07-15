@@ -64,12 +64,12 @@ const Validators = () => {
             <StyledRow key={rowIndex}>
               <StyledCell style={overviewTableCellStyle}>
                 <Link href={`/validators/${row.publicKey}`} className={classes.Link}>
-                  {longStringShorten(row.publicKey)}
+                  0x{longStringShorten(row.publicKey)}
                 </Link>
               </StyledCell>
               <StyledCell style={overviewTableCellStyle}>
                 <>
-                  {row.operators.slice(0, 3).map((operator: any) => (
+                  {row.operators.map((operator: any) => (
                     <span key={`operator-link-${operator.address}`}>
                       <Link
                         href={`${config.routes.OPERATORS.HOME}/${operator.address}`}
@@ -80,14 +80,6 @@ const Validators = () => {
                       &nbsp;
                     </span>
                   ))}
-                  {row.operators.slice(3).length ? (
-                    <Link
-                      href={`${config.routes.VALIDATORS.HOME}/${row.publicKey}`}
-                      className={classes.Link}
-                    >
-                      {`+${row.operators.slice(3).length}`}
-                    </Link>
-                  ) : ''}
                 </>
               </StyledCell>
             </StyledRow>

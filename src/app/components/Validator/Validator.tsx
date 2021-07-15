@@ -309,6 +309,7 @@ const Validator = () =>
     return (
       <Grid item xs={12} md={12}>
         <DataTable
+          title="Operators"
           hidePagination
           noDataMessage={'No operators'}
           headers={['Name', 'Address', '']}
@@ -353,7 +354,7 @@ const Validator = () =>
             <BreadCrumb href={config.routes.VALIDATORS.HOME}>validators</BreadCrumb>
             <BreadCrumbDivider />
             <BreadCrumb href={`${config.routes.VALIDATORS.HOME}/${params.address}`}>
-              {longStringShorten(params.address, 4)}
+              0x{longStringShorten(params.address, 4)}
             </BreadCrumb>
           </BreadCrumbsContainer>
 
@@ -373,7 +374,7 @@ const Validator = () =>
                 </Heading>
                 <SubHeading style={{ width: '100%' }}>
                   <Typography noWrap>
-                    {params.address}
+                    0x{params.address}
                   </Typography>
                 </SubHeading>
               </StatsBlock>

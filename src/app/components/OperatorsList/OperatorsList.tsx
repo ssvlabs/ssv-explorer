@@ -7,7 +7,6 @@ import ApiParams from '~lib/api/ApiParams';
 import SsvNetwork from '~lib/api/SsvNetwork';
 import Layout from '~app/common/components/Layout';
 import { useStyles } from '~app/components/Styles';
-import { longStringShorten } from '~lib/utils/strings';
 import DataTable from '~app/common/components/DataTable';
 import EmptyPlaceholder from '~app/common/components/EmptyPlaceholder';
 import ContentContainer from '~app/common/components/ContentContainer';
@@ -57,7 +56,7 @@ const OperatorsList = () => {
     return (operators || []).map((operator: any) => {
       const data = [
         <Link href={`${config.routes.OPERATORS.HOME}/${operator.address}`} className={classes.Link}>
-          0x{longStringShorten(operator.address, 4)}
+          {operator.address}
         </Link>,
         <Link href={`${config.routes.OPERATORS.HOME}/${operator.address}`} className={classes.Link}>
           {operator.name}
