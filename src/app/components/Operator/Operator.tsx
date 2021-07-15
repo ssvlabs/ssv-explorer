@@ -175,7 +175,7 @@ const Operator = () => {
               return [
                 <Link href={`${config.routes.VALIDATORS.HOME}/${validator.publicKey}`} className={classes.Link}>
                   <Typography noWrap>
-                    {validator.publicKey}
+                    0x{validator.publicKey}
                   </Typography>
                 </Link>,
                 <div style={{ marginTop: 3 }}>

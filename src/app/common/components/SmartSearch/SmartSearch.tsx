@@ -96,7 +96,14 @@ const SmartSearch = (props: SmartSearchProps) => {
    * @param currentValue
    */
   const redirectUserToSearchPage = (currentValue: string) => {
-    if (searchResults?.length > 0 && currentValue && !loading) {
+    if (loading) {
+      return;
+    }
+    let queryString = currentValue;
+    if (queryString.startsWith('0x')) {
+      queryString = queryString.substr(2);
+    }
+    if (searchResults?.length > 0 && queryString) {
       let url = '';
 
       // Search for exact match in operators
@@ -105,7 +112,7 @@ const SmartSearch = (props: SmartSearchProps) => {
       });
       for (let i = 0; i < operatorsList.length; i += 1) {
         const operator = operatorsList[i];
-        if (currentValue === operator.name || currentValue === operator.address) {
+        if (queryString === operator.name || queryString === operator.address) {
           url = `${config.routes.OPERATORS.HOME}/${operator.address}`;
           break;
         }
@@ -116,7 +123,7 @@ const SmartSearch = (props: SmartSearchProps) => {
         });
         for (let i = 0; i < validatorsList.length; i += 1) {
           const validator = validatorsList[i];
-          if (currentValue === validator.publicKey) {
+          if (queryString === validator.publicKey) {
             url = `${config.routes.VALIDATORS.HOME}/${validator.publicKey}`;
             break;
           }
@@ -160,7 +167,7 @@ const SmartSearch = (props: SmartSearchProps) => {
           style={{ width: '100%' }}
         >
           <Typography noWrap>
-            {option.publicKey}
+            0x{option.publicKey}
           </Typography>
         </Link>
       )}
