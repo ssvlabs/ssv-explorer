@@ -7,7 +7,6 @@ import ApiParams from '~lib/api/ApiParams';
 import SsvNetwork from '~lib/api/SsvNetwork';
 import { useStyles } from '~app/components/Styles';
 import Layout from '~app/common/components/Layout';
-import { longStringShorten } from '~lib/utils/strings';
 import DataTable from '~app/common/components/DataTable';
 import BeaconchaLink from '~app/common/components/BeaconchaLink';
 import ContentContainer from '~app/common/components/ContentContainer';
@@ -74,7 +73,7 @@ const ValidatorsList = () => {
           data={validators.map((validator: any) => {
             return [
               <Link href={`${config.routes.VALIDATORS.HOME}/${validator.publicKey}`} className={classes.Link}>
-                0x{longStringShorten(validator.publicKey, 4)}
+                0x{validator.publicKey}
               </Link>,
               validator.operators.map((operator: any, operatorIndex: number) => {
                 return (
@@ -86,7 +85,7 @@ const ValidatorsList = () => {
                   </span>
                 );
               }),
-              <div style={{ marginTop: 3 }}>
+              <div style={{ marginTop: 3, display: 'block', whiteSpace: 'nowrap' }}>
                 <CopyToClipboardIcon data={validator.publicKey} />
                 <BeaconchaLink height={24} width={24} address={`validator/${validator.publicKey}`} />
               </div>,

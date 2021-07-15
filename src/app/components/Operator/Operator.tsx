@@ -119,8 +119,8 @@ const Operator = () => {
           <EmptyPlaceholder height={20} />
 
           <Grid container alignContent="center" alignItems="center">
-            <Grid item xs={12} md={5}>
-              <StatsBlock maxWidth={400} style={{ paddingRight: 15 }}>
+            <Grid item xs={12} md={6}>
+              <StatsBlock maxWidth={600} style={{ paddingRight: 15 }}>
                 <Heading variant="h1" style={{ textTransform: 'none' }}>
                   {operator.name ? (
                     <>
@@ -153,7 +153,7 @@ const Operator = () => {
                 </StatsBlock>
               ) : ''}
             </Grid>
-            <Grid item xs={12} md={3}>
+            <Grid item xs={12} md={2}>
               {config.FEATURE.IBFT.ENABLED ? (
                 <StatsBlock>
                   <Heading variant="h1">{operator.status ? operator.status : <Skeleton />}</Heading>
@@ -178,7 +178,7 @@ const Operator = () => {
                     0x{validator.publicKey}
                   </Typography>
                 </Link>,
-                <div style={{ marginTop: 3 }}>
+                <div style={{ marginTop: 3, whiteSpace: 'nowrap' }}>
                   <CopyToClipboardIcon data={validator.publicKey} />
                   <BeaconchaLink height={24} width={24} address={`validator/${validator.publicKey}`} />
                 </div>,
