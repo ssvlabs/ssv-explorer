@@ -25,9 +25,10 @@ const OperatorTypeBadge = styled.div<({ operator_type: any })>`
         return 'rgba(94, 115, 234, 0.12)';
     }
   }};
-  height: 20px;
+  height: 28px;
   font-family: ${defaultFont};
-  font-size: 9px;
+  font-size: 14px;
+  width: 90px;
   padding: 4px;
   color: #5B6C84;
   padding-left: 8px;
@@ -37,7 +38,7 @@ const OperatorTypeBadge = styled.div<({ operator_type: any })>`
     margin-right: 6px;
   }
   & > .MuiSvgIcon-root {
-    font-size: 12px;
+    font-size: 18px;
     margin-left: auto;
     margin-right: 0;
     color: ${({ operator_type }) => {
@@ -57,7 +58,6 @@ type OperatorTypeProps = {
 
 const OperatorType = (props: OperatorTypeProps) => {
   const { operator } = props;
-  console.debug({ operator });
   if (!operator?.type) {
     return <></>;
   }
