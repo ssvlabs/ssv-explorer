@@ -28,7 +28,7 @@ const OperatorTypeBadge = styled.div<({ operator_type: any })>`
   height: 28px;
   font-family: ${defaultFont};
   font-size: 14px;
-  width: 90px;
+  min-width: 90px;
   padding: 4px;
   color: #5B6C84;
   padding-left: 8px;
