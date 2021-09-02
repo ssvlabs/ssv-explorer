@@ -137,7 +137,6 @@ const Operator = () => {
                   {operator.name ? (
                     <OperatorNameContainer>
                       <div className="label">{operator.name}</div>
-                      &nbsp;<CopyToClipboardIcon data={params.address} style={{ marginLeft: 5, width: 22, height: 22 }} />
                       &nbsp;<OperatorType operator={operator} />
                     </OperatorNameContainer>
                   ) : (
@@ -148,6 +147,7 @@ const Operator = () => {
                   <Typography noWrap>
                     {params.address}
                   </Typography>
+                  &nbsp;<CopyToClipboardIcon data={params.address} style={{ marginLeft: 5, width: 22, height: 22, marginTop: 5 }} />
                 </SubHeading>
               </StatsBlock>
             </Grid>
