@@ -20,12 +20,23 @@ import NotFoundScreen from '~app/common/components/NotFoundScreen';
 import { Heading, SubHeading } from '~app/common/components/Headings';
 import ContentContainer from '~app/common/components/ContentContainer';
 import EmptyPlaceholder from '~app/common/components/EmptyPlaceholder';
+import OperatorType from '~app/components/Operator/components/OperatorType';
 import CopyToClipboardIcon from '~app/common/components/CopyToClipboardIcon';
 import BeaconchaLink from '~app/common/components/BeaconchaLink/BeaconchaLink';
 import { BreadCrumb, BreadCrumbDivider, BreadCrumbsContainer } from '~app/common/components/Breadcrumbs';
 
 const StatsBlock = styled.div<({ maxWidth?: number })>`
   max-width: ${({ maxWidth }) => `${maxWidth ?? 200}px`};
+`;
+
+const OperatorNameContainer = styled.div`
+  display: flex;
+  align-content: center;
+  align-items: center;
+  
+  & > .label {
+    margin-top: -5px;
+  }
 `;
 
 const Operator = () => {
@@ -124,9 +135,11 @@ const Operator = () => {
               <StatsBlock maxWidth={600} style={{ paddingRight: 15 }}>
                 <Heading variant="h1" style={{ textTransform: 'none' }}>
                   {operator.name ? (
-                    <>
-                      {operator.name} <CopyToClipboardIcon data={params.address} style={{ marginLeft: 5, width: 22, height: 22 }} />
-                    </>
+                    <OperatorNameContainer>
+                      <div className="label">{operator.name}</div>
+                      &nbsp;<CopyToClipboardIcon data={params.address} style={{ marginLeft: 5, width: 22, height: 22 }} />
+                      &nbsp;<OperatorType operator={operator} />
+                    </OperatorNameContainer>
                   ) : (
                     <Skeleton />
                   )}
