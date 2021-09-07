@@ -64,7 +64,7 @@ const OperatorType = (props: OperatorTypeProps) => {
 
   const operatorTypeLabels: any = {
     [OperatorTypes.VERIFIED_OPERATOR]: 'Verified',
-    [OperatorTypes.DAPP_NODE]: 'DApp Node',
+    [OperatorTypes.DAPP_NODE]: 'DAppNode',
   };
 
   return (
