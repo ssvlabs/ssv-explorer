@@ -20,7 +20,7 @@ import StyledCell from '~app/common/components/Table/StyledCell';
 import CenteredCell from '~app/common/components/Table/CenteredCell';
 
 export const overviewTableHeadersStyle: any = { textTransform: 'uppercase', fontSize: 12, fontWeight: 'bold' };
-export const overviewTableCellStyle: any = { fontSize: 14, height: 62 };
+export const overviewTableCellStyle: any = { fontSize: 14, height: 62, paddingTop: 0, paddingBottom: 0 };
 
 const Operators = () => {
   const classes = useStyles();
