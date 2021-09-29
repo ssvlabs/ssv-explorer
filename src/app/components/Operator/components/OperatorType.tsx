@@ -70,7 +70,7 @@ const OperatorType = (props: OperatorTypeProps) => {
   return (
     <OperatorTypeBadge operator_type={operator.type}>
       <div className="operator-type-label">{operatorTypeLabels[operator.type] ?? ''}</div>
-      <CheckCircleIcon />
+      {operator?.type !== OperatorTypes.OPERATOR ? <CheckCircleIcon /> : ''}
     </OperatorTypeBadge>
   );
 };
