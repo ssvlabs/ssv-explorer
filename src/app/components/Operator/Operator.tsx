@@ -73,9 +73,6 @@ const Operator = () => {
       }
     });
   };
-  if (operator.description) {
-    console.log(`${operator.description.substr(0, 186)} ...`);
-  }
 
   /**
    * Load all validators by operator address
