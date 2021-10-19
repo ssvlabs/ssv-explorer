@@ -318,7 +318,7 @@ const Validator = () =>
           data={sortedOperators.map((operator: any, index: number) => {
             return [
               <Typography noWrap>
-                {`${index + 1}g`}
+                {index + 1}
               </Typography>,
               <Link href={`${config.routes.OPERATORS.HOME}/${operator.address}`} className={classes.Link}>
                 <Typography noWrap>
