@@ -21,10 +21,14 @@ const ShowMoreText = (prop: Props) => {
   const { text } = prop;
   const [adjustText, setAdjustText] = useState('');
   const [buttonText, setButtonText] = useState(buttonTexts.showMore);
+  
+  const isLongText = text.length > 400;
 
   useEffect(() => {
-      if (text.length > 400) {
+      if (isLongText) {
           setAdjustText(`${text.substr(0, 250)}...`);
+      } else {
+          setAdjustText(text);
       }
   }, []);
   const showMoreLess = () => {
@@ -37,7 +41,7 @@ const ShowMoreText = (prop: Props) => {
       }
   };
     return (
-      <div>{adjustText} <Button onClick={showMoreLess}>{buttonText}</Button></div>
+      <div>{adjustText} {isLongText && <Button onClick={showMoreLess}>{buttonText}</Button>}</div>
     );
 };
 

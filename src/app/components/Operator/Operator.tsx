@@ -107,8 +107,11 @@ const Operator = () => {
   };
 
   const openInTab = (url: string) => {
-    const newWindow = window.open(url, '_blank', 'noopener,noreferrer');
-    if (newWindow) newWindow.opener = null;
+    if (url.indexOf('http://') === -1 || url.indexOf('https://') === -1) {
+      // eslint-disable-next-line no-param-reassign
+      url = `https://${url}`;
+    }
+    window.open(url, '_blank', 'noopener,noreferrer');
   };
 
   useEffect(() => {
