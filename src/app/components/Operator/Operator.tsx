@@ -58,6 +58,10 @@ const Operator = () => {
         { name: 'twitter_url', image: '/images/twitter_icon.png' },
         { name: 'linkedin_url', image: '/images/linkedin_icon.png' },
     ]);
+
+  const operatorImage = {
+    backgroundImage: `url(${operator.logo})`,
+  };
   /**
    * Fetch one operator by it's address
    * @param address
@@ -145,7 +149,7 @@ const Operator = () => {
                 <Grid style={{ marginBottom: '20px' }} container spacing={1}>
                   {operator.logo && (
                   <Grid item md="auto" xs={12}>
-                    <div className={operatorClasses.OperatorLogo} style={{ backgroundImage: `url("${operator.logo}")` }} />
+                    <div className={operatorClasses.OperatorLogo} style={operatorImage} />
                   </Grid>
 )}
                   <Grid item>
