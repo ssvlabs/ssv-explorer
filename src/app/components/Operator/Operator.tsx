@@ -148,10 +148,10 @@ const Operator = () => {
               <Grid item lg={6} md={12} xs={12}>
                 <Grid style={{ marginBottom: '20px' }} container spacing={1}>
                   {operator.logo && (
-                  <Grid item md="auto" xs={12}>
-                    <div className={operatorClasses.OperatorLogo} style={operatorImage} />
-                  </Grid>
-)}
+                    <Grid item md="auto" xs={12}>
+                      <div className={operatorClasses.OperatorLogo} style={operatorImage} />
+                    </Grid>
+                  )}
                   <Grid item>
                     <span className={operatorClasses.OperatorName}>
                       {operator.name}
