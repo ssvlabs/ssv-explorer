@@ -206,6 +206,7 @@ const Operator = () => {
                   })}
                 </Grid>
               </Grid>
+              {false && (
               <Grid item xs={12} lg={5}>
                 <Grid container className={operatorClasses.DashboardFields}>
                   {dashboardFields.map((field, index) => {
@@ -219,7 +220,8 @@ const Operator = () => {
                             className={`${operatorClasses.OperatorFieldsHeader} mainHeader`}>{FieldValue}</span>
                           <Grid container alignItems={'center'}>
                             <Grid item>
-                              <span className={`${operatorClasses.OperatorFieldsSubHeader} mainSubHeader`}>{field.displayName}</span>
+                              <span
+                                className={`${operatorClasses.OperatorFieldsSubHeader} mainSubHeader`}>{field.displayName}</span>
                             </Grid>
                             {field.hint && (
                               <Grid item>
@@ -235,6 +237,7 @@ const Operator = () => {
                   })}
                 </Grid>
               </Grid>
+)}
             </Grid>
           </Grid>
           <EmptyPlaceholder height={40} />

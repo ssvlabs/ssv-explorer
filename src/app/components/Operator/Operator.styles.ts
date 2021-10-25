@@ -47,7 +47,7 @@ export const useStylesOperator = makeStyles(() => ({
         marginBottom: '20px',
     },
     OperatorsSocialNetworks: {
-      marginBottom: '40px',
+      // marginBottom: '40px',
     },
     SocialNetwork: {
         display: 'inline-block',
