@@ -16,7 +16,6 @@ export const useStylesOperator = makeStyles(() => ({
         backgroundRepeat: 'no-repeat', /* Do not repeat the image */
         backgroundSize: 'contain',
         borderRadius: '4px',
-        border: '1px solid #5b6c84',
         '@media (max-width:1080px)': {
             width: '90px',
             height: '90px',
