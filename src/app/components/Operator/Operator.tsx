@@ -240,7 +240,6 @@ const Operator = () => {
 )}
             </Grid>
           </Grid>
-          <EmptyPlaceholder height={40} />
 
           <DataTable
             noDataMessage={'No validators'}
