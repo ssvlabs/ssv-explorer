@@ -117,6 +117,9 @@ export const useStyles = makeStyles((theme) => ({
   },
   paperContainer: {
     padding: 30,
+    '@media (max-width:1080px)': {
+      padding: 15,
+    },
   },
   tableWithBorder: {
     border: `1px solid ${theme.palette.divider}`,

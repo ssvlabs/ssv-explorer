@@ -313,10 +313,13 @@ const Validator = () =>
           title="Operators"
           hidePagination
           noDataMessage={'No operators'}
-          headers={['Name', 'Address', '']}
-          headersPositions={['left', 'left', 'right']}
-          data={sortedOperators.map((operator: any) => {
+          headers={['ID', 'Name', 'Address', '']}
+          headersPositions={['left', 'left', 'left', 'right']}
+          data={sortedOperators.map((operator: any, index: number) => {
             return [
+              <Typography noWrap>
+                {index + 1}
+              </Typography>,
               <Link href={`${config.routes.OPERATORS.HOME}/${operator.address}`} className={classes.Link}>
                 <Typography noWrap>
                   {operator.name}

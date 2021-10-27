@@ -1,46 +1,32 @@
 import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
-import styled from 'styled-components';
 import { Box } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
-import { Skeleton } from '@material-ui/lab';
+import { infoIconStyle } from '~root/theme';
 import { useParams } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import config from '~app/common/config';
 import ApiParams from '~lib/api/ApiParams';
-import { infoIconStyle } from '~root/theme';
 import SsvNetwork from '~lib/api/SsvNetwork';
 import { useStyles } from '~app/components/Styles';
 import Layout from '~app/common/components/Layout';
 import { longStringShorten } from '~lib/utils/strings';
 import InfoTooltip from '~app/common/components/InfoTooltip';
-import DataTable from '~app/common/components/DataTable/DataTable';
+import ShowMoreText from '~app/common/components/ShowMoreText';
 import NotFoundScreen from '~app/common/components/NotFoundScreen';
-import { Heading, SubHeading } from '~app/common/components/Headings';
+import DataTable from '~app/common/components/DataTable/DataTable';
 import ContentContainer from '~app/common/components/ContentContainer';
 import EmptyPlaceholder from '~app/common/components/EmptyPlaceholder';
 import OperatorType from '~app/components/Operator/components/OperatorType';
 import CopyToClipboardIcon from '~app/common/components/CopyToClipboardIcon';
+import { useStylesOperator } from '~app/components/Operator/Operator.styles';
 import BeaconchaLink from '~app/common/components/BeaconchaLink/BeaconchaLink';
 import { BreadCrumb, BreadCrumbDivider, BreadCrumbsContainer } from '~app/common/components/Breadcrumbs';
 
-const StatsBlock = styled.div<({ maxWidth?: number })>`
-  max-width: ${({ maxWidth }) => `${maxWidth ?? 200}px`};
-`;
-
-const OperatorNameContainer = styled.div`
-  display: flex;
-  align-content: center;
-  align-items: center;
-  
-  & > .label {
-    margin-top: -5px;
-  }
-`;
-
 const Operator = () => {
   const classes = useStyles();
+  const operatorClasses = useStylesOperator();
   const params: any = useParams();
 
   // Loading indicators
@@ -56,7 +42,26 @@ const Operator = () => {
   const defaultValidators: Record<string, any>[] | null = [];
   const [validators, setValidators] = useState(defaultValidators);
   const [notFound, setNotFound] = useState(false);
+  const [dashboardFields] = useState([
+    { name: 'validatorsCount', hint: false, displayName: 'Validators', toolTipText: null },
+    { name: 'performance', hint: true, displayName: 'Performance', toolTipText: 'Operators technical scoring metric - calculated by the percentage of attended duties across all of their managed validators.' },
+    { name: 'status', hint: true, displayName: 'Status', toolTipText: 'Monitoring indication whether the operator is performing his network duties for the majority of his validators (per the last 2 epochs).' },
+  ]);
+  const [subDashboardFields] = useState([
+    { name: 'location', hint: false, displayName: 'Location' },
+    { name: 'setup_provider', hint: false, displayName: 'Cloud Provider' },
+    { name: 'eth1_node_client', hint: false, displayName: 'ETH1 node client' },
+    { name: 'eth2_node_client', hint: false, displayName: 'ETH2 node client' },
+  ]);
+    const [socialNetworks] = useState([
+        { name: 'website_url', image: '/images/web_icon.png' },
+        { name: 'twitter_url', image: '/images/twitter_icon.png' },
+        { name: 'linkedin_url', image: '/images/linkedin_icon.png' },
+    ]);
 
+  const operatorImage = {
+    backgroundImage: `url(${operator.logo})`,
+  };
   /**
    * Fetch one operator by it's address
    * @param address
@@ -105,6 +110,14 @@ const Operator = () => {
     loadOperatorValidators(params.address, 1);
   };
 
+  const openInTab = (url: string) => {
+    if (url.indexOf('http://') === -1 || url.indexOf('https://') === -1) {
+      // eslint-disable-next-line no-param-reassign
+      url = `https://${url}`;
+    }
+    window.open(url, '_blank', 'noopener,noreferrer');
+  };
+
   useEffect(() => {
     if (!operator.address && !loadingOperator) {
       loadOperator(params.address);
@@ -130,56 +143,103 @@ const Operator = () => {
 
           <EmptyPlaceholder height={20} />
 
-          <Grid container alignContent="center" alignItems="center">
-            <Grid item xs={12} md={6}>
-              <StatsBlock maxWidth={600} style={{ paddingRight: 15 }}>
-                <Heading variant="h1" style={{ textTransform: 'none' }}>
-                  {operator.name ? (
-                    <OperatorNameContainer>
-                      <div className="label">{operator.name}</div>
-                      &nbsp;<OperatorType operator={operator} />
-                    </OperatorNameContainer>
-                  ) : (
-                    <Skeleton />
+          <Grid container>
+            <Grid container item justify={'space-between'}>
+              <Grid item lg={6} md={12} xs={12}>
+                <Grid style={{ marginBottom: '20px' }} container spacing={1}>
+                  {operator.logo && (
+                    <Grid item md="auto" xs={12}>
+                      <div className={operatorClasses.OperatorLogo} style={operatorImage} />
+                    </Grid>
                   )}
-                </Heading>
-                <SubHeading>
-                  <Typography noWrap>
-                    {params.address}
-                  </Typography>
-                  &nbsp;<CopyToClipboardIcon data={params.address} style={{ marginLeft: 5, width: 22, height: 22, marginTop: 5 }} />
-                </SubHeading>
-              </StatsBlock>
-            </Grid>
-            <Grid item xs={12} md={2}>
-              <StatsBlock>
-                <Heading variant="h1">{operator.validatorsCount ?? <Skeleton />}</Heading>
-                <SubHeading>Validators</SubHeading>
-              </StatsBlock>
-            </Grid>
-            <Grid item xs={12} md={2}>
-              {config.FEATURE.IBFT.ENABLED ? (
-                <StatsBlock>
-                  <Heading variant="h1">{operator.performance?.all >= 0 ? `${parseFloat(String(operator.performance?.all || 0)).toFixed(2)}%` : <Skeleton />}</Heading>
-                  <SubHeading>
-                    Performance <InfoTooltip message="Operators technical scoring metric - calculated by the percentage of attended duties across all of their managed validators." style={infoIconStyle} />
-                  </SubHeading>
-                </StatsBlock>
-              ) : ''}
-            </Grid>
-            <Grid item xs={12} md={2}>
-              {config.FEATURE.IBFT.ENABLED ? (
-                <StatsBlock>
-                  <Heading variant="h1">{operator.status ? operator.status : <Skeleton />}</Heading>
-                  <SubHeading>
-                    Status <InfoTooltip message="Monitoring indication whether the operator is performing his network duties for the majority of his validators (per the last 2 epochs)." style={infoIconStyle} />
-                  </SubHeading>
-                </StatsBlock>
-              ) : ''}
+                  <Grid item>
+                    <span className={operatorClasses.OperatorName}>
+                      {operator.name}
+                    </span>
+                    <span className={operatorClasses.OperatorAddress}>
+                      0x{longStringShorten(params.address, 4)}&nbsp;<CopyToClipboardIcon data={params.address} style={{ marginLeft: 5, width: 22, height: 22, verticalAlign: 'middle' }} />
+                    </span>
+                  </Grid>
+                  <Grid item>
+                    <OperatorType operator={operator} style={{ marginTop: '8px' }} />
+                  </Grid>
+                </Grid>
+                <Grid container className={operatorClasses.SubDashboardFields} spacing={2}>
+                  {subDashboardFields.map((field, index) => {
+                    const operatorDashboardField = operator[field.name];
+                    return (
+                        operatorDashboardField ? (
+                          <Grid item xs={12} md={'auto'} key={index}>
+                            <div>
+                              <span
+                                className={`${operatorClasses.OperatorFieldsHeader}`}>{operator[field.name]}</span>
+                              <Grid container alignItems={'center'}>
+                                <Grid item>
+                                  <span className={operatorClasses.OperatorFieldsSubHeader}>{field.displayName}</span>
+                                </Grid>
+                              </Grid>
+                            </div>
+                          </Grid>
+                        ) : ''
+                    );
+                  })}
+                </Grid>
+                {operator.description && (
+                <Grid item className={operatorClasses.OperatorsDescription}>
+                  <ShowMoreText text={operator.description} />
+                </Grid>
+                )}
+                <Grid item className={operatorClasses.OperatorsSocialNetworks}>
+                  {socialNetworks.map((socialNetwork, index) => {
+                    const operatorSocialNetwork = operator[socialNetwork.name];
+                    return (
+                        operatorSocialNetwork ? (
+                          <div tabIndex={0} role="button" onKeyDown={() => {
+                              openInTab(operator[socialNetwork.name]);
+                            }} onClick={() => {
+                              openInTab(operator[socialNetwork.name]);
+                            }} className={operatorClasses.SocialNetwork} key={index}>
+                            <img className={operatorClasses.SocialNetworkImage} src={socialNetwork.image} />
+                          </div>
+                        ) : ''
+                    );
+                  })}
+                </Grid>
+              </Grid>
+              {false && (
+              <Grid item xs={12} lg={5}>
+                <Grid container className={operatorClasses.DashboardFields}>
+                  {dashboardFields.map((field, index) => {
+                    const FieldValue = field.name === 'performance' ? operator[field.name]?.all : operator[field.name];
+                    const shouldBeGreen = field.name === 'status';
+                    return (
+                      <Grid xs={field.name === 'performance' ? 4 : 3} md={'auto'} item key={index}>
+                        <div>
+                          <span
+                            style={{ color: shouldBeGreen ? '#08c858' : '' }}
+                            className={`${operatorClasses.OperatorFieldsHeader} mainHeader`}>{FieldValue}</span>
+                          <Grid container alignItems={'center'}>
+                            <Grid item>
+                              <span
+                                className={`${operatorClasses.OperatorFieldsSubHeader} mainSubHeader`}>{field.displayName}</span>
+                            </Grid>
+                            {field.hint && (
+                              <Grid item>
+                                <InfoTooltip style={{ ...infoIconStyle, verticalAlign: 'middle' }}
+                                  message={field.toolTipText} />
+                              </Grid>
+                              )
+                              }
+                          </Grid>
+                        </div>
+                      </Grid>
+                    );
+                  })}
+                </Grid>
+              </Grid>
+)}
             </Grid>
           </Grid>
-
-          <EmptyPlaceholder height={40} />
 
           <DataTable
             noDataMessage={'No validators'}
@@ -208,7 +268,7 @@ const Operator = () => {
             onChangePage={(page: number) => { loadOperatorValidators(params.address, page); }}
             onChangeRowsPerPage={onChangeRowsPerPage}
             perPage={ApiParams.getInteger('operator:validators', 'perPage', ApiParams.PER_PAGE)}
-            isLoading={loadingValidators}
+            isLoading={loadingValidators || loadingOperator}
           />
         </NotFoundScreen>
       </ContentContainer>

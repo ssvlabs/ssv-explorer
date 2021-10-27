@@ -20,7 +20,7 @@ const OperatorTypeBadge = styled.div<({ operator_type: any })>`
   background-color: ${({ operator_type }) => {
     switch (operator_type) {
       case OperatorTypes.VERIFIED_OPERATOR:
-        return 'rgba(201, 254, 244, 0.35)';
+        return 'rgb(201, 254, 244)';
       case OperatorTypes.DAPP_NODE:
         return 'rgba(94, 115, 234, 0.12)';
     }
@@ -44,7 +44,7 @@ const OperatorTypeBadge = styled.div<({ operator_type: any })>`
     color: ${({ operator_type }) => {
       switch (operator_type) {
         case OperatorTypes.VERIFIED_OPERATOR:
-          return '#20EEC8';
+          return 'rgb(33, 215, 181);8';
         case OperatorTypes.DAPP_NODE:
           return '#0701FF';
       }
@@ -54,10 +54,11 @@ const OperatorTypeBadge = styled.div<({ operator_type: any })>`
 
 type OperatorTypeProps = {
   operator: any;
+  style: any;
 };
 
 const OperatorType = (props: OperatorTypeProps) => {
-  const { operator } = props;
+  const { operator, style } = props;
   if (!operator?.type) {
     return <></>;
   }
@@ -68,7 +69,7 @@ const OperatorType = (props: OperatorTypeProps) => {
   };
 
   return (
-    <OperatorTypeBadge operator_type={operator.type}>
+    <OperatorTypeBadge operator_type={operator.type} style={style || {}}>
       <div className="operator-type-label">{operatorTypeLabels[operator.type] ?? ''}</div>
       {operator?.type !== OperatorTypes.OPERATOR ? <CheckCircleIcon /> : ''}
     </OperatorTypeBadge>
