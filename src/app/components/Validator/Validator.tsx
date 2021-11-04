@@ -287,7 +287,7 @@ const Validator = () =>
                 duty.epoch,
                 duty.slot,
                 capitalize(duty.duty),
-                capitalize(duty.status),
+                capitalize(duty.status ?? ''),
                 getGroupedOperators(duty.operators),
               ];
             })}
