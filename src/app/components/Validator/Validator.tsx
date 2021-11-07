@@ -156,11 +156,17 @@ const Validator = () =>
 
   const getGroupedOperators = (operators: any[]) => {
     const successOperators: any[] = [];
+    const successOperatorsAddresses: any[] = [];
     const failedOperators: any[] = [];
     operators.map((operator: any) => {
       if (operator.status === 'success') {
         successOperators.push(operator);
-      } else {
+        successOperatorsAddresses.push(operator.address);
+      }
+      return null;
+    });
+    (validator.operators ?? []).map((operator: any) => {
+      if (successOperatorsAddresses.indexOf(operator.address) === -1) {
         failedOperators.push(operator);
       }
       return null;
@@ -286,7 +292,7 @@ const Validator = () =>
               return [
                 duty.epoch,
                 duty.slot,
-                capitalize(duty.duty),
+                capitalize(String(duty.duty).toLowerCase()),
                 capitalize(duty.status ?? ''),
                 getGroupedOperators(duty.operators),
               ];
