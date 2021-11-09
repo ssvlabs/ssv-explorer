@@ -11,9 +11,6 @@ const config = {
         },
     },
     FEATURE: {
-        IBFT: {
-            ENABLED: process.env.REACT_APP_FEATURE_ENABLE_IBFT,
-        },
         NETWORK: {
             NAME: process.env.REACT_APP_NETWORK,
         },

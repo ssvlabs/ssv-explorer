@@ -26,6 +26,7 @@ import EmptyPlaceholder from '~app/common/components/EmptyPlaceholder';
 import CopyToClipboardIcon from '~app/common/components/CopyToClipboardIcon';
 import BeaconchaLink from '~app/common/components/BeaconchaLink/BeaconchaLink';
 import { SuccessChip, FailureChip, ChipLink } from '~app/common/components/Chips';
+import { DEVELOPER_FLAGS, getLocalStorageFlagValue } from '~lib/utils/DeveloperHelper';
 import { BreadCrumb, BreadCrumbDivider, BreadCrumbsContainer } from '~app/common/components/Breadcrumbs';
 
 const useChipStyles = makeStyles(() => ({
@@ -220,6 +221,18 @@ const Validator = () =>
     }
   }, [params.address, validator?.publicKey, loadingValidator, loadingDuties]);
 
+  const renderSequenceNumber = (sequence: number) => {
+    if (sequence === -1 || sequence === undefined) {
+      return '';
+    }
+    if (getLocalStorageFlagValue(DEVELOPER_FLAGS.SHOW_SEQUENCE_NUMBERS) !== 1) {
+      return '';
+    }
+    return (
+      <div style={{ fontSize: 8, color: 'red' }}>SN: {sequence}</div>
+    );
+  };
+
   const renderOperatorsWithIbft = () => {
     return (
       <>
@@ -290,7 +303,7 @@ const Validator = () =>
             headers={['Epoch', 'Slot', 'Duty', 'Status', 'Operators']}
             data={(validatorDuties ?? []).map((duty: any) => {
               return [
-                duty.epoch,
+                (<>{duty.epoch} {renderSequenceNumber(duty.sequence)}</>),
                 duty.slot,
                 capitalize(String(duty.duty).toLowerCase()),
                 capitalize(duty.status ?? ''),
@@ -403,7 +416,7 @@ const Validator = () =>
                   </StatsBlock>
                 </Grid>
                 <Grid item xs={12} md={2}>
-                  {config.FEATURE.IBFT.ENABLED ? (
+                  {getLocalStorageFlagValue(DEVELOPER_FLAGS.SHOW_DUTIES_TABLE) ? (
                     <StatsBlock>
                       <Heading variant="h1">{validator?.status ? validator.status : <Skeleton />}</Heading>
                       <SubHeading>
@@ -419,7 +432,7 @@ const Validator = () =>
           <EmptyPlaceholder height={40} />
 
           <Grid container>
-            {config.FEATURE.IBFT.ENABLED ? renderOperatorsWithIbft() : renderSimpleOperatorsTable()}
+            {getLocalStorageFlagValue(DEVELOPER_FLAGS.SHOW_DUTIES_TABLE) ? renderOperatorsWithIbft() : renderSimpleOperatorsTable()}
           </Grid>
         </NotFoundScreen>
       </ContentContainer>
