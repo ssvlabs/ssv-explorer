@@ -12,6 +12,7 @@ import { longStringShorten } from '~lib/utils/strings';
 import DataTable from '~app/common/components/DataTable';
 import EmptyPlaceholder from '~app/common/components/EmptyPlaceholder';
 import ContentContainer from '~app/common/components/ContentContainer';
+import { DEVELOPER_FLAGS, getLocalStorageFlagValue } from '~lib/utils/DeveloperHelper';
 import { BreadCrumb, BreadCrumbDivider, BreadCrumbsContainer } from '~app/common/components/Breadcrumbs';
 
 const OperatorsList = () => {
@@ -73,7 +74,7 @@ const OperatorsList = () => {
         </Link>,
       ];
 
-      if (config.FEATURE.IBFT.ENABLED) {
+      if (getLocalStorageFlagValue(DEVELOPER_FLAGS.SHOW_DUTIES_TABLE)) {
         data.push(
           <Link href={`${config.routes.OPERATORS.HOME}/${operator.address}`} className={classes.Link}>
             {`${operator.performance['24h']}%`}
@@ -97,7 +98,7 @@ const OperatorsList = () => {
       'Validators',
     ];
 
-    if (config.FEATURE.IBFT.ENABLED) {
+    if (getLocalStorageFlagValue(DEVELOPER_FLAGS.SHOW_DUTIES_TABLE)) {
       headers.push('Performance (24h)');
       headers.push('Performance (All time)');
     }

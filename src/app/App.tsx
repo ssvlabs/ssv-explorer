@@ -6,6 +6,7 @@ import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
 import Routes from '~app/components/Routes';
 import { useStores } from '~app/hooks/useStores';
 import AppBar from '~app/common/components/AppBar';
+import DeveloperHelper from '~lib/utils/DeveloperHelper';
 import ApplicationStore from '~app/common/stores/Application.store';
 
 const App = () => {
@@ -14,6 +15,7 @@ const App = () => {
   return (
     <MuiThemeProvider theme={applicationStore.muiTheme}>
       <ThemeProvider theme={applicationStore.muiTheme}>
+        <DeveloperHelper />
         <AppBar />
         <Routes />
         <CssBaseline />
