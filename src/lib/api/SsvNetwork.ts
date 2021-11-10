@@ -17,8 +17,18 @@ class SsvNetwork {
     return SsvNetwork.instance;
   }
 
+  static get NETWORK() {
+    return config.FEATURE.NETWORK.NAME;
+  }
+
   async fetchValidators(page: number = 1, perPage: number = ApiParams.PER_PAGE, detailed = false) {
-    const url = `${this.baseUrl}/api/validators/${detailed ? 'detailed/' : ''}?page=${page}&perPage=${perPage}`;
+    let params: any = {
+      page,
+      perPage,
+      network: SsvNetwork.NETWORK,
+    };
+    params = new URLSearchParams(params);
+    const url = `${this.baseUrl}/api/validators/${detailed ? 'detailed/' : ''}?${params.toString()}`;
     return new ApiRequest({
       url,
       method: 'GET',
@@ -26,8 +36,14 @@ class SsvNetwork {
   }
 
   async fetchOperators(page: number = 1, perPage: number = ApiParams.PER_PAGE) {
+    let params: any = {
+      page,
+      perPage,
+      network: SsvNetwork.NETWORK,
+    };
+    params = new URLSearchParams(params);
     return new ApiRequest({
-      url: `${this.baseUrl}/api/operators/?page=${page}&perPage=${perPage}`,
+      url: `${this.baseUrl}/api/operators/?${params.toString()}`,
       method: 'GET',
     }).sendRequest();
   }
@@ -50,8 +66,15 @@ class SsvNetwork {
    * @param perPage
    */
   async fetchOperatorValidators(operatorAddress: string, page: number = 1, perPage: number = ApiParams.PER_PAGE) {
+    let params: any = {
+      operator: operatorAddress,
+      page,
+      perPage,
+      network: SsvNetwork.NETWORK,
+    };
+    params = new URLSearchParams(params);
     return new ApiRequest({
-      url: `${this.baseUrl}/api/validators/in_operator/?operator=${operatorAddress}&page=${page}&perPage=${perPage}`,
+      url: `${this.baseUrl}/api/validators/in_operator/?${params.toString()}`,
       method: 'GET',
     }).sendRequest();
   }
@@ -61,7 +84,11 @@ class SsvNetwork {
    * @param validatorAddress
    */
   async fetchValidator(validatorAddress: string) {
-    const url = `${this.baseUrl}/api/validators/${validatorAddress}/`;
+    let params: any = {
+      network: SsvNetwork.NETWORK,
+    };
+    params = new URLSearchParams(params);
+    const url = `${this.baseUrl}/api/validators/${validatorAddress}/?${params.toString()}`;
     return new ApiRequest({
       url,
       method: 'GET',
@@ -75,7 +102,14 @@ class SsvNetwork {
    * @param perPage
    */
   async fetchValidatorDuties(validatorAddress: string, page = 1, perPage = ApiParams.PER_PAGE) {
-    const url = `${this.baseUrl}/api/validators/duties/?validator=${validatorAddress}&page=${page}&perPage=${perPage}`;
+    let params: any = {
+      validator: validatorAddress,
+      page,
+      perPage,
+      network: SsvNetwork.NETWORK,
+    };
+    params = new URLSearchParams(params);
+    const url = `${this.baseUrl}/api/validators/duties/?${params.toString()}`;
     return new ApiRequest({
       url,
       method: 'GET',
@@ -87,8 +121,13 @@ class SsvNetwork {
    * @param query
    */
   async search(query: string) {
+    let params: any = {
+      query,
+      network: SsvNetwork.NETWORK,
+    };
+    params = new URLSearchParams(params);
     return new ApiRequest({
-      url: `${this.baseUrl}/api/search/?query=${query}`,
+      url: `${this.baseUrl}/api/search/?${params.toString()}`,
       method: 'GET',
     }).sendRequest();
   }
