@@ -77,12 +77,12 @@ const OperatorsList = () => {
       if (getLocalStorageFlagValue(DEVELOPER_FLAGS.SHOW_DUTIES_TABLE)) {
         data.push(
           <Link href={`${config.routes.OPERATORS.HOME}/${operator.address}`} className={classes.Link}>
-            {`${operator.performance['24h']}%`}
+            {`${operator.performance ? operator.performance['24h'] : '0.0'}%`}
           </Link>,
         );
         data.push(
           <Link href={`${config.routes.OPERATORS.HOME}/${operator.address}`} className={classes.Link}>
-            {`${operator.performance.all}%`}
+            {`${operator.performance?.all ?? '0.0'}%`}
           </Link>,
         );
       }
