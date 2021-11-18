@@ -19,12 +19,12 @@
         />
         <meta
             http-equiv="Content-Security-Policy"
-            content="connect-src 'self' data: http://localhost:8000 0.0.0.0:8000 https://ec.stage.ssv.network https://ec.ssv.network https://fonts.googleapis.com https://fonts.gstatic.com;
+            content="connect-src 'self' data: http://localhost:8000 0.0.0.0:8000 https://ec.stage.ssv.network https://ec.ssv.network https://fonts.googleapis.com https://fonts.gstatic.com http://www.google-analytics.com https://www.googletagmanager.com;
                      frame-src 'self';
                      default-src 'none';
                      img-src 'self' data: https://media.ssv.network https://media.stage.ssv.network;
                      manifest-src 'self';
-                     script-src-elem 'self' 'unsafe-inline';
+                     script-src-elem 'self' 'unsafe-inline' https://www.googletagmanager.com;
                      script-src 'self' 'unsafe-eval';
                      font-src *.gstatic.com;
                      style-src-elem 'unsafe-inline';
@@ -45,6 +45,26 @@
         <link rel="apple-touch-icon" href="%PUBLIC_URL%/images/favicons/cropped-favicon-180x180.png" />
     </head>
     <body style="padding: 0; margin: 0">
+        <script>
+            (function (w, d, s, l, i) {
+                w[l] = w[l] || [];
+                w[l].push({
+                    'gtm.start':
+                      new Date().getTime(), event: 'gtm.js'
+                });
+                var f = d.getElementsByTagName(s)[0],
+                  j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+                j.async = true;
+                j.src =
+                  "%REACT_APP_GOOGLE_TAG_URL%" + i + dl;
+                f.parentNode.insertBefore(j, f);
+            })(window, document, 'script', 'dataLayer', "%REACT_APP_GOOGLE_TAG_SECRET%");
+        </script>
+        <iframe height="0"
+                src='%REACT_APP_GOOGLE_TAG_URL%%REACT_APP_GOOGLE_TAG_SECRET%'
+                style="display:none;visibility:hidden"
+                width="0"
+        ></iframe>
         <noscript>You need to enable JavaScript to run this app.</noscript>
         <div id="root"></div>
     </body>
