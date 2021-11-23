@@ -34,11 +34,11 @@ jobs:
 
       - name: Run stage build
         if: github.ref == 'refs/heads/stage'
-        run: API_BASE_URL=${{ secrets.STAGE_API_BASE_URL }} LINK_SSV_WEBAPP=${{ secrets.STAGE_LINK_SSV_WEBAPP }} yarn build
-        
+        run: API_BASE_URL=${{ secrets.STAGE_API_BASE_URL }} LINK_SSV_WEBAPP=${{ secrets.STAGE_LINK_SSV_WEBAPP }} GOOGLE_TAG_SECRET=${{ secrets.STAGE_GOOGLE_TAG_SECRET }} yarn build
+
       - name: Run prod build
         if: github.ref == 'refs/heads/main'
-        run: API_BASE_URL=${{ secrets.PROD_API_BASE_URL }} LINK_SSV_WEBAPP=${{ secrets.PROD_LINK_SSV_WEBAPP }} yarn build
+        run: API_BASE_URL=${{ secrets.PROD_API_BASE_URL }} LINK_SSV_WEBAPP=${{ secrets.PROD_LINK_SSV_WEBAPP }} GOOGLE_TAG_SECRET=${{ secrets.PROD_GOOGLE_TAG_SECRET }} yarn build
 
       - name: Deploy staging
         if: github.ref == 'refs/heads/stage'
