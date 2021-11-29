@@ -54,7 +54,7 @@ const OperatorTypeBadge = styled.div<({ operator_type: any })>`
 
 type OperatorTypeProps = {
   operator: any;
-  style: any;
+  style?: any;
 };
 
 const OperatorType = (props: OperatorTypeProps) => {

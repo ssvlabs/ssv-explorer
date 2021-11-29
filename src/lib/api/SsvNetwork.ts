@@ -53,8 +53,12 @@ class SsvNetwork {
    * @param operatorAddress
    */
   async fetchOperator(operatorAddress: string) {
+    let params: any = {
+      network: SsvNetwork.NETWORK,
+    };
+    params = new URLSearchParams(params);
     return new ApiRequest({
-      url: `${this.baseUrl}/api/operators/${operatorAddress}/`,
+      url: `${this.baseUrl}/api/operators/${operatorAddress}/?${params.toString()}`,
       method: 'GET',
     }).sendRequest();
   }
