@@ -10,6 +10,7 @@ import Layout from '~app/common/components/Layout';
 import { useStyles } from '~app/components/Styles';
 import { longStringShorten } from '~lib/utils/strings';
 import DataTable from '~app/common/components/DataTable';
+import { getPerformances } from '~lib/utils/performance';
 import EmptyPlaceholder from '~app/common/components/EmptyPlaceholder';
 import ContentContainer from '~app/common/components/ContentContainer';
 import { DEVELOPER_FLAGS, getLocalStorageFlagValue } from '~lib/utils/DeveloperHelper';
@@ -75,18 +76,18 @@ const OperatorsList = () => {
       ];
 
       if (getLocalStorageFlagValue(DEVELOPER_FLAGS.SHOW_DUTIES_TABLE)) {
-        data.push(
-          <Link href={`${config.routes.OPERATORS.HOME}/${operator.address}`} className={classes.Link}>
-            {`${operator.performance ? operator.performance['24h'] : '0.0'}%`}
-          </Link>,
-        );
-        data.push(
-          <Link href={`${config.routes.OPERATORS.HOME}/${operator.address}`} className={classes.Link}>
-            {`${operator.performance?.all ?? '0.0'}%`}
-          </Link>,
-        );
+        const performances = getPerformances(operator.performance);
+        // console.debug('Operators List: operator performances:', performances);
+        // console.debug('Operators List: operator:', operator);
+        for (let i = 0; i < performances.length; i += 1) {
+          const performance = performances[i];
+          data.push(
+            <Link href={`${config.routes.OPERATORS.HOME}/${operator.address}`} className={classes.Link}>
+              {`${performance.value}%`}
+            </Link>,
+          );
+        }
       }
-
       return data;
     });
   };
@@ -99,8 +100,15 @@ const OperatorsList = () => {
     ];
 
     if (getLocalStorageFlagValue(DEVELOPER_FLAGS.SHOW_DUTIES_TABLE)) {
-      headers.push('Performance (24h)');
-      headers.push('Performance (All time)');
+      const operator = operators.length ? operators[0] : null;
+      if (!operator) {
+        return headers;
+      }
+      const performances = getPerformances(operator.performance);
+      for (let i = 0; i < performances.length; i += 1) {
+        const performance = performances[i];
+        headers.push(`Performance (${performance.label})`);
+      }
     }
 
     return headers;

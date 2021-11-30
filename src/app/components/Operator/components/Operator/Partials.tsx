@@ -9,6 +9,7 @@ import ShowMoreText from '~app/common/components/ShowMoreText';
 import OperatorType from '~app/components/Operator/components/OperatorType';
 import { useStylesOperator } from '~app/components/Operator/Operator.styles';
 import CopyToClipboardIcon from '~app/common/components/CopyToClipboardIcon';
+import { DEVELOPER_FLAGS, getLocalStorageFlagValue } from '~lib/utils/DeveloperHelper';
 
 const socialNetworks = [
   {
@@ -140,26 +141,34 @@ export const OperatorMetadata = (props: OperatorProps) => {
   );
 };
 
-const dashboardFields = [
-  {
+const getDashboardFields = () => {
+  const dashboardFields: any[] = [];
+
+  dashboardFields.push({
     name: 'validatorsCount',
     hint: false,
     displayName: 'Validators',
     toolTipText: null,
-  },
-  {
-    name: 'performance',
-    hint: true,
-    displayName: 'Performance',
-    toolTipText: 'Operators technical scoring metric - calculated by the percentage of attended duties across all of their managed validators.',
-  },
-  {
+  });
+
+  if (getLocalStorageFlagValue(DEVELOPER_FLAGS.SHOW_OPERATOR_PERFORMANCE)) {
+    dashboardFields.push({
+      name: 'performance',
+      hint: true,
+      displayName: 'Performance',
+      toolTipText: 'Operators technical scoring metric - calculated by the percentage of attended duties across all of their managed validators.',
+    });
+  }
+
+  dashboardFields.push({
     name: 'status',
     hint: true,
     displayName: 'Status',
     toolTipText: 'Monitoring indication whether the operator is performing his network duties for the majority of his validators (per the last 2 epochs).',
-  },
-];
+  });
+
+  return dashboardFields;
+};
 
 export const OperatorInfo = (props: OperatorProps) => {
   const { operator, isLoading } = props;
@@ -168,7 +177,7 @@ export const OperatorInfo = (props: OperatorProps) => {
   return (
     <Grid item xs={12} lg={5}>
       <Grid container className={operatorClasses.DashboardFields}>
-        {dashboardFields.map((field, index) => {
+        {getDashboardFields().map((field, index) => {
           console.debug(`OperatorInfo: ${field.name}: ${JSON.stringify(field)}. Operator: ${JSON.stringify(operator)}`);
           const FieldValue = field.name === 'performance' ? `${parseFloat(String(operator[field.name]?.all || 0)).toFixed(2)}%` : operator[field.name];
           const shouldBeGreen = field.name === 'status';
