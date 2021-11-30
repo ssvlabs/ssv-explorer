@@ -4,6 +4,7 @@ import { Skeleton } from '@material-ui/lab';
 import Typography from '@material-ui/core/Typography';
 import { infoIconStyle } from '~root/theme';
 import { longStringShorten } from '~lib/utils/strings';
+import { getPerformances } from '~lib/utils/performance';
 import InfoTooltip from '~app/common/components/InfoTooltip';
 import ShowMoreText from '~app/common/components/ShowMoreText';
 import OperatorType from '~app/components/Operator/components/OperatorType';
@@ -178,8 +179,18 @@ export const OperatorInfo = (props: OperatorProps) => {
     <Grid item xs={12} lg={5}>
       <Grid container className={operatorClasses.DashboardFields}>
         {getDashboardFields().map((field, index) => {
-          console.debug(`OperatorInfo: ${field.name}: ${JSON.stringify(field)}. Operator: ${JSON.stringify(operator)}`);
-          const FieldValue = field.name === 'performance' ? `${parseFloat(String(operator[field.name]?.all || 0)).toFixed(2)}%` : operator[field.name];
+          let FieldValue = '';
+
+          if (field.name === 'performance') {
+            const fieldValue = operator[field.name];
+            const performances = getPerformances(fieldValue);
+            if (performances?.length) {
+              FieldValue = `${parseFloat(String(fieldValue[performances[0].key] || 0)).toFixed(2)}%`;
+            }
+          } else {
+            FieldValue = operator[field.name];
+          }
+
           const shouldBeGreen = field.name === 'status';
 
           return (
