@@ -19,6 +19,7 @@ export const DEVELOPER_FLAGS = {
   SHOW_HELP: 'developerHelper',
   SHOW_SEQUENCE_NUMBERS: 'showSequenceNumbers',
   SHOW_DUTIES_TABLE: 'showDutiesTable',
+  SHOW_OPERATOR_PERFORMANCE: 'showOperatorPerformance',
 };
 
 export const developerFlagsInfo = {
@@ -32,6 +33,10 @@ export const developerFlagsInfo = {
   },
   [DEVELOPER_FLAGS.SHOW_SEQUENCE_NUMBERS]: {
     'description': 'Show/Hide sequence numbers from SSV Network in duties table',
+    'values': ['0', '1'],
+  },
+  [DEVELOPER_FLAGS.SHOW_OPERATOR_PERFORMANCE]: {
+    'description': 'Show/Hide operator performance on operator page',
     'values': ['0', '1'],
   },
 };

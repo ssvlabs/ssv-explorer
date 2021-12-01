@@ -16,6 +16,7 @@ import { infoIconStyle } from '~root/theme';
 import SsvNetwork from '~lib/api/SsvNetwork';
 import { useStyles } from '~app/components/Styles';
 import Layout from '~app/common/components/Layout';
+import { getPerformances } from '~lib/utils/performance';
 import InfoTooltip from '~app/common/components/InfoTooltip';
 import { capitalize, longStringShorten } from '~lib/utils/strings';
 import NotFoundScreen from '~app/common/components/NotFoundScreen';
@@ -74,7 +75,8 @@ const Validator = () =>
   const defaultValidator: Record<string, any> = {};
   const [notFound, setNotFound] = useState(false);
   const [validator, setValidator] = useState(defaultValidator);
-  const [performance, setPerformance] = useState('24h');
+  const [performance, setPerformance] = useState('');
+  const [performances, setPerformances] = useState([]);
 
   // Duties
   const [dutiesPagination, setDutiesPagination] = useState(ApiParams.DEFAULT_PAGINATION);
@@ -102,6 +104,14 @@ const Validator = () =>
       } else {
         setValidator(result.data);
         setLoadingValidator(false);
+        const operator = result.data?.operators?.length ? result.data.operators[0] : null;
+        if (operator) {
+          const supportedPerformances = getPerformances(operator.performance);
+          if (supportedPerformances?.length) {
+            setPerformances(supportedPerformances);
+            setPerformance(supportedPerformances[supportedPerformances.length - 1].label);
+          }
+        }
       }
     });
   };
@@ -242,14 +252,16 @@ const Validator = () =>
               <Grid item xs={6} md={6}>
                 <h3 style={{ marginTop: 0 }}>Operators</h3>
               </Grid>
-              <Grid item xs={6} md={6} style={{ marginTop: 3 }}>
-                <PerformanceSwitcher selected={performance === '24h'} onClick={() => setPerformance('24h')}>
-                  24h
-                </PerformanceSwitcher>
-                <PerformanceSwitcher selected={performance === 'all'} onClick={() => setPerformance('all')}>
-                  All Time
-                </PerformanceSwitcher>
-              </Grid>
+              {performances?.length ? (
+                <Grid item xs={6} md={6} style={{ marginTop: 3 }}>
+                  {Array.from(performances).reverse().map((p: any) => (
+                    <PerformanceSwitcher key={`performance-switcher-${p.label}`} selected={performance === p.key} onClick={() => setPerformance(p.key)}>
+                      {p.label}
+                    </PerformanceSwitcher>
+                  ))}
+                </Grid>
+              ) : ''}
+
               <Grid container style={{ marginBottom: 15, color: '#A1ACBE', textTransform: 'uppercase', fontSize: 12, fontWeight: 600 }}>
                 <Grid item xs={6} md={6}>
                   Name
