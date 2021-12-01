@@ -161,12 +161,12 @@ const getDashboardFields = () => {
     });
   }
 
-  dashboardFields.push({
-    name: 'status',
-    hint: true,
-    displayName: 'Status',
-    toolTipText: 'Monitoring indication whether the operator is performing his network duties for the majority of his validators (per the last 2 epochs).',
-  });
+  // dashboardFields.push({
+  //   name: 'status',
+  //   hint: true,
+  //   displayName: 'Status',
+  //   toolTipText: 'Monitoring indication whether the operator is performing his network duties for the majority of his validators (per the last 2 epochs).',
+  // });
 
   return dashboardFields;
 };
