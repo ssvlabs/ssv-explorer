@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
 import styled from 'styled-components';
-import { Box } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import Link from '@material-ui/core/Link';
 import { Skeleton } from '@material-ui/lab';
@@ -336,50 +335,12 @@ const Validator = () =>
     );
   };
 
-  const renderSimpleOperatorsTable = () => {
-    const sortedOperators = getSortedOperators();
-    return (
-      <Grid item xs={12} md={12}>
-        <DataTable
-          title="Operators"
-          hidePagination
-          noDataMessage={'No operators'}
-          headers={['ID', 'Name', 'Address', '']}
-          headersPositions={['left', 'left', 'left', 'right']}
-          data={sortedOperators.map((operator: any, index: number) => {
-            return [
-              <Typography noWrap>
-                {index + 1}
-              </Typography>,
-              <Link href={`${config.routes.OPERATORS.HOME}/${operator.address}`} className={classes.Link}>
-                <Typography noWrap>
-                  {operator.name}
-                </Typography>
-              </Link>,
-              <Link href={`${config.routes.OPERATORS.HOME}/${operator.address}`} className={classes.Link} style={{ marginLeft: 'auto', marginRight: 0 }}>
-                <Typography noWrap>
-                  <Box component="div" display={{ xs: 'block', sm: 'block', md: 'none', lg: 'none' }}>
-                    {longStringShorten(operator.address)}
-                  </Box>
-                  <Box component="div" display={{ xs: 'none', sm: 'none', md: 'block', lg: 'block' }}>
-                    {operator.address}
-                  </Box>
-                </Typography>
-              </Link>,
-              <div style={{ marginTop: 3, marginLeft: 'auto', marginRight: 0 }}>
-                <CopyToClipboardIcon data={operator.address} />
-              </div>,
-            ];
-          })}
-          totalCount={sortedOperators.length}
-          page={0}
-          onChangePage={() => {}}
-          onChangeRowsPerPage={() => {}}
-          perPage={ApiParams.PER_PAGE}
-          isLoading={loadingValidator}
-        />
-      </Grid>
-    );
+  const operatorsStatsStyle = {
+    display: 'flex',
+    alignItems: 'right',
+    alignContent: 'right',
+    justifyContent: 'right',
+    justifyItems: 'right',
   };
 
   return (
@@ -421,21 +382,11 @@ const Validator = () =>
             </Grid>
             {!notFound ? (
               <>
-                <Grid item xs={12} md={2}>
+                <Grid item xs={12} md={4} style={operatorsStatsStyle}>
                   <StatsBlock>
                     <Heading variant="h1">{validator?.operators?.length ?? <Skeleton />}</Heading>
                     <SubHeading>Operators</SubHeading>
                   </StatsBlock>
-                </Grid>
-                <Grid item xs={12} md={2}>
-                  {getLocalStorageFlagValue(DEVELOPER_FLAGS.SHOW_DUTIES_TABLE) ? (
-                    <StatsBlock>
-                      <Heading variant="h1">{validator?.status ? validator.status : <Skeleton />}</Heading>
-                      <SubHeading>
-                        Status <InfoTooltip style={{ ...infoIconStyle, marginTop: 2 }} message="Refers to the validator’s status in the SSV network (not beacon chain), and reflects whether its operators are consistently performing their duties (according to last 2 epochs)." />
-                      </SubHeading>
-                    </StatsBlock>
-                  ) : ''}
                 </Grid>
               </>
             ) : ''}
@@ -444,7 +395,7 @@ const Validator = () =>
           <EmptyPlaceholder height={40} />
 
           <Grid container>
-            {getLocalStorageFlagValue(DEVELOPER_FLAGS.SHOW_DUTIES_TABLE) ? renderOperatorsWithIbft() : renderSimpleOperatorsTable()}
+            {renderOperatorsWithIbft()}
           </Grid>
         </NotFoundScreen>
       </ContentContainer>
