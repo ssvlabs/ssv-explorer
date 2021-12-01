@@ -75,18 +75,14 @@ const OperatorsList = () => {
         </Link>,
       ];
 
-      if (getLocalStorageFlagValue(DEVELOPER_FLAGS.SHOW_DUTIES_TABLE)) {
-        const performances = getPerformances(operator.performance);
-        // console.debug('Operators List: operator performances:', performances);
-        // console.debug('Operators List: operator:', operator);
-        for (let i = 0; i < performances.length; i += 1) {
-          const performance = performances[i];
-          data.push(
-            <Link href={`${config.routes.OPERATORS.HOME}/${operator.address}`} className={classes.Link}>
-              {`${performance.value}%`}
-            </Link>,
-          );
-        }
+      const performances = getPerformances(operator.performance);
+      for (let i = 0; i < performances.length; i += 1) {
+        const performance = performances[i];
+        data.push(
+          <Link href={`${config.routes.OPERATORS.HOME}/${operator.address}`} className={classes.Link}>
+            {`${performance.value}%`}
+          </Link>,
+        );
       }
       return data;
     });
@@ -99,11 +95,17 @@ const OperatorsList = () => {
       'Validators',
     ];
 
-    if (getLocalStorageFlagValue(DEVELOPER_FLAGS.SHOW_DUTIES_TABLE)) {
+    if (getLocalStorageFlagValue(DEVELOPER_FLAGS.SHOW_OPERATORS_TABLE_PERFORMANCE_COLUMNS)) {
       const operator = operators.length ? operators[0] : null;
       if (!operator) {
         return headers;
       }
+
+      if (!operator.performance) {
+        console.warn('Operators performance columns enabled, but operators does not have performance information!');
+        return headers;
+      }
+
       const performances = getPerformances(operator.performance);
       for (let i = 0; i < performances.length; i += 1) {
         const performance = performances[i];

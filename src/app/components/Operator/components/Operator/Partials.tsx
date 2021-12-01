@@ -156,7 +156,7 @@ const getDashboardFields = () => {
     dashboardFields.push({
       name: 'performance',
       hint: true,
-      displayName: 'Performance',
+      displayName: 'Performance (24h)',
       toolTipText: 'Operators technical scoring metric - calculated by the percentage of attended duties across all of their managed validators.',
     });
   }
