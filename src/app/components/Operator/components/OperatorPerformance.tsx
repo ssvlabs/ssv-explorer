@@ -66,18 +66,22 @@ const PerformanceHelpText = styled.div`
   bottom: 0;
 `;
 
-function getPerformance(this: any, operator: any, selectedPerformance: string) {
+function getPerformance(operator: any, selectedPerformance: string): any {
   const performanceKey = `${operator?.address}_${selectedPerformance}`;
 
-  if (!((operator?.performance !== undefined && operator?.performance[selectedPerformance] !== undefined) || this[performanceKey])) {
+  // @ts-ignore
+  if (!((operator?.performance !== undefined && operator?.performance[selectedPerformance] !== undefined) || getPerformance[performanceKey])) {
     return [false, <Skeleton style={{ width: 100 }} />];
   }
 
-  if (this[performanceKey]) {
-    return [true, this[performanceKey]];
+  // @ts-ignore
+  if (getPerformance[performanceKey]) {
+    // @ts-ignore
+    return [true, getPerformance[performanceKey]];
   }
   const performance = `${parseFloat(String(operator?.performance[selectedPerformance])).toFixed(2)}%`;
-  this[performanceKey] = performance;
+  // @ts-ignore
+  getPerformance[performanceKey] = performance;
   return [true, performance];
 }
 

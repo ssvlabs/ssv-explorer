@@ -33,9 +33,11 @@ type ValidatorOperatorProps = {
 
 const performanceStore: PerformanceStore = BaseStore.getInstance().getStore('Performance');
 
-function getSortedOperators(this: any, operators: any[], selectedPerformancePeriod: string): any[] {
-  if (this[selectedPerformancePeriod]) {
-    return [true, this[selectedPerformancePeriod]];
+function getSortedOperators(operators: any[], selectedPerformancePeriod: string): any[] {
+  // @ts-ignore
+  if (getSortedOperators[selectedPerformancePeriod]) {
+    // @ts-ignore
+    return [true, getSortedOperators[selectedPerformancePeriod]];
   }
   let havingPerformance = false;
   const sortedOperators: any[] = operators
@@ -57,7 +59,8 @@ function getSortedOperators(this: any, operators: any[], selectedPerformancePeri
     });
 
   if (havingPerformance) {
-    this[selectedPerformancePeriod] = sortedOperators;
+    // @ts-ignore
+    getSortedOperators[selectedPerformancePeriod] = sortedOperators;
   }
   return [havingPerformance, sortedOperators];
 }
