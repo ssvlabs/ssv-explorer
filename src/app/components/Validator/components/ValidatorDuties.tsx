@@ -156,7 +156,7 @@ export default (props: ValidatorDutiesProps) => {
     <PaddedGridItem item xs={12} md={9} paddingLeft={30}>
       <DataTable
         title="Duties"
-        headers={['Epoch', 'Slot', 'Duty', 'Status', 'Operators Consensus Breakdown']}
+        headers={['Epoch', 'Slot', 'Duty', 'Status', 'Operator Consensus Breakdown']}
         data={(validator?.publicKey ? (validatorDuties ?? []) : []).map((duty: any) => {
           return [
             (<>{duty.epoch} {renderSequenceNumber(duty.sequence)}</>),
