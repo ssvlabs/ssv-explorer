@@ -48,7 +48,6 @@ const PerformanceValueContent = styled.div`
   align-content: center;
   justify-content: center;
   justify-items: center;
-  margin-top: -20px;
   margin-bottom: auto;
 `;
 
@@ -62,8 +61,6 @@ const PerformanceHelpText = styled.div`
   color: #7aa4e9;
   width: 100%;
   text-align: left;
-  position: absolute;
-  bottom: 0;
 `;
 
 function getPerformance(operator: any, selectedPerformance: string): any {
