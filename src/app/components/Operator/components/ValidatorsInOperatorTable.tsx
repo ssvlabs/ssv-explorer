@@ -27,20 +27,24 @@ type ValidatorsInOperatorTableProps = {
 const ValidatorsInOperatorTable = (props: ValidatorsInOperatorTableProps) => {
   const classes = useStyles();
   const { validators, pagination, params, isLoading, onLoadPage, onChangeRowsPerPage, perPage } = props;
+  const validatorsTitle = `${pagination?.total ? pagination?.total : ''} Validator${(pagination?.total ?? 0) > 1 || pagination?.total === 0 ? 's' : ''}`;
 
   return (
     <DataTable
       noDataMessage={'No validators'}
-      headers={['Validators', '']}
+      headers={[validatorsTitle, '']}
       headersPositions={['left', 'right']}
       data={(validators || []).map((validator: any) => {
         return [
           <Link href={`${config.routes.VALIDATORS.HOME}/${validator.publicKey}`} className={classes.Link}>
             <Typography noWrap>
-              <Box component="div" display={{ xs: 'block', sm: 'block', md: 'none', lg: 'none' }}>
+              <Box component="div" display={{ xs: 'block', sm: 'none', md: 'none', lg: 'none' }}>
                 0x{longStringShorten(validator.publicKey, 10)}
               </Box>
-              <Box component="div" display={{ xs: 'none', sm: 'none', md: 'block', lg: 'block' }}>
+              <Box component="div" display={{ xs: 'none', sm: 'block', md: 'block', lg: 'none' }}>
+                0x{longStringShorten(validator.publicKey, 20)}
+              </Box>
+              <Box component="div" display={{ xs: 'none', sm: 'none', md: 'none', lg: 'block' }}>
                 0x{validator.publicKey}
               </Box>
             </Typography>

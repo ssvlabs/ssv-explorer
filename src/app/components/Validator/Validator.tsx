@@ -2,338 +2,90 @@ import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
 import styled from 'styled-components';
 import Grid from '@material-ui/core/Grid';
-import Link from '@material-ui/core/Link';
 import { Skeleton } from '@material-ui/lab';
 import { useParams } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import TableContainer from '@material-ui/core/TableContainer';
 import config from '~app/common/config';
-import ApiParams from '~lib/api/ApiParams';
-import { infoIconStyle } from '~root/theme';
 import SsvNetwork from '~lib/api/SsvNetwork';
-import { useStyles } from '~app/components/Styles';
 import Layout from '~app/common/components/Layout';
-import { getPerformances } from '~lib/utils/performance';
-import InfoTooltip from '~app/common/components/InfoTooltip';
-import { capitalize, longStringShorten } from '~lib/utils/strings';
+import BaseStore from '~app/common/stores/BaseStore';
+import { longStringShorten } from '~lib/utils/strings';
 import NotFoundScreen from '~app/common/components/NotFoundScreen';
-import DataTable from '~app/common/components/DataTable/DataTable';
+import PerformanceStore from '~app/common/stores/Performance.store';
 import { Heading, SubHeading } from '~app/common/components/Headings';
 import ContentContainer from '~app/common/components/ContentContainer';
 import EmptyPlaceholder from '~app/common/components/EmptyPlaceholder';
 import CopyToClipboardIcon from '~app/common/components/CopyToClipboardIcon';
 import BeaconchaLink from '~app/common/components/BeaconchaLink/BeaconchaLink';
-import { SuccessChip, FailureChip, ChipLink } from '~app/common/components/Chips';
-import { DEVELOPER_FLAGS, getLocalStorageFlagValue } from '~lib/utils/DeveloperHelper';
+import ValidatorDuties from '~app/components/Validator/components/ValidatorDuties';
+import ValidatorOperators from '~app/components/Validator/components/ValidatorOperators';
 import { BreadCrumb, BreadCrumbDivider, BreadCrumbsContainer } from '~app/common/components/Breadcrumbs';
-
-const useChipStyles = makeStyles(() => ({
-  chip: {
-    marginRight: 10,
-    '& > .MuiChip-label': {
-      display: 'inline-flex',
-    },
-  },
-}));
 
 const StatsBlock = styled.div<({ maxWidth?: any })>`
   max-width: ${({ maxWidth }) => `${Number.isNaN(maxWidth ?? 200) ? (maxWidth) : `${(maxWidth ?? 200)}px`}`};
 `;
 
-const PerformanceSwitcher = styled.span<({ selected?: boolean })>`
-  margin-top: 0;
-  float: right;
-  margin-left: 10px;
-  font-size: 15px;
-  font-weight: ${({ selected }) => selected ? 900 : 600};
-  user-select: none;
-  cursor: pointer;
-`;
-
-const PaddedGridItem = styled(Grid)<({ paddingleft: number })>`
-  padding-left: ${({ paddingleft }) => paddingleft > 0 ? `${paddingleft}px` : 'initial'};
-
-  @media (max-width: 960px) {
-    padding-left: 0;
-  }
-`;
+const BreadCrumbs = ({ address }: { address: string }) => {
+  return (
+    <BreadCrumbsContainer>
+      <BreadCrumb href={config.routes.HOME}>overview</BreadCrumb>
+      <BreadCrumbDivider />
+      <BreadCrumb href={config.routes.VALIDATORS.HOME}>validators</BreadCrumb>
+      <BreadCrumbDivider />
+      <BreadCrumb href={`${config.routes.VALIDATORS.HOME}/${address}`}>
+        0x{longStringShorten(address, 4)}
+      </BreadCrumb>
+    </BreadCrumbsContainer>
+  );
+};
 
 const Validator = () =>
 {
-  const classes = useStyles();
-  const chipClasses = useChipStyles();
+  const defaultPerformance = '24hours';
   const params: Record<string, any> = useParams();
-
-  // Loading indicators
-  const [loadingValidator, setLoadingValidator] = useState(false);
-  const [loadingDuties, setLoadingDuties] = useState(false);
-
-  // Validator
   const defaultValidator: Record<string, any> = {};
   const [notFound, setNotFound] = useState(false);
   const [validator, setValidator] = useState(defaultValidator);
-  const [performance, setPerformance] = useState('');
-  const [performances, setPerformances] = useState([]);
-
-  // Duties
-  const [dutiesPagination, setDutiesPagination] = useState(ApiParams.DEFAULT_PAGINATION);
-  const defaultDuties: Record<string, any>[] | null = null;
-  const [validatorDuties, setValidatorDuties] = useState(defaultDuties);
-
-  const performanceRowStyle: any = {
-    textAlign: 'left',
-    display: 'flex',
-    flexDirection: 'column',
-    paddingTop: 10,
-    paddingBottom: 10,
-  };
-  const performanceRowRightStyle: any = { ...performanceRowStyle, textAlign: 'right', marginTop: 13 };
+  const [loadingValidator, setLoadingValidator] = useState(false);
+  const performanceStore: PerformanceStore = BaseStore.getInstance().getStore('Performance');
 
   /**
    * Fetch one operator by it's address
    * @param address
+   * @param load_performances
    */
-  const loadValidator = (address: string) => {
-    setLoadingValidator(true);
-    SsvNetwork.getInstance().fetchValidator(address).then((result: any) => {
+  const loadValidator = (address: string, load_performances: string[] | null = null) => {
+    setLoadingValidator(!load_performances);
+    const loadingPerformancePeriods = load_performances ?? [defaultPerformance];
+    return SsvNetwork.getInstance().fetchValidator(address, loadingPerformancePeriods).then((result: any) => {
       if (result.status === 404) {
         setNotFound(true);
       } else {
         setValidator(result.data);
-        setLoadingValidator(false);
-        const operator = result.data?.operators?.length ? result.data.operators[0] : null;
-        if (operator) {
-          const supportedPerformances = getPerformances(operator.performance);
-          if (supportedPerformances?.length) {
-            setPerformances(supportedPerformances);
-            setPerformance(supportedPerformances[supportedPerformances.length - 1].label);
+        setLoadingValidator(!load_performances);
+
+        // Save all all_performances
+        for (let i = 0; i < loadingPerformancePeriods.length; i += 1) {
+          const performance = loadingPerformancePeriods[i];
+          for (let j = 0; j < result.data.operators.length; j += 1) {
+            const operator = result.data.operators[j];
+            performanceStore.setValidatorOperatorPerformance(
+              result.data.publicKey,
+              performance,
+              operator.address,
+              operator.performance[performance],
+            );
           }
         }
       }
     });
   };
 
-  /**
-   * Fetch all duties with pagination belonging to this validator
-   * @param address
-   * @param page
-   */
-  const loadValidatorDuties = (address: string, page: number) => {
-    if (page) {
-      ApiParams.saveInStorage('validator:duties', 'page', page);
-    }
-    const currentPage: number = ApiParams.getInteger('validator:duties', 'page', 1);
-    const perPage: number = ApiParams.getInteger('validator:duties', 'perPage', ApiParams.PER_PAGE);
-    setLoadingDuties(true);
-    SsvNetwork.getInstance().fetchValidatorDuties(address, currentPage, perPage).then((result: any) => {
-      if (result.status === 404) {
-        setNotFound(true);
-      } else {
-        setValidatorDuties(result.data.duties);
-        setDutiesPagination(result.data.pagination);
-        setLoadingDuties(false);
-      }
-    });
-  };
-
-  /**
-   * When per page dropdown changed
-   * @param perPage
-   */
-  const onChangeRowsPerPage = (perPage: number) => {
-    ApiParams.saveInStorage('validator:duties', 'perPage', perPage);
-    loadValidatorDuties(params.address, 1);
-  };
-
-  const getSortedOperators = () => {
-    if (!validator?.operators) {
-      return [];
-    }
-    return validator.operators.sort((o1: any, o2: any) => {
-      if (o1.performance[performance] > o2.performance[performance]) {
-        return -1;
-      }
-      if (o1.performance[performance] < o2.performance[performance]) {
-        return 1;
-      }
-      return 0;
-    }).map((operator: any) => {
-      return { ...operator, performance: operator.performance[performance] };
-    });
-  };
-
-  const getGroupedOperators = (operators: any[]) => {
-    const successOperators: any[] = [];
-    const successOperatorsAddresses: any[] = [];
-    const failedOperators: any[] = [];
-    operators.map((operator: any) => {
-      if (operator.status === 'success') {
-        successOperators.push(operator);
-        successOperatorsAddresses.push(operator.address);
-      }
-      return null;
-    });
-    (validator.operators ?? []).map((operator: any) => {
-      if (successOperatorsAddresses.indexOf(operator.address) === -1) {
-        failedOperators.push(operator);
-      }
-      return null;
-    });
-    return (
-      <>
-        {successOperators.length ? (
-          <SuccessChip
-            className={chipClasses.chip}
-            label={successOperators.map((o, oi) => (
-              <ChipLink
-                key={`operators-success-${oi}`}
-                className={classes.Link}
-                href={`${config.routes.OPERATORS.HOME}/${o.address}`}
-                style={{ maxWidth: 100 }}
-              >
-                <Typography noWrap style={{ fontSize: 14 }}>{o.name}</Typography>
-              </ChipLink>
-              ))
-            }
-            onDelete={() => {}}
-            deleteIcon={<CheckCircleIcon />}
-          />
-        ) : ''}
-        {failedOperators.length ? (
-          <FailureChip
-            className={chipClasses.chip}
-            label={failedOperators.map((o, oi) => (
-              <ChipLink
-                key={`operators-failed-${oi}`}
-                className={classes.Link}
-                href={`${config.routes.OPERATORS.HOME}/${o.address}`}
-                style={{ maxWidth: 100 }}
-              >
-                <Typography noWrap style={{ fontSize: 14 }}>{o.name}</Typography>
-              </ChipLink>
-            ))}
-            onDelete={() => {}}
-          />
-        ) : ''}
-      </>
-    );
-  };
-
   useEffect(() => {
-    if (!validator.publicKey && !loadingValidator) {
+    if (!validator?.publicKey && !loadingValidator) {
       loadValidator(params.address);
     }
-    if (validatorDuties === null && !loadingDuties) {
-      loadValidatorDuties(params.address, 1);
-    }
-  }, [params.address, validator?.publicKey, loadingValidator, loadingDuties]);
-
-  const renderSequenceNumber = (sequence: number) => {
-    if (sequence === -1 || sequence === undefined) {
-      return '';
-    }
-    if (getLocalStorageFlagValue(DEVELOPER_FLAGS.SHOW_SEQUENCE_NUMBERS) !== 1) {
-      return '';
-    }
-    return (
-      <div style={{ fontSize: 8, color: 'red' }}>SN: {sequence}</div>
-    );
-  };
-
-  const renderOperatorsWithIbft = () => {
-    return (
-      <>
-        <Grid item xs={12} md={3} style={{ marginTop: 1, marginBottom: 30 }}>
-          <TableContainer className={classes.tableWithBorder}>
-            <Grid container style={{ padding: 15 }}>
-              <Grid item xs={6} md={6}>
-                <h3 style={{ marginTop: 0 }}>Operators</h3>
-              </Grid>
-              {performances?.length ? (
-                <Grid item xs={6} md={6} style={{ marginTop: 3 }}>
-                  {Array.from(performances).reverse().map((p: any) => (
-                    <PerformanceSwitcher key={`performance-switcher-${p.label}`} selected={performance === p.key} onClick={() => setPerformance(p.key)}>
-                      {p.label}
-                    </PerformanceSwitcher>
-                  ))}
-                </Grid>
-              ) : ''}
-
-              <Grid container style={{ marginBottom: 15, color: '#A1ACBE', textTransform: 'uppercase', fontSize: 12, fontWeight: 600 }}>
-                <Grid item xs={6} md={6}>
-                  Name
-                </Grid>
-                <Grid item xs={6} md={6} style={{ textAlign: 'right', display: 'flex', alignItems: 'center', alignContent: 'center', justifyContent: 'flex-end' }}>
-                  Performance <InfoTooltip style={infoIconStyle} message="Operators technical scoring metric - calculated by the percentage of attended duties within a time-frame." />
-                </Grid>
-              </Grid>
-              <Grid container style={{ width: '100%' }}>
-                {!validator?.operators && (
-                  <Grid item xs={12} md={12}>
-                    <Skeleton />
-                  </Grid>
-                )}
-                {getSortedOperators().map((operator: any, operatorIndex: number) => (
-                  <span key={`operator-${operatorIndex}`} style={{ fontWeight: 500, fontSize: 14, display: 'flex', flexDirection: 'column', width: '100%' }}>
-                    <span style={{ display: 'flex', flexDirection: 'row', width: '100%' }}>
-                      <Grid item xs={6} md={6} style={performanceRowStyle}>
-                        <Typography noWrap>
-                          <Link
-                            href={`${config.routes.OPERATORS.HOME}/${operator.address}`}
-                            className={classes.Link}
-                            style={{ fontWeight: 500, fontSize: 14 }}
-                                  >
-                            {operator.name}
-                          </Link>
-                        </Typography>
-                        <Typography noWrap>
-                          <Link
-                            href={`${config.routes.OPERATORS.HOME}/${operator.address}`}
-                            className={classes.Link}
-                            style={{ fontWeight: 500, fontSize: 14 }}
-                                  >
-                            {longStringShorten(operator.address)}
-                          </Link>
-                        </Typography>
-                      </Grid>
-                      <Grid item xs={6} md={6} style={performanceRowRightStyle}>
-                        {parseFloat(String(operator.performance)).toFixed(2)}%
-                      </Grid>
-                    </span>
-                  </span>
-                ))}
-              </Grid>
-            </Grid>
-          </TableContainer>
-        </Grid>
-        <PaddedGridItem item xs={12} md={9} paddingleft={30}>
-          <DataTable
-            title="Duties"
-            headers={['Epoch', 'Slot', 'Duty', 'Status', 'Operators']}
-            data={(validatorDuties ?? []).map((duty: any) => {
-              return [
-                (<>{duty.epoch} {renderSequenceNumber(duty.sequence)}</>),
-                duty.slot,
-                capitalize(String(duty.duty).toLowerCase()),
-                capitalize(duty.status ?? ''),
-                getGroupedOperators(duty.operators),
-              ];
-            })}
-            totalCount={dutiesPagination?.total || 0}
-            page={(dutiesPagination?.page ?? 1) - 1}
-            onChangePage={(page: number) => {
-              loadValidatorDuties(params.address, page);
-            }}
-            onChangeRowsPerPage={onChangeRowsPerPage}
-            perPage={ApiParams.getInteger('validator:duties', 'perPage', ApiParams.PER_PAGE)}
-            isLoading={loadingDuties}
-          />
-        </PaddedGridItem>
-      </>
-    );
-  };
+  });
 
   const operatorsStatsStyle = {
     display: 'flex',
@@ -349,15 +101,7 @@ const Validator = () =>
         <EmptyPlaceholder height={10} />
 
         <NotFoundScreen notFound={notFound}>
-          <BreadCrumbsContainer>
-            <BreadCrumb href={config.routes.HOME}>overview</BreadCrumb>
-            <BreadCrumbDivider />
-            <BreadCrumb href={config.routes.VALIDATORS.HOME}>validators</BreadCrumb>
-            <BreadCrumbDivider />
-            <BreadCrumb href={`${config.routes.VALIDATORS.HOME}/${params.address}`}>
-              0x{longStringShorten(params.address, 4)}
-            </BreadCrumb>
-          </BreadCrumbsContainer>
+          <BreadCrumbs address={params.address} />
 
           <EmptyPlaceholder height={20} />
 
@@ -395,8 +139,18 @@ const Validator = () =>
           <EmptyPlaceholder height={40} />
 
           <Grid container>
-            {renderOperatorsWithIbft()}
+            <ValidatorOperators
+              validator={validator}
+              defaultPerformance={defaultPerformance}
+              onLoadPerformances={(perf: string[], callback: any = null) => {
+                loadValidator(params.address, perf).then(() => {
+                  callback && callback();
+                });
+              }}
+            />
+            <ValidatorDuties validator={validator} />
           </Grid>
+
         </NotFoundScreen>
       </ContentContainer>
     </Layout>

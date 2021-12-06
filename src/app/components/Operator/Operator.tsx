@@ -9,14 +9,13 @@ import NotFoundScreen from '~app/common/components/NotFoundScreen';
 import ContentContainer from '~app/common/components/ContentContainer';
 import EmptyPlaceholder from '~app/common/components/EmptyPlaceholder';
 import BreadCrumbs from '~app/components/Operator/components/BreadCrumbs';
-import ValidatorsInOperatorTable from '~app/components/Operator/components/Operator/ValidatorsInOperatorTable';
-import {
-  OperatorName,
-  OperatorInfo,
-  OperatorMetadata,
-  OperatorDescription,
-  OperatorSocialNetworks,
-} from '~app/components/Operator/components/Operator/Partials';
+import OperatorName from '~app/components/Operator/components/OperatorName';
+import OperatorInfo from '~app/components/Operator/components/OperatorInfo';
+import OperatorMetadata from '~app/components/Operator/components/OperatorMetadata';
+import OperatorDescription from '~app/components/Operator/components/OperatorDescription';
+import OperatorPerformance from '~app/components/Operator/components/OperatorPerformance';
+import OperatorSocialNetworks from '~app/components/Operator/components/OperatorSocialNetworks';
+import ValidatorsInOperatorTable from '~app/components/Operator/components/ValidatorsInOperatorTable';
 
 const Operator = () => {
   // Params
@@ -39,10 +38,12 @@ const Operator = () => {
   /**
    * Fetch one operator by it's address
    * @param address
+   * @param periods
+   * @param only_performance
    */
-  const loadOperator = (address: string) => {
-    setLoadingOperator(true);
-    SsvNetwork.getInstance().fetchOperator(address).then((result: any) => {
+  const loadOperator = (address: string, periods: string[] = ['1days'], only_performance: boolean = false) => {
+    setLoadingOperator(!only_performance);
+    SsvNetwork.getInstance().fetchOperator(address, periods).then((result: any) => {
       if (result.status === 404) {
         setNotFound(true);
       } else {
@@ -115,15 +116,30 @@ const Operator = () => {
             </Grid>
           </Grid>
 
-          <ValidatorsInOperatorTable
-            params={params}
-            validators={validators}
-            pagination={validatorsPagination}
-            onLoadPage={loadOperatorValidators}
-            onChangeRowsPerPage={onChangeRowsPerPage}
-            isLoading={isLoading}
-            perPage={ApiParams.getInteger('operator:validators', 'perPage', ApiParams.PER_PAGE)}
-          />
+          <Grid container>
+            <Grid container item justify="space-between">
+              <Grid item lg={3} md={6} xs={12}>
+                <OperatorPerformance
+                  operator={operator}
+                  isLoading={isLoading}
+                  onLoadPerformances={(periods: string[]) => {
+                    loadOperator(params.address, periods, true);
+                  }}
+                />
+              </Grid>
+              <Grid item lg={9} md={6} xs={12}>
+                <ValidatorsInOperatorTable
+                  params={params}
+                  isLoading={isLoading}
+                  validators={validators}
+                  pagination={validatorsPagination}
+                  onLoadPage={loadOperatorValidators}
+                  onChangeRowsPerPage={onChangeRowsPerPage}
+                  perPage={ApiParams.getInteger('operator:validators', 'perPage', ApiParams.PER_PAGE)}
+                />
+              </Grid>
+            </Grid>
+          </Grid>
 
         </NotFoundScreen>
       </ContentContainer>
