@@ -106,7 +106,7 @@ const OperatorsList = () => {
         return headers;
       }
 
-      const performances = getPerformances(operator.performance);
+      const performances = getPerformances(operator.performance, { '30days': '30d', '24hours': '24h' });
       for (let i = 0; i < performances.length; i += 1) {
         const performance = performances[i];
         headers.push(`Performance (${performance.label})`);

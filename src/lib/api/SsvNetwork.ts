@@ -51,10 +51,12 @@ class SsvNetwork {
   /**
    * Fetch one operator by address
    * @param operatorAddress
+   * @param performances
    */
-  async fetchOperator(operatorAddress: string) {
+  async fetchOperator(operatorAddress: string, performances: string[] = []) {
     let params: any = {
       network: SsvNetwork.NETWORK,
+      performances: performances.join(','),
     };
     params = new URLSearchParams(params);
     return new ApiRequest({
@@ -86,10 +88,12 @@ class SsvNetwork {
   /**
    * Fetch one validator by address
    * @param validatorAddress
+   * @param performances
    */
-  async fetchValidator(validatorAddress: string) {
+  async fetchValidator(validatorAddress: string, performances: string[] = []) {
     let params: any = {
       network: SsvNetwork.NETWORK,
+      performances: performances.join(','),
     };
     params = new URLSearchParams(params);
     const url = `${this.baseUrl}/api/validators/${validatorAddress}/?${params.toString()}`;
