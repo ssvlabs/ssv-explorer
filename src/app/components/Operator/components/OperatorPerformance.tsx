@@ -15,7 +15,6 @@ const OperatorPerformanceContainer = styled.div`
   padding: 16px 20px 20px;
   border-radius: 6px;
   border: solid 1px #5b6c84;
-  background-color: #fff;
   height: 250px;
 `;
 
@@ -40,7 +39,6 @@ const PerformanceValueContent = styled.div`
   line-height: normal;
   letter-spacing: normal;
   text-align: center;
-  color: #2a323e;
   width: 100%;
   display: flex;
   flex-direction: column;

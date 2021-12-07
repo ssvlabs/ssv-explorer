@@ -72,11 +72,11 @@ const ValidatorOperators = (props: ValidatorOperatorProps) => {
 
   const supportedPeriods = [
     {
-      label: '24h',
+      label: '1D',
       key: '24hours',
     },
     {
-      label: '30d',
+      label: '1M',
       key: '30days',
     },
   ];
