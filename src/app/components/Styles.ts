@@ -139,7 +139,27 @@ export const useStyles = makeStyles((theme) => ({
       fontSize: 12,
       textTransform: 'uppercase',
       color: '#A1ACBE',
+      maxHeight: 26,
+      paddingTop: 8,
+      paddingBottom: 8,
     },
+  },
+  condensedTableRows: {
+    '& .MuiTableCell-body': {
+      height: 34,
+      fontSize: 14,
+      maxHeight: 20,
+      paddingTop: 0,
+      paddingBottom: 0,
+    },
+  },
+  tableSubheaders: {
+    marginTop: 10,
+    marginBottom: 15,
+    color: '#A1ACBE',
+    textTransform: 'uppercase',
+    fontSize: 12,
+    fontWeight: 600,
   },
   Link: {
     display: 'inline-flex',

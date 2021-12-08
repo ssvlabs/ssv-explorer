@@ -6,6 +6,7 @@ import ApiParams from '~lib/api/ApiParams';
 import SsvNetwork from '~lib/api/SsvNetwork';
 import Layout from '~app/common/components/Layout';
 import NotFoundScreen from '~app/common/components/NotFoundScreen';
+import { Incentivized } from '~app/common/components/Incentivized';
 import ContentContainer from '~app/common/components/ContentContainer';
 import EmptyPlaceholder from '~app/common/components/EmptyPlaceholder';
 import BreadCrumbs from '~app/components/Operator/components/BreadCrumbs';
@@ -117,7 +118,7 @@ const Operator = () => {
           </Grid>
 
           <Grid container>
-            <Grid container item justify="space-between">
+            <Grid container item justify="space-between" spacing={3}>
               <Grid item lg={3} md={6} xs={12}>
                 <OperatorPerformance
                   operator={operator}
@@ -126,6 +127,7 @@ const Operator = () => {
                     loadOperator(params.address, periods, true);
                   }}
                 />
+                <Incentivized operator={params.address} />
               </Grid>
               <Grid item lg={9} md={6} xs={12}>
                 <ValidatorsInOperatorTable
