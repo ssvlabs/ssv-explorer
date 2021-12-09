@@ -59,7 +59,7 @@ const Incentivized = (props: IncentivizedProps) => {
 
   // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
   const isCurrentRound = (round: any): boolean => {
-    return round.epoch_from >= currentEpoch && round.epoch_to <= currentEpoch;
+    return round.epoch_from <= currentEpoch && round.epoch_to >= currentEpoch;
   };
 
   const loadIncentivized = () => {
