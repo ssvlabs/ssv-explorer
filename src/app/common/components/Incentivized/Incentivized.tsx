@@ -74,7 +74,7 @@ const Incentivized = (props: IncentivizedProps) => {
       setIncentivizedError('Can not load incentivized.');
     } else {
       const epochs = [];
-      let lastEpoch = 0;
+      let lastEpoch = config.incentivized.START_ROUNDS_FROM_EPOCH - 1;
       for (let i = 0; i < config.incentivized.NUMBER_OF_ROUNDS; i += 1) {
         epochs.push(`${lastEpoch}-${lastEpoch + config.incentivized.EPOCHS_PER_ROUND}`);
         lastEpoch += config.incentivized.EPOCHS_PER_ROUND;
