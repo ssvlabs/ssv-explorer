@@ -134,7 +134,7 @@ const ValidatorOperators = (props: ValidatorOperatorProps) => {
               <TableCell key={'name'} align="left">
                 Name
               </TableCell>
-              <TableCell key={'name'} align="right">
+              <TableCell key={'performance'} align="right">
                 Performance
                 &nbsp;
                 <InfoTooltip
