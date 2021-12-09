@@ -74,7 +74,7 @@ const Incentivized = (props: IncentivizedProps) => {
       setIncentivizedError('Can not load incentivized.');
     } else {
       const epochs = [];
-      let lastEpoch = config.incentivized.START_ROUNDS_FROM_EPOCH - 1;
+      let lastEpoch = config.incentivized.START_ROUNDS_FROM_EPOCH;
       for (let i = 0; i < config.incentivized.NUMBER_OF_ROUNDS; i += 1) {
         epochs.push(`${lastEpoch}-${lastEpoch + config.incentivized.EPOCHS_PER_ROUND}`);
         lastEpoch += config.incentivized.EPOCHS_PER_ROUND;
@@ -153,7 +153,7 @@ const Incentivized = (props: IncentivizedProps) => {
                   className={classes.condensedTableRows}
                 >
                   <StyledCell key="round" style={rowStyle}>
-                    <Tooltip title={<div>Epoch range:<br />{`${round.epoch_from + 1}-${round.epoch_to}`}</div>}>
+                    <Tooltip title={<div>Epoch range:<br />{`${round.epoch_from}-${round.epoch_to}`}</div>}>
                       <u>ROUND {roundIndex + 1}</u>
                     </Tooltip>
                   </StyledCell>
