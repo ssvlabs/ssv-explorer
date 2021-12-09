@@ -22,7 +22,7 @@ const config = {
     incentivized: {
         NUMBER_OF_ROUNDS: 8,
         EPOCHS_PER_ROUND: 3150,
-        START_ROUNDS_FROM_EPOCH: 1,
+        START_ROUNDS_FROM_EPOCH: 50000,
     },
 };
 
