@@ -2,6 +2,13 @@ import config from '~app/common/config';
 import ApiParams from '~lib/api/ApiParams';
 import ApiRequest from '~lib/utils/ApiRequest';
 
+export enum IncentivizedType {
+  // eslint-disable-next-line no-unused-vars
+  operator = 'operator',
+  // eslint-disable-next-line no-unused-vars
+  validator = 'validator',
+}
+
 class SsvNetwork {
   private readonly baseUrl: string = '';
   private static instance: SsvNetwork;
@@ -136,6 +143,32 @@ class SsvNetwork {
     params = new URLSearchParams(params);
     return new ApiRequest({
       url: `${this.baseUrl}/api/search/?${params.toString()}`,
+      method: 'GET',
+    }).sendRequest();
+  }
+
+  /**
+   * Get inncetivized stats for operators or validators in given epoch ranges.
+   *
+   * @param type
+   * @param address
+   * @param epochs
+   */
+  async incentivized(type: IncentivizedType | string, address: string | undefined, epochs: string[]) {
+    if (!epochs?.length) {
+      return null;
+    }
+    if (!type) {
+      return null;
+    }
+    let params: any = {
+      [type]: address,
+      network: SsvNetwork.NETWORK,
+      epochs: epochs.join(','),
+    };
+    params = new URLSearchParams(params);
+    return new ApiRequest({
+      url: `${this.baseUrl}/api/${type}s/incentivized/?${params.toString()}`,
       method: 'GET',
     }).sendRequest();
   }

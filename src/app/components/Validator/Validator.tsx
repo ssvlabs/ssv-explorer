@@ -10,6 +10,7 @@ import SsvNetwork from '~lib/api/SsvNetwork';
 import Layout from '~app/common/components/Layout';
 import BaseStore from '~app/common/stores/BaseStore';
 import { longStringShorten } from '~lib/utils/strings';
+import { Incentivized } from '~app/common/components/Incentivized';
 import NotFoundScreen from '~app/common/components/NotFoundScreen';
 import PerformanceStore from '~app/common/stores/Performance.store';
 import { Heading, SubHeading } from '~app/common/components/Headings';
@@ -89,10 +90,10 @@ const Validator = () =>
 
   const operatorsStatsStyle = {
     display: 'flex',
-    alignItems: 'right',
-    alignContent: 'right',
-    justifyContent: 'right',
-    justifyItems: 'right',
+    alignItems: 'left',
+    alignContent: 'left',
+    justifyContent: 'left',
+    justifyItems: 'left',
   };
 
   return (
@@ -138,16 +139,19 @@ const Validator = () =>
 
           <EmptyPlaceholder height={40} />
 
-          <Grid container>
-            <ValidatorOperators
-              validator={validator}
-              defaultPerformance={defaultPerformance}
-              onLoadPerformances={(perf: string[], callback: any = null) => {
-                loadValidator(params.address, perf).then(() => {
-                  callback && callback();
-                });
-              }}
-            />
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={3}>
+              <ValidatorOperators
+                validator={validator}
+                defaultPerformance={defaultPerformance}
+                onLoadPerformances={(perf: string[], callback: any = null) => {
+                  loadValidator(params.address, perf).then(() => {
+                    callback && callback();
+                  });
+                }}
+              />
+              <Incentivized validator={params.address} />
+            </Grid>
             <ValidatorDuties validator={validator} />
           </Grid>
 

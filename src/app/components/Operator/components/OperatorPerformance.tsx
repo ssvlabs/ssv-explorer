@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { observer } from 'mobx-react';
 import styled from 'styled-components';
-import Box from '@material-ui/core/Box';
 import { Skeleton } from '@material-ui/lab';
 import { OperatorProps } from '~app/components/Operator/components/OperatorProps';
 
@@ -16,6 +15,7 @@ const OperatorPerformanceContainer = styled.div`
   border-radius: 6px;
   border: solid 1px #5b6c84;
   height: 250px;
+  margin-bottom: 25px;
 `;
 
 const PerformanceDataHeader = styled.div`
@@ -133,26 +133,7 @@ const OperatorPerformanceWidget = (props: OperatorProps) => {
 };
 
 const OperatorPerformance = (props: OperatorProps) => {
-  return (
-    <>
-      <Box
-        component="div"
-        display={{ xs: 'none', sm: 'none', md: 'block', lg: 'block' }}
-        mr={3}
-        mb={3}
-      >
-        <OperatorPerformanceWidget {...props} />
-      </Box>
-      <Box
-        component="div"
-        display={{ xs: 'block', sm: 'block', md: 'none', lg: 'none' }}
-        mb={3}
-        mt={3}
-      >
-        <OperatorPerformanceWidget {...props} />
-      </Box>
-    </>
-  );
+  return <OperatorPerformanceWidget {...props} />;
 };
 
 export default observer(OperatorPerformance);
