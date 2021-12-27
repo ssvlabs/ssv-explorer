@@ -28,8 +28,6 @@ export const useStyles = makeStyles((theme) => ({
     },
     SmartSearchWrapper: {
         display: 'flex',
-        // left: 1,
-        // position: 'absolute',
     },
     menuButton: {
         // marginRight: 24,

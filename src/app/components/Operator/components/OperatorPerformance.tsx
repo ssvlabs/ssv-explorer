@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { Skeleton } from '@material-ui/lab';
 import { OperatorProps } from '~app/components/Operator/components/OperatorProps';
 import InfoTooltip from '~app/common/components/InfoTooltip';
-// import TableContainer from '@material-ui/core/TableContainer';
 
 const OperatorPerformanceContainer = styled.div`
   display: flex;
@@ -50,18 +49,6 @@ const PerformanceValueContent = styled.div`
   justify-items: center;
   margin-bottom: auto;
 `;
-
-// const PerformanceHelpText = styled.div`
-//   font-size: 14px;
-//   font-weight: 500;
-//   font-stretch: normal;
-//   font-style: normal;
-//   line-height: 1.29;
-//   letter-spacing: normal;
-//   color: #7aa4e9;
-//   width: 100%;
-//   text-align: left;
-// `;
 
 function getPerformance(operator: any, selectedPerformance: string): any {
   const performanceKey = `${operator?.address}_${selectedPerformance}`;
@@ -132,9 +119,6 @@ const OperatorPerformanceWidget = (props: OperatorProps) => {
       <PerformanceValueContent>
         {getPerformance(props.operator, selectedPerformance)[1]}
       </PerformanceValueContent>
-      {/* <PerformanceHelpText> */}
-      {/*  Performance is calculated based on operators&lsquo; successful consensus. */}
-      {/* </PerformanceHelpText> */}
     </OperatorPerformanceContainer>
   );
 };

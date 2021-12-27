@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
 import { Box } from '@material-ui/core';
 import Link from '@material-ui/core/Link';
+import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import config from '~app/common/config';
 import ApiParams from '~lib/api/ApiParams';
@@ -15,7 +16,6 @@ import EmptyPlaceholder from '~app/common/components/EmptyPlaceholder';
 import ContentContainer from '~app/common/components/ContentContainer';
 import { DEVELOPER_FLAGS, getLocalStorageFlagValue } from '~lib/utils/DeveloperHelper';
 import { BreadCrumb, BreadCrumbDivider, BreadCrumbsContainer } from '~app/common/components/Breadcrumbs';
-import Grid from '@material-ui/core/Grid';
 
 const OperatorsList = () => {
   const classes = useStyles();
