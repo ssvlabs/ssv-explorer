@@ -179,6 +179,7 @@ const ValidatorOperators = (props: ValidatorOperatorProps) => {
                       style={{ fontWeight: 500, fontSize: 14 }}
                     >
                       {operator.name}
+                      <Grid item className={`${classes.OperatorType} ${operator.type === 'verified_operator' ? classes.Verified : ''} ${operator.type === 'dapp_node' ? classes.DappNode : ''}`} />
                     </Link>
                   </Typography>
                   <Typography noWrap>
