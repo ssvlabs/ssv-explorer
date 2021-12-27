@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
 import { Box } from '@material-ui/core';
 import Link from '@material-ui/core/Link';
+import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import config from '~app/common/config';
 import ApiParams from '~lib/api/ApiParams';
@@ -58,6 +59,8 @@ const OperatorsList = () => {
 
   const getOperatorsTableData = () => {
     return (operators || []).map((operator: any) => {
+      const isVerified = operator.type === 'verified_operator';
+      const isDappNode = operator.type === 'dapp_node';
       const data = [
         <Link href={`${config.routes.OPERATORS.HOME}/${operator.address}`} className={classes.Link}>
           <Box component="div" display={{ xs: 'block', sm: 'block', md: 'none', lg: 'none' }}>
@@ -66,9 +69,11 @@ const OperatorsList = () => {
           <Box component="div" display={{ xs: 'none', sm: 'none', md: 'block', lg: 'block' }}>
             {operator.address}
           </Box>
+
         </Link>,
         <Link href={`${config.routes.OPERATORS.HOME}/${operator.address}`} className={classes.Link}>
           {operator.name}
+          <Grid item className={`${classes.OperatorType} ${isVerified ? classes.Verified : ''} ${isDappNode ? classes.DappNode : ''}`} />
         </Link>,
         <Link href={`${config.routes.OPERATORS.HOME}/${operator.address}`} className={classes.Link}>
           {operator.validatorsCount}
