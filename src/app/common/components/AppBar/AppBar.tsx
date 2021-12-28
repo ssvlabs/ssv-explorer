@@ -173,7 +173,7 @@ const AppBarComponent = () => {
                     </div>
                   </div>
                   <div className={classes.SecondSection}>
-                    {!isSearchOpened && (
+                    {!isSearchOpened && !isOverviewPage() && (
                     <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={() => toggleSearch(true)}>
                       <SearchIcon className={classes.SearchIcon} />
                     </IconButton>
