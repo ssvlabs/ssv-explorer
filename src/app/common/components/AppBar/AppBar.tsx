@@ -167,11 +167,15 @@ const AppBarComponent = () => {
 
                 <Box className={classes.menuButtons} component="div"
                   display={{ xs: 'inline-flex', sm: 'inline-flex', md: 'inline-flex', lg: 'none' }}>
+                  {!isOverviewPage() && (
                   <div className={classes.FirstSection}>
                     <div className={classes.toolbarButtons}>
-                      <SmartSearch inAppBar closeSearch={() => { toggleSearch(false); }} />
+                      <SmartSearch inAppBar closeSearch={() => {
+                            toggleSearch(false);
+                          }} />
                     </div>
                   </div>
+                  )}
                   <div className={classes.SecondSection}>
                     {!isSearchOpened && !isOverviewPage() && (
                     <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={() => toggleSearch(true)}>
