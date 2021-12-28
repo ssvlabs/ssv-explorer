@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import throttle from 'lodash/throttle';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
+import CloseIcon from '@material-ui/icons/Close';
 import SearchIcon from '@material-ui/icons/Search';
-import Typography from '@material-ui/core/Typography';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -14,7 +14,6 @@ import { useStyles } from '~app/components/Styles';
 import { newLongStringShorten } from '~lib/utils/strings';
 import SearchInput from '~app/common/components/SmartSearch/components/SearchInput';
 import SearchButton from '~app/common/components/SmartSearch/components/SearchButton';
-import CloseIcon from '@material-ui/icons/Close';
 
 type SmartSearchProps = {
   placeholder?: string;
@@ -176,9 +175,9 @@ const SmartSearch = (props: SmartSearchProps) => {
             className={classes.Link}
             style={{ width: '100%' }}
           >
-            <Typography noWrap className={classes.BlackText}>
+            <Grid item className={classes.BlackText}>
               0x{option.publicKey}
-            </Typography>
+            </Grid>
           </Link>
           )}
         {option.type === 'OPERATORS' && (

@@ -14,10 +14,13 @@ export const useStyles = makeStyles((theme) => ({
         flexDirection: 'row',
     },
     BlackText: {
+        margin: 0,
+        padding: 0,
         fontSize: 14,
         fontWeight: 600,
-        padding: 0,
-        margin: 0,
+        overflow: 'hidden',
+        whiteSpace: 'nowrap',
+        textOverflow: 'ellipsis',
         lineHeight: 1.29,
     },
     OperatorType: {
