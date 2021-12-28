@@ -6,6 +6,9 @@ export const useStyles = makeStyles((theme) => ({
 
         '.MuiPaper-root.MuiAutocomplete-paper.MuiPaper-elevation1.MuiPaper-rounded ul': {
             maxHeight: '493px!important',
+            '@media (max-width:540px)': {
+                maxHeight: '558px!important',
+            },
         },
     },
     root: {
