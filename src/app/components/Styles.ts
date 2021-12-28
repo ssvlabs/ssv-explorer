@@ -16,6 +16,8 @@ export const useStyles = makeStyles((theme) => ({
     BlackText: {
         fontSize: 14,
         fontWeight: 600,
+        padding: 0,
+        margin: 0,
         lineHeight: 1.29,
     },
     OperatorType: {

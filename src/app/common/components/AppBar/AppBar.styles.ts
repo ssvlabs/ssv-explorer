@@ -2,6 +2,12 @@ import { makeStyles } from '@material-ui/core/styles';
 import { defaultFont } from '~root/theme';
 
 export const useStyles = makeStyles((theme) => ({
+    '@global': {
+
+        '.MuiPaper-root.MuiAutocomplete-paper.MuiPaper-elevation1.MuiPaper-rounded ul': {
+            maxHeight: '493px!important',
+        },
+    },
     root: {
         marginTop: 64,
         flexGrow: 1,

@@ -176,7 +176,7 @@ const SmartSearch = (props: SmartSearchProps) => {
             className={classes.Link}
             style={{ width: '100%' }}
           >
-            <Typography noWrap>
+            <Typography noWrap className={classes.BlackText}>
               0x{option.publicKey}
             </Typography>
           </Link>
@@ -190,17 +190,12 @@ const SmartSearch = (props: SmartSearchProps) => {
             <Grid container style={{ width: '100%' }} justify={'space-between'}>
               <Grid item container xs>
                 <Grid item className={classes.BlackText} style={{ marginRight: '5px' }}>
-                  {/* <Typography noWrap style={{ width: '100%', marginRight: '5px' }} component="div"> */}
                   {option.name}
-                  {/* </Typography> */}
                 </Grid>
                 <Grid item className={`${isVerified ? classes.Verified : ''} ${isDappNode ? classes.DappNode : ''}`} />
               </Grid>
               <Grid item className={classes.BlackText}>
                 {newLongStringShorten(option.address)}
-                {/* <Typography noWrap style={{ width: '100%' }} component="div"> */}
-                {/*  {option.address} */}
-                {/* </Typography> */}
               </Grid>
             </Grid>
           </Link>
