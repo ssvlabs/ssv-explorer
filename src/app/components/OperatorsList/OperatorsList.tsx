@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
 import { Box } from '@material-ui/core';
 import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import config from '~app/common/config';
 import ApiParams from '~lib/api/ApiParams';
@@ -12,6 +11,7 @@ import { useStyles } from '~app/components/Styles';
 import { longStringShorten } from '~lib/utils/strings';
 import DataTable from '~app/common/components/DataTable';
 import { getPerformances } from '~lib/utils/performance';
+import OperatorType from '~app/common/components/OperatorType';
 import EmptyPlaceholder from '~app/common/components/EmptyPlaceholder';
 import ContentContainer from '~app/common/components/ContentContainer';
 import { DEVELOPER_FLAGS, getLocalStorageFlagValue } from '~lib/utils/DeveloperHelper';
@@ -59,8 +59,6 @@ const OperatorsList = () => {
 
   const getOperatorsTableData = () => {
     return (operators || []).map((operator: any) => {
-      const isVerified = operator.type === 'verified_operator';
-      const isDappNode = operator.type === 'dapp_node';
       const data = [
         <Link href={`${config.routes.OPERATORS.HOME}/${operator.address}`} className={classes.Link}>
           <Box component="div" display={{ xs: 'block', sm: 'block', md: 'none', lg: 'none' }}>
@@ -73,7 +71,7 @@ const OperatorsList = () => {
         </Link>,
         <Link href={`${config.routes.OPERATORS.HOME}/${operator.address}`} className={classes.Link}>
           {operator.name}
-          <Grid item className={`${classes.OperatorType} ${isVerified ? classes.Verified : ''} ${isDappNode ? classes.DappNode : ''}`} />
+          <OperatorType type={operator.type} />
         </Link>,
         <Link href={`${config.routes.OPERATORS.HOME}/${operator.address}`} className={classes.Link}>
           {operator.validatorsCount}

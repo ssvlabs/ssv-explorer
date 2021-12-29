@@ -12,6 +12,7 @@ import config from '~app/common/config';
 import SsvNetwork from '~lib/api/SsvNetwork';
 import { useStyles } from '~app/components/Styles';
 import { newLongStringShorten } from '~lib/utils/strings';
+import OperatorType from '~app/common/components/OperatorType';
 import SearchInput from '~app/common/components/SmartSearch/components/SearchInput';
 import SearchButton from '~app/common/components/SmartSearch/components/SearchButton';
 
@@ -165,8 +166,6 @@ const SmartSearch = (props: SmartSearchProps) => {
    * @param option
    */
   const onRenderOption = (option: any) => {
-    const isVerified = option.operatorType === 'verified_operator';
-    const isDappNode = option.operatorType === 'dapp_node';
     return (
       <>
         {option.type === 'VALIDATORS' && (
@@ -191,7 +190,7 @@ const SmartSearch = (props: SmartSearchProps) => {
                 <Grid item className={classes.BlackText} style={{ marginRight: '5px' }}>
                   {option.name}
                 </Grid>
-                <Grid item className={`${isVerified ? classes.Verified : ''} ${isDappNode ? classes.DappNode : ''}`} />
+                <OperatorType type={option.operatorType} />
               </Grid>
               <Grid item className={classes.BlackText}>
                 {newLongStringShorten(option.address)}
