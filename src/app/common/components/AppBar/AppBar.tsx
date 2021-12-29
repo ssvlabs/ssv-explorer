@@ -11,6 +11,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import CloseIcon from '@material-ui/icons/Close';
 import ListItem from '@material-ui/core/ListItem';
+import SearchIcon from '@material-ui/icons/Search';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -78,6 +79,7 @@ const AppBarComponent = () => {
   const classes = useStyles();
   const appClasses = useAppStyles();
   const [isDrawerOpened, toggleDrawer] = useState(false);
+  const [isSearchOpened, toggleSearch] = useState(false);
   const joinSsvLink = config.links.LINK_SSV_WEBAPP;
 
   const isRouteActive = (routeLink: string, returnValue: any, exact: boolean = false) => {
@@ -99,115 +101,157 @@ const AppBarComponent = () => {
 
   return (
     <div className={classes.root} id="back-to-top-anchor">
-      <AppBar position="fixed">
-        <Toolbar>
-          <Typography variant="h6" className={classes.title}>
-            <Link href={config.routes.HOME} style={{ color: 'white', textDecoration: 'none' }}>
-              <span style={{ fontFamily: `"Fira Code", monospace, ${defaultFont}`, whiteSpace: 'nowrap', fontSize: 14 }}>
-                ssv.network <b style={{ color: '#DCE0E8' }}>explorer</b>
-              </span>
-            </Link>
-          </Typography>
-
-          <Box className={classes.toolbarLinks} component="div" display={{ xs: 'none', sm: 'none', md: 'none', lg: 'block' }}>
-            <Link
-              href={config.routes.HOME}
-              className={`${classes.appBarLink} ${isRouteActive(config.routes.HOME, classes.appBarLinkActive, true)}`}
-            >
-              Overview
-            </Link>
-            <Link
-              href={config.routes.OPERATORS.HOME}
-              className={`${classes.appBarLink} ${isRouteActive(config.routes.OPERATORS.HOME, classes.appBarLinkActive)}`}
-              onClick={() => clearPaginationMemory()}
-            >
-              Operators
-            </Link>
-            <Link
-              href={config.routes.VALIDATORS.HOME}
-              className={`${classes.appBarLink} ${isRouteActive(config.routes.VALIDATORS.HOME, classes.appBarLinkActive)}`}
-              onClick={() => clearPaginationMemory()}
-            >
-              Validators
-            </Link>
-          </Box>
-
-          <Box style={{ marginLeft: 'auto' }} component="div" display={{ xs: 'none', sm: 'none', md: 'none', lg: 'block' }}>
-            <div className={classes.toolbarButtons}>
-              {isOverviewPage() ? (
-                <Link href={joinSsvLink} target="_blank">
-                  <Button variant="outlined" className={`${classes.appBarButton} ${classes.appBarButtonWhite}`} style={{ textTransform: 'capitalize' }}>Join SSV Network</Button>
-                </Link>
-              ) : (
-                <SmartSearch inAppBar />
-              )}
-              <Button variant="outlined" disabled className={`${classes.appBarButton} ${classes.appBarButtonWhite}`} style={{ textTransform: 'capitalize' }}>
-                <GreenDot />  {capitalize(String(config.FEATURE.NETWORK.NAME))} Network
-              </Button>
-              <DarkModeSwitcher style={{ marginLeft: 'auto', marginRight: 0, minWidth: 'auto', width: 40 }} />
-            </div>
-          </Box>
-
-          <Box className={classes.menuButton} component="div" display={{ xs: 'block', sm: 'block', md: 'block', lg: 'none' }}>
-            <DarkModeSwitcher style={{ marginLeft: 'auto', marginRight: 0 }} />
-            <IconButton edge="end" className={classes.menuButton} color="inherit" aria-label="menu" onClick={() => toggleDrawer(true)}>
-              <MenuIcon />
-            </IconButton>
-            <Drawer
-              className={classes.drawer}
-              anchor="top"
-              open={isDrawerOpened}
-              onClose={() => toggleDrawer(false)}
-            >
-              <List style={{ textAlign: 'center', paddingBottom: 50 }}>
-                <ListItem style={{ paddingBottom: 15 }}>
-                  <CloseIcon
-                    onClick={() => { toggleDrawer(false); }}
-                    style={{ marginLeft: 'auto', marginRight: 0 }}
-                  />
-                </ListItem>
-
-                <MobileMenuContainer>
-                  <Link href={config.routes.HOME} className={appClasses.Link}>
-                    <ListItem button>
-                      <ListItemText primary="Overview" style={{ textTransform: 'uppercase' }} />
-                    </ListItem>
+      {isSearchOpened ?
+          (
+            <AppBar position="fixed">
+              <Toolbar>
+                <SmartSearch inAppBar supportSmallScreen closeSearch={() => { toggleSearch(false); }} />
+              </Toolbar>
+            </AppBar>
+          ) :
+          (
+            <AppBar position="fixed">
+              <Toolbar>
+                <Box>
+                  <Typography variant="h6" className={classes.title}>
+                    <Link href={config.routes.HOME} style={{ color: 'white', textDecoration: 'none' }}>
+                      <span style={{ fontFamily: `"Fira Code", monospace, ${defaultFont}`, whiteSpace: 'nowrap', fontSize: 14 }}>
+                        ssv.network <b style={{ color: '#DCE0E8' }}>explorer</b>
+                      </span>
+                    </Link>
+                  </Typography>
+                </Box>
+                <Box className={classes.toolbarLinks} component="div"
+                  display={{ xs: 'none', sm: 'none', md: 'none', lg: 'block' }}>
+                  <Link
+                    href={config.routes.HOME}
+                    className={`${classes.appBarLink} ${isRouteActive(config.routes.HOME, classes.appBarLinkActive, true)}`}
+                  >
+                    Overview
                   </Link>
-
-                  <Link href={config.routes.OPERATORS.HOME} className={appClasses.Link} onClick={() => clearPaginationMemory()}>
-                    <ListItem button>
-                      <ListItemText primary="Operators" />
-                    </ListItem>
+                  <Link
+                    href={config.routes.OPERATORS.HOME}
+                    className={`${classes.appBarLink} ${isRouteActive(config.routes.OPERATORS.HOME, classes.appBarLinkActive)}`}
+                    onClick={() => clearPaginationMemory()}
+                  >
+                    Operators
                   </Link>
-
-                  <Link href={config.routes.VALIDATORS.HOME} className={appClasses.Link} onClick={() => clearPaginationMemory()}>
-                    <ListItem button>
-                      <ListItemText primary="Validators" />
-                    </ListItem>
+                  <Link
+                    href={config.routes.VALIDATORS.HOME}
+                    className={`${classes.appBarLink} ${isRouteActive(config.routes.VALIDATORS.HOME, classes.appBarLinkActive)}`}
+                    onClick={() => clearPaginationMemory()}
+                  >
+                    Validators
                   </Link>
+                </Box>
 
-                  <DrawerButtonsContainers>
-                    <DrawerButton>
+                <Box style={{ marginLeft: 'auto' }} component="div"
+                  display={{ xs: 'none', sm: 'none', md: 'none', lg: 'block' }}>
+                  <div className={classes.toolbarButtons}>
+                    {isOverviewPage() ? (
                       <Link href={joinSsvLink} target="_blank">
-                        <Button variant="outlined" className={classes.appBarButton} style={{ width: '90%', margin: 'auto' }}>
-                          Join SSV Network
-                        </Button>
+                        <Button variant="outlined" className={`${classes.appBarButton} ${classes.appBarButtonWhite}`}
+                          style={{ textTransform: 'capitalize' }}>Join SSV Network</Button>
                       </Link>
-                    </DrawerButton>
-                    <DrawerButton>
-                      <Link href="/" onClick={(event: any) => { event.preventDefault(); event.stopPropagation(); }}>
-                        <Button disabled variant="outlined" className={classes.appBarButton} color="primary" style={{ width: '90%', margin: 'auto' }}>
-                          <GreenDot /> Prater Network
-                        </Button>
-                      </Link>
-                    </DrawerButton>
-                  </DrawerButtonsContainers>
-                </MobileMenuContainer>
-              </List>
-            </Drawer>
-          </Box>
-        </Toolbar>
-      </AppBar>
+                    ) : (
+                      <SmartSearch inAppBar />
+                    )}
+                    <Button variant="outlined" disabled
+                      className={`${classes.appBarButton} ${classes.appBarButtonWhite}`}
+                      style={{ textTransform: 'capitalize' }}>
+                      <GreenDot /> {capitalize(String(config.FEATURE.NETWORK.NAME))} Network
+                    </Button>
+                    <DarkModeSwitcher style={{ marginLeft: 'auto', marginRight: 0, minWidth: 'auto', width: 40 }} />
+                  </div>
+                </Box>
+
+                <Box className={classes.menuButtons} component="div"
+                  display={{ xs: 'inline-flex', sm: 'inline-flex', md: 'inline-flex', lg: 'none' }}>
+                  {!isOverviewPage() && (
+                  <div className={classes.FirstSection}>
+                    <div className={classes.toolbarButtons}>
+                      <SmartSearch inAppBar closeSearch={() => {
+                            toggleSearch(false);
+                          }} />
+                    </div>
+                  </div>
+                  )}
+                  <div className={classes.SecondSection}>
+                    {!isSearchOpened && !isOverviewPage() && (
+                    <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={() => toggleSearch(true)}>
+                      <SearchIcon className={classes.SearchIcon} />
+                    </IconButton>
+                    )}
+                  </div>
+                  <DarkModeSwitcher style={{ marginLeft: 'auto', marginRight: 0 }} />
+                  <IconButton edge="end" className={classes.menuButton} color="inherit" aria-label="menu" onClick={() => toggleDrawer(true)}>
+                    <MenuIcon />
+                  </IconButton>
+                  <Drawer
+                    className={classes.drawer}
+                    anchor="top"
+                    open={isDrawerOpened}
+                    onClose={() => toggleDrawer(false)}
+                  >
+                    <List style={{ textAlign: 'center', paddingBottom: 50 }}>
+                      <ListItem style={{ paddingBottom: 15 }}>
+                        <CloseIcon
+                          onClick={() => {
+                              toggleDrawer(false);
+                            }}
+                          style={{ marginLeft: 'auto', marginRight: 0 }}
+                        />
+                      </ListItem>
+
+                      <MobileMenuContainer>
+                        <Link href={config.routes.HOME} className={appClasses.Link}>
+                          <ListItem button>
+                            <ListItemText primary="Overview" style={{ textTransform: 'uppercase' }} />
+                          </ListItem>
+                        </Link>
+
+                        <Link href={config.routes.OPERATORS.HOME} className={appClasses.Link}
+                          onClick={() => clearPaginationMemory()}>
+                          <ListItem button>
+                            <ListItemText primary="Operators" />
+                          </ListItem>
+                        </Link>
+
+                        <Link href={config.routes.VALIDATORS.HOME} className={appClasses.Link}
+                          onClick={() => clearPaginationMemory()}>
+                          <ListItem button>
+                            <ListItemText primary="Validators" />
+                          </ListItem>
+                        </Link>
+
+                        <DrawerButtonsContainers>
+                          <DrawerButton>
+                            <Link href={joinSsvLink} target="_blank">
+                              <Button variant="outlined" className={classes.appBarButton}
+                                style={{ width: '90%', margin: 'auto' }}>
+                                Join SSV Network
+                              </Button>
+                            </Link>
+                          </DrawerButton>
+                          <DrawerButton>
+                            <Link href="/" onClick={(event: any) => {
+                              event.preventDefault();
+                              event.stopPropagation();
+                            }}>
+                              <Button disabled variant="outlined" className={classes.appBarButton} color="primary"
+                                style={{ width: '90%', margin: 'auto' }}>
+                                <GreenDot /> Prater Network
+                              </Button>
+                            </Link>
+                          </DrawerButton>
+                        </DrawerButtonsContainers>
+                      </MobileMenuContainer>
+                    </List>
+                  </Drawer>
+                </Box>
+              </Toolbar>
+            </AppBar>
+        )}
     </div>
   );
 };

@@ -2,17 +2,49 @@ import { makeStyles } from '@material-ui/core/styles';
 import { defaultFont } from '~root/theme';
 
 export const useStyles = makeStyles((theme) => ({
+    '@global': {
+
+        '.MuiPaper-root.MuiAutocomplete-paper.MuiPaper-elevation1.MuiPaper-rounded ul': {
+            maxHeight: '493px!important',
+            '@media (max-width:540px)': {
+                maxHeight: '558px!important',
+            },
+        },
+    },
     root: {
         marginTop: 64,
         flexGrow: 1,
         '& > .MuiPaper-root > .MuiToolbar-root': {
             paddingRight: 5,
             backgroundColor: '#A1ACBE',
+            justifyContent: 'space-between',
         },
     },
+    menuButtons: {
+        marginRight: 24,
+    },
+    FirstSection: {
+        display: 'none',
+        '@media (min-width:768px)': {
+            display: 'inline-flex',
+        },
+    },
+    SecondSection: {
+        display: 'none',
+        '@media (max-width:767px)': {
+            display: 'inline-flex',
+        },
+    },
+    SmartSearchWrapper: {
+        display: 'flex',
+    },
     menuButton: {
-        marginRight: theme.spacing(0),
-        marginLeft: 'auto',
+        // marginRight: 24,
+        // marginLeft: 'auto',
+    },
+    SearchIcon: {
+        width: 24,
+        height: 24,
     },
     title: {
         flexGrow: 1,
@@ -74,6 +106,7 @@ export const useStyles = makeStyles((theme) => ({
         float: 'right',
         display: 'flex',
         marginRight: 0,
+        height: '100%',
         marginLeft: 'auto',
         alignItems: 'center',
         '& > .MuiButtonBase-root, & > .MuiTypography-root > .MuiButtonBase-root': {

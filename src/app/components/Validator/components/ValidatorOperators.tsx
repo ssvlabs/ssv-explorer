@@ -16,6 +16,7 @@ import { useStyles } from '~app/components/Styles';
 import BaseStore from '~app/common/stores/BaseStore';
 import { longStringShorten } from '~lib/utils/strings';
 import InfoTooltip from '~app/common/components/InfoTooltip';
+import OperatorType from '~app/common/components/OperatorType';
 import StyledRow from '~app/common/components/Table/StyledRow';
 import StyledCell from '~app/common/components/Table/StyledCell';
 import PerformanceStore from '~app/common/stores/Performance.store';
@@ -179,6 +180,7 @@ const ValidatorOperators = (props: ValidatorOperatorProps) => {
                       style={{ fontWeight: 500, fontSize: 14 }}
                     >
                       {operator.name}
+                      <OperatorType type={operator.type} />
                     </Link>
                   </Typography>
                   <Typography noWrap>

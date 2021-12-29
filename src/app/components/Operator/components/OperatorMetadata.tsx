@@ -7,7 +7,7 @@ const subDashboardFields = [
   {
     name: 'location',
     hint: false,
-    displayName: 'Location',
+    displayName: 'Geolocation',
   },
   {
     name: 'setup_provider',

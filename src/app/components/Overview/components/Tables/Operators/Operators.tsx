@@ -15,6 +15,7 @@ import { useStores } from '~app/hooks/useStores';
 import { useStyles } from '~app/components/Styles';
 import { longStringShorten } from '~lib/utils/strings';
 import OverviewStore from '~app/common/stores/Overview.store';
+import OperatorType from '~app/common/components/OperatorType';
 import StyledRow from '~app/common/components/Table/StyledRow';
 import StyledCell from '~app/common/components/Table/StyledCell';
 import CenteredCell from '~app/common/components/Table/CenteredCell';
@@ -69,6 +70,7 @@ const Operators = () => {
               <StyledCell style={overviewTableCellStyle}>
                 <Link href={`/operators/${row.address}`} className={classes.Link}>
                   {row.name}
+                  <OperatorType type={row.type} />
                 </Link>
               </StyledCell>
               <StyledCell style={overviewTableCellStyle}>

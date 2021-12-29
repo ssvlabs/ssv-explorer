@@ -11,6 +11,7 @@ import { useStyles } from '~app/components/Styles';
 import { longStringShorten } from '~lib/utils/strings';
 import DataTable from '~app/common/components/DataTable';
 import { getPerformances } from '~lib/utils/performance';
+import OperatorType from '~app/common/components/OperatorType';
 import EmptyPlaceholder from '~app/common/components/EmptyPlaceholder';
 import ContentContainer from '~app/common/components/ContentContainer';
 import { DEVELOPER_FLAGS, getLocalStorageFlagValue } from '~lib/utils/DeveloperHelper';
@@ -66,9 +67,11 @@ const OperatorsList = () => {
           <Box component="div" display={{ xs: 'none', sm: 'none', md: 'block', lg: 'block' }}>
             {operator.address}
           </Box>
+
         </Link>,
         <Link href={`${config.routes.OPERATORS.HOME}/${operator.address}`} className={classes.Link}>
           {operator.name}
+          <OperatorType type={operator.type} />
         </Link>,
         <Link href={`${config.routes.OPERATORS.HOME}/${operator.address}`} className={classes.Link}>
           {operator.validatorsCount}

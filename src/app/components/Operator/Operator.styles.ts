@@ -87,7 +87,6 @@ export const useStylesOperator = makeStyles(() => ({
     justifyContent: 'space-between',
   },
   OperatorFieldsHeader: {
-    textTransform: 'capitalize',
     height: '20px',
     margin: '0 55px 0 0',
     display: 'block',

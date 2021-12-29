@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import throttle from 'lodash/throttle';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
+import CloseIcon from '@material-ui/icons/Close';
 import SearchIcon from '@material-ui/icons/Search';
-import Typography from '@material-ui/core/Typography';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -11,16 +11,20 @@ import { AutocompleteRenderInputParams } from '@material-ui/lab/Autocomplete/Aut
 import config from '~app/common/config';
 import SsvNetwork from '~lib/api/SsvNetwork';
 import { useStyles } from '~app/components/Styles';
+import { newLongStringShorten } from '~lib/utils/strings';
+import OperatorType from '~app/common/components/OperatorType';
 import SearchInput from '~app/common/components/SmartSearch/components/SearchInput';
 import SearchButton from '~app/common/components/SmartSearch/components/SearchButton';
 
 type SmartSearchProps = {
   placeholder?: string;
   inAppBar?: boolean;
+  closeSearch?: any,
+  supportSmallScreen?: boolean,
 };
 
 const SmartSearch = (props: SmartSearchProps) => {
-  const { placeholder, inAppBar } = props;
+  const { placeholder, inAppBar, supportSmallScreen, closeSearch } = props;
   const classes = useStyles();
   const [query, setQuery] = useState('');
   const [loading, setLoading] = useState(false);
@@ -43,6 +47,7 @@ const SmartSearch = (props: SmartSearchProps) => {
             type: 'OPERATORS',
             name: operator.name,
             address: operator.address,
+            operatorType: operator.type,
           };
           convolutedResults.push(op);
           return op;
@@ -138,7 +143,7 @@ const SmartSearch = (props: SmartSearchProps) => {
   };
 
   /**
-   * When user press Enter key in the input we should react.
+   * When user presses Enter key in the input we should react.
    * @param event
    */
   const onKeyDown = (event: any) => {
@@ -160,41 +165,42 @@ const SmartSearch = (props: SmartSearchProps) => {
    * Rendering option of the search results
    * @param option
    */
-  const onRenderOption = (option: any) => (
-    <>
-      {option.type === 'VALIDATORS' && (
-        <Link
-          href={`${config.routes.VALIDATORS.HOME}/${option.publicKey}`}
-          className={classes.Link}
-          style={{ width: '100%' }}
-        >
-          <Typography noWrap>
-            0x{option.publicKey}
-          </Typography>
-        </Link>
-      )}
-      {option.type === 'OPERATORS' && (
-        <Link
-          href={`${config.routes.OPERATORS.HOME}/${option.address}`}
-          className={classes.Link}
-          style={{ width: '100%' }}
-        >
-          <Grid container style={{ width: '100%' }}>
-            <Grid item xs={5} md={5}>
-              <Typography noWrap style={{ width: '100%', paddingRight: 10 }} component="div">
-                {option.name}
-              </Typography>
+  const onRenderOption = (option: any) => {
+    return (
+      <>
+        {option.type === 'VALIDATORS' && (
+          <Link
+            href={`${config.routes.VALIDATORS.HOME}/${option.publicKey}`}
+            className={classes.Link}
+            style={{ width: '100%' }}
+          >
+            <Grid item className={classes.BlackText}>
+              0x{option.publicKey}
             </Grid>
-            <Grid item xs={7} md={7}>
-              <Typography noWrap style={{ width: '100%' }} component="div">
-                {option.address}
-              </Typography>
+          </Link>
+          )}
+        {option.type === 'OPERATORS' && (
+          <Link
+            href={`${config.routes.OPERATORS.HOME}/${option.address}`}
+            className={classes.Link}
+            style={{ width: '100%', marginBottom: 12 }}
+          >
+            <Grid container style={{ width: '100%' }} justify={'space-between'}>
+              <Grid item container xs>
+                <Grid item className={classes.BlackText} style={{ marginRight: '5px' }}>
+                  {option.name}
+                </Grid>
+                <OperatorType type={option.operatorType} />
+              </Grid>
+              <Grid item className={classes.BlackText}>
+                {newLongStringShorten(option.address)}
+              </Grid>
             </Grid>
-          </Grid>
-        </Link>
-      )}
-    </>
-  );
+          </Link>
+          )}
+      </>
+    );
+  };
 
   /**
    * Search input rendering component
@@ -212,11 +218,16 @@ const SmartSearch = (props: SmartSearchProps) => {
         endAdornment: (
           <InputAdornment position="end">
             {loading && <CircularProgress color="inherit" size={20} />}
-            {!loading && (
+            {!loading && !supportSmallScreen && (
               <SearchButton edge="end" onClick={onSearchButtonClicked}>
                 <SearchIcon />
               </SearchButton>
             )}
+            {(supportSmallScreen && (
+            <SearchButton edge="end" onClick={closeSearch}>
+              <CloseIcon />
+            </SearchButton>
+            ))}
           </InputAdornment>
         ),
       }}
