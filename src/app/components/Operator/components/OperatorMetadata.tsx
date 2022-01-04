@@ -30,7 +30,11 @@ export default (props: OperatorProps) => {
   const { operator } = props;
   const operatorClasses = useStylesOperator();
 
-  if (!operator?.description) {
+  const shouldDisplay = subDashboardFields.map((field: any) => {
+    return operator[field.name];
+  }).filter(fieldValue => !!fieldValue).length;
+
+  if (!shouldDisplay) {
     return <></>;
   }
 
