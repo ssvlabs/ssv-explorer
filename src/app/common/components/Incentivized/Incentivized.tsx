@@ -54,7 +54,7 @@ const Incentivized = (props: IncentivizedProps) => {
     if (!performance) {
       return false;
     }
-    return performance >= 90;
+    return performance >= 85;
   };
 
   // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
