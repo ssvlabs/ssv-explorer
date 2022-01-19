@@ -38,7 +38,7 @@ const Incentivized = (props: IncentivizedProps) => {
   const [incentivizedError, setIncentivizedError] = useState(defaultRounds);
   const placeholderRounds = [];
 
-  for (let i = 1; i <= config.incentivized.NUMBER_OF_ROUNDS; i += 1) {
+  for (let i = 1; i <= config.FEATURE.INCENTIVIZED.NUMBER_OF_ROUNDS; i += 1) {
     placeholderRounds.push(i);
   }
 
@@ -50,11 +50,11 @@ const Incentivized = (props: IncentivizedProps) => {
     marginBottom: -3,
   };
 
-  const isEligible = (performance: number | null): boolean => {
-    if (!performance) {
+  const isEligible = (missed_epochs: number | null): boolean => {
+    if (!missed_epochs) {
       return false;
     }
-    return performance >= 85;
+    return missed_epochs < config.FEATURE.INCENTIVIZED.MAXIMUM_ELIGIBLE_MISSED_EPOCHS;
   };
 
   // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
@@ -74,10 +74,10 @@ const Incentivized = (props: IncentivizedProps) => {
       setIncentivizedError('Can not load incentivized.');
     } else {
       const epochs = [];
-      let lastEpoch = config.incentivized.START_ROUNDS_FROM_EPOCH;
-      for (let i = 0; i < config.incentivized.NUMBER_OF_ROUNDS; i += 1) {
-        epochs.push(`${lastEpoch}-${lastEpoch + config.incentivized.EPOCHS_PER_ROUND}`);
-        lastEpoch += config.incentivized.EPOCHS_PER_ROUND;
+      let lastEpoch = config.FEATURE.INCENTIVIZED.START_ROUNDS_FROM_EPOCH;
+      for (let i = 0; i < config.FEATURE.INCENTIVIZED.NUMBER_OF_ROUNDS; i += 1) {
+        epochs.push(`${lastEpoch}-${lastEpoch + config.FEATURE.INCENTIVIZED.EPOCHS_PER_ROUND}`);
+        lastEpoch += config.FEATURE.INCENTIVIZED.EPOCHS_PER_ROUND + 1;
       }
       SsvNetwork.getInstance().incentivized(
         incentivizedType,
@@ -161,7 +161,7 @@ const Incentivized = (props: IncentivizedProps) => {
                     {parseFloat(String(round.performance)).toFixed(2)}%
                   </StyledCell>
                   <StyledCell key="eligible" style={rowStyle}>
-                    {isEligible(round.performance) ? 'Yes' : 'No'}
+                    {isEligible(round.missed_epochs) ? 'Yes' : 'No'}
                   </StyledCell>
                 </StyledRow>
               );

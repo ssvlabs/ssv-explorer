@@ -1,5 +1,6 @@
 import { action, observable } from 'mobx';
 import config from '~app/common/config';
+import SsvNetwork from '~lib/api/SsvNetwork';
 import ApiRequest from '~lib/utils/ApiRequest';
 import BaseStore from '~app/common/stores/BaseStore';
 
@@ -22,7 +23,7 @@ class OverviewStore extends BaseStore {
   @action.bound
   setTotalEth(totalEth: number) {
     this.totalEth = totalEth;
-    if (config.FEATURE.NETWORK.NAME !== 'mainnet') {
+    if (SsvNetwork.getActiveNetwork() !== 'mainnet') {
       return;
     }
     new ApiRequest({

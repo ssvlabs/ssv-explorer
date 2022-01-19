@@ -19,6 +19,7 @@ import config from '~app/common/config';
 import { defaultFont } from '~root/theme';
 import ApiParams from '~lib/api/ApiParams';
 import { useStyles } from './AppBar.styles';
+import SsvNetwork from '~lib/api/SsvNetwork';
 import { capitalize } from '~lib/utils/strings';
 import SmartSearch from '~app/common/components/SmartSearch';
 import { useStyles as useAppStyles } from '~app/components/Styles';
@@ -159,7 +160,7 @@ const AppBarComponent = () => {
                     <Button variant="outlined" disabled
                       className={`${classes.appBarButton} ${classes.appBarButtonWhite}`}
                       style={{ textTransform: 'capitalize' }}>
-                      <GreenDot /> {capitalize(String(config.FEATURE.NETWORK.NAME))} Network
+                      <GreenDot /> {capitalize(SsvNetwork.getActiveNetwork())} Network
                     </Button>
                     <DarkModeSwitcher style={{ marginLeft: 'auto', marginRight: 0, minWidth: 'auto', width: 40 }} />
                   </div>
