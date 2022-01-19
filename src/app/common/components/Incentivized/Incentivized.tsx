@@ -52,7 +52,7 @@ const Incentivized = (props: IncentivizedProps) => {
 
   const isEligible = (missed_epochs: number | null): boolean => {
     if (!missed_epochs) {
-      return false;
+      return true;
     }
     return missed_epochs < config.FEATURE.INCENTIVIZED.MAXIMUM_ELIGIBLE_MISSED_EPOCHS;
   };
