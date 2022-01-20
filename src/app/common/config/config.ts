@@ -12,10 +12,10 @@ const config = {
     },
     FEATURE: {
         INCENTIVIZED: {
-            MAXIMUM_ELIGIBLE_MISSED_EPOCHS: 473,
             NUMBER_OF_ROUNDS: 5,
             EPOCHS_PER_ROUND: 3150,
-            START_ROUNDS_FROM_EPOCH: 69084,
+            // START_ROUNDS_FROM_EPOCH: 69084,
+            START_ROUNDS_FROM_EPOCH: 60000,
         },
     },
     links: {

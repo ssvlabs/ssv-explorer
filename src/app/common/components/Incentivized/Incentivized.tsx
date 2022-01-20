@@ -50,13 +50,6 @@ const Incentivized = (props: IncentivizedProps) => {
     marginBottom: -3,
   };
 
-  const isEligible = (missed_epochs: number | null): boolean => {
-    if (!missed_epochs) {
-      return true;
-    }
-    return missed_epochs < config.FEATURE.INCENTIVIZED.MAXIMUM_ELIGIBLE_MISSED_EPOCHS;
-  };
-
   // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
   const isCurrentRound = (round: any): boolean => {
     return round.epoch_from <= currentEpoch && round.epoch_to >= currentEpoch;
@@ -161,7 +154,7 @@ const Incentivized = (props: IncentivizedProps) => {
                     {parseFloat(String(round.performance)).toFixed(2)}%
                   </StyledCell>
                   <StyledCell key="eligible" style={rowStyle}>
-                    {isEligible(round.missed_epochs) ? 'Yes' : 'No'}
+                    {round.eligible ? 'Yes' : 'No'}
                   </StyledCell>
                 </StyledRow>
               );
