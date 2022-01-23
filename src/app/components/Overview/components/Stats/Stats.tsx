@@ -1,7 +1,7 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 import { Skeleton } from '@material-ui/lab';
-import config from '~app/common/config';
+import SsvNetwork from '~lib/api/SsvNetwork';
 import { useStores } from '~app/hooks/useStores';
 import { numberWithCommas } from '~lib/utils/numbers';
 import OverviewStore from '~app/common/stores/Overview.store';
@@ -40,7 +40,7 @@ const Stats = () => {
           {overviewStore.totalEth !== null ? `${numberWithCommas(overviewStore.totalEth)} ETH` : ''}
         </StatsBlockHeader>
         <StatsBlockContent>
-          {config.FEATURE.NETWORK.NAME === 'mainnet' ? (
+          {SsvNetwork.getActiveNetwork() === 'mainnet' ? (
             <>
               {overviewStore.totalUsd === null && <Skeleton />}
               {overviewStore.totalUsd ? `$${numberWithCommas(overviewStore.totalUsd)}` : ''}

@@ -24,15 +24,10 @@ class SsvNetwork {
     return SsvNetwork.instance;
   }
 
-  static get NETWORK() {
-    return config.FEATURE.NETWORK.NAME;
-  }
-
   async fetchValidators(page: number = 1, perPage: number = ApiParams.PER_PAGE, detailed = false) {
     let params: any = {
       page,
       perPage,
-      network: SsvNetwork.NETWORK,
     };
     params = new URLSearchParams(params);
     const url = `${this.baseUrl}/api/validators/${detailed ? 'detailed/' : ''}?${params.toString()}`;
@@ -46,7 +41,6 @@ class SsvNetwork {
     let params: any = {
       page,
       perPage,
-      network: SsvNetwork.NETWORK,
     };
     params = new URLSearchParams(params);
     return new ApiRequest({
@@ -62,7 +56,6 @@ class SsvNetwork {
    */
   async fetchOperator(operatorAddress: string, performances: string[] = []) {
     let params: any = {
-      network: SsvNetwork.NETWORK,
       performances: performances.join(','),
     };
     params = new URLSearchParams(params);
@@ -83,7 +76,6 @@ class SsvNetwork {
       operator: operatorAddress,
       page,
       perPage,
-      network: SsvNetwork.NETWORK,
     };
     params = new URLSearchParams(params);
     return new ApiRequest({
@@ -99,7 +91,6 @@ class SsvNetwork {
    */
   async fetchValidator(validatorAddress: string, performances: string[] = []) {
     let params: any = {
-      network: SsvNetwork.NETWORK,
       performances: performances.join(','),
     };
     params = new URLSearchParams(params);
@@ -121,7 +112,6 @@ class SsvNetwork {
       validator: validatorAddress,
       page,
       perPage,
-      network: SsvNetwork.NETWORK,
     };
     params = new URLSearchParams(params);
     const url = `${this.baseUrl}/api/validators/duties/?${params.toString()}`;
@@ -138,7 +128,6 @@ class SsvNetwork {
   async search(query: string) {
     let params: any = {
       query,
-      network: SsvNetwork.NETWORK,
     };
     params = new URLSearchParams(params);
     return new ApiRequest({
@@ -163,7 +152,6 @@ class SsvNetwork {
     }
     let params: any = {
       [type]: address,
-      network: SsvNetwork.NETWORK,
       epochs: epochs.join(','),
     };
     params = new URLSearchParams(params);
@@ -171,6 +159,15 @@ class SsvNetwork {
       url: `${this.baseUrl}/api/${type}s/incentivized/?${params.toString()}`,
       method: 'GET',
     }).sendRequest();
+  }
+
+  static getActiveNetwork() {
+    const defaultNetwork = 'prater';
+    try {
+      return window.localStorage.getItem('chain_network') || defaultNetwork;
+    } catch (e) {
+      return defaultNetwork;
+    }
   }
 }
 

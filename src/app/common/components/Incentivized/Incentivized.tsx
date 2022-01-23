@@ -38,7 +38,7 @@ const Incentivized = (props: IncentivizedProps) => {
   const [incentivizedError, setIncentivizedError] = useState(defaultRounds);
   const placeholderRounds = [];
 
-  for (let i = 1; i <= config.incentivized.NUMBER_OF_ROUNDS; i += 1) {
+  for (let i = 1; i <= config.FEATURE.INCENTIVIZED.NUMBER_OF_ROUNDS; i += 1) {
     placeholderRounds.push(i);
   }
 
@@ -48,13 +48,6 @@ const Incentivized = (props: IncentivizedProps) => {
     fontSize: 20,
     marginLeft: 10,
     marginBottom: -3,
-  };
-
-  const isEligible = (performance: number | null): boolean => {
-    if (!performance) {
-      return false;
-    }
-    return performance >= 85;
   };
 
   // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
@@ -74,10 +67,10 @@ const Incentivized = (props: IncentivizedProps) => {
       setIncentivizedError('Can not load incentivized.');
     } else {
       const epochs = [];
-      let lastEpoch = config.incentivized.START_ROUNDS_FROM_EPOCH;
-      for (let i = 0; i < config.incentivized.NUMBER_OF_ROUNDS; i += 1) {
-        epochs.push(`${lastEpoch}-${lastEpoch + config.incentivized.EPOCHS_PER_ROUND}`);
-        lastEpoch += config.incentivized.EPOCHS_PER_ROUND;
+      let lastEpoch = config.FEATURE.INCENTIVIZED.START_ROUNDS_FROM_EPOCH;
+      for (let i = 0; i < config.FEATURE.INCENTIVIZED.NUMBER_OF_ROUNDS; i += 1) {
+        epochs.push(`${lastEpoch}-${lastEpoch + config.FEATURE.INCENTIVIZED.EPOCHS_PER_ROUND}`);
+        lastEpoch += config.FEATURE.INCENTIVIZED.EPOCHS_PER_ROUND + 1;
       }
       SsvNetwork.getInstance().incentivized(
         incentivizedType,
@@ -107,7 +100,7 @@ const Incentivized = (props: IncentivizedProps) => {
         &nbsp;
         <InfoTooltip
           style={headerTooltipStyle}
-          message="Operators technical scoring metric - calculated by the percentage of attended duties within a time-frame."
+          message="Eligibility below should only be referenced  as a technical indicator. Your final eligibility status will be determined when evaluated each round, which means it could be excluded if it violates one of the testnet terms."
         />
       </h3>
 
@@ -161,7 +154,7 @@ const Incentivized = (props: IncentivizedProps) => {
                     {parseFloat(String(round.performance)).toFixed(2)}%
                   </StyledCell>
                   <StyledCell key="eligible" style={rowStyle}>
-                    {isEligible(round.performance) ? 'Yes' : 'No'}
+                    {round.eligible ? 'Yes' : 'No'}
                   </StyledCell>
                 </StyledRow>
               );
