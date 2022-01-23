@@ -14,8 +14,7 @@ const config = {
         INCENTIVIZED: {
             NUMBER_OF_ROUNDS: 5,
             EPOCHS_PER_ROUND: 3150,
-            // START_ROUNDS_FROM_EPOCH: 69084,
-            START_ROUNDS_FROM_EPOCH: 60000,
+            START_ROUNDS_FROM_EPOCH: 69084,
         },
     },
     links: {

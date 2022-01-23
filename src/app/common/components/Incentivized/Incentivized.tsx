@@ -100,7 +100,7 @@ const Incentivized = (props: IncentivizedProps) => {
         &nbsp;
         <InfoTooltip
           style={headerTooltipStyle}
-          message="Operators technical scoring metric - calculated by the percentage of attended duties within a time-frame."
+          message="Eligibility below should only be referenced  as a technical indicator. Your final eligibility status will be determined when evaluated each round, which means it could be excluded if it violates one of the testnet terms."
         />
       </h3>
 
