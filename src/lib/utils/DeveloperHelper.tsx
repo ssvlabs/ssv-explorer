@@ -18,7 +18,6 @@ export const setLocalStorageFlagValue = (flagName: string, flagValue: any) => {
 export const DEVELOPER_FLAGS = {
   SHOW_HELP: 'developerHelper',
   SHOW_SEQUENCE_NUMBERS: 'showSequenceNumbers',
-  SHOW_INCENTIVIZED_WIDGET: 'showIncentivizedWidget',
   SHOW_OPERATORS_TABLE_PERFORMANCE_COLUMNS: 'showOperatorsTablePerformanceColumns',
 };
 
@@ -33,10 +32,6 @@ export const developerFlagsInfo = {
   },
   [DEVELOPER_FLAGS.SHOW_SEQUENCE_NUMBERS]: {
     'description': 'Show/Hide sequence numbers from SSV Network in duties table',
-    'values': ['0', '1'],
-  },
-  [DEVELOPER_FLAGS.SHOW_INCENTIVIZED_WIDGET]: {
-    'description': 'Show/Hide incentivized widget on operator and validator pages',
     'values': ['0', '1'],
   },
 };

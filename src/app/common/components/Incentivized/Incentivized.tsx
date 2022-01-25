@@ -14,7 +14,6 @@ import InfoTooltip from '~app/common/components/InfoTooltip';
 import StyledRow from '~app/common/components/Table/StyledRow';
 import StyledCell from '~app/common/components/Table/StyledCell';
 import SsvNetwork, { IncentivizedType } from '~lib/api/SsvNetwork';
-import { DEVELOPER_FLAGS, getLocalStorageFlagValue } from '~lib/utils/DeveloperHelper';
 
 type IncentivizedProps = {
   operator?: string;
@@ -22,10 +21,6 @@ type IncentivizedProps = {
 };
 
 const Incentivized = (props: IncentivizedProps) => {
-  if (!getLocalStorageFlagValue(DEVELOPER_FLAGS.SHOW_INCENTIVIZED_WIDGET)) {
-    return <></>;
-  }
-
   const { operator, validator } = props;
   if (!operator && !validator) {
     return <></>;
