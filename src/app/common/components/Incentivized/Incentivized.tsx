@@ -94,7 +94,7 @@ const Incentivized = (props: IncentivizedProps) => {
     const epochsMissed = Math.min(currentEpoch, round.epoch_to) - round.epoch_from - round.total_decided;
     const eligible = round.performance > 85;
     let textElement: any = eligible ? 'Yes' : 'No';
-    if (epochsMissed >= 473) {
+    if (epochsMissed >= 473 && isCurrentRound(round)) {
       textElement = (
         <Grid key="eligible" container style={{ alignItems: 'center' }}>
           No
