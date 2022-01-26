@@ -95,7 +95,12 @@ const Incentivized = (props: IncentivizedProps) => {
     const eligible = round.performance > 85;
     let textElement: any = eligible ? 'Yes' : 'No';
     if (epochsMissed >= 473) {
-      textElement = <Grid container style={{ alignItems: 'center' }}>No<InfoTooltip style={{ width: 15 }} message={'Definitive - the validator has no chance to turn eligible during this round'} /></Grid>;
+      textElement = (
+        <Grid key="eligible" container style={{ alignItems: 'center' }}>
+          No
+          <InfoTooltip style={{ width: 15 }} message={'Definitive - the validator has no chance to turn eligible during this round'} />
+        </Grid>
+      );
     }
     return (
       <StyledCell key="eligible" style={rowStyle}>
@@ -145,11 +150,9 @@ const Incentivized = (props: IncentivizedProps) => {
                 <StyledCell key="eligible"><Skeleton /></StyledCell>
               </StyledRow>
             )) : rounds?.length && rounds.map((round: any, roundIndex: any) => {
-              console.log(round);
               const rowFontWeight = isCurrentRound(round) ? 'bold' : 'inherit';
               const rowStyle: any = { fontWeight: rowFontWeight };
-              const isEligible = round.performance > 85;
-              isEligible;
+
               return (
                 <StyledRow
                   hover
