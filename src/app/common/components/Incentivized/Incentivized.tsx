@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
+import Grid from '@material-ui/core/Grid';
 import Table from '@material-ui/core/Table';
 import { Skeleton } from '@material-ui/lab';
 import TableRow from '@material-ui/core/TableRow';
@@ -67,6 +68,7 @@ const Incentivized = (props: IncentivizedProps) => {
         epochs.push(`${lastEpoch}-${lastEpoch + config.FEATURE.INCENTIVIZED.EPOCHS_PER_ROUND}`);
         lastEpoch += config.FEATURE.INCENTIVIZED.EPOCHS_PER_ROUND + 1;
       }
+
       SsvNetwork.getInstance().incentivized(
         incentivizedType,
         operator || validator,
@@ -87,6 +89,25 @@ const Incentivized = (props: IncentivizedProps) => {
       loadIncentivized();
     }
   }, [rounds]);
+
+  const eligibilityStatus = (round: any, rowStyle: any) => {
+    const epochsMissed = Math.min(currentEpoch, round.epoch_to) - round.epoch_from - round.total_decided;
+    const eligible = round.performance > 85;
+    let textElement: any = eligible ? 'Yes' : 'No';
+    if (validator && epochsMissed >= 473 && isCurrentRound(round)) {
+      textElement = (
+        <Grid key="eligible" container style={{ alignItems: 'center' }}>
+          No
+          <InfoTooltip style={{ width: 15 }} message={'Definitive - the validator has no chance to turn eligible during this round'} />
+        </Grid>
+      );
+    }
+    return (
+      <StyledCell key="eligible" style={rowStyle}>
+        {textElement}
+      </StyledCell>
+    );
+  };
 
   return (
     <TableContainer className={classes.tableWithBorder}>
@@ -131,6 +152,7 @@ const Incentivized = (props: IncentivizedProps) => {
             )) : rounds?.length && rounds.map((round: any, roundIndex: any) => {
               const rowFontWeight = isCurrentRound(round) ? 'bold' : 'inherit';
               const rowStyle: any = { fontWeight: rowFontWeight };
+
               return (
                 <StyledRow
                   hover
@@ -148,9 +170,7 @@ const Incentivized = (props: IncentivizedProps) => {
                   <StyledCell key="performance" style={rowStyle}>
                     {parseFloat(String(round.performance)).toFixed(2)}%
                   </StyledCell>
-                  <StyledCell key="eligible" style={rowStyle}>
-                    {round.eligible ? 'Yes' : 'No'}
-                  </StyledCell>
+                  {eligibilityStatus(round, rowStyle)}
                 </StyledRow>
               );
             })}

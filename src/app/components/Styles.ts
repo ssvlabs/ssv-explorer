@@ -209,6 +209,9 @@ export const useStyles = makeStyles((theme) => ({
         borderColor: `${theme.palette.text.primary}!important`,
         // marginBottom: 12,
     },
+    CantBeEligible: {
+      color: 'red',
+    },
     overviewSearch: {
         // '-webkit-box-shadow': 'none!important',
         // boxShadow: 'none!important',
