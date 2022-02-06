@@ -18,6 +18,13 @@ const getDashboardFields = () => {
     toolTipText: null,
   });
 
+  dashboardFields.push({
+    name: 'status',
+    hint: false,
+    displayName: 'Status',
+    toolTipText: '',
+  });
+
   return dashboardFields;
 };
 
@@ -41,14 +48,17 @@ export default (props: OperatorProps) => {
             FieldValue = operator[field.name];
           }
 
-          const shouldBeGreen = field.name === 'status';
+          let customColor = null;
+          if (field.name === 'status') {
+            customColor = FieldValue === 'Active' ? '#08c858' : 'red';
+          }
 
           return (
             <Grid xs={field.name === 'performance' ? 4 : 3} md={'auto'} item key={index}>
               <div>
                 <Typography
                   variant="h1"
-                  style={{ color: shouldBeGreen ? '#08c858' : '' }}
+                  style={{ color: customColor || '' }}
                   className={`${operatorClasses.OperatorFieldsHeader} mainHeader`}
                 >
                   {isLoading ? <Skeleton /> : FieldValue}
