@@ -20,6 +20,7 @@ import OperatorType from '~app/common/components/OperatorType';
 import StyledRow from '~app/common/components/Table/StyledRow';
 import StyledCell from '~app/common/components/Table/StyledCell';
 import PerformanceStore from '~app/common/stores/Performance.store';
+import OperatorStatus from '~app/common/components/OperatorStatus';
 
 const PerformanceSwitcher = styled.span<({ selected?: boolean })>`
   margin-top: 3px;
@@ -76,6 +77,11 @@ const ValidatorOperators = (props: ValidatorOperatorProps) => {
   const classes = useStyles();
   const { validator, defaultPerformance, onLoadPerformances } = props;
   const [selectedPerformancePeriod, setSelectedPerformancePeriod] = useState(defaultPerformance);
+  let operatorsPerformanceZero: number = 0;
+      validator?.operators?.forEach((operator: any) => {
+        // eslint-disable-next-line no-plusplus
+        if (operator.performance[selectedPerformancePeriod] === 0) ++operatorsPerformanceZero;
+  });
 
   const supportedPeriods = [
     {
@@ -97,6 +103,12 @@ const ValidatorOperators = (props: ValidatorOperatorProps) => {
   const performanceRowRightStyle: any = {
     ...performanceRowStyle,
     textAlign: 'right',
+  };
+
+  const renderPerformance = (operator: any) => {
+    if (operatorsPerformanceZero === 4) return 'N/A';
+    if (operator.performance[selectedPerformancePeriod] !== undefined) return `${parseFloat(String(operator.performance[selectedPerformancePeriod])).toFixed(1)}%`;
+    return <Skeleton />;
   };
 
   return (
@@ -135,9 +147,11 @@ const ValidatorOperators = (props: ValidatorOperatorProps) => {
               <TableCell key={'name'} align="left">
                 Name
               </TableCell>
-              <TableCell key={'performance'} align="right">
+              <TableCell key={'status'} align="left">
+                Status
+              </TableCell>
+              <TableCell key={'performance'}>
                 Performance
-                &nbsp;
                 <InfoTooltip
                   style={{ ...infoIconStyle, marginBottom: -2 }}
                   message="Operators technical scoring metric - calculated by the percentage of attended duties within a time-frame."
@@ -155,10 +169,13 @@ const ValidatorOperators = (props: ValidatorOperatorProps) => {
                   key={`operator-row-${skeleton}`}
                   style={{ maxHeight: 20 }}
                 >
-                  <StyledCell key="operator-info" style={performanceRowStyle} width="80%">
+                  <StyledCell key="operator-info">
                     <Skeleton />
                   </StyledCell>
-                  <StyledCell key="operator-performance" style={performanceRowRightStyle}>
+                  <StyledCell key="operator-performance">
+                    <Skeleton />
+                  </StyledCell>
+                  <StyledCell key="operator-status">
                     <Skeleton />
                   </StyledCell>
                 </StyledRow>
@@ -189,12 +206,15 @@ const ValidatorOperators = (props: ValidatorOperatorProps) => {
                       className={classes.Link}
                       style={{ fontWeight: 500, fontSize: 14 }}
                     >
-                      {longStringShorten(operator.address)}
+                      {longStringShorten(operator.address, 4)}
                     </Link>
                   </Typography>
                 </StyledCell>
+                <StyledCell key="operator-status">
+                  <OperatorStatus status={operator.status} />
+                </StyledCell>
                 <StyledCell key="operator-performance" style={performanceRowRightStyle}>
-                  {operator.performance[selectedPerformancePeriod] !== undefined ? `${parseFloat(String(operator.performance[selectedPerformancePeriod])).toFixed(2)}%` : <Skeleton />}
+                  {renderPerformance(operator)}
                 </StyledCell>
               </StyledRow>
             ))}

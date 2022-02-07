@@ -5,7 +5,7 @@ type ThemeParams = {
 export const grayBackgroundColor = '#A1ACBE';
 
 export const infoIconStyle = {
-  fontSize: 14,
+  fontSize: 13,
   color: grayBackgroundColor,
 };
 

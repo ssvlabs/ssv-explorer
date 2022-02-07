@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
-import { Box } from '@material-ui/core';
+import { Box, Grid } from '@material-ui/core';
 import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import config from '~app/common/config';
@@ -16,6 +16,9 @@ import EmptyPlaceholder from '~app/common/components/EmptyPlaceholder';
 import ContentContainer from '~app/common/components/ContentContainer';
 import { DEVELOPER_FLAGS, getLocalStorageFlagValue } from '~lib/utils/DeveloperHelper';
 import { BreadCrumb, BreadCrumbDivider, BreadCrumbsContainer } from '~app/common/components/Breadcrumbs';
+import OperatorStatus from '~app/common/components/OperatorStatus';
+import InfoTooltip from '~app/common/components/InfoTooltip';
+import { infoIconStyle } from '~root/theme';
 
 const OperatorsList = () => {
   const classes = useStyles();
@@ -61,18 +64,21 @@ const OperatorsList = () => {
     return (operators || []).map((operator: any) => {
       const data = [
         <Link href={`${config.routes.OPERATORS.HOME}/${operator.address}`} className={classes.Link}>
+          <Grid item className={classes.OperatorLogo} style={{ backgroundImage: operator.logo ? `url(${operator.logo})` : '' }} />
+          {operator.name}
+          <OperatorType type={operator.type} />
+        </Link>,
+        <Link href={`${config.routes.OPERATORS.HOME}/${operator.address}`} className={classes.Link}>
           <Box component="div" display={{ xs: 'block', sm: 'block', md: 'none', lg: 'none' }}>
             {longStringShorten(operator.address)}
           </Box>
           <Box component="div" display={{ xs: 'none', sm: 'none', md: 'block', lg: 'block' }}>
             {operator.address}
           </Box>
-
         </Link>,
-        <Link href={`${config.routes.OPERATORS.HOME}/${operator.address}`} className={classes.Link}>
-          {operator.name}
-          <OperatorType type={operator.type} />
-        </Link>,
+        <Box component="div" display={{ xs: 'block', sm: 'block', md: 'block', lg: 'block' }}>
+          <OperatorStatus status={operator.status} />
+        </Box>,
         <Link href={`${config.routes.OPERATORS.HOME}/${operator.address}`} className={classes.Link}>
           {operator.validatorsCount}
         </Link>,
@@ -93,8 +99,15 @@ const OperatorsList = () => {
 
   const getOperatorsTableHeaders = () => {
     const headers = [
-      'Address',
       'Name',
+      'Address',
+      <div>
+        Status
+        <InfoTooltip
+          style={{ ...infoIconStyle, marginBottom: -2 }}
+          message="Operators technical scoring metric - calculated by the percentage of attended duties within a time-frame."
+        />
+      </div>,
       'Validators',
     ];
 
