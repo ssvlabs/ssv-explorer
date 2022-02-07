@@ -74,7 +74,7 @@ const Operators = () => {
                 </Link>
               </StyledCell>
               <StyledCell style={overviewTableCellStyle}>
-                {row.validatorsCount}
+                {row.validators_count}
               </StyledCell>
             </StyledRow>
           ))}

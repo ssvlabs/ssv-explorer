@@ -74,7 +74,7 @@ const OperatorsList = () => {
           <OperatorType type={operator.type} />
         </Link>,
         <Link href={`${config.routes.OPERATORS.HOME}/${operator.address}`} className={classes.Link}>
-          {operator.validatorsCount}
+          {operator.validators_count}
         </Link>,
       ];
 

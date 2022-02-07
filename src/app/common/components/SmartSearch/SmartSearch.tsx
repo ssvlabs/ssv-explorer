@@ -86,7 +86,7 @@ const SmartSearch = (props: SmartSearchProps) => {
           url = `${config.routes.OPERATORS.HOME}/${newValue.address}`;
           break;
         case 'VALIDATORS':
-          url = `${config.routes.VALIDATORS.HOME}/${newValue.publicKey}`;
+          url = `${config.routes.VALIDATORS.HOME}/${newValue.public_key}`;
           break;
       }
       if (url) {
@@ -130,8 +130,8 @@ const SmartSearch = (props: SmartSearchProps) => {
         });
         for (let i = 0; i < validatorsList.length; i += 1) {
           const validator = validatorsList[i];
-          if (queryString === validator.publicKey) {
-            url = `${config.routes.VALIDATORS.HOME}/${validator.publicKey}`;
+          if (queryString === validator.public_key) {
+            url = `${config.routes.VALIDATORS.HOME}/${validator.public_key}`;
             break;
           }
         }
@@ -170,12 +170,12 @@ const SmartSearch = (props: SmartSearchProps) => {
       <>
         {option.type === 'VALIDATORS' && (
           <Link
-            href={`${config.routes.VALIDATORS.HOME}/${option.publicKey}`}
+            href={`${config.routes.VALIDATORS.HOME}/${option.public_key}`}
             className={classes.Link}
             style={{ width: '100%' }}
           >
             <Grid item className={classes.BlackText}>
-              0x{option.publicKey}
+              0x{option.public_key}
             </Grid>
           </Link>
           )}
@@ -260,7 +260,7 @@ const SmartSearch = (props: SmartSearchProps) => {
       groupBy={(option: any) => option.type}
       onBlur={() => { setSearchResults([]); }}
       filterOptions={(options) => options}
-      getOptionLabel={(option: any) => option.address || option.publicKey || ''}
+      getOptionLabel={(option: any) => option.address || option.public_key || ''}
       className={`${classes.overviewSearch} ${(inAppBar ? classes.appBarSearch : '')}`}
     />
   );

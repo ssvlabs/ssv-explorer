@@ -150,14 +150,14 @@ export default (props: ValidatorDutiesProps) => {
     if (validatorDuties === null) {
       loadValidatorDuties(params.address, 1);
     }
-  }, [loadingDuties, validator?.publicKey]);
+  }, [loadingDuties, validator?.public_key]);
 
   return (
     <PaddedGridItem item xs={12} md={9} paddingLeft={30}>
       <DataTable
         title="Duties"
         headers={['Epoch', 'Slot', 'Duty', 'Status', 'Operator Consensus Breakdown']}
-        data={(validator?.publicKey ? (validatorDuties ?? []) : []).map((duty: any) => {
+        data={(validator?.public_key ? (validatorDuties ?? []) : []).map((duty: any) => {
           return [
             (<>{duty.epoch} {renderSequenceNumber(duty.sequence)}</>),
             duty.slot,
@@ -173,7 +173,7 @@ export default (props: ValidatorDutiesProps) => {
         }}
         onChangeRowsPerPage={onChangeRowsPerPage}
         perPage={ApiParams.getInteger('validator:duties', 'perPage', ApiParams.PER_PAGE)}
-        isLoading={loadingDuties || !validator?.publicKey}
+        isLoading={loadingDuties || !validator?.public_key}
       />
     </PaddedGridItem>
   );

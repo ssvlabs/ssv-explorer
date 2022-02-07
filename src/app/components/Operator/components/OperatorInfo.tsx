@@ -12,7 +12,7 @@ const getDashboardFields = () => {
   const dashboardFields: any[] = [];
 
   dashboardFields.push({
-    name: 'validatorsCount',
+    name: 'validators_count',
     hint: false,
     displayName: 'Validators',
     toolTipText: null,

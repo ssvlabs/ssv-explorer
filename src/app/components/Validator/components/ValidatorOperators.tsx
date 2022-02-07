@@ -112,8 +112,8 @@ const ValidatorOperators = (props: ValidatorOperatorProps) => {
               if (getSortedOperators(validator.operators ?? [], period.key)[0]) {
                 return;
               }
-              const requestedName = `${validator?.publicKey}_${period.key}`;
-              const shouldRequestPeriod = validator?.publicKey
+              const requestedName = `${validator?.public_key}_${period.key}`;
+              const shouldRequestPeriod = validator?.public_key
                 && ['requested', 'requesting'].indexOf(performanceStore.requestedFlags[requestedName]) === -1;
 
               if (shouldRequestPeriod) {

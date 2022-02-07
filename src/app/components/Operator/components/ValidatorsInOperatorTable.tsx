@@ -36,22 +36,22 @@ const ValidatorsInOperatorTable = (props: ValidatorsInOperatorTableProps) => {
       headersPositions={['left', 'right']}
       data={(validators || []).map((validator: any) => {
         return [
-          <Link href={`${config.routes.VALIDATORS.HOME}/${validator.publicKey}`} className={classes.Link}>
+          <Link href={`${config.routes.VALIDATORS.HOME}/${validator.public_key}`} className={classes.Link}>
             <Typography noWrap>
               <Box component="div" display={{ xs: 'block', sm: 'none', md: 'none', lg: 'none' }}>
-                0x{longStringShorten(validator.publicKey, 10)}
+                0x{longStringShorten(validator.public_key, 10)}
               </Box>
               <Box component="div" display={{ xs: 'none', sm: 'block', md: 'block', lg: 'none' }}>
-                0x{longStringShorten(validator.publicKey, 20)}
+                0x{longStringShorten(validator.public_key, 20)}
               </Box>
               <Box component="div" display={{ xs: 'none', sm: 'none', md: 'none', lg: 'block' }}>
-                0x{validator.publicKey}
+                0x{validator.public_key}
               </Box>
             </Typography>
           </Link>,
           <div style={{ marginTop: 3, whiteSpace: 'nowrap' }}>
-            <CopyToClipboardIcon data={validator.publicKey} />
-            <BeaconchaLink height={24} width={24} address={`validator/${validator.publicKey}`} />
+            <CopyToClipboardIcon data={validator.public_key} />
+            <BeaconchaLink height={24} width={24} address={`validator/${validator.public_key}`} />
           </div>,
         ];
       })}

@@ -74,12 +74,12 @@ const ValidatorsList = () => {
           headersPositions={['left', 'left', 'right']}
           data={validators.map((validator: any) => {
             return [
-              <Link href={`${config.routes.VALIDATORS.HOME}/${validator.publicKey}`} className={classes.Link}>
+              <Link href={`${config.routes.VALIDATORS.HOME}/${validator.public_key}`} className={classes.Link}>
                 <Box component="div" display={{ xs: 'block', sm: 'block', md: 'none', lg: 'none' }}>
-                  0x{longStringShorten(validator.publicKey)}
+                  0x{longStringShorten(validator.public_key)}
                 </Box>
                 <Box component="div" display={{ xs: 'none', sm: 'none', md: 'block', lg: 'block' }}>
-                  0x{validator.publicKey}
+                  0x{validator.public_key}
                 </Box>
               </Link>,
               validator.operators.map((operator: any, operatorIndex: number) => {
@@ -93,8 +93,8 @@ const ValidatorsList = () => {
                 );
               }),
               <div style={{ marginTop: 3, display: 'block', whiteSpace: 'nowrap' }}>
-                <CopyToClipboardIcon data={validator.publicKey} />
-                <BeaconchaLink height={24} width={24} address={`validator/${validator.publicKey}`} />
+                <CopyToClipboardIcon data={validator.public_key} />
+                <BeaconchaLink height={24} width={24} address={`validator/${validator.public_key}`} />
               </div>,
             ];
           })}
