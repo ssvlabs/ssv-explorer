@@ -85,7 +85,7 @@ const Incentivized = (props: IncentivizedProps) => {
   };
 
   useEffect(() => {
-    if (rounds === null) {
+    if ((operator || validator) && rounds === null) {
       loadIncentivized();
     }
   }, [rounds]);

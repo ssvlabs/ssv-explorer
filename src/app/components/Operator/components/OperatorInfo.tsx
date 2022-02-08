@@ -18,13 +18,6 @@ const getDashboardFields = () => {
     toolTipText: null,
   });
 
-  dashboardFields.push({
-    name: 'status',
-    hint: false,
-    displayName: 'Status',
-    toolTipText: '',
-  });
-
   return dashboardFields;
 };
 

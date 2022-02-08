@@ -19,7 +19,7 @@ type HeaderPosition = 'inherit' | 'left' | 'center' | 'right' | 'justify';
 
 type DataTableProps = {
   title?: string,
-  headers: string[],
+  headers: any[],
   headersPositions?: HeaderPosition[],
   data: any[],
   rowsPerPageOptions?: number[],
