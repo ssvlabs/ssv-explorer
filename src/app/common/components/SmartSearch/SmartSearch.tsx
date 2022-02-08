@@ -39,7 +39,7 @@ const SmartSearch = (props: SmartSearchProps) => {
         const convolutedResults: any[] = (results.data?.validators || []).map((validator: any) => {
           return {
             type: 'VALIDATORS',
-            publicKey: validator.public_key,
+            public_key: validator.public_key,
           };
         });
         (results.data?.operators || []).map((operator: any) => {
