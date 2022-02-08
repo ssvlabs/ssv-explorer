@@ -94,7 +94,6 @@ const Incentivized = (props: IncentivizedProps) => {
     const eligiblePerformance = roundIndex === 0 ? 75 : 85;
     const eligibleEpochsMissed = roundIndex === 0 ? 788 : 473;
     const epochsMissed = Math.min(currentEpoch, round.epoch_to) - round.epoch_from - round.total_decided;
-    if (isCurrentRound(round)) console.log(epochsMissed);
     const eligible = round.performance > eligiblePerformance;
     let textElement: any = eligible ? 'Yes' : 'No';
     if (validator && epochsMissed >= eligibleEpochsMissed && isCurrentRound(round)) {
