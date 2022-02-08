@@ -90,15 +90,18 @@ const Incentivized = (props: IncentivizedProps) => {
     }
   }, [rounds]);
 
-  const eligibilityStatus = (round: any, rowStyle: any) => {
+  const eligibilityStatus = (round: any, roundIndex: any, rowStyle: any) => {
+    const eligiblePerformance = roundIndex === 0 ? 75 : 85;
+    const eligibleEpochsMissed = roundIndex === 0 ? 788 : 473;
     const epochsMissed = Math.min(currentEpoch, round.epoch_to) - round.epoch_from - round.total_decided;
-    const eligible = round.performance > 85;
+    const eligible = round.performance > eligiblePerformance;
     let textElement: any = eligible ? 'Yes' : 'No';
-    if (validator && epochsMissed >= 473 && isCurrentRound(round)) {
+    if (validator && epochsMissed >= eligibleEpochsMissed && isCurrentRound(round)) {
       textElement = (
         <Grid key="eligible" container style={{ alignItems: 'center' }}>
           No
-          <InfoTooltip style={{ width: 15 }} message={'Definitive - the validator has no chance to turn eligible during this round'} />
+          <InfoTooltip style={{ width: 15 }}
+            message={'Definitive - the validator has no chance to turn eligible during this round'} />
         </Grid>
       );
     }
@@ -170,7 +173,7 @@ const Incentivized = (props: IncentivizedProps) => {
                   <StyledCell key="performance" style={rowStyle}>
                     {parseFloat(String(round.performance)).toFixed(2)}%
                   </StyledCell>
-                  {eligibilityStatus(round, rowStyle)}
+                  {eligibilityStatus(round, roundIndex, rowStyle)}
                 </StyledRow>
               );
             })}

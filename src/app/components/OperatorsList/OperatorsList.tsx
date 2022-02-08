@@ -41,7 +41,7 @@ const OperatorsList = () => {
     const perPage: number = ApiParams.getInteger('operators', 'perPage', ApiParams.PER_PAGE);
 
     setLoading(true);
-    SsvNetwork.getInstance().fetchOperators(page, perPage).then((result: any) => {
+    SsvNetwork.getInstance().fetchOperators({ page, perPage, extended: 'validators_count' }).then((result: any) => {
       setOperators(result.data.operators);
       setPagination(result.data.pagination);
       setLoading(false);
@@ -74,7 +74,7 @@ const OperatorsList = () => {
           <OperatorType type={operator.type} />
         </Link>,
         <Link href={`${config.routes.OPERATORS.HOME}/${operator.address}`} className={classes.Link}>
-          {operator.validatorsCount}
+          {operator.validators_count}
         </Link>,
       ];
 

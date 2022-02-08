@@ -63,8 +63,8 @@ const Validators = () => {
           {validators.map((row: any, rowIndex: number) => (
             <StyledRow key={rowIndex}>
               <StyledCell style={overviewTableCellStyle}>
-                <Link href={`/validators/${row.publicKey}`} className={classes.Link}>
-                  0x{longStringShorten(row.publicKey)}
+                <Link href={`/validators/${row.public_key}`} className={classes.Link}>
+                  0x{longStringShorten(row.public_key)}
                 </Link>
               </StyledCell>
               <StyledCell style={overviewTableCellStyle}>

@@ -37,11 +37,13 @@ class SsvNetwork {
     }).sendRequest();
   }
 
-  async fetchOperators(page: number = 1, perPage: number = ApiParams.PER_PAGE) {
+  async fetchOperators({ page = 1, perPage = ApiParams.PER_PAGE, extended = '' } : { page?: number, perPage?: number, extended?: string }) {
     let params: any = {
       page,
       perPage,
+      extended,
     };
+
     params = new URLSearchParams(params);
     return new ApiRequest({
       url: `${this.baseUrl}/api/operators/?${params.toString()}`,

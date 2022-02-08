@@ -71,7 +71,7 @@ const Validator = () =>
           for (let j = 0; j < result.data.operators.length; j += 1) {
             const operator = result.data.operators[j];
             performanceStore.setValidatorOperatorPerformance(
-              result.data.publicKey,
+              result.data.public_key,
               performance,
               operator.address,
               operator.performance[performance],
@@ -83,7 +83,7 @@ const Validator = () =>
   };
 
   useEffect(() => {
-    if (!validator?.publicKey && !loadingValidator) {
+    if (!validator?.public_key && !loadingValidator) {
       loadValidator(params.address);
     }
   });
