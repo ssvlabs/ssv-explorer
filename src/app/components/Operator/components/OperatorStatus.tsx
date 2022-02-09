@@ -51,7 +51,17 @@ const ValueContent = styled.div`
 
 const OperatorStatus = ({ status }: { status: string }) => {
     const headerTooltipStyle = { fontSize: '14px', color: 'rgb(161, 172, 190)', marginBottom: '-2px' };
-    const textColor: string = status === 'Active' ? '#08c858' : '#ec1c26';
+    let textColor: string = '';
+    switch (status) {
+        case 'Active':
+            textColor = '#08c858';
+            break;
+        case 'Inactive':
+            textColor = '#ec1c26';
+            break;
+        default:
+            textColor = '#808080';
+    }
 
     return (
       <OperatorPerformanceContainer>
