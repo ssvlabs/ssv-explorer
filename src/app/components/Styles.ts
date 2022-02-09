@@ -209,8 +209,20 @@ export const useStyles = makeStyles((theme) => ({
         borderColor: `${theme.palette.text.primary}!important`,
         // marginBottom: 12,
     },
+    OperatorLogo: {
+        width: 40,
+        height: 40,
+        borderRadius: 4,
+        alignContent: 'flex-end',
+        backgroundSize: 'contain',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        marginRight: theme.spacing(3),
+        backgroundColor: 'rgba(230, 234, 247, 0.5)',
+        backgroundImage: 'url(/images/logo_placeholder.svg)',
+    },
     CantBeEligible: {
-      color: 'red',
+        color: 'red',
     },
     overviewSearch: {
         // '-webkit-box-shadow': 'none!important',

@@ -145,11 +145,11 @@ const Validator = () =>
                 validator={validator}
                 defaultPerformance={defaultPerformance}
                 onLoadPerformances={(perf: string[], callback: any = null) => {
-                  loadValidator(params.address, perf).then(() => {
-                    callback && callback();
-                  });
-                }}
-              />
+                      loadValidator(params.address, perf).then(() => {
+                        callback && callback();
+                      });
+                    }}
+                />
               <Incentivized validator={params.address} />
             </Grid>
             <ValidatorDuties validator={validator} />

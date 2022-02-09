@@ -60,6 +60,7 @@ class SsvNetwork {
     let params: any = {
       performances: performances.join(','),
     };
+
     params = new URLSearchParams(params);
     return new ApiRequest({
       url: `${this.baseUrl}/api/operators/${operatorAddress}/?${params.toString()}`,

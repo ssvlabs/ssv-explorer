@@ -12,6 +12,7 @@ import EmptyPlaceholder from '~app/common/components/EmptyPlaceholder';
 import BreadCrumbs from '~app/components/Operator/components/BreadCrumbs';
 import OperatorName from '~app/components/Operator/components/OperatorName';
 import OperatorInfo from '~app/components/Operator/components/OperatorInfo';
+import OperatorStatus from '~app/components/Operator/components/OperatorStatus';
 import OperatorMetadata from '~app/components/Operator/components/OperatorMetadata';
 import OperatorDescription from '~app/components/Operator/components/OperatorDescription';
 import OperatorPerformance from '~app/components/Operator/components/OperatorPerformance';
@@ -90,7 +91,7 @@ const Operator = () => {
     if (!operator.address && !loadingOperator) {
       loadOperator(params.address);
     }
-    if (!validators?.length && !loadingValidators) {
+    if (params.address && !validators?.length && !loadingValidators) {
       loadOperatorValidators(params.address, 1);
     }
   }, [params.address, operator.address]);
@@ -116,17 +117,18 @@ const Operator = () => {
               <OperatorInfo operator={operator} isLoading={isLoading} />
             </Grid>
           </Grid>
-
           <Grid container>
             <Grid container item justify="space-between" spacing={3}>
               <Grid item lg={3} md={6} xs={12}>
+                <OperatorStatus status={operator.status} />
+
                 <OperatorPerformance
                   operator={operator}
                   isLoading={isLoading}
                   onLoadPerformances={(periods: string[]) => {
                     loadOperator(params.address, periods, true);
                   }}
-                />
+                 />
                 <Incentivized operator={params.address} />
               </Grid>
               <Grid item lg={9} md={6} xs={12}>
@@ -142,7 +144,6 @@ const Operator = () => {
               </Grid>
             </Grid>
           </Grid>
-
         </NotFoundScreen>
       </ContentContainer>
     </Layout>
