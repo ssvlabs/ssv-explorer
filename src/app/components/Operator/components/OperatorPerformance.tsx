@@ -73,14 +73,14 @@ const OperatorPerformanceWidget = (props: OperatorProps) => {
   const supportedPerformances: any = { '30days': '1M', '1days': '1D' };
   const [selectedPerformance, setSelectedPerformance] = useState('1days');
   const headerTooltipStyle = { fontSize: '14px', color: 'rgb(161, 172, 190)', marginBottom: '-2px' };
-  
+
   return (
     <OperatorPerformanceContainer>
       <PerformanceDataHeader>
         Performance
         <InfoTooltip
           style={headerTooltipStyle}
-          message="Operator technical scoring metric - calculated by the percentage of attended duties within a time-frame."
+          message="Is the operator performing duties for the majority of its validators in the last 2 epochs."
         />
         <div style={{ float: 'right', width: 100 }}>
           {Object.keys(supportedPerformances).map((performance: any) => {
