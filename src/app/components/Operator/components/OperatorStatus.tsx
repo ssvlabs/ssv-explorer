@@ -1,8 +1,8 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 import styled from 'styled-components';
-import InfoTooltip from '~app/common/components/InfoTooltip';
 import { Skeleton } from '@material-ui/lab';
+import InfoTooltip from '~app/common/components/InfoTooltip';
 
 const OperatorPerformanceContainer = styled.div`
   height: 164px;
