@@ -80,7 +80,7 @@ const OperatorPerformanceWidget = (props: OperatorProps) => {
         Performance
         <InfoTooltip
           style={headerTooltipStyle}
-          message="Is the operator performing duties for the majority of its validators in the last 2 epochs."
+          message="Operator technical scoring metric - calculated by the percentage of attended duties within a time-frame."
         />
         <div style={{ float: 'right', width: 100 }}>
           {Object.keys(supportedPerformances).map((performance: any) => {

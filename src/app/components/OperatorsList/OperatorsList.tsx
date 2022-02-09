@@ -105,7 +105,7 @@ const OperatorsList = () => {
         Status
         <InfoTooltip
           style={{ ...infoIconStyle, marginBottom: -2 }}
-          message="Operators technical scoring metric - calculated by the percentage of attended duties within a time-frame."
+          message="Is the operator performing duties for the majority of its validators in the last 2 epochs."
         />
       </div>,
       'Validators',
