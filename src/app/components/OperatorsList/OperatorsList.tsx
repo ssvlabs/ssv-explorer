@@ -5,20 +5,20 @@ import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import config from '~app/common/config';
 import ApiParams from '~lib/api/ApiParams';
+import { infoIconStyle } from '~root/theme';
 import SsvNetwork from '~lib/api/SsvNetwork';
 import Layout from '~app/common/components/Layout';
 import { useStyles } from '~app/components/Styles';
 import { longStringShorten } from '~lib/utils/strings';
 import DataTable from '~app/common/components/DataTable';
 import { getPerformances } from '~lib/utils/performance';
+import InfoTooltip from '~app/common/components/InfoTooltip';
 import OperatorType from '~app/common/components/OperatorType';
+import OperatorStatus from '~app/common/components/OperatorStatus';
 import EmptyPlaceholder from '~app/common/components/EmptyPlaceholder';
 import ContentContainer from '~app/common/components/ContentContainer';
 import { DEVELOPER_FLAGS, getLocalStorageFlagValue } from '~lib/utils/DeveloperHelper';
 import { BreadCrumb, BreadCrumbDivider, BreadCrumbsContainer } from '~app/common/components/Breadcrumbs';
-import OperatorStatus from '~app/common/components/OperatorStatus';
-import InfoTooltip from '~app/common/components/InfoTooltip';
-import { infoIconStyle } from '~root/theme';
 
 const OperatorsList = () => {
   const classes = useStyles();

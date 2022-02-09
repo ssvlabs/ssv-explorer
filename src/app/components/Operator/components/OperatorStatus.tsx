@@ -1,8 +1,8 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 import styled from 'styled-components';
-import InfoTooltip from '~app/common/components/InfoTooltip';
 import { Skeleton } from '@material-ui/lab';
+import InfoTooltip from '~app/common/components/InfoTooltip';
 
 const OperatorPerformanceContainer = styled.div`
   height: 164px;
@@ -51,7 +51,17 @@ const ValueContent = styled.div`
 
 const OperatorStatus = ({ status }: { status: string }) => {
     const headerTooltipStyle = { fontSize: '14px', color: 'rgb(161, 172, 190)', marginBottom: '-2px' };
-    const textColor: string = status === 'Active' ? '#08c858' : '#ec1c26';
+    let textColor: string = '';
+    switch (status) {
+        case 'Active':
+            textColor = '#08c858';
+            break;
+        case 'Inactive':
+            textColor = '#ec1c26';
+            break;
+        default:
+            textColor = '#808080';
+    }
 
     return (
       <OperatorPerformanceContainer>
