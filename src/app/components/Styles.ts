@@ -218,7 +218,6 @@ export const useStyles = makeStyles((theme) => ({
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
         marginRight: theme.spacing(3),
-        backgroundColor: 'rgba(230, 234, 247, 0.5)',
         backgroundImage: 'url(/images/logo_placeholder.svg)',
     },
     CantBeEligible: {
