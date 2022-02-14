@@ -7,6 +7,7 @@ import { useParams } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import config from '~app/common/config';
 import SsvNetwork from '~lib/api/SsvNetwork';
+import Status from '~app/common/components/Status';
 import Layout from '~app/common/components/Layout';
 import BaseStore from '~app/common/stores/BaseStore';
 import { longStringShorten } from '~lib/utils/strings';
@@ -108,22 +109,36 @@ const Validator = () =>
 
           <Grid container alignContent="center" alignItems="center">
             <Grid item xs={12} md={8}>
-              <StatsBlock maxWidth="100%" style={{ paddingRight: 15 }}>
-                <Heading variant="h1">
-                  Validator
-                  {!notFound && (
-                    <>
-                      <CopyToClipboardIcon data={params.address} style={{ marginLeft: 15, width: 22, height: 22 }} />
-                      <BeaconchaLink height={22} width={22} address={`validator/${params.address}`} />
-                    </>
-                  )}
-                </Heading>
-                <SubHeading style={{ width: '100%' }}>
-                  <Typography noWrap>
-                    0x{params.address}
-                  </Typography>
-                </SubHeading>
-              </StatsBlock>
+              <Grid container spacing={1} style={{ alignItems: 'center', marginTop: 22 }}>
+                <Grid item>
+                  <StatsBlock>
+                    <Heading variant="h1" style={{ padding: 0, marginBottom: 6 }}>
+                      Validator
+                    </Heading>
+                  </StatsBlock>
+                </Grid>
+                <Grid item>
+                  <Status big status={validator.status} />
+                </Grid>
+              </Grid>
+              {!notFound && (
+                <Grid container style={{ alignItems: 'center' }}>
+                  <Grid item>
+                    <Typography noWrap>
+                      0x{longStringShorten(params.address, 4)}
+                    </Typography>
+                  </Grid>
+                  <Grid item>
+                    <CopyToClipboardIcon data={params.address} style={{ marginLeft: 15, width: 22, height: 22 }} />
+                    <BeaconchaLink height={22} width={22} address={`validator/${params.address}`} />
+                  </Grid>
+                </Grid>
+                )}
+              {/* <SubHeading style={{ width: '100%' }}> */}
+              {/*  /!* <Typography noWrap> *!/ */}
+              {/*  /!*  0x{params.address} *!/ */}
+              {/*  /!* </Typography> *!/ */}
+              {/* </SubHeading> */}
             </Grid>
             {!notFound ? (
               <>
