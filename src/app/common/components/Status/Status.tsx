@@ -25,7 +25,7 @@ const Status = (props: Props) => {
 
     if (!props.status) return <Skeleton style={{ width: 50 }} />;
     return (
-      <Tooltip open={showTooltip} title={'Is the validator performing duties in the last 4 consecutive epochs'}>
+      <Tooltip open={showTooltip && props.big} title={'Is the validator performing duties in the last 4 consecutive epochs'}>
         <Grid
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
