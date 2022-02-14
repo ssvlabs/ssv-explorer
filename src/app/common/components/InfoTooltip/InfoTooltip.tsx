@@ -15,9 +15,7 @@ const InfoTooltip = ({ message, style }: { message: any, style?: any }) => {
 
     return (
       <Tooltip open={showTooltip} title={message}>
-        <InfoIcon onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} onClick={() => {
-                setShowTooltip(!showTooltip);
-            }} style={{ ...(style ?? {}), marginLeft: 5 }} />
+        <InfoIcon onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} style={{ ...(style ?? {}), marginLeft: 5 }} />
       </Tooltip>
     );
 };
