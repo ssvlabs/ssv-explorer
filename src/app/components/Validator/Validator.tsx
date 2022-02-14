@@ -134,11 +134,6 @@ const Validator = () =>
                   </Grid>
                 </Grid>
                 )}
-              {/* <SubHeading style={{ width: '100%' }}> */}
-              {/*  /!* <Typography noWrap> *!/ */}
-              {/*  /!*  0x{params.address} *!/ */}
-              {/*  /!* </Typography> *!/ */}
-              {/* </SubHeading> */}
             </Grid>
             {!notFound ? (
               <>
