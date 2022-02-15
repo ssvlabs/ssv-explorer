@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
 import styled from 'styled-components';
 import Grid from '@material-ui/core/Grid';
-import { Skeleton } from '@material-ui/lab';
 import { useParams } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import config from '~app/common/config';
@@ -14,7 +13,7 @@ import { longStringShorten } from '~lib/utils/strings';
 import { Incentivized } from '~app/common/components/Incentivized';
 import NotFoundScreen from '~app/common/components/NotFoundScreen';
 import PerformanceStore from '~app/common/stores/Performance.store';
-import { Heading, SubHeading } from '~app/common/components/Headings';
+import { Heading } from '~app/common/components/Headings';
 import ContentContainer from '~app/common/components/ContentContainer';
 import EmptyPlaceholder from '~app/common/components/EmptyPlaceholder';
 import CopyToClipboardIcon from '~app/common/components/CopyToClipboardIcon';
@@ -89,14 +88,6 @@ const Validator = () =>
     }
   });
 
-  const operatorsStatsStyle = {
-    display: 'flex',
-    alignItems: 'left',
-    alignContent: 'left',
-    justifyContent: 'left',
-    justifyItems: 'left',
-  };
-
   return (
     <Layout>
       <ContentContainer>
@@ -135,16 +126,16 @@ const Validator = () =>
                 </Grid>
                 )}
             </Grid>
-            {!notFound ? (
-              <>
-                <Grid item xs={12} md={4} style={operatorsStatsStyle}>
-                  <StatsBlock>
-                    <Heading variant="h1">{validator?.operators?.length ?? <Skeleton />}</Heading>
-                    <SubHeading>Operators</SubHeading>
-                  </StatsBlock>
-                </Grid>
-              </>
-            ) : ''}
+            {/* {!notFound ? ( */}
+            {/*  <> */}
+            {/*    <Grid item xs={12} md={4} style={operatorsStatsStyle}> */}
+            {/*      <StatsBlock> */}
+            {/*        <Heading variant="h1">{validator?.operators?.length ?? <Skeleton />}</Heading> */}
+            {/*        <SubHeading>Operators</SubHeading> */}
+            {/*      </StatsBlock> */}
+            {/*    </Grid> */}
+            {/*  </> */}
+            {/* ) : ''} */}
           </Grid>
 
           <EmptyPlaceholder height={40} />
