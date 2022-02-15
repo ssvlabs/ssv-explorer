@@ -69,7 +69,7 @@ const OperatorStatus = ({ status }: { status: string }) => {
           Status
           <InfoTooltip
             style={headerTooltipStyle}
-            message="Is the operator performing duties for the majority of its validators in the last 2 epochs."
+            message="Is the operator performing duties for the majority of its validators in the last 4 epochs."
           />
         </DataHeader>
         <ValueContent style={{ color: textColor }}>
