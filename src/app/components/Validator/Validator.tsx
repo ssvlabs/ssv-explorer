@@ -155,7 +155,6 @@ const Validator = () =>
             </Grid>
             <ValidatorDuties validator={validator} />
           </Grid>
-
         </NotFoundScreen>
       </ContentContainer>
     </Layout>
