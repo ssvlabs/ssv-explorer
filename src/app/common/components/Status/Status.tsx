@@ -11,9 +11,8 @@ type Props = {
 };
 
 const Status = (props: Props) => {
-    const classes = useStyles();
-    const isActive = props.status === 'Active';
     const [showTooltip, setShowTooltip] = useState(false);
+    const classes = useStyles({ isActive: props.status === 'Active', isBig: props.big });
 
     const handleMouseEnter = () => {
         setShowTooltip(true);
@@ -29,7 +28,7 @@ const Status = (props: Props) => {
         <Grid
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
-          className={`${props.big ? classes.Big : classes.Normal} ${isActive ? classes.Active : classes.Inactive}`}>
+          className={classes.Status}>
           {props.status}
         </Grid>
       </Tooltip>

@@ -10,10 +10,10 @@ import Status from '~app/common/components/Status';
 import Layout from '~app/common/components/Layout';
 import BaseStore from '~app/common/stores/BaseStore';
 import { longStringShorten } from '~lib/utils/strings';
+import { Heading } from '~app/common/components/Headings';
 import { Incentivized } from '~app/common/components/Incentivized';
 import NotFoundScreen from '~app/common/components/NotFoundScreen';
 import PerformanceStore from '~app/common/stores/Performance.store';
-import { Heading } from '~app/common/components/Headings';
 import ContentContainer from '~app/common/components/ContentContainer';
 import EmptyPlaceholder from '~app/common/components/EmptyPlaceholder';
 import CopyToClipboardIcon from '~app/common/components/CopyToClipboardIcon';
@@ -126,16 +126,6 @@ const Validator = () =>
                 </Grid>
                 )}
             </Grid>
-            {/* {!notFound ? ( */}
-            {/*  <> */}
-            {/*    <Grid item xs={12} md={4} style={operatorsStatsStyle}> */}
-            {/*      <StatsBlock> */}
-            {/*        <Heading variant="h1">{validator?.operators?.length ?? <Skeleton />}</Heading> */}
-            {/*        <SubHeading>Operators</SubHeading> */}
-            {/*      </StatsBlock> */}
-            {/*    </Grid> */}
-            {/*  </> */}
-            {/* ) : ''} */}
           </Grid>
 
           <EmptyPlaceholder height={40} />
