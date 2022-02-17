@@ -7,6 +7,7 @@ import config from '~app/common/config';
 import ApiParams from '~lib/api/ApiParams';
 import { infoIconStyle } from '~root/theme';
 import SsvNetwork from '~lib/api/SsvNetwork';
+import Status from '~app/common/components/Status';
 import Layout from '~app/common/components/Layout';
 import { useStyles } from '~app/components/Styles';
 import { longStringShorten } from '~lib/utils/strings';
@@ -14,7 +15,6 @@ import DataTable from '~app/common/components/DataTable';
 import { getPerformances } from '~lib/utils/performance';
 import InfoTooltip from '~app/common/components/InfoTooltip';
 import OperatorType from '~app/common/components/OperatorType';
-import OperatorStatus from '~app/common/components/OperatorStatus';
 import EmptyPlaceholder from '~app/common/components/EmptyPlaceholder';
 import ContentContainer from '~app/common/components/ContentContainer';
 import { DEVELOPER_FLAGS, getLocalStorageFlagValue } from '~lib/utils/DeveloperHelper';
@@ -77,7 +77,7 @@ const OperatorsList = () => {
           </Box>
         </Link>,
         <Box component="div" display={{ xs: 'block', sm: 'block', md: 'block', lg: 'block' }}>
-          <OperatorStatus status={operator.status} />
+          <Status status={operator.status} />
         </Box>,
         <Link href={`${config.routes.OPERATORS.HOME}/${operator.address}`} className={classes.Link}>
           {operator.validators_count}
@@ -105,7 +105,7 @@ const OperatorsList = () => {
         Status
         <InfoTooltip
           style={{ ...infoIconStyle, marginBottom: -2 }}
-          message="Is the operator performing duties for the majority of its validators in the last 2 epochs."
+          message="Is the operator performing duties for the majority of its validators in the last 4 epochs."
         />
       </div>,
       'Validators',

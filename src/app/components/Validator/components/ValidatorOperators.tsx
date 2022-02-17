@@ -12,6 +12,7 @@ import Typography from '@material-ui/core/Typography';
 import TableContainer from '@material-ui/core/TableContainer';
 import config from '~app/common/config';
 import { infoIconStyle } from '~root/theme';
+import Status from '~app/common/components/Status';
 import { useStyles } from '~app/components/Styles';
 import BaseStore from '~app/common/stores/BaseStore';
 import { longStringShorten } from '~lib/utils/strings';
@@ -20,7 +21,6 @@ import OperatorType from '~app/common/components/OperatorType';
 import StyledRow from '~app/common/components/Table/StyledRow';
 import StyledCell from '~app/common/components/Table/StyledCell';
 import PerformanceStore from '~app/common/stores/Performance.store';
-import OperatorStatus from '~app/common/components/OperatorStatus';
 
 const PerformanceSwitcher = styled.span<({ selected?: boolean })>`
   margin-top: 3px;
@@ -149,6 +149,10 @@ const ValidatorOperators = (props: ValidatorOperatorProps) => {
               </TableCell>
               <TableCell key={'status'} align="left">
                 Status
+                <InfoTooltip
+                  style={{ ...infoIconStyle, marginBottom: -2 }}
+                  message="Is the operator performing duties for the majority of its validators in the last 4 epochs"
+                />
               </TableCell>
               <TableCell key={'performance'} style={{ whiteSpace: 'nowrap' }}>
                 Performance
@@ -211,7 +215,7 @@ const ValidatorOperators = (props: ValidatorOperatorProps) => {
                   </Typography>
                 </StyledCell>
                 <StyledCell key="operator-status">
-                  <OperatorStatus status={operator.status} />
+                  <Status status={operator.status} />
                 </StyledCell>
                 <StyledCell key="operator-performance" style={performanceRowRightStyle}>
                   {renderPerformance(operator)}

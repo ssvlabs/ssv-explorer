@@ -24,7 +24,7 @@ export const AppTheme = ({ isDarkMode }: ThemeParams): any => {
         fontSize: 28,
         fontFamily: defaultFont,
         fontWeight: 900,
-        color: '#20EEC8',
+        color: isDarkMode ? 'white' : '#2a323e',
         verticalAlign: 'middle',
         paddingTop: 24,
         paddingBottom: 24,
