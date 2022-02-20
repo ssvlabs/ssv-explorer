@@ -76,13 +76,12 @@ class SsvNetwork {
    */
   async fetchOperatorValidators(operatorAddress: string, page: number = 1, perPage: number = ApiParams.PER_PAGE) {
     let params: any = {
-      operator: operatorAddress,
       page,
       perPage,
     };
     params = new URLSearchParams(params);
     return new ApiRequest({
-      url: `${this.baseUrl}/api/validators/in_operator/?${params.toString()}`,
+      url: `${this.baseUrl}/api/validators/in_operator/${operatorAddress}/?${params.toString()}`,
       method: 'GET',
     }).sendRequest();
   }
@@ -144,22 +143,19 @@ class SsvNetwork {
    *
    * @param type
    * @param address
-   * @param epochs
    */
-  async incentivized(type: IncentivizedType | string, address: string | undefined, epochs: string[]) {
-    if (!epochs?.length) {
-      return null;
-    }
+  async incentivized(type: IncentivizedType | string, address: string | undefined) {
     if (!type) {
       return null;
     }
     let params: any = {
-      [type]: address,
-      epochs: epochs.join(','),
+      epochFrom: config.FEATURE.INCENTIVIZED.START_ROUNDS_FROM_EPOCH,
+      epochsPerRound: config.FEATURE.INCENTIVIZED.EPOCHS_PER_ROUND,
+      rounds: config.FEATURE.INCENTIVIZED.NUMBER_OF_ROUNDS,
     };
     params = new URLSearchParams(params);
     return new ApiRequest({
-      url: `${this.baseUrl}/api/${type}s/incentivized/?${params.toString()}`,
+      url: `${this.baseUrl}/api/${type}s/incentivized/${address}/?${params.toString()}`,
       method: 'GET',
     }).sendRequest();
   }
