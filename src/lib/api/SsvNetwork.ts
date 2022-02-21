@@ -17,6 +17,11 @@ class SsvNetwork {
     this.baseUrl = baseUrl;
   }
 
+  get network() {
+    // TODO: use network selected by user (local storage or whatever)
+    return 'prater';
+  }
+
   static getInstance(): SsvNetwork {
     if (!SsvNetwork.instance) {
       SsvNetwork.instance = new SsvNetwork(config.links.API_BASE_URL);
@@ -63,7 +68,7 @@ class SsvNetwork {
 
     params = new URLSearchParams(params);
     return new ApiRequest({
-      url: `${this.baseUrl}/v1/operators/${operatorAddress}/?${params.toString()}`,
+      url: `${this.baseUrl}/v1/operators/${this.network}/${operatorAddress}/?${params.toString()}`,
       method: 'GET',
     }).sendRequest();
   }
@@ -96,7 +101,7 @@ class SsvNetwork {
       performances: performances.join(','),
     };
     params = new URLSearchParams(params);
-    const url = `${this.baseUrl}/v1/validators/${validatorAddress}/?${params.toString()}`;
+    const url = `${this.baseUrl}/v1/validators/${this.network}/${validatorAddress}/?${params.toString()}`;
     return new ApiRequest({
       url,
       method: 'GET',
