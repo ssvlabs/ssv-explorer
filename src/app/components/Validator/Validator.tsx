@@ -74,7 +74,7 @@ const Validator = () =>
               result.data.public_key,
               performance,
               operator.address,
-              operator.performance[performance],
+              operator.performances[performance],
             );
           }
         }

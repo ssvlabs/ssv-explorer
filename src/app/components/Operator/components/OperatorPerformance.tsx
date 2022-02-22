@@ -54,7 +54,7 @@ function getPerformance(operator: any, selectedPerformance: string): any {
   const performanceKey = `${operator?.address}_${selectedPerformance}`;
 
   // @ts-ignore
-  if (!((operator?.performance !== undefined && operator?.performance[selectedPerformance] !== undefined) || getPerformance[performanceKey])) {
+  if (!((operator?.performances !== undefined && operator?.performances[selectedPerformance] !== undefined) || getPerformance[performanceKey])) {
     return [false, <Skeleton style={{ width: 100 }} />];
   }
 
@@ -63,7 +63,7 @@ function getPerformance(operator: any, selectedPerformance: string): any {
     // @ts-ignore
     return [true, getPerformance[performanceKey]];
   }
-  const performance = `${parseFloat(String(operator?.performance[selectedPerformance])).toFixed(2)}%`;
+  const performance = `${parseFloat(String(operator?.performances[selectedPerformance])).toFixed(2)}%`;
   // @ts-ignore
   getPerformance[performanceKey] = performance;
   return [true, performance];

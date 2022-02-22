@@ -62,17 +62,9 @@ const Incentivized = (props: IncentivizedProps) => {
       console.error('Incentivized can be loaded for validator or operator, pass the address in props!');
       setIncentivizedError('Can not load incentivized.');
     } else {
-      const epochs = [];
-      let lastEpoch = config.FEATURE.INCENTIVIZED.START_ROUNDS_FROM_EPOCH;
-      for (let i = 0; i < config.FEATURE.INCENTIVIZED.NUMBER_OF_ROUNDS; i += 1) {
-        epochs.push(`${lastEpoch}-${lastEpoch + config.FEATURE.INCENTIVIZED.EPOCHS_PER_ROUND}`);
-        lastEpoch += config.FEATURE.INCENTIVIZED.EPOCHS_PER_ROUND + 1;
-      }
-
       SsvNetwork.getInstance().incentivized(
         incentivizedType,
         operator || validator,
-        epochs,
       ).then((incentivized: any) => {
         if (incentivized?.data?.rounds) {
           setRounds(incentivized.data.rounds);

@@ -50,10 +50,10 @@ function getSortedOperators(operators: any[], selectedPerformancePeriod: string)
   let havingPerformance = false;
   const sortedOperators: any[] = operators
     .map((operator: any) => {
-      havingPerformance = operator.performance[selectedPerformancePeriod] !== undefined;
+      havingPerformance = operator.performances[selectedPerformancePeriod] !== undefined;
       return {
         ...operator,
-        activeOperatorPerformance: operator.performance[selectedPerformancePeriod] || 0,
+        activeOperatorPerformance: operator.performances[selectedPerformancePeriod] || 0,
       };
     })
     .sort((o1: any, o2: any) => {
@@ -80,7 +80,7 @@ const ValidatorOperators = (props: ValidatorOperatorProps) => {
   let operatorsPerformanceZero: number = 0;
       validator?.operators?.forEach((operator: any) => {
         // eslint-disable-next-line no-plusplus
-        if (operator.performance[selectedPerformancePeriod] === 0) ++operatorsPerformanceZero;
+        if (operator.performances[selectedPerformancePeriod] === 0) ++operatorsPerformanceZero;
   });
 
   const supportedPeriods = [
@@ -107,7 +107,7 @@ const ValidatorOperators = (props: ValidatorOperatorProps) => {
 
   const renderPerformance = (operator: any) => {
     if (operatorsPerformanceZero === 4) return 'N/A';
-    if (operator.performance[selectedPerformancePeriod] !== undefined) return `${parseFloat(String(operator.performance[selectedPerformancePeriod])).toFixed(1)}%`;
+    if (operator.performances[selectedPerformancePeriod] !== undefined) return `${parseFloat(String(operator.performances[selectedPerformancePeriod])).toFixed(1)}%`;
     return <Skeleton />;
   };
 

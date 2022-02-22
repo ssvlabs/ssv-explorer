@@ -17,6 +17,11 @@ class SsvNetwork {
     this.baseUrl = baseUrl;
   }
 
+  get network() {
+    // TODO: use network selected by user (local storage or whatever)
+    return 'prater';
+  }
+
   static getInstance(): SsvNetwork {
     if (!SsvNetwork.instance) {
       SsvNetwork.instance = new SsvNetwork(config.links.API_BASE_URL);
@@ -30,7 +35,7 @@ class SsvNetwork {
       perPage,
     };
     params = new URLSearchParams(params);
-    const url = `${this.baseUrl}/api/validators/${detailed ? 'detailed/' : ''}?${params.toString()}`;
+    const url = `${this.baseUrl}/v1/validators/${detailed ? 'detailed/' : ''}?${params.toString()}`;
     return new ApiRequest({
       url,
       method: 'GET',
@@ -46,7 +51,7 @@ class SsvNetwork {
 
     params = new URLSearchParams(params);
     return new ApiRequest({
-      url: `${this.baseUrl}/api/operators/?${params.toString()}`,
+      url: `${this.baseUrl}/v1/operators/?${params.toString()}`,
       method: 'GET',
     }).sendRequest();
   }
@@ -63,7 +68,7 @@ class SsvNetwork {
 
     params = new URLSearchParams(params);
     return new ApiRequest({
-      url: `${this.baseUrl}/api/operators/${operatorAddress}/?${params.toString()}`,
+      url: `${this.baseUrl}/v1/operators/${this.network}/${operatorAddress}/?${params.toString()}`,
       method: 'GET',
     }).sendRequest();
   }
@@ -76,13 +81,12 @@ class SsvNetwork {
    */
   async fetchOperatorValidators(operatorAddress: string, page: number = 1, perPage: number = ApiParams.PER_PAGE) {
     let params: any = {
-      operator: operatorAddress,
       page,
       perPage,
     };
     params = new URLSearchParams(params);
     return new ApiRequest({
-      url: `${this.baseUrl}/api/validators/in_operator/?${params.toString()}`,
+      url: `${this.baseUrl}/v1/validators/in_operator/${operatorAddress}/?${params.toString()}`,
       method: 'GET',
     }).sendRequest();
   }
@@ -97,7 +101,7 @@ class SsvNetwork {
       performances: performances.join(','),
     };
     params = new URLSearchParams(params);
-    const url = `${this.baseUrl}/api/validators/${validatorAddress}/?${params.toString()}`;
+    const url = `${this.baseUrl}/v1/validators/${this.network}/${validatorAddress}/?${params.toString()}`;
     return new ApiRequest({
       url,
       method: 'GET',
@@ -117,7 +121,7 @@ class SsvNetwork {
       perPage,
     };
     params = new URLSearchParams(params);
-    const url = `${this.baseUrl}/api/validators/duties/?${params.toString()}`;
+    const url = `${this.baseUrl}/v1/validators/duties/?${params.toString()}`;
     return new ApiRequest({
       url,
       method: 'GET',
@@ -134,7 +138,7 @@ class SsvNetwork {
     };
     params = new URLSearchParams(params);
     return new ApiRequest({
-      url: `${this.baseUrl}/api/search/?${params.toString()}`,
+      url: `${this.baseUrl}/v1/search/?${params.toString()}`,
       method: 'GET',
     }).sendRequest();
   }
@@ -144,22 +148,19 @@ class SsvNetwork {
    *
    * @param type
    * @param address
-   * @param epochs
    */
-  async incentivized(type: IncentivizedType | string, address: string | undefined, epochs: string[]) {
-    if (!epochs?.length) {
-      return null;
-    }
+  async incentivized(type: IncentivizedType | string, address: string | undefined) {
     if (!type) {
       return null;
     }
     let params: any = {
-      [type]: address,
-      epochs: epochs.join(','),
+      epochFrom: config.FEATURE.INCENTIVIZED.START_ROUNDS_FROM_EPOCH,
+      epochsPerRound: config.FEATURE.INCENTIVIZED.EPOCHS_PER_ROUND,
+      rounds: config.FEATURE.INCENTIVIZED.NUMBER_OF_ROUNDS,
     };
     params = new URLSearchParams(params);
     return new ApiRequest({
-      url: `${this.baseUrl}/api/${type}s/incentivized/?${params.toString()}`,
+      url: `${this.baseUrl}/v1/${type}s/incentivized/${address}/?${params.toString()}`,
       method: 'GET',
     }).sendRequest();
   }
