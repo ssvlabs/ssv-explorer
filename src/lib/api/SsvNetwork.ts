@@ -127,7 +127,7 @@ class SsvNetwork {
       perPage,
     };
     params = new URLSearchParams(params);
-    const url = `${this.baseUrl}/v1/validators/duties/?${params.toString()}`;
+    const url = `${this.baseUrl}/v1/duties/?${params.toString()}`;
     return new ApiRequest({
       url,
       method: 'GET',
