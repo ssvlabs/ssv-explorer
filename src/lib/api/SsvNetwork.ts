@@ -42,7 +42,11 @@ class SsvNetwork {
     }).sendRequest();
   }
 
-  async fetchOperators({ page = 1, perPage = ApiParams.PER_PAGE, extended = '' } : { page?: number, perPage?: number, extended?: string }) {
+  async fetchOperators({
+                         page = 1,
+                         perPage = ApiParams.PER_PAGE,
+                         extended = '',
+                       }: { page?: number, perPage?: number, extended?: string }) {
     let params: any = {
       page,
       perPage,
