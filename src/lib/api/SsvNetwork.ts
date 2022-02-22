@@ -122,12 +122,11 @@ class SsvNetwork {
    */
   async fetchValidatorDuties(validatorAddress: string, page = 1, perPage = ApiParams.PER_PAGE) {
     let params: any = {
-      validator: validatorAddress,
       page,
       perPage,
     };
     params = new URLSearchParams(params);
-    const url = `${this.baseUrl}/v1/duties/?${params.toString()}`;
+    const url = `${this.baseUrl}/v1/duties/${validatorAddress}/?${params.toString()}`;
     return new ApiRequest({
       url,
       method: 'GET',
