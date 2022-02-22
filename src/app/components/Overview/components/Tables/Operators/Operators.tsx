@@ -41,11 +41,12 @@ const Operators = () => {
    */
   const loadOperators = () => {
     setLoadingOperators(true);
-    SsvNetwork.getInstance().fetchOperators({ page: 1, extended: 'validators_count' }).then((result: any) => {
-      overviewStore.setTotalOperators(result.data.pagination.total);
-      setOperators(result.data.operators);
-      setLoadingOperators(false);
-    });
+    SsvNetwork.getInstance().fetchOperators({ page: 1, validatorsCount: 'true' })
+      .then((result: any) => {
+        overviewStore.setTotalOperators(result.data.pagination.total);
+        setOperators(result.data.operators);
+        setLoadingOperators(false);
+      });
   };
 
   return (

@@ -45,12 +45,14 @@ class SsvNetwork {
   async fetchOperators({
                          page = 1,
                          perPage = ApiParams.PER_PAGE,
-                         extended = '',
-                       }: { page?: number, perPage?: number, extended?: string }) {
+                         validatorsCount = 'false',
+                         status = 'false',
+                       }: { page?: number, perPage?: number, validatorsCount?: string, status?: string }) {
     let params: any = {
       page,
       perPage,
-      extended,
+      validatorsCount,
+      status,
     };
 
     params = new URLSearchParams(params);

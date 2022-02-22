@@ -44,11 +44,12 @@ const OperatorsList = () => {
     const perPage: number = ApiParams.getInteger('operators', 'perPage', ApiParams.PER_PAGE);
 
     setLoading(true);
-    SsvNetwork.getInstance().fetchOperators({ page, perPage, extended: 'validators_count,status' }).then((result: any) => {
-      setOperators(result.data.operators);
-      setPagination(result.data.pagination);
-      setLoading(false);
-    });
+    SsvNetwork.getInstance().fetchOperators({ page, perPage, validatorsCount: 'true', status: 'true' })
+      .then((result: any) => {
+        setOperators(result.data.operators);
+        setPagination(result.data.pagination);
+        setLoading(false);
+      });
   };
 
   /**
