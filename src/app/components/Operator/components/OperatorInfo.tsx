@@ -11,12 +11,12 @@ import { OperatorProps } from '~app/components/Operator/components/OperatorProps
 const getDashboardFields = () => {
   const dashboardFields: any[] = [];
 
-  dashboardFields.push({
-    name: 'validators_count',
-    hint: false,
-    displayName: 'Validators',
-    toolTipText: null,
-  });
+  // dashboardFields.push({
+  //   name: 'validators_count',
+  //   hint: false,
+  //   displayName: 'Validators',
+  //   toolTipText: null,
+  // });
 
   return dashboardFields;
 };

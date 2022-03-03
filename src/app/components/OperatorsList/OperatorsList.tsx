@@ -44,11 +44,12 @@ const OperatorsList = () => {
     const perPage: number = ApiParams.getInteger('operators', 'perPage', ApiParams.PER_PAGE);
 
     setLoading(true);
-    SsvNetwork.getInstance().fetchOperators({ page, perPage, extended: 'validators_count,status' }).then((result: any) => {
-      setOperators(result.data.operators);
-      setPagination(result.data.pagination);
-      setLoading(false);
-    });
+    SsvNetwork.getInstance().fetchOperators({ page, perPage, validatorsCount: 'true', status: 'true' })
+      .then((result: any) => {
+        setOperators(result.data.operators);
+        setPagination(result.data.pagination);
+        setLoading(false);
+      });
   };
 
   /**
@@ -84,7 +85,7 @@ const OperatorsList = () => {
         </Link>,
       ];
 
-      const performances = getPerformances(operator.performance);
+      const performances = getPerformances(operator.performances);
       for (let i = 0; i < performances.length; i += 1) {
         const performance = performances[i];
         data.push(
@@ -117,12 +118,12 @@ const OperatorsList = () => {
         return headers;
       }
 
-      if (!operator.performance) {
+      if (!operator.performances) {
         console.warn('Operators performance columns enabled, but operators does not have performance information!');
         return headers;
       }
 
-      const performances = getPerformances(operator.performance, { '30days': '30d', '24hours': '24h' });
+      const performances = getPerformances(operator.performances, { '30days': '30d', '24hours': '24h' });
       for (let i = 0; i < performances.length; i += 1) {
         const performance = performances[i];
         headers.push(`Performance (${performance.label})`);
