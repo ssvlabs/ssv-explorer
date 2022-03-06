@@ -151,7 +151,7 @@ const ValidatorOperators = (props: ValidatorOperatorProps) => {
                 Status
                 <InfoTooltip
                   style={{ ...infoIconStyle, marginBottom: -2 }}
-                  message="Is the operator performing duties for the majority of its validators in the last 4 epochs"
+                  message="Is the operator performing duties for the majority of its validators in the last 10 epochs"
                 />
               </TableCell>
               <TableCell key={'performance'} style={{ whiteSpace: 'nowrap' }}>
