@@ -34,8 +34,11 @@ class SsvNetwork {
       page,
       perPage,
     };
+    if (detailed) {
+      params.operators = 'true';
+    }
     params = new URLSearchParams(params);
-    const url = `${this.baseUrl}/v1/validators/${detailed ? 'detailed/' : ''}?${params.toString()}`;
+    const url = `${this.baseUrl}/v1/validators/?${params.toString()}`;
     return new ApiRequest({
       url,
       method: 'GET',
