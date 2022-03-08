@@ -2,7 +2,7 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import { useStyles } from '~app/common/components/Banner/Banner.styles';
 
-const Banner = () => {
+const Banner = (props?: any) => {
     const classes = useStyles();
 
     const openHowToStakeGuide = () => {
@@ -10,7 +10,9 @@ const Banner = () => {
     };
 
     return (
-      <Grid className={classes.Wrapper} onClick={openHowToStakeGuide} />
+      // <Grid style={props.style} className={classes.Wrapper} onClick={openHowToStakeGuide}>
+      <Grid style={props.style} className={classes.Image} onClick={openHowToStakeGuide} />
+      // </Grid>
     );
 };
 

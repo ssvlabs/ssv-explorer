@@ -2,9 +2,16 @@ import { makeStyles } from '@material-ui/core/styles';
 
 export const useStyles = makeStyles(() => ({
     Wrapper: {
-        height: 90,
         margin: 'auto',
-        borderRadius: 8,
+        marginBottom: 10,
+        cursor: 'pointer',
+    },
+    Image: {
+        width: 1400,
+        height: 150,
+        margin: 'auto',
+        // maxWidth: '90%',
+        borderRadius: 12,
         marginBottom: 10,
         cursor: 'pointer',
         backgroundSize: 'contain',
@@ -12,9 +19,11 @@ export const useStyles = makeStyles(() => ({
         backgroundRepeat: 'no-repeat',
         backgroundColor: 'transparent',
         backgroundImage: 'url(/images/banner/desk.gif)',
-        '@media screen and (max-width: 424px)': {
-            height: 62,
-            margin: 'none',
+        '@media screen and (max-width: 1400px)': {
+            height: 75,
+            width: 450,
+            maxWidth: '95%',
+            borderRadius: 12,
             backgroundImage: 'url(/images/banner/mobile.gif)',
         },
     },
