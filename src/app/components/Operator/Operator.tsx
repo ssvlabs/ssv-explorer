@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import ApiParams from '~lib/api/ApiParams';
 import SsvNetwork from '~lib/api/SsvNetwork';
 import Layout from '~app/common/components/Layout';
+import Banner from '~app/common/components/Banner';
 import NotFoundScreen from '~app/common/components/NotFoundScreen';
 import { Incentivized } from '~app/common/components/Incentivized';
 import ContentContainer from '~app/common/components/ContentContainer';
@@ -102,6 +103,7 @@ const Operator = () => {
     <Layout>
       <ContentContainer>
         <NotFoundScreen notFound={notFound}>
+          <Banner />
           <EmptyPlaceholder height={10} />
 
           <BreadCrumbs address={params.address} />

@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import config from '~app/common/config';
 import ApiParams from '~lib/api/ApiParams';
 import SsvNetwork from '~lib/api/SsvNetwork';
+import Banner from '~app/common/components/Banner';
 import { useStyles } from '~app/components/Styles';
 import Layout from '~app/common/components/Layout';
 import { longStringShorten } from '~lib/utils/strings';
@@ -61,6 +62,7 @@ const ValidatorsList = () => {
     <Layout>
       <ContentContainer>
         <EmptyPlaceholder height={10} />
+        <Banner />
         <BreadCrumbsContainer>
           <BreadCrumb href={config.routes.HOME}>overview</BreadCrumb>
           <BreadCrumbDivider />
