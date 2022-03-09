@@ -10,9 +10,7 @@ const Banner = (props?: any) => {
     };
 
     return (
-      // <Grid style={props.style} className={classes.Wrapper} onClick={openHowToStakeGuide}>
       <Grid style={props.style} className={classes.Image} onClick={openHowToStakeGuide} />
-      // </Grid>
     );
 };
 

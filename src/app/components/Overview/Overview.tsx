@@ -23,7 +23,7 @@ const Overview = () => {
       <Grid container wrap="nowrap" spacing={0} className={classes.gridContainer}>
         <Hero />
         <Stats />
-        <Banner style={{ marginBottom: 0, marginTop: 15 }} />
+        <Banner style={{ marginBottom: 0, marginTop: 50 }} />
         <Container container spacing={5}>
           <Column item xs={12} md={6}>
             <Paper style={tableContainerStyle}>
