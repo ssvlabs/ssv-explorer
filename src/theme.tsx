@@ -14,20 +14,20 @@ export const defaultFont = '"Encode Sans", "Roboto", "Helvetica", "Arial", sans-
 export const AppTheme = ({ isDarkMode }: ThemeParams): any => {
   return {
     palette: {
-      type: isDarkMode ? 'dark' : 'light',
       divider: '#5B6C84',
+      type: isDarkMode ? 'dark' : 'light',
     },
     typography: {
-      fontFamily: defaultFont,
       color: '#2A323E',
+      fontFamily: defaultFont,
       h1: {
         fontSize: 28,
-        fontFamily: defaultFont,
-        fontWeight: 900,
-        color: isDarkMode ? 'white' : '#2a323e',
-        verticalAlign: 'middle',
         paddingTop: 24,
+        fontWeight: 900,
         paddingBottom: 24,
+        fontFamily: defaultFont,
+        verticalAlign: 'middle',
+        color: isDarkMode ? 'white' : '#2a323e',
       },
     },
   };
