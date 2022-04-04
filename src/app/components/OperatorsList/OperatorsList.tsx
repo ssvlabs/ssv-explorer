@@ -10,7 +10,7 @@ import SsvNetwork from '~lib/api/SsvNetwork';
 import Status from '~app/common/components/Status';
 import Layout from '~app/common/components/Layout';
 import { useStyles } from '~app/components/Styles';
-import Banner from '~app/common/components/Banner';
+// import Banner from '~app/common/components/Banner';
 import { longStringShorten } from '~lib/utils/strings';
 import DataTable from '~app/common/components/DataTable';
 import { getPerformances } from '~lib/utils/performance';
@@ -144,7 +144,7 @@ const OperatorsList = () => {
     <Layout>
       <ContentContainer>
         <EmptyPlaceholder height={10} />
-        <Banner />
+        {/* <Banner /> */}
         <BreadCrumbsContainer>
           <BreadCrumb href={config.routes.HOME}>overview</BreadCrumb>
           <BreadCrumbDivider />

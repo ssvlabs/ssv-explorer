@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import config from '~app/common/config';
 import SsvNetwork from '~lib/api/SsvNetwork';
-import Banner from '~app/common/components/Banner';
+// import Banner from '~app/common/components/Banner';
 import Status from '~app/common/components/Status';
 import Layout from '~app/common/components/Layout';
 import BaseStore from '~app/common/stores/BaseStore';
@@ -95,7 +95,7 @@ const Validator = () =>
         <EmptyPlaceholder height={10} />
 
         <NotFoundScreen notFound={notFound}>
-          <Banner />
+          {/* <Banner /> */}
           <BreadCrumbs address={params.address} />
           <EmptyPlaceholder height={20} />
 
