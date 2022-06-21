@@ -36,7 +36,7 @@ const ValidatorsList = () => {
     const perPage: number = ApiParams.getInteger('validators', 'perPage', ApiParams.PER_PAGE);
 
     setLoading(true);
-    SsvNetwork.getInstance().fetchValidators(page, perPage, true).then((result: any) => {
+    SsvNetwork.getInstance().fetchValidators(page, perPage).then((result: any) => {
       setValidators(result.data.validators);
       setPagination(result.data.pagination);
       setLoading(false);

@@ -9,7 +9,7 @@ import { useStylesOperator } from '~app/components/Operator/Operator.styles';
 import { OperatorProps } from '~app/components/Operator/components/OperatorProps';
 
 const getDashboardFields = () => {
-  const dashboardFields: any[] = [];
+  // const dashboardFields: any[] = [];
 
   // dashboardFields.push({
   //   name: 'validators_count',
@@ -18,7 +18,8 @@ const getDashboardFields = () => {
   //   toolTipText: null,
   // });
 
-  return dashboardFields;
+  // return dashboardFields;
+  return [];
 };
 
 export default (props: OperatorProps) => {
@@ -28,12 +29,12 @@ export default (props: OperatorProps) => {
   return (
     <Grid item xs={12} lg={5}>
       <Grid container className={operatorClasses.DashboardFields}>
-        {getDashboardFields().map((field, index) => {
+        {getDashboardFields().map((field: any, index) => {
           let FieldValue = '';
 
           if (field.name === 'performance') {
             const fieldValue = operator[field.name];
-            const performances = getPerformances(fieldValue, { '30days': '30d', '24hours': '24h' });
+            const performances = getPerformances(fieldValue, { '30d': '30d', '24h': '24h' });
             if (performances?.length) {
               FieldValue = `${parseFloat(String(fieldValue[performances[0].key] || 0)).toFixed(2)}%`;
             }

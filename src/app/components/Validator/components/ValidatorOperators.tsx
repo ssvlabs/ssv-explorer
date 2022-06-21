@@ -14,13 +14,11 @@ import config from '~app/common/config';
 import { infoIconStyle } from '~root/theme';
 import Status from '~app/common/components/Status';
 import { useStyles } from '~app/components/Styles';
-import BaseStore from '~app/common/stores/BaseStore';
 import { longStringShorten } from '~lib/utils/strings';
 import InfoTooltip from '~app/common/components/InfoTooltip';
 import OperatorType from '~app/common/components/OperatorType';
 import StyledRow from '~app/common/components/Table/StyledRow';
 import StyledCell from '~app/common/components/Table/StyledCell';
-import PerformanceStore from '~app/common/stores/Performance.store';
 
 const PerformanceSwitcher = styled.span<({ selected?: boolean })>`
   margin-top: 3px;
@@ -35,11 +33,7 @@ const PerformanceSwitcher = styled.span<({ selected?: boolean })>`
 type ValidatorOperatorProps = {
   validator: Record<string, any>;
   defaultPerformance: string;
-  // eslint-disable-next-line no-unused-vars
-  onLoadPerformances: (perf: string[], callback?: any) => void;
 };
-
-const performanceStore: PerformanceStore = BaseStore.getInstance().getStore('Performance');
 
 function getSortedOperators(operators: any[], selectedPerformancePeriod: string): any[] {
   // @ts-ignore
@@ -50,10 +44,10 @@ function getSortedOperators(operators: any[], selectedPerformancePeriod: string)
   let havingPerformance = false;
   const sortedOperators: any[] = operators
     .map((operator: any) => {
-      havingPerformance = operator.performances[selectedPerformancePeriod] !== undefined;
+      havingPerformance = operator.performance[selectedPerformancePeriod] !== undefined;
       return {
         ...operator,
-        activeOperatorPerformance: operator.performances[selectedPerformancePeriod] || 0,
+        activeOperatorPerformance: operator.performance[selectedPerformancePeriod] || 0,
       };
     })
     .sort((o1: any, o2: any) => {
@@ -75,22 +69,22 @@ function getSortedOperators(operators: any[], selectedPerformancePeriod: string)
 
 const ValidatorOperators = (props: ValidatorOperatorProps) => {
   const classes = useStyles();
-  const { validator, defaultPerformance, onLoadPerformances } = props;
+  const { validator, defaultPerformance } = props;
   const [selectedPerformancePeriod, setSelectedPerformancePeriod] = useState(defaultPerformance);
   let operatorsPerformanceZero: number = 0;
       validator?.operators?.forEach((operator: any) => {
         // eslint-disable-next-line no-plusplus
-        if (operator.performances[selectedPerformancePeriod] === 0) ++operatorsPerformanceZero;
+        if (operator.performance[selectedPerformancePeriod] === 0) ++operatorsPerformanceZero;
   });
 
   const supportedPeriods = [
     {
       label: '1D',
-      key: '24hours',
+      key: '24h',
     },
     {
       label: '1M',
-      key: '30days',
+      key: '30d',
     },
   ];
 
@@ -107,7 +101,7 @@ const ValidatorOperators = (props: ValidatorOperatorProps) => {
 
   const renderPerformance = (operator: any) => {
     if (operatorsPerformanceZero === 4) return 'N/A';
-    if (operator.performances[selectedPerformancePeriod] !== undefined) return `${parseFloat(String(operator.performances[selectedPerformancePeriod])).toFixed(1)}%`;
+    if (operator.performance[selectedPerformancePeriod] !== undefined) return `${parseFloat(String(operator.performance[selectedPerformancePeriod])).toFixed(1)}%`;
     return <Skeleton />;
   };
 
@@ -121,19 +115,6 @@ const ValidatorOperators = (props: ValidatorOperatorProps) => {
             selected={selectedPerformancePeriod === period.key}
             onClick={() => {
               setSelectedPerformancePeriod(period.key);
-              if (getSortedOperators(validator.operators ?? [], period.key)[0]) {
-                return;
-              }
-              const requestedName = `${validator?.public_key}_${period.key}`;
-              const shouldRequestPeriod = validator?.public_key
-                && ['requested', 'requesting'].indexOf(performanceStore.requestedFlags[requestedName]) === -1;
-
-              if (shouldRequestPeriod) {
-                performanceStore.setRequestedFlag(requestedName, 'requesting');
-                onLoadPerformances([period.key], () => {
-                  performanceStore.setRequestedFlag(requestedName, 'requested');
-                });
-              }
             }}
           >
             {period.label}

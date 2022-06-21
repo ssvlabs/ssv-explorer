@@ -5,7 +5,6 @@ const stores = [
   'Overview',
   'Application',
   'Notifications',
-  'Performance',
 ];
 const rootStore: Record<string, any> = BaseStore.getInstance().preloadStores(stores);
 const rootStoreContext = createContext(rootStore);

@@ -6,15 +6,12 @@ import { useParams } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import config from '~app/common/config';
 import SsvNetwork from '~lib/api/SsvNetwork';
-// import Banner from '~app/common/components/Banner';
 import Status from '~app/common/components/Status';
 import Layout from '~app/common/components/Layout';
-import BaseStore from '~app/common/stores/BaseStore';
 import { longStringShorten } from '~lib/utils/strings';
 import { Heading } from '~app/common/components/Headings';
 import { Incentivized } from '~app/common/components/Incentivized';
 import NotFoundScreen from '~app/common/components/NotFoundScreen';
-import PerformanceStore from '~app/common/stores/Performance.store';
 import ContentContainer from '~app/common/components/ContentContainer';
 import EmptyPlaceholder from '~app/common/components/EmptyPlaceholder';
 import CopyToClipboardIcon from '~app/common/components/CopyToClipboardIcon';
@@ -43,42 +40,26 @@ const BreadCrumbs = ({ address }: { address: string }) => {
 
 const Validator = () =>
 {
-  const defaultPerformance = '24hours';
+  const defaultPerformance = '24h';
   const params: Record<string, any> = useParams();
   const defaultValidator: Record<string, any> = {};
   const [notFound, setNotFound] = useState(false);
   const [validator, setValidator] = useState(defaultValidator);
   const [loadingValidator, setLoadingValidator] = useState(false);
-  const performanceStore: PerformanceStore = BaseStore.getInstance().getStore('Performance');
 
   /**
    * Fetch one operator by it's address
    * @param address
-   * @param load_performances
    */
-  const loadValidator = (address: string, load_performances: string[] | null = null) => {
-    setLoadingValidator(!load_performances);
-    const loadingPerformancePeriods = load_performances ?? [defaultPerformance];
-    return SsvNetwork.getInstance().fetchValidator(address, loadingPerformancePeriods).then((result: any) => {
+  const loadValidator = (address: string) => {
+    setLoadingValidator(true);
+    return SsvNetwork.getInstance().fetchValidator(address).then((result: any) => {
       if (result.status === 404) {
         setNotFound(true);
+        setLoadingValidator(false);
       } else {
         setValidator(result.data);
-        setLoadingValidator(!load_performances);
-
-        // Save all all_performances
-        for (let i = 0; i < loadingPerformancePeriods.length; i += 1) {
-          const performance = loadingPerformancePeriods[i];
-          for (let j = 0; j < result.data.operators.length; j += 1) {
-            const operator = result.data.operators[j];
-            performanceStore.setValidatorOperatorPerformance(
-              result.data.public_key,
-              performance,
-              operator.address,
-              operator.performances[performance],
-            );
-          }
-        }
+        setLoadingValidator(false);
       }
     });
   };
@@ -136,12 +117,7 @@ const Validator = () =>
               <ValidatorOperators
                 validator={validator}
                 defaultPerformance={defaultPerformance}
-                onLoadPerformances={(perf: string[], callback: any = null) => {
-                      loadValidator(params.address, perf).then(() => {
-                        callback && callback();
-                      });
-                    }}
-                />
+              />
               <Incentivized validator={params.address} />
             </Grid>
             <ValidatorDuties validator={validator} />

@@ -18,16 +18,11 @@ export const setLocalStorageFlagValue = (flagName: string, flagValue: any) => {
 export const DEVELOPER_FLAGS = {
   SHOW_HELP: 'developerHelper',
   SHOW_SEQUENCE_NUMBERS: 'showSequenceNumbers',
-  SHOW_OPERATORS_TABLE_PERFORMANCE_COLUMNS: 'showOperatorsTablePerformanceColumns',
 };
 
 export const developerFlagsInfo = {
   [DEVELOPER_FLAGS.SHOW_HELP]: {
     'description': 'Show/Hide Developer Help',
-    'values': ['0', '1'],
-  },
-  [DEVELOPER_FLAGS.SHOW_OPERATORS_TABLE_PERFORMANCE_COLUMNS]: {
-    'description': 'Show/Hide performance columns in operators table',
     'values': ['0', '1'],
   },
   [DEVELOPER_FLAGS.SHOW_SEQUENCE_NUMBERS]: {

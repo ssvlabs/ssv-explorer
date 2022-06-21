@@ -14,8 +14,8 @@ import { useStyles } from '~app/components/Styles';
 import { ChipLink, FailureChip, SuccessChip } from '~app/common/components/Chips';
 import { DEVELOPER_FLAGS, getLocalStorageFlagValue } from '~lib/utils/DeveloperHelper';
 
-const PaddedGridItem = styled(Grid)<({ paddingLeft: number })>`
-  padding-left: ${({ paddingLeft }) => paddingLeft > 0 ? `${paddingLeft}px` : 'initial'};
+const PaddedGridItem = styled(Grid)<({ paddingLeft?: number })>`
+  padding-left: ${({ paddingLeft }) => (paddingLeft || 0) > 0 ? `${paddingLeft}px` : 'initial'};
 
   @media (max-width: 960px) {
     padding-left: 0;
@@ -153,7 +153,7 @@ export default (props: ValidatorDutiesProps) => {
   }, [loadingDuties, validator?.public_key]);
 
   return (
-    <PaddedGridItem item xs={12} md={9} paddingLeft={30}>
+    <PaddedGridItem item xs={12} md={9} style={{ paddingLeft: 30 }}>
       <DataTable
         title="Duties"
         headers={['Epoch', 'Slot', 'Duty', 'Status', 'Operator Consensus Breakdown']}

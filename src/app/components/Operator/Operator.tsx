@@ -41,12 +41,9 @@ const Operator = () => {
   /**
    * Fetch one operator by it's address
    * @param address
-   * @param periods
-   * @param only_performance
    */
-  const loadOperator = (address: string, periods: string[] = ['1days'], only_performance: boolean = false) => {
-    setLoadingOperator(!only_performance);
-    SsvNetwork.getInstance().fetchOperator(address, periods).then((result: any) => {
+  const loadOperator = (address: string) => {
+    SsvNetwork.getInstance().fetchOperator(address).then((result: any) => {
       if (result.status === 404) {
         setNotFound(true);
       } else {
@@ -127,9 +124,6 @@ const Operator = () => {
                 <OperatorPerformance
                   operator={operator}
                   isLoading={isLoading}
-                  onLoadPerformances={(periods: string[]) => {
-                    loadOperator(params.address, periods, true);
-                  }}
                  />
                 <Incentivized operator={params.address} />
               </Grid>

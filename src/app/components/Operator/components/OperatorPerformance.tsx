@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { observer } from 'mobx-react';
 import styled from 'styled-components';
 import { Skeleton } from '@material-ui/lab';
-import { OperatorProps } from '~app/components/Operator/components/OperatorProps';
 import InfoTooltip from '~app/common/components/InfoTooltip';
+import { OperatorProps } from '~app/components/Operator/components/OperatorProps';
 
 const OperatorPerformanceContainer = styled.div`
   display: flex;
@@ -54,7 +54,7 @@ function getPerformance(operator: any, selectedPerformance: string): any {
   const performanceKey = `${operator?.address}_${selectedPerformance}`;
 
   // @ts-ignore
-  if (!((operator?.performances !== undefined && operator?.performances[selectedPerformance] !== undefined) || getPerformance[performanceKey])) {
+  if (!((operator?.performance !== undefined && operator?.performance[selectedPerformance] !== undefined) || getPerformance[performanceKey])) {
     return [false, <Skeleton style={{ width: 100 }} />];
   }
 
@@ -63,15 +63,15 @@ function getPerformance(operator: any, selectedPerformance: string): any {
     // @ts-ignore
     return [true, getPerformance[performanceKey]];
   }
-  const performance = `${parseFloat(String(operator?.performances[selectedPerformance])).toFixed(2)}%`;
+  const performance = `${parseFloat(String(operator?.performance[selectedPerformance])).toFixed(2)}%`;
   // @ts-ignore
   getPerformance[performanceKey] = performance;
   return [true, performance];
 }
 
 const OperatorPerformanceWidget = (props: OperatorProps) => {
-  const supportedPerformances: any = { '30days': '1M', '1days': '1D' };
-  const [selectedPerformance, setSelectedPerformance] = useState('1days');
+  const supportedPerformances: any = { '30d': '1M', '24h': '1D' };
+  const [selectedPerformance, setSelectedPerformance] = useState('24h');
   const headerTooltipStyle = { fontSize: '14px', color: 'rgb(161, 172, 190)', marginBottom: '-2px' };
 
   return (
@@ -99,15 +99,10 @@ const OperatorPerformanceWidget = (props: OperatorProps) => {
                 }}
                 role="presentation"
                 key={`performance-${performance}`}
-                onKeyPress={() => {}}
                 onKeyDown={() => {}}
                 onKeyUp={() => {}}
                 onClick={() => {
                   setSelectedPerformance(performance);
-                  if (getPerformance(props.operator, performance)[0]) {
-                    return;
-                  }
-                  props.onLoadPerformances && props.onLoadPerformances([performance]);
                 }}
               >
                 {supportedPerformances[performance]}

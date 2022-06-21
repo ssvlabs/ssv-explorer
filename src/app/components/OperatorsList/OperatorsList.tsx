@@ -10,7 +10,6 @@ import SsvNetwork from '~lib/api/SsvNetwork';
 import Status from '~app/common/components/Status';
 import Layout from '~app/common/components/Layout';
 import { useStyles } from '~app/components/Styles';
-// import Banner from '~app/common/components/Banner';
 import { longStringShorten } from '~lib/utils/strings';
 import DataTable from '~app/common/components/DataTable';
 import { getPerformances } from '~lib/utils/performance';
@@ -18,7 +17,6 @@ import InfoTooltip from '~app/common/components/InfoTooltip';
 import OperatorType from '~app/common/components/OperatorType';
 import EmptyPlaceholder from '~app/common/components/EmptyPlaceholder';
 import ContentContainer from '~app/common/components/ContentContainer';
-import { DEVELOPER_FLAGS, getLocalStorageFlagValue } from '~lib/utils/DeveloperHelper';
 import { BreadCrumb, BreadCrumbDivider, BreadCrumbsContainer } from '~app/common/components/Breadcrumbs';
 
 const OperatorsList = () => {
@@ -86,12 +84,12 @@ const OperatorsList = () => {
         </Link>,
       ];
 
-      const performances = getPerformances(operator.performances);
+      const performances = getPerformances(operator.performance);
       for (let i = 0; i < performances.length; i += 1) {
         const performance = performances[i];
         data.push(
           <Link href={`${config.routes.OPERATORS.HOME}/${operator.address}`} className={classes.Link}>
-            {`${performance.value}%`}
+            {`${parseFloat(String(performance.value)).toFixed(2)}%`}
           </Link>,
         );
       }
@@ -100,7 +98,7 @@ const OperatorsList = () => {
   };
 
   const getOperatorsTableHeaders = () => {
-    const headers = [
+    return [
       'Name',
       'Address',
       <div>
@@ -111,27 +109,9 @@ const OperatorsList = () => {
         />
       </div>,
       'Validators',
+      'Performance (30d)',
+      'Performance (24h)',
     ];
-
-    if (getLocalStorageFlagValue(DEVELOPER_FLAGS.SHOW_OPERATORS_TABLE_PERFORMANCE_COLUMNS)) {
-      const operator = operators.length ? operators[0] : null;
-      if (!operator) {
-        return headers;
-      }
-
-      if (!operator.performances) {
-        console.warn('Operators performance columns enabled, but operators does not have performance information!');
-        return headers;
-      }
-
-      const performances = getPerformances(operator.performances, { '30days': '30d', '24hours': '24h' });
-      for (let i = 0; i < performances.length; i += 1) {
-        const performance = performances[i];
-        headers.push(`Performance (${performance.label})`);
-      }
-    }
-
-    return headers;
   };
 
   useEffect(() => {

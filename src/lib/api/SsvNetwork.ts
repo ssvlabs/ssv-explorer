@@ -29,14 +29,11 @@ class SsvNetwork {
     return SsvNetwork.instance;
   }
 
-  async fetchValidators(page: number = 1, perPage: number = ApiParams.PER_PAGE, detailed = false) {
+  async fetchValidators(page: number = 1, perPage: number = ApiParams.PER_PAGE) {
     let params: any = {
       page,
       perPage,
     };
-    if (detailed) {
-      params.operators = 'true';
-    }
     params = new URLSearchParams(params);
     const url = `${this.baseUrl}/v1/validators/?${params.toString()}`;
     return new ApiRequest({
@@ -69,16 +66,13 @@ class SsvNetwork {
   /**
    * Fetch one operator by address
    * @param operatorAddress
-   * @param performances
    */
-  async fetchOperator(operatorAddress: string, performances: string[] = []) {
-    let params: any = {
-      performances: performances.join(','),
-    };
+  async fetchOperator(operatorAddress: string) {
+    let params: any = {};
 
     params = new URLSearchParams(params);
     return new ApiRequest({
-      url: `${this.baseUrl}/v1/operators/${this.network}/${operatorAddress}/?${params.toString()}`,
+      url: `${this.baseUrl}/v1/operators/${operatorAddress}/?${params.toString()}`,
       method: 'GET',
     }).sendRequest();
   }
@@ -104,14 +98,11 @@ class SsvNetwork {
   /**
    * Fetch one validator by address
    * @param validatorAddress
-   * @param performances
    */
-  async fetchValidator(validatorAddress: string, performances: string[] = []) {
-    let params: any = {
-      performances: performances.join(','),
-    };
+  async fetchValidator(validatorAddress: string) {
+    let params: any = {};
     params = new URLSearchParams(params);
-    const url = `${this.baseUrl}/v1/validators/${this.network}/${validatorAddress}/?${params.toString()}`;
+    const url = `${this.baseUrl}/v1/validators/${validatorAddress}/?${params.toString()}`;
     return new ApiRequest({
       url,
       method: 'GET',
@@ -139,11 +130,11 @@ class SsvNetwork {
 
   /**
    * Search operators and validators
-   * @param query
+   * @param search
    */
-  async search(query: string) {
+  async search(search: string) {
     let params: any = {
-      query,
+      search,
     };
     params = new URLSearchParams(params);
     return new ApiRequest({
