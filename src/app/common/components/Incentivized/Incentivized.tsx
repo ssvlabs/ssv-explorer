@@ -144,7 +144,7 @@ const Incentivized = (props: IncentivizedProps) => {
                 <StyledCell key="performance"><Skeleton /></StyledCell>
                 <StyledCell key="eligible"><Skeleton /></StyledCell>
               </StyledRow>
-            )) : rounds?.length && rounds.map((round: any, roundIndex: any) => {
+            )) : rounds.map((round: any, roundIndex: any) => {
               const rowFontWeight = isCurrentRound(round) ? 'bold' : 'inherit';
               const rowStyle: any = { fontWeight: rowFontWeight };
 
