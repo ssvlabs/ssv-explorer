@@ -119,7 +119,7 @@ const Operator = () => {
           <Grid container>
             <Grid container item justify="space-between" spacing={3}>
               <Grid item lg={3} md={6} xs={12}>
-                <OperatorStatus status={operator.status} />
+                <OperatorStatus status={operator.status} is_deleted={operator.is_deleted} />
 
                 <OperatorPerformance
                   operator={operator}

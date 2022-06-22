@@ -49,18 +49,26 @@ const ValueContent = styled.div`
   justify-content: center;
 `;
 
-const OperatorStatus = ({ status }: { status: string }) => {
+const OperatorStatus = ({ status, is_deleted }: { status: string, is_deleted?: boolean }) => {
     const headerTooltipStyle = { fontSize: '14px', color: 'rgb(161, 172, 190)', marginBottom: '-2px' };
-    let textColor: string = '';
-    switch (status) {
-        case 'Active':
-            textColor = '#08c858';
-            break;
-        case 'Inactive':
-            textColor = '#ec1c26';
-            break;
-        default:
-            textColor = '#808080';
+    let textColor: string;
+    let statusText: JSX.Element | string;
+
+    if (is_deleted) {
+        statusText = 'Deleted';
+        textColor = '#ec1c26';
+    } else {
+        switch (status) {
+            case 'Active':
+                textColor = '#08c858';
+                break;
+            case 'Inactive':
+                textColor = '#ec1c26';
+                break;
+            default:
+                textColor = '#808080';
+        }
+        statusText = !status ? <Skeleton style={{ width: 100 }} /> : status;
     }
 
     return (
@@ -72,9 +80,7 @@ const OperatorStatus = ({ status }: { status: string }) => {
             message="Is the operator performing duties for the majority of its validators in the last 10 epochs."
           />
         </DataHeader>
-        <ValueContent style={{ color: textColor }}>
-          {!status ? <Skeleton style={{ width: 100 }} /> : status}
-        </ValueContent>
+        <ValueContent style={{ color: textColor }}>{statusText}</ValueContent>
       </OperatorPerformanceContainer>
     );
 };

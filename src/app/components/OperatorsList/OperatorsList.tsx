@@ -77,7 +77,7 @@ const OperatorsList = () => {
           </Box>
         </Link>,
         <Box component="div" display={{ xs: 'block', sm: 'block', md: 'block', lg: 'block' }}>
-          <Status status={operator.status} />
+          <Status status={operator.status} is_deleted={operator.is_deleted} />
         </Box>,
         <Link href={`${config.routes.OPERATORS.HOME}/${operator.address}`} className={classes.Link}>
           {operator.validators_count}

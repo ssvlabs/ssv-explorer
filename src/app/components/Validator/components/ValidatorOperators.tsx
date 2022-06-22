@@ -196,7 +196,7 @@ const ValidatorOperators = (props: ValidatorOperatorProps) => {
                   </Typography>
                 </StyledCell>
                 <StyledCell key="operator-status">
-                  <Status status={operator.status} />
+                  <Status status={operator.status} is_deleted={operator.is_deleted} />
                 </StyledCell>
                 <StyledCell key="operator-performance" style={performanceRowRightStyle}>
                   {renderPerformance(operator)}

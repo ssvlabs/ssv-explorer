@@ -8,11 +8,12 @@ import { useStyles } from './Status.styles';
 type Props = {
     big?: boolean,
     status: string,
+    is_deleted?: boolean,
 };
 
 const Status = (props: Props) => {
     const [showTooltip, setShowTooltip] = useState(false);
-    const classes = useStyles({ isActive: props.status === 'Active', isBig: props.big });
+    const classes = useStyles({ isActive: !(props.status !== 'Active' || props.is_deleted), isBig: props.big });
 
     const handleMouseEnter = () => {
         setShowTooltip(true);
@@ -29,7 +30,7 @@ const Status = (props: Props) => {
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
           className={classes.Status}>
-          {props.status}
+          {props.is_deleted ? 'Deleted' : props.status}
         </Grid>
       </Tooltip>
     );
