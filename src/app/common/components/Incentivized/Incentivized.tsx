@@ -131,7 +131,7 @@ const Incentivized = (props: IncentivizedProps) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {!rounds?.length ? placeholderRounds.map((round: any, roundIndex: any) => (
+            {!(rounds && rounds.length >= 0) ? placeholderRounds.map((round: any, roundIndex: any) => (
               <StyledRow
                 hover
                 role="checkbox"
