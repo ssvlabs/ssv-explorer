@@ -25,13 +25,13 @@ export const overviewTableCellStyle: any = { fontSize: 14, height: 62, paddingTo
 
 const Operators = () => {
   const classes = useStyles();
-  const [operators, setOperators] = useState([]);
+  const [operators, setOperators] = useState(null);
   const [loadingOperators, setLoadingOperators] = useState(false);
   const stores = useStores();
   const overviewStore: OverviewStore = stores.Overview;
 
   useEffect(() => {
-    if (!operators.length && !loadingOperators) {
+    if (operators === null && !loadingOperators) {
       loadOperators();
     }
   });
@@ -61,7 +61,7 @@ const Operators = () => {
         </TableHead>
 
         <TableBody>
-          {operators.map((row: any, rowIndex) => (
+          {(operators || []).map((row: any, rowIndex) => (
             <StyledRow key={rowIndex}>
               <StyledCell style={overviewTableCellStyle}>
                 <Link href={`/operators/${row.address}`} className={classes.Link}>
@@ -94,7 +94,7 @@ const Operators = () => {
             </StyledRow>
           ) : <></>}
 
-          {operators.length ? (
+          {(operators || []).length ? (
             <TableRow>
               <CenteredCell colSpan={3} style={overviewTableCellStyle}>
                 <Link href={config.routes.OPERATORS.HOME} className={classes.Link}>

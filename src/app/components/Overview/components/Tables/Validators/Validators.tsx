@@ -26,13 +26,13 @@ import {
 
 const Validators = () => {
   const classes = useStyles();
-  const [validators, setValidators] = useState([]);
+  const [validators, setValidators] = useState(null);
   const [loadingValidators, setLoadingValidators] = useState(false);
   const stores = useStores();
   const overviewStore: OverviewStore = stores.Overview;
 
   useEffect(() => {
-    if (!validators.length && !loadingValidators) {
+    if (validators === null && !loadingValidators) {
       loadValidators();
     }
   });
@@ -60,7 +60,7 @@ const Validators = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {validators.map((row: any, rowIndex: number) => (
+          {(validators || []).map((row: any, rowIndex: number) => (
             <StyledRow key={rowIndex}>
               <StyledCell style={overviewTableCellStyle}>
                 <Link href={`/validators/${row.public_key}`} className={classes.Link}>
@@ -96,7 +96,7 @@ const Validators = () => {
             </StyledRow>
           )}
 
-          {validators.length ? (
+          {(validators || []).length ? (
             <TableRow>
               <CenteredCell colSpan={2} style={overviewTableCellStyle}>
                 <Link href={config.routes.VALIDATORS.HOME} className={classes.Link}>
