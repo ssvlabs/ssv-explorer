@@ -12,7 +12,7 @@ import Layout from '~app/common/components/Layout';
 import BaseStore from '~app/common/stores/BaseStore';
 import { longStringShorten } from '~lib/utils/strings';
 import { Heading } from '~app/common/components/Headings';
-import { Incentivized } from '~app/common/components/Incentivized';
+// import { Incentivized } from '~app/common/components/Incentivized';
 import NotFoundScreen from '~app/common/components/NotFoundScreen';
 import PerformanceStore from '~app/common/stores/Performance.store';
 import ContentContainer from '~app/common/components/ContentContainer';
@@ -142,7 +142,7 @@ const Validator = () =>
                       });
                     }}
                 />
-              <Incentivized validator={params.address} />
+              {/* <Incentivized validator={params.address} /> */}
             </Grid>
             <ValidatorDuties validator={validator} />
           </Grid>
