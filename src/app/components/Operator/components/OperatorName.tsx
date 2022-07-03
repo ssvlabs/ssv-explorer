@@ -2,14 +2,14 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import { Skeleton } from '@material-ui/lab';
 import Typography from '@material-ui/core/Typography';
-import { longStringShorten } from '~lib/utils/strings';
+// import { longStringShorten } from '~lib/utils/strings';
 import OperatorType from '~app/components/Operator/components/OperatorType';
 import { useStylesOperator } from '~app/components/Operator/Operator.styles';
 import CopyToClipboardIcon from '~app/common/components/CopyToClipboardIcon';
 import { OperatorProps } from '~app/components/Operator/components/OperatorProps';
 
 export default (props: OperatorProps) => {
-  const { operator, params } = props;
+  const { operator } = props;
   const operatorClasses = useStylesOperator();
 
   const operatorImage = {
@@ -32,10 +32,11 @@ export default (props: OperatorProps) => {
         </Typography>
 
         <span className={operatorClasses.OperatorAddress}>
-          0x{longStringShorten(params.address, 4)}
+          ID: {operator.id}
+          {/* 0x{longStringShorten(params.address, 4)} */}
           &nbsp;
           <CopyToClipboardIcon
-            data={params.address}
+            data={operator.id}
             style={{
               marginLeft: 5,
               width: 22,

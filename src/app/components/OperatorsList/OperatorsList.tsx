@@ -10,7 +10,6 @@ import SsvNetwork from '~lib/api/SsvNetwork';
 import Status from '~app/common/components/Status';
 import Layout from '~app/common/components/Layout';
 import { useStyles } from '~app/components/Styles';
-import { longStringShorten } from '~lib/utils/strings';
 import DataTable from '~app/common/components/DataTable';
 import { getPerformances } from '~lib/utils/performance';
 import InfoTooltip from '~app/common/components/InfoTooltip';
@@ -70,10 +69,11 @@ const OperatorsList = () => {
         </Link>,
         <Link href={`${config.routes.OPERATORS.HOME}/${operator.address}`} className={classes.Link}>
           <Box component="div" display={{ xs: 'block', sm: 'block', md: 'none', lg: 'none' }}>
-            {longStringShorten(operator.address)}
+            {/* {longStringShorten(operator.address)} */}
+            {operator.id}
           </Box>
           <Box component="div" display={{ xs: 'none', sm: 'none', md: 'block', lg: 'block' }}>
-            {operator.address}
+            {operator.id}
           </Box>
         </Link>,
         <Box component="div" display={{ xs: 'block', sm: 'block', md: 'block', lg: 'block' }}>
@@ -100,7 +100,7 @@ const OperatorsList = () => {
   const getOperatorsTableHeaders = () => {
     return [
       'Name',
-      'Address',
+      'ID',
       <div>
         Status
         <InfoTooltip

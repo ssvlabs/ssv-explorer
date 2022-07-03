@@ -11,7 +11,6 @@ import { AutocompleteRenderInputParams } from '@material-ui/lab/Autocomplete/Aut
 import config from '~app/common/config';
 import SsvNetwork from '~lib/api/SsvNetwork';
 import { useStyles } from '~app/components/Styles';
-import { newLongStringShorten } from '~lib/utils/strings';
 import OperatorType from '~app/common/components/OperatorType';
 import SearchInput from '~app/common/components/SmartSearch/components/SearchInput';
 import SearchButton from '~app/common/components/SmartSearch/components/SearchButton';
@@ -44,6 +43,7 @@ const SmartSearch = (props: SmartSearchProps) => {
         });
         (results.data?.operators || []).map((operator: any) => {
           const op = {
+            id: operator.id,
             type: 'OPERATORS',
             name: operator.name,
             address: operator.address,
@@ -193,7 +193,8 @@ const SmartSearch = (props: SmartSearchProps) => {
                 <OperatorType type={option.operatorType} />
               </Grid>
               <Grid item className={classes.BlackText}>
-                {newLongStringShorten(option.address)}
+                {/* {newLongStringShorten(option.address)} */}
+                ID: {option.id}
               </Grid>
             </Grid>
           </Link>

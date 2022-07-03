@@ -13,7 +13,6 @@ import config from '~app/common/config';
 import SsvNetwork from '~lib/api/SsvNetwork';
 import { useStores } from '~app/hooks/useStores';
 import { useStyles } from '~app/components/Styles';
-import { longStringShorten } from '~lib/utils/strings';
 import OverviewStore from '~app/common/stores/Overview.store';
 import OperatorType from '~app/common/components/OperatorType';
 import StyledRow from '~app/common/components/Table/StyledRow';
@@ -54,7 +53,7 @@ const Operators = () => {
       <Table aria-label="Operators">
         <TableHead>
           <TableRow>
-            <StyledCell style={overviewTableHeadersStyle}>Address</StyledCell>
+            <StyledCell style={overviewTableHeadersStyle}>ID</StyledCell>
             <StyledCell style={overviewTableHeadersStyle}>Name</StyledCell>
             <StyledCell style={overviewTableHeadersStyle}>Validators</StyledCell>
           </TableRow>
@@ -65,7 +64,7 @@ const Operators = () => {
             <StyledRow key={rowIndex}>
               <StyledCell style={overviewTableCellStyle}>
                 <Link href={`/operators/${row.address}`} className={classes.Link}>
-                  {longStringShorten(row.address)}
+                  {row.id}
                 </Link>
               </StyledCell>
               <StyledCell style={overviewTableCellStyle}>
