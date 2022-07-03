@@ -62,14 +62,13 @@ const OperatorsList = () => {
   const getOperatorsTableData = () => {
     return (operators || []).map((operator: any) => {
       const data = [
-        <Link href={`${config.routes.OPERATORS.HOME}/${operator.address}`} className={classes.Link}>
+        <Link href={`${config.routes.OPERATORS.HOME}/${operator.id}`} className={classes.Link}>
           <Grid item className={classes.OperatorLogo} style={{ backgroundImage: operator.logo ? `url(${operator.logo})` : '' }} />
           {operator.name}
           <OperatorType type={operator.type} />
         </Link>,
-        <Link href={`${config.routes.OPERATORS.HOME}/${operator.address}`} className={classes.Link}>
+        <Link href={`${config.routes.OPERATORS.HOME}/${operator.id}`} className={classes.Link}>
           <Box component="div" display={{ xs: 'block', sm: 'block', md: 'none', lg: 'none' }}>
-            {/* {longStringShorten(operator.address)} */}
             {operator.id}
           </Box>
           <Box component="div" display={{ xs: 'none', sm: 'none', md: 'block', lg: 'block' }}>
@@ -79,7 +78,7 @@ const OperatorsList = () => {
         <Box component="div" display={{ xs: 'block', sm: 'block', md: 'block', lg: 'block' }}>
           <Status status={operator.status} is_deleted={operator.is_deleted} />
         </Box>,
-        <Link href={`${config.routes.OPERATORS.HOME}/${operator.address}`} className={classes.Link}>
+        <Link href={`${config.routes.OPERATORS.HOME}/${operator.id}`} className={classes.Link}>
           {operator.validators_count}
         </Link>,
       ];
@@ -88,7 +87,7 @@ const OperatorsList = () => {
       for (let i = 0; i < performances.length; i += 1) {
         const performance = performances[i];
         data.push(
-          <Link href={`${config.routes.OPERATORS.HOME}/${operator.address}`} className={classes.Link}>
+          <Link href={`${config.routes.OPERATORS.HOME}/${operator.id}`} className={classes.Link}>
             {`${parseFloat(String(performance.value)).toFixed(2)}%`}
           </Link>,
         );

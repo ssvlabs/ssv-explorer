@@ -88,7 +88,7 @@ const ValidatorsList = () => {
                 return (
                   <span key={`operator-${operatorIndex}`}>
                     {operatorIndex !== 0 ? ', ' : ''}
-                    <Link href={`${config.routes.OPERATORS.HOME}/${operator.address}`} className={classes.Link}>
+                    <Link href={`${config.routes.OPERATORS.HOME}/${operator.id}`} className={classes.Link}>
                       {operator.name}
                     </Link>
                   </span>

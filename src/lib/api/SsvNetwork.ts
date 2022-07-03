@@ -135,6 +135,7 @@ class SsvNetwork {
   async search(search: string) {
     let params: any = {
       search,
+      searchFor: search.length >= 3 ? 'both' : 'operators',
     };
     params = new URLSearchParams(params);
     return new ApiRequest({

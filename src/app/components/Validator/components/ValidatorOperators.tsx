@@ -14,7 +14,7 @@ import config from '~app/common/config';
 import { infoIconStyle } from '~root/theme';
 import Status from '~app/common/components/Status';
 import { useStyles } from '~app/components/Styles';
-import { longStringShorten } from '~lib/utils/strings';
+// import { longStringShorten } from '~lib/utils/strings';
 import InfoTooltip from '~app/common/components/InfoTooltip';
 import OperatorType from '~app/common/components/OperatorType';
 import StyledRow from '~app/common/components/Table/StyledRow';
@@ -177,7 +177,7 @@ const ValidatorOperators = (props: ValidatorOperatorProps) => {
                 <StyledCell key="operator-info" style={performanceRowStyle}>
                   <Typography noWrap>
                     <Link
-                      href={`${config.routes.OPERATORS.HOME}/${operator.address}`}
+                      href={`${config.routes.OPERATORS.HOME}/${operator.id}`}
                       className={classes.Link}
                       style={{ fontWeight: 500, fontSize: 14 }}
                     >
@@ -187,11 +187,11 @@ const ValidatorOperators = (props: ValidatorOperatorProps) => {
                   </Typography>
                   <Typography noWrap>
                     <Link
-                      href={`${config.routes.OPERATORS.HOME}/${operator.address}`}
+                      href={`${config.routes.OPERATORS.HOME}/${operator.id}`}
                       className={classes.Link}
                       style={{ fontWeight: 500, fontSize: 14 }}
                     >
-                      {longStringShorten(operator.address, 4)}
+                      ID: {operator.id}
                     </Link>
                   </Typography>
                 </StyledCell>

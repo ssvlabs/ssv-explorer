@@ -59,7 +59,7 @@ const SmartSearch = (props: SmartSearchProps) => {
   );
 
   const onInputChange = (event: any, newInputValue: string) => {
-    if (newInputValue.length < 3) {
+    if (newInputValue.length < 1) {
       return;
     }
     searchTimeout && clearTimeout(searchTimeout);
@@ -181,7 +181,7 @@ const SmartSearch = (props: SmartSearchProps) => {
           )}
         {option.type === 'OPERATORS' && (
           <Link
-            href={`${config.routes.OPERATORS.HOME}/${option.address}`}
+            href={`${config.routes.OPERATORS.HOME}/${option.id}`}
             className={classes.Link}
             style={{ width: '100%', marginBottom: 12 }}
           >

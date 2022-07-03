@@ -63,12 +63,12 @@ const Operators = () => {
           {(operators || []).map((row: any, rowIndex) => (
             <StyledRow key={rowIndex}>
               <StyledCell style={overviewTableCellStyle}>
-                <Link href={`/operators/${row.address}`} className={classes.Link}>
+                <Link href={`/operators/${row.id}`} className={classes.Link}>
                   {row.id}
                 </Link>
               </StyledCell>
               <StyledCell style={overviewTableCellStyle}>
-                <Link href={`/operators/${row.address}`} className={classes.Link}>
+                <Link href={`/operators/${row.id}`} className={classes.Link}>
                   {row.name}
                   <OperatorType type={row.type} />
                 </Link>
