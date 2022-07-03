@@ -4,7 +4,7 @@ import { longStringShorten } from '~lib/utils/strings';
 import EmptyPlaceholder from '~app/common/components/EmptyPlaceholder';
 import { BreadCrumb, BreadCrumbDivider, BreadCrumbsContainer } from '~app/common/components/Breadcrumbs';
 
-const BreadCrumbs = ({ address }: { address: string | number }) => {
+const BreadCrumbs = ({ address, isOperator }: { address: string, isOperator?: boolean }) => {
   return (
     <>
       <BreadCrumbsContainer>
@@ -13,7 +13,7 @@ const BreadCrumbs = ({ address }: { address: string | number }) => {
         <BreadCrumb href={config.routes.OPERATORS.HOME}>operators</BreadCrumb>
         <BreadCrumbDivider />
         <BreadCrumb href={`${config.routes.OPERATORS.HOME}/${address}`}>
-          {typeof address === 'string' ? longStringShorten(address, 4) : address}
+          {isOperator ? address : longStringShorten(address, 4)}
         </BreadCrumb>
       </BreadCrumbsContainer>
 
