@@ -9,6 +9,7 @@ interface ChildProps {
 }
 
 interface CopyToClipboardProps {
+  toolTipText?: string;
   tooltipProps?: Partial<TooltipProps>;
   // eslint-disable-next-line no-unused-vars
   children: (props: ChildProps) => React.ReactElement<any>;
@@ -16,7 +17,7 @@ interface CopyToClipboardProps {
 }
 
 const CopyToClipboard = (props: CopyToClipboardProps) => {
-  const { tooltipProps, children, style } = props;
+  const { tooltipProps, children, style, toolTipText } = props;
   const [showingTooltip, showTooltip] = useState(false);
   const onCopy = (content: any) => {
     copy(content);
@@ -26,7 +27,7 @@ const CopyToClipboard = (props: CopyToClipboardProps) => {
   return (
     <Tooltip
       open={showingTooltip}
-      title={'Copied to clipboard!'}
+      title={toolTipText ?? 'Copied to clipboard!'}
       leaveDelay={1500}
       onClose={() => showTooltip(false)}
       {...tooltipProps || {}}

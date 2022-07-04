@@ -2,7 +2,6 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import { Skeleton } from '@material-ui/lab';
 import Typography from '@material-ui/core/Typography';
-// import { longStringShorten } from '~lib/utils/strings';
 import OperatorType from '~app/components/Operator/components/OperatorType';
 import { useStylesOperator } from '~app/components/Operator/Operator.styles';
 import CopyToClipboardIcon from '~app/common/components/CopyToClipboardIcon';
@@ -23,27 +22,37 @@ export default (props: OperatorProps) => {
           <div className={operatorClasses.OperatorLogo} style={operatorImage} />
         </Grid>
       )}
-      <Grid item>
-        <Typography
-          variant="h1"
-          style={{ minHeight: 30 }}
-        >
-          {operator.name || <Skeleton />}
-        </Typography>
-
-        <span className={operatorClasses.OperatorAddress}>
-          ID: {operator.id}
-          {/* 0x{longStringShorten(params.address, 4)} */}
-          &nbsp;
-          <CopyToClipboardIcon
-            data={operator.id}
-            style={{
-              marginLeft: 5,
-              width: 22,
-              height: 22,
-              verticalAlign: 'middle',
-            }} />
-        </span>
+      <Grid container item>
+        <Grid item container style={{ gap: 12, alignItems: 'center' }}>
+          <Grid item>
+            <Typography
+              variant="h1"
+                  >
+              {operator.name || <Skeleton />}
+            </Typography>
+          </Grid>
+          <Grid item>
+            <CopyToClipboardIcon
+              data={operator.public_key}
+              toolTipText={'Operator key copied successfully'}
+              icon={<img width={24} height={26} style={{ cursor: 'pointer' }} src="/images/copy_key.svg" alt="Copy" />}
+            />
+          </Grid>
+        </Grid>
+        <Grid item xs={12}>
+          <span className={operatorClasses.OperatorAddress}>
+            ID: {operator.id}
+              &nbsp;
+            <CopyToClipboardIcon
+              data={operator.id}
+              style={{
+                      marginLeft: 5,
+                      width: 22,
+                      height: 22,
+                      verticalAlign: 'middle',
+                  }} />
+          </span>
+        </Grid>
       </Grid>
       <Grid item style={{ justifyContent: 'center', display: 'flex' }}>
         <OperatorType operator={operator} />
