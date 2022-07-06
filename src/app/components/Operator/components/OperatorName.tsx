@@ -22,12 +22,12 @@ export default (props: OperatorProps) => {
           <div className={operatorClasses.OperatorLogo} style={operatorImage} />
         </Grid>
       )}
-      <Grid container item>
-        <Grid item container style={{ gap: 12, alignItems: 'center' }}>
+      <Grid container item xs>
+        <Grid container style={{ gap: 12, alignItems: 'center' }}>
           <Grid item>
             <Typography
               variant="h1"
-                  >
+            >
               {operator.name || <Skeleton />}
             </Typography>
           </Grid>
