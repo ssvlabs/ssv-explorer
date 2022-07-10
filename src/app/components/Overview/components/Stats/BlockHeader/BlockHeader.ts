@@ -1,15 +1,15 @@
 import styled from 'styled-components';
 
 const BlockHeader = styled.div`
-  text-align: center;
-  padding-left: 10px;
-  padding-right: 10px;
   width: 100%;
   margin: auto;
-  font-weight: 900;
   font-size: 28px;
+  font-weight: 500;
   margin-bottom: 0;
-  color: #20EEC8;
+  padding-left: 10px;
+  text-align: center;
+  padding-right: 10px;
+  color: ${props => props.theme.colors.primaryBlue};
 `;
 
 export default BlockHeader;

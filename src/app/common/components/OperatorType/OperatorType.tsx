@@ -5,12 +5,23 @@ import { useStyles } from '~app/common/components/OperatorType/OperatorType.styl
 
 type Props = {
     type: string,
+    large?: boolean,
 };
 
 const OperatorType = (props: Props) => {
-    const classes = useStyles();
-    const isVerified = props.type === 'verified_operator';
-    const isDappNode = props.type === 'dapp_node';
+    const { type, large } = props;
+    const isDappNode = type === 'dapp_node';
+    const isVerified = type === 'verified_operator';
+    const classes = useStyles({ large, isVerified });
+
+    if (large) {
+        return (
+          <Grid item className={classes.Type}>
+            {isVerified ? 'Verified' : 'Dapp'}
+            <Grid className={classes.typeImg} />
+          </Grid>
+        );
+    }
 
     return (
       <Grid item className={`${classes.OperatorType} ${isVerified ? classes.Verified : ''} ${isDappNode ? classes.DappNode : ''}`} />

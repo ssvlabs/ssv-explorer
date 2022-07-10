@@ -5,18 +5,16 @@ import List from '@material-ui/core/List';
 import { Box, Link } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import Drawer from '@material-ui/core/Drawer';
-import Button from '@material-ui/core/Button';
 import { useLocation } from 'react-router-dom';
 import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import CloseIcon from '@material-ui/icons/Close';
 import ListItem from '@material-ui/core/ListItem';
 import SearchIcon from '@material-ui/icons/Search';
-import Typography from '@material-ui/core/Typography';
+import { Button } from '~app/common/components/Button';
 import IconButton from '@material-ui/core/IconButton';
 import ListItemText from '@material-ui/core/ListItemText';
 import config from '~app/common/config';
-import { defaultFont } from '~root/theme';
 import ApiParams from '~lib/api/ApiParams';
 import { useStyles } from './AppBar.styles';
 import SsvNetwork from '~lib/api/SsvNetwork';
@@ -47,17 +45,17 @@ const DrawerButton = styled(Link)`
   margin: auto;
   margin-top: 10px;
 `;
-
-const GreenDot = styled.div`
-  display: inline-block;
-  margin-right: 5px;
-  margin-left: 5px;
-  width: 8px;
-  height: 8px;
-  border-radius: 4px;
-  border-width: 0;
-  background-color: #20EEC8;
-`;
+//
+// const GreenDot = styled.div`
+//   display: inline-block;
+//   margin-right: 5px;
+//   margin-left: 5px;
+//   width: 8px;
+//   height: 8px;
+//   border-radius: 4px;
+//   border-width: 0;
+//   background-color: #20EEC8;
+// `;
 
 const MobileMenuContainer = styled.div`
   display: inline-flex;
@@ -76,8 +74,8 @@ const MobileMenuContainer = styled.div`
   }
 `;
 
-const AppBarComponent = () => {
-  const classes = useStyles();
+const AppBarComponent = ({ whiteBackgroundColor }: { whiteBackgroundColor: boolean }) => {
+  const classes = useStyles({ whiteBackgroundColor });
   const appClasses = useAppStyles();
   const [isDrawerOpened, toggleDrawer] = useState(false);
   const [isSearchOpened, toggleSearch] = useState(false);
@@ -114,13 +112,7 @@ const AppBarComponent = () => {
             <AppBar position="fixed">
               <Toolbar>
                 <Box>
-                  <Typography variant="h6" className={classes.title}>
-                    <Link href={config.routes.HOME} style={{ color: 'white', textDecoration: 'none' }}>
-                      <span style={{ fontFamily: `"Fira Code", monospace, ${defaultFont}`, whiteSpace: 'nowrap', fontSize: 14 }}>
-                        ssv.network <b style={{ color: '#DCE0E8' }}>explorer</b>
-                      </span>
-                    </Link>
-                  </Typography>
+                  <img width={133} height={40} src="/images/website_logo.svg" alt="Copy" />
                 </Box>
                 <Box className={classes.toolbarLinks} component="div"
                   display={{ xs: 'none', sm: 'none', md: 'none', lg: 'block' }}>
@@ -149,20 +141,12 @@ const AppBarComponent = () => {
                 <Box style={{ marginLeft: 'auto' }} component="div"
                   display={{ xs: 'none', sm: 'none', md: 'none', lg: 'block' }}>
                   <div className={classes.toolbarButtons}>
-                    {isOverviewPage() ? (
-                      <Link href={joinSsvLink} target="_blank">
-                        <Button variant="outlined" className={`${classes.appBarButton} ${classes.appBarButtonWhite}`}
-                          style={{ textTransform: 'capitalize' }}>Join SSV Network</Button>
-                      </Link>
-                    ) : (
-                      <SmartSearch inAppBar />
-                    )}
-                    <Button variant="outlined" disabled
-                      className={`${classes.appBarButton} ${classes.appBarButtonWhite}`}
-                      style={{ textTransform: 'capitalize' }}>
-                      <GreenDot /> {capitalize(SsvNetwork.getActiveNetwork())} Network
-                    </Button>
-                    <DarkModeSwitcher style={{ marginLeft: 'auto', marginRight: 0, minWidth: 'auto', width: 40 }} />
+                    {!isOverviewPage() && <SmartSearch placeholder={'Search...'} inAppBar />}
+                    <Link href={joinSsvLink} target="_blank">
+                      <Button disable={false} type={'primary'} text={'Join SSV Network'} />
+                    </Link>
+                    <Button disable={false} type={'secondary'} text={`${capitalize(SsvNetwork.getActiveNetwork())}`} />
+                    <DarkModeSwitcher style={{ marginLeft: 'auto', marginRight: 0, minWidth: 'auto', width: 70 }} />
                   </div>
                 </Box>
 
@@ -171,9 +155,7 @@ const AppBarComponent = () => {
                   {!isOverviewPage() && (
                   <div className={classes.FirstSection}>
                     <div className={classes.toolbarButtons}>
-                      <SmartSearch inAppBar closeSearch={() => {
-                            toggleSearch(false);
-                          }} />
+                      <SmartSearch inAppBar closeSearch={() => toggleSearch(false)} />
                     </div>
                   </div>
                   )}
@@ -228,10 +210,7 @@ const AppBarComponent = () => {
                         <DrawerButtonsContainers>
                           <DrawerButton>
                             <Link href={joinSsvLink} target="_blank">
-                              <Button variant="outlined" className={classes.appBarButton}
-                                style={{ width: '90%', margin: 'auto' }}>
-                                Join SSV Network
-                              </Button>
+                              <Button disable={false} type={'primary'} text={'Join SSV Network'} />
                             </Link>
                           </DrawerButton>
                           <DrawerButton>
@@ -239,10 +218,7 @@ const AppBarComponent = () => {
                               event.preventDefault();
                               event.stopPropagation();
                             }}>
-                              <Button disabled variant="outlined" className={classes.appBarButton} color="primary"
-                                style={{ width: '90%', margin: 'auto' }}>
-                                <GreenDot /> Prater Network
-                              </Button>
+                              <Button disable={false} type={'secondary'} text={`${capitalize(SsvNetwork.getActiveNetwork())}`} />
                             </Link>
                           </DrawerButton>
                         </DrawerButtonsContainers>

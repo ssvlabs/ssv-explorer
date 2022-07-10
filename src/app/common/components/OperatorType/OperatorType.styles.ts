@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-export const useStyles = makeStyles(() => ({
+export const useStyles = makeStyles((theme) => ({
     OperatorType: {
         width: 13,
         height: 13,
@@ -23,5 +23,29 @@ export const useStyles = makeStyles(() => ({
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
         backgroundImage: 'url(/images/dapp_node_icon.svg)',
+    },
+    Type: {
+        gap: 8,
+        width: 91,
+        height: 26,
+        fontSize: 14,
+        fontWeight: 500,
+        display: 'flex',
+        lineHeight: 1.62,
+        borderRadius: '4px',
+        padding: '1.5px 8px',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: theme.colors.primaryBlue,
+        backgroundColor: theme.colors.tint90,
+    },
+    typeImg: {
+        width: 16,
+        height: 16,
+        backgroundSize: 'contain',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        backgroundImage: (props: any) => `url(/images/operatorType/${props.isVerified ? 'verified' : 'verified'}.svg)`,
     },
 }));

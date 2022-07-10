@@ -5,11 +5,8 @@ import Paper from '~app/components/Overview/components/Paper';
 import Column from '~app/components/Overview/components/Column';
 
 const Container = styled(Grid)`
-  padding: 15px;
   display: flex;
   flex-direction: row;
-  align-content: center;
-  align-items: center;
 
   @media (${mediaQueryDevices.tablet}) {
     margin-top: 15px;

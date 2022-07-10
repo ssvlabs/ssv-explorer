@@ -19,6 +19,7 @@ const buttonTexts = {
 
 const ShowMoreText = (prop: Props) => {
   const { text } = prop;
+  if (!text) return null;
   const [adjustText, setAdjustText] = useState('');
   const [buttonText, setButtonText] = useState(buttonTexts.showMore);
   

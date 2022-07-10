@@ -8,15 +8,19 @@ import { useStores } from '~app/hooks/useStores';
 import AppBar from '~app/common/components/AppBar';
 import DeveloperHelper from '~lib/utils/DeveloperHelper';
 import ApplicationStore from '~app/common/stores/Application.store';
+import { useLocation } from 'react-router-dom';
 
 const App = () => {
   const stores = useStores();
+  const location = useLocation();
   const applicationStore: ApplicationStore = stores.Application;
+  const whiteBackgroundColor = location.pathname.includes('/operators/') || location.pathname.includes('/validators/');
+
   return (
     <MuiThemeProvider theme={applicationStore.muiTheme}>
       <ThemeProvider theme={applicationStore.muiTheme}>
         <DeveloperHelper />
-        <AppBar />
+        <AppBar whiteBackgroundColor={whiteBackgroundColor} />
         <Routes />
         <CssBaseline />
       </ThemeProvider>

@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import throttle from 'lodash/throttle';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
-import CloseIcon from '@material-ui/icons/Close';
-import SearchIcon from '@material-ui/icons/Search';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -16,17 +14,20 @@ import SearchInput from '~app/common/components/SmartSearch/components/SearchInp
 import SearchButton from '~app/common/components/SmartSearch/components/SearchButton';
 
 type SmartSearchProps = {
-  placeholder?: string;
-  inAppBar?: boolean;
   closeSearch?: any,
+  inAppBar?: boolean;
+  withBorder?: boolean;
+  placeholder?: string;
   supportSmallScreen?: boolean,
 };
 
 const SmartSearch = (props: SmartSearchProps) => {
-  const { placeholder, inAppBar, supportSmallScreen, closeSearch } = props;
   const classes = useStyles();
   const [query, setQuery] = useState('');
   const [loading, setLoading] = useState(false);
+  const { placeholder, withBorder, inAppBar, supportSmallScreen, closeSearch } = props;
+  withBorder;
+
   const [searchResults, setSearchResults]: [any[], any] = useState([]);
   let searchTimeout: any;
   const SEARCH_TIMEOUT_DELAY = 700;
@@ -160,7 +161,7 @@ const SmartSearch = (props: SmartSearchProps) => {
       redirectUserToSearchPage(query);
     }, 10);
   };
-
+  onSearchButtonClicked;
   /**
    * Rendering option of the search results
    * @param option
@@ -209,24 +210,24 @@ const SmartSearch = (props: SmartSearchProps) => {
    */
   const onRenderSearchInput = (params: AutocompleteRenderInputParams) => (
     <SearchInput
+      style={{ height: inAppBar ? 48 : 60 }}
       {...params}
       value=""
-      variant="outlined"
+      // variant="outlined"
       data-testid="smart-search"
       placeholder={placeholder || 'Search for validators and operators...'}
       InputProps={{
         ...params.InputProps,
-        endAdornment: (
+        endAdornment: '',
+        startAdornment: (
           <InputAdornment position="end">
             {loading && <CircularProgress color="inherit" size={20} />}
             {!loading && !supportSmallScreen && (
-              <SearchButton edge="end" onClick={onSearchButtonClicked}>
-                <SearchIcon />
-              </SearchButton>
+            <img src="/images/search_icon.svg" />
             )}
             {(supportSmallScreen && (
             <SearchButton edge="end" onClick={closeSearch}>
-              <CloseIcon />
+              <img src="/images/search_icon.svg" />
             </SearchButton>
             ))}
           </InputAdornment>

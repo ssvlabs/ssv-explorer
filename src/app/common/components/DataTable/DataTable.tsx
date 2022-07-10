@@ -84,19 +84,19 @@ const DataTable = (props: DataTableProps) => {
         {title ? <h3 style={{ paddingLeft: 15 }}>{title}</h3> : ''}
         {!hidePagination && perPage && perPage > defaultPerPageOptions[0] && data?.length ? (
           <TablePagination
-            ActionsComponent={PaginationActions}
-            colSpan={headers.length}
-            rowsPerPageOptions={rowsPerPageOptions ?? defaultPerPageOptions}
+            page={page}
             component="div"
             count={totalCount}
+            colSpan={headers.length}
+            ActionsComponent={PaginationActions}
             rowsPerPage={perPage ?? ApiParams.PER_PAGE}
-            page={page}
+            rowsPerPageOptions={rowsPerPageOptions ?? defaultPerPageOptions}
             onChangePage={(event: any, changedPage: number) => onChangePage ? onChangePage(changedPage + 1) : null}
             onChangeRowsPerPage={(event: any) => onChangeRowsPerPage ? onChangeRowsPerPage(event.target.value) : null}
           />
         ) : ''}
 
-        <Table stickyHeader aria-label="sticky table">
+        <Table className={classes.TableWrapper} stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
               {headers.map((header: string, headerIndex: number) => (
@@ -117,15 +117,15 @@ const DataTable = (props: DataTableProps) => {
 
         {!hidePagination && data?.length ? (
           <TablePagination
-            ActionsComponent={PaginationActions}
-            colSpan={headers.length}
-            rowsPerPageOptions={rowsPerPageOptions ?? defaultPerPageOptions}
+            page={page}
             component="div"
             count={totalCount}
+            colSpan={headers.length}
+            ActionsComponent={PaginationActions}
             rowsPerPage={perPage ?? ApiParams.PER_PAGE}
-            page={page}
-            onChangePage={(event: any, changedPage: number) => onChangePage ? onChangePage(changedPage + 1) : null}
+            rowsPerPageOptions={rowsPerPageOptions ?? defaultPerPageOptions}
             onChangeRowsPerPage={(event: any) => onChangeRowsPerPage ? onChangeRowsPerPage(event.target.value) : null}
+            onChangePage={(event: any, changedPage: number) => onChangePage ? onChangePage(changedPage + 1) : null}
           />
         ) : ''}
       </TableContainer>

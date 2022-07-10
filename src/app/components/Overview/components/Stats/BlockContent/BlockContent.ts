@@ -1,14 +1,14 @@
 import styled from 'styled-components';
 
 const BlockContent = styled.div`
+  margin: auto;
+  width: 100%;
+  margin-top: 0;
+  font-size: 14px;
   text-align: center;
   padding-left: 10px;
   padding-right: 10px;
-  width: 100%;
-  margin: auto;
-  margin-top: 0;
-  font-size: 14px;
-  color: #5B6C84;
+  color: ${props => props.theme.colors.gray40};
 `;
 
 export default BlockContent;

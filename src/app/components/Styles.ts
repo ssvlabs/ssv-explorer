@@ -1,5 +1,4 @@
 import { makeStyles } from '@material-ui/core/styles';
-import { defaultFont } from '~root/theme';
 
 export const useStyles = makeStyles((theme) => ({
     mainContainer: {
@@ -13,15 +12,25 @@ export const useStyles = makeStyles((theme) => ({
         margin: 'auto',
         flexDirection: 'row',
     },
+    TableWrapper: {
+        backgroundColor: theme.colors.white,
+        '& .MuiTableCell-stickyHeader': {
+            height: 16,
+            backgroundColor: theme.colors.white,
+        },
+    },
+    TablesWrapper: {
+        gap: 24,
+    },
     BlackText: {
         margin: 0,
         padding: 0,
         fontSize: 14,
         fontWeight: 600,
+        lineHeight: 1.29,
         overflow: 'hidden',
         whiteSpace: 'nowrap',
         textOverflow: 'ellipsis',
-        lineHeight: 1.29,
     },
     OperatorType: {
         width: 13,
@@ -160,11 +169,9 @@ export const useStyles = makeStyles((theme) => ({
         },
     },
     tableWithBorder: {
-        border: `1px solid ${theme.palette.divider}`,
         borderRadius: 6,
         fontSize: 18,
         '& h3': {
-            fontFamily: defaultFont,
             color: theme.palette.divider,
             fontWeight: 900,
             fontSize: 18,
@@ -262,19 +269,21 @@ export const useStyles = makeStyles((theme) => ({
                 // '-webkit-box-shadow': 'none!important',
                 // boxShadow: 'none!important',
                 // outlineColor: 'red!important',
-                // outline: 'none!important',
-                border: '1px solid #5B6C84',
+                outline: 'none!important',
                 '-webkit-appearance': 'none',
+                '&:hover': {
+                  border: 'none',
+                },
                 borderRadius: 6,
-                backgroundColor: 'white',
+                // backgroundColor: 'white',
                 color: '#5B6C84',
                 '& > .MuiInputAdornment-root > .MuiButtonBase-root': {
-                    backgroundColor: '#5B6C84',
-                    height: 38,
                     width: 38,
+                    height: 38,
                     marginRight: -13,
-                    borderBottomRightRadius: 5,
                     borderTopRightRadius: 5,
+                    borderBottomRightRadius: 5,
+                    backgroundColor: '#5B6C84',
                 },
                 '& > .MuiInputAdornment-root > .MuiButtonBase-root > .MuiIconButton-label': {
                     color: 'white',
@@ -286,12 +295,10 @@ export const useStyles = makeStyles((theme) => ({
         display: 'inline-flex',
         '& > .MuiFormControl-root': {
             '& > .MuiInputBase-root': {
-                border: '1px solid #5B6C84',
-                color: '#5B6C84',
-                width: 340,
-                display: 'inline-flex',
+                width: 300,
                 margin: 'auto',
-                marginRight: 10,
+                color: '#5B6C84',
+                display: 'inline-flex',
                 '@media (max-width:767px)': {
                     width: '100%',
                     margin: 0,

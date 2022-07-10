@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
-import { Box, Grid } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import config from '~app/common/config';
@@ -13,7 +13,7 @@ import { useStyles } from '~app/components/Styles';
 import DataTable from '~app/common/components/DataTable';
 import { getPerformances } from '~lib/utils/performance';
 import InfoTooltip from '~app/common/components/InfoTooltip';
-import OperatorType from '~app/common/components/OperatorType';
+import OperatorDetails from '~app/common/components/OperatorDetails';
 import EmptyPlaceholder from '~app/common/components/EmptyPlaceholder';
 import ContentContainer from '~app/common/components/ContentContainer';
 import { BreadCrumb, BreadCrumbDivider, BreadCrumbsContainer } from '~app/common/components/Breadcrumbs';
@@ -63,35 +63,27 @@ const OperatorsList = () => {
     return (operators || []).map((operator: any) => {
       const data = [
         <Link href={`${config.routes.OPERATORS.HOME}/${operator.id}`} className={classes.Link}>
-          <Grid item className={classes.OperatorLogo} style={{ backgroundImage: operator.logo ? `url(${operator.logo})` : '' }} />
-          {operator.name}
-          <OperatorType type={operator.type} />
-        </Link>,
-        <Link href={`${config.routes.OPERATORS.HOME}/${operator.id}`} className={classes.Link}>
-          <Box component="div" display={{ xs: 'block', sm: 'block', md: 'none', lg: 'none' }}>
-            {operator.id}
-          </Box>
-          <Box component="div" display={{ xs: 'none', sm: 'none', md: 'block', lg: 'block' }}>
-            {operator.id}
-          </Box>
+          <OperatorDetails operator={operator} />
         </Link>,
         <Box component="div" display={{ xs: 'block', sm: 'block', md: 'block', lg: 'block' }}>
           <Status status={operator.status} is_deleted={operator.is_deleted} />
         </Box>,
-        <Link href={`${config.routes.OPERATORS.HOME}/${operator.id}`} className={classes.Link}>
-          {operator.validators_count}
-        </Link>,
       ];
 
       const performances = getPerformances(operator.performance);
       for (let i = 0; i < performances.length; i += 1) {
         const performance = performances[i];
-        data.push(
-          <Link href={`${config.routes.OPERATORS.HOME}/${operator.id}`} className={classes.Link}>
-            {`${parseFloat(String(performance.value)).toFixed(2)}%`}
-          </Link>,
-        );
+        if (performance.key === '24h') {
+          data.push(
+            <Link href={`${config.routes.OPERATORS.HOME}/${operator.id}`} className={classes.Link}>
+              {`${parseFloat(String(performance.value)).toFixed(2)}%`}
+            </Link>,
+          );
+        }
       }
+      data.push(<Link href={`${config.routes.OPERATORS.HOME}/${operator.id}`} className={classes.Link}>
+        {operator.validators_count}
+      </Link>);
       return data;
     });
   };
@@ -99,7 +91,6 @@ const OperatorsList = () => {
   const getOperatorsTableHeaders = () => {
     return [
       'Name',
-      'ID',
       <div>
         Status
         <InfoTooltip
@@ -107,9 +98,9 @@ const OperatorsList = () => {
           message="Is the operator performing duties for the majority of its validators in the last 10 epochs."
         />
       </div>,
-      'Validators',
-      'Performance (30d)',
       'Performance (24h)',
+      // 'Performance (30d)',
+      'Validators',
     ];
   };
 
@@ -133,14 +124,14 @@ const OperatorsList = () => {
         <Typography variant="h1">Operators</Typography>
 
         <DataTable
-          headers={getOperatorsTableHeaders()}
-          data={getOperatorsTableData()}
-          totalCount={pagination.total}
+          isLoading={loading}
           page={pagination.page - 1}
           onChangePage={loadOperators}
+          totalCount={pagination.total}
+          data={getOperatorsTableData()}
+          headers={getOperatorsTableHeaders()}
           onChangeRowsPerPage={onChangeRowsPerPage}
           perPage={ApiParams.getInteger('operators', 'perPage', ApiParams.PER_PAGE)}
-          isLoading={loading}
         />
       </ContentContainer>
     </Layout>
