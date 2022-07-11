@@ -10,7 +10,7 @@ import Status from '~app/common/components/Status';
 import Layout from '~app/common/components/Layout';
 import { longStringShorten } from '~lib/utils/strings';
 import { Heading } from '~app/common/components/Headings';
-import { Incentivized } from '~app/common/components/Incentivized';
+// import { Incentivized } from '~app/common/components/Incentivized';
 import NotFoundScreen from '~app/common/components/NotFoundScreen';
 import ContentContainer from '~app/common/components/ContentContainer';
 import EmptyPlaceholder from '~app/common/components/EmptyPlaceholder';
@@ -118,7 +118,7 @@ const Validator = () =>
                 validator={validator}
                 defaultPerformance={defaultPerformance}
               />
-              <Incentivized validator={params.address} />
+              {/* <Incentivized validator={params.address} /> */}
             </Grid>
             <ValidatorDuties validator={validator} />
           </Grid>

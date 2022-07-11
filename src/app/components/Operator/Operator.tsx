@@ -7,7 +7,7 @@ import SsvNetwork from '~lib/api/SsvNetwork';
 import Layout from '~app/common/components/Layout';
 // import Banner from '~app/common/components/Banner';
 import NotFoundScreen from '~app/common/components/NotFoundScreen';
-import { Incentivized } from '~app/common/components/Incentivized';
+// import { Incentivized } from '~app/common/components/Incentivized';
 import ContentContainer from '~app/common/components/ContentContainer';
 import EmptyPlaceholder from '~app/common/components/EmptyPlaceholder';
 import BreadCrumbs from '~app/components/Operator/components/BreadCrumbs';
@@ -124,7 +124,7 @@ const Operator = () => {
                   operator={operator}
                   isLoading={isLoading}
                  />
-                <Incentivized operator={params.address} />
+                {/* <Incentivized operator={params.address} /> */}
               </Grid>
               <Grid item lg={9} md={6} xs={12}>
                 <ValidatorsInOperatorTable
