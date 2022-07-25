@@ -102,7 +102,7 @@ const Operator = () => {
         <NotFoundScreen notFound={notFound}>
           {/* <Banner /> */}
           <EmptyPlaceholder height={10} />
-          <BreadCrumbs isOperator address={operator.name} />
+          <BreadCrumbs id={operator.id} />
 
           <Grid container>
             <Grid container item justify="space-between">

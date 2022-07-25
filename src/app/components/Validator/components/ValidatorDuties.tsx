@@ -87,7 +87,7 @@ export default (props: ValidatorDutiesProps) => {
               <ChipLink
                 key={`operators-success-${oi}`}
                 className={classes.Link}
-                href={`${config.routes.OPERATORS.HOME}/${o.address}`}
+                href={`${config.routes.OPERATORS.HOME}/${o.id}`}
                 style={{ maxWidth: 100 }}
               >
                 <Typography noWrap style={{ fontSize: 14 }}>{o.name}</Typography>
@@ -105,7 +105,7 @@ export default (props: ValidatorDutiesProps) => {
               <ChipLink
                 key={`operators-failed-${oi}`}
                 className={classes.Link}
-                href={`${config.routes.OPERATORS.HOME}/${o.address}`}
+                href={`${config.routes.OPERATORS.HOME}/${o.id}`}
                 style={{ maxWidth: 100 }}
               >
                 <Typography noWrap style={{ fontSize: 14 }}>{o.name}</Typography>
