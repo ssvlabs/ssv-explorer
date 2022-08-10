@@ -108,8 +108,8 @@ const OperatorsList = () => {
         />
       </div>,
       'Validators',
-      'Performance (30d)',
       'Performance (24h)',
+      'Performance (30d)',
     ];
   };
 
