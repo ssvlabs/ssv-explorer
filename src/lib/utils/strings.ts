@@ -4,11 +4,10 @@
  * @param len
  */
 export const longStringShorten = (key: string, len: number = 6) => {
+  if (key.length <= len + 3) {
+    return key;
+  }
   return `${key.substr(0, len)}...${key.substr(key.length - len, len)}`;
-};
-
-export const newLongStringShorten = (key: string, len: number = 4) => {
-  return `${key.substr(0, len + 2)}...${key.substr(key.length - len, len)}`;
 };
 
 /**
