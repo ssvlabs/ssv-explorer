@@ -77,7 +77,7 @@ const OperatorStatus = ({ status, is_deleted }: { status: string, is_deleted?: b
           Status
           <InfoTooltip
             style={headerTooltipStyle}
-            message="Is the operator performing duties for the majority of its validators in the last 10 epochs."
+            message="Is the operator performing duties for the majority of its validators in the last 2 epochs."
           />
         </DataHeader>
         <ValueContent style={{ color: textColor }}>{statusText}</ValueContent>

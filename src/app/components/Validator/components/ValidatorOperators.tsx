@@ -132,7 +132,7 @@ const ValidatorOperators = (props: ValidatorOperatorProps) => {
                 Status
                 <InfoTooltip
                   style={{ ...infoIconStyle, marginBottom: -2 }}
-                  message="Is the operator performing duties for the majority of its validators in the last 10 epochs"
+                  message="Is the operator performing duties for the majority of its validators in the last 2 epochs"
                 />
               </TableCell>
               <TableCell key={'performance'} style={{ whiteSpace: 'nowrap' }}>
@@ -196,7 +196,7 @@ const ValidatorOperators = (props: ValidatorOperatorProps) => {
                   </Typography>
                 </StyledCell>
                 <StyledCell key="operator-status">
-                  <Status status={operator.status} is_deleted={operator.is_deleted} />
+                  <Status entry={operator} />
                 </StyledCell>
                 <StyledCell key="operator-performance" style={performanceRowRightStyle}>
                   {renderPerformance(operator)}

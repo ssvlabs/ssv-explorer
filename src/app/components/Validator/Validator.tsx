@@ -91,7 +91,7 @@ const Validator = () =>
                   </StatsBlock>
                 </Grid>
                 <Grid item>
-                  <Status big status={validator.status} />
+                  <Status size="big" entry={validator} />
                 </Grid>
               </Grid>
               {!notFound && (

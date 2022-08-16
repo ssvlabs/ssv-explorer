@@ -3,17 +3,11 @@ import { observer } from 'mobx-react';
 import Grid from '@material-ui/core/Grid';
 import { Tooltip } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
-import { useStyles } from './Status.styles';
+import { StatusProps, useStyles } from './Status.styles';
 
-type Props = {
-    big?: boolean,
-    status: string,
-    is_deleted?: boolean,
-};
-
-const Status = (props: Props) => {
+const Status = (props: StatusProps) => {
     const [showTooltip, setShowTooltip] = useState(false);
-    const classes = useStyles({ isActive: !(props.status !== 'Active' || props.is_deleted), isBig: props.big });
+    const classes = useStyles(props);
 
     const handleMouseEnter = () => {
         setShowTooltip(true);
@@ -23,14 +17,14 @@ const Status = (props: Props) => {
         setShowTooltip(false);
     };
 
-    if (!props.status) return <Skeleton style={{ width: 50 }} />;
+    if (!props.entry) return <Skeleton style={{ width: 50 }} />;
     return (
-      <Tooltip open={showTooltip && props.big} title={'Is the validator performing duties in the last 4 consecutive epochs'}>
+      <Tooltip open={showTooltip && props.size === 'big'} title={'Is the validator performing duties in the last 2 consecutive epochs'}>
         <Grid
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
           className={classes.Status}>
-          {props.is_deleted ? 'Deleted' : props.status}
+          {props.entry.is_deleted ? 'Deleted' : props.entry.status}
         </Grid>
       </Tooltip>
     );
