@@ -84,9 +84,6 @@ const OperatorsList = () => {
       ];
 
       const performances = getPerformances(operator.performance);
-      console.debug('---------------------------------------------');
-      console.debug('Operator Performances:', JSON.stringify(operator.performance));
-      console.debug('Final Performances:', JSON.stringify(performances));
       for (let i = 0; i < performances.length; i += 1) {
         const performance = performances[i];
         data.push(

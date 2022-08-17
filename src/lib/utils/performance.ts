@@ -3,7 +3,7 @@ export const getPerformances = (performance: any, labels: any = null): any => {
   if (!performance) {
     return performances;
   }
-  const performanceKeys = Object.keys(performance);
+  const performanceKeys = Object.keys(performance).sort();
   for (let i = 0; i < performanceKeys.length; i += 1) {
     const performanceKey = performanceKeys[i];
     const performanceLabel = labels && labels[performanceKey] ? labels[performanceKey] : performanceKey;
