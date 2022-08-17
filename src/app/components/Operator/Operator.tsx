@@ -95,6 +95,7 @@ const Operator = () => {
   }, [params.address, operator.address]);
 
   const isLoading = loadingValidators || loadingOperator;
+  const operatorId = operator?.id || params.address;
 
   return (
     <Layout>
@@ -102,7 +103,7 @@ const Operator = () => {
         <NotFoundScreen notFound={notFound}>
           {/* <Banner /> */}
           <EmptyPlaceholder height={10} />
-          <BreadCrumbs id={operator.id} />
+          <BreadCrumbs id={operatorId} />
 
           <Grid container>
             <Grid container item justify="space-between">
