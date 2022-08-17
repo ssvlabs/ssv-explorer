@@ -101,7 +101,8 @@
     "lint": "eslint 'src/**'",
     "postinstall": "link-module-alias && husky install",
     "preinstall": "command -v link-module-alias && link-module-alias clean || true",
-    "security:check": "./scripts/check_security.sh"
+    "security:check": "./scripts/check_security.sh",
+    "prepare": "husky install"
   },
   "license": "GPL-3.0",
   "eslintConfig": {
