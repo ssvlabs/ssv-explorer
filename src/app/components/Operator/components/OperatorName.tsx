@@ -2,7 +2,6 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import { Skeleton } from '@material-ui/lab';
 import Typography from '@material-ui/core/Typography';
-import { longStringShorten } from '~lib/utils/strings';
 import OperatorType from '~app/components/Operator/components/OperatorType';
 import { useStylesOperator } from '~app/components/Operator/Operator.styles';
 import CopyToClipboardIcon from '~app/common/components/CopyToClipboardIcon';
@@ -29,7 +28,7 @@ export default (props: OperatorProps) => {
             <Typography
               variant="h1"
             >
-              {operator.name ? longStringShorten(operator.name, 10) : <Skeleton style={{ width: 100 }} />}
+              {operator.name || <Skeleton style={{ width: 100 }} />}
             </Typography>
           </Grid>
           {operator.public_key ? (
