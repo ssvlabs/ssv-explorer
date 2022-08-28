@@ -102,7 +102,7 @@ class SsvNetwork {
   async fetchValidator(validatorAddress: string) {
     let params: any = {};
     params = new URLSearchParams(params);
-    const url = `${this.baseUrl}/v1/validators/${validatorAddress}/?${params.toString()}`;
+    const url = `${this.baseUrl}/v1/validators/${validatorAddress.replace('0x', '')}/?${params.toString()}`;
     return new ApiRequest({
       url,
       method: 'GET',
@@ -121,7 +121,7 @@ class SsvNetwork {
       perPage,
     };
     params = new URLSearchParams(params);
-    const url = `${this.baseUrl}/v1/duties/${validatorAddress}/?${params.toString()}`;
+    const url = `${this.baseUrl}/v1/duties/${validatorAddress.replace('0x', '')}/?${params.toString()}`;
     return new ApiRequest({
       url,
       method: 'GET',
@@ -161,7 +161,7 @@ class SsvNetwork {
     };
     params = new URLSearchParams(params);
     return new ApiRequest({
-      url: `${this.baseUrl}/v1/${type}s/incentivized/${address}/?${params.toString()}`,
+      url: `${this.baseUrl}/v1/${type}s/incentivized/${String(address).replace('0x', '')}/?${params.toString()}`,
       method: 'GET',
     }).sendRequest();
   }
