@@ -17,11 +17,6 @@ class SsvNetwork {
     this.baseUrl = baseUrl;
   }
 
-  get network() {
-    // TODO: use network selected by user (local storage or whatever)
-    return 'prater';
-  }
-
   static getInstance(): SsvNetwork {
     if (!SsvNetwork.instance) {
       SsvNetwork.instance = new SsvNetwork(config.links.API_BASE_URL);
