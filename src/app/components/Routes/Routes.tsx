@@ -3,6 +3,7 @@ import { observer } from 'mobx-react';
 import { Switch, Route } from 'react-router-dom';
 import config from '~app/common/config';
 import Overview from '~app/components/Overview';
+import PausedScreen from '~app/components/PausedScreen';
 import Operator from '~app/components/Operator/Operator';
 import OperatorsList from '~app/components/OperatorsList';
 import Validator from '~app/components/Validator/Validator';
@@ -11,6 +12,10 @@ import ValidatorsList from '~app/components/ValidatorsList';
 const Routes = () => {
   return (
     <Switch>
+      <Route exact path={config.routes.PAUSED.HOME}>
+        <PausedScreen />
+      </Route>
+
       <Route exact path={config.routes.HOME}>
         <Overview />
       </Route>
