@@ -17,11 +17,6 @@ class SsvNetwork {
     this.baseUrl = baseUrl;
   }
 
-  get network() {
-    // TODO: use network selected by user (local storage or whatever)
-    return 'prater';
-  }
-
   static getInstance(): SsvNetwork {
     if (!SsvNetwork.instance) {
       SsvNetwork.instance = new SsvNetwork(config.links.API_BASE_URL);
@@ -35,7 +30,7 @@ class SsvNetwork {
       perPage,
     };
     params = new URLSearchParams(params);
-    const url = `${this.baseUrl}/v1/validators/?${params.toString()}`;
+    const url = `${this.baseUrl}/validators/?${params.toString()}`;
     return new ApiRequest({
       url,
       method: 'GET',
@@ -58,7 +53,7 @@ class SsvNetwork {
 
     params = new URLSearchParams(params);
     return new ApiRequest({
-      url: `${this.baseUrl}/v1/operators/?${params.toString()}`,
+      url: `${this.baseUrl}/operators/?${params.toString()}`,
       method: 'GET',
     }).sendRequest();
   }
@@ -72,7 +67,7 @@ class SsvNetwork {
 
     params = new URLSearchParams(params);
     return new ApiRequest({
-      url: `${this.baseUrl}/v1/operators/${operatorAddress}/?${params.toString()}`,
+      url: `${this.baseUrl}/operators/${operatorAddress}/?${params.toString()}`,
       method: 'GET',
     }).sendRequest();
   }
@@ -90,7 +85,7 @@ class SsvNetwork {
     };
     params = new URLSearchParams(params);
     return new ApiRequest({
-      url: `${this.baseUrl}/v1/validators/in_operator/${operatorAddress}/?${params.toString()}`,
+      url: `${this.baseUrl}/validators/in_operator/${operatorAddress}/?${params.toString()}`,
       method: 'GET',
     }).sendRequest();
   }
@@ -102,7 +97,7 @@ class SsvNetwork {
   async fetchValidator(validatorAddress: string) {
     let params: any = {};
     params = new URLSearchParams(params);
-    const url = `${this.baseUrl}/v1/validators/${validatorAddress}/?${params.toString()}`;
+    const url = `${this.baseUrl}/validators/${validatorAddress.replace('0x', '')}/?${params.toString()}`;
     return new ApiRequest({
       url,
       method: 'GET',
@@ -121,7 +116,7 @@ class SsvNetwork {
       perPage,
     };
     params = new URLSearchParams(params);
-    const url = `${this.baseUrl}/v1/duties/${validatorAddress}/?${params.toString()}`;
+    const url = `${this.baseUrl}/duties/${validatorAddress.replace('0x', '')}/?${params.toString()}`;
     return new ApiRequest({
       url,
       method: 'GET',
@@ -139,7 +134,7 @@ class SsvNetwork {
     };
     params = new URLSearchParams(params);
     return new ApiRequest({
-      url: `${this.baseUrl}/v1/search/?${params.toString()}`,
+      url: `${this.baseUrl}/search/?${params.toString()}`,
       method: 'GET',
     }).sendRequest();
   }
@@ -161,7 +156,7 @@ class SsvNetwork {
     };
     params = new URLSearchParams(params);
     return new ApiRequest({
-      url: `${this.baseUrl}/v1/${type}s/incentivized/${address}/?${params.toString()}`,
+      url: `${this.baseUrl}/${type}s/incentivized/${String(address).replace('0x', '')}/?${params.toString()}`,
       method: 'GET',
     }).sendRequest();
   }
