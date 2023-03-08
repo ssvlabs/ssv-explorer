@@ -67,7 +67,7 @@ jobs:
           SOURCE_DIR: 'build/'
 
       - name: Deploy prod
-        if: github.ref == 'refs/heads/main-v2'
+        if: github.ref == 'refs/heads/main'
         uses: jakejarvis/s3-sync-action@v0.5.0
         with:
           args: --acl public-read --follow-symlinks --delete
