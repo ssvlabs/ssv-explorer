@@ -6,16 +6,15 @@ import Typography from '@material-ui/core/Typography';
 import config from '~app/common/config';
 import ApiParams from '~lib/api/ApiParams';
 import SsvNetwork from '~lib/api/SsvNetwork';
-// import Banner from '~app/common/components/Banner';
 import { useStyles } from '~app/components/Styles';
 import Layout from '~app/common/components/Layout';
 import { longStringShorten } from '~lib/utils/strings';
 import DataTable from '~app/common/components/DataTable';
 import BeaconchaLink from '~app/common/components/BeaconchaLink';
 import ContentContainer from '~app/common/components/ContentContainer';
+import EmptyPlaceholder from '~app/common/components/EmptyPlaceholder';
 import CopyToClipboardIcon from '~app/common/components/CopyToClipboardIcon';
 import { BreadCrumb, BreadCrumbDivider, BreadCrumbsContainer } from '~app/common/components/Breadcrumbs';
-import EmptyPlaceholder from '~app/common/components/EmptyPlaceholder';
 
 const ValidatorsList = () => {
   const classes = useStyles();
