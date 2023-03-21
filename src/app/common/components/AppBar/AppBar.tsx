@@ -100,6 +100,10 @@ const AppBarComponent = () => {
     ApiParams.initStorage(true);
   };
 
+  if (config.FEATURE.ANNOUNCEMENT) {
+    return null;
+  }
+
   return (
     <div className={classes.root} id="back-to-top-anchor">
       {isSearchOpened ?

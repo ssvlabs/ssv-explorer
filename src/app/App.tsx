@@ -7,6 +7,7 @@ import Routes from '~app/components/Routes';
 import { useStores } from '~app/hooks/useStores';
 import AppBar from '~app/common/components/AppBar';
 import DeveloperHelper from '~lib/utils/DeveloperHelper';
+import Announcement from '~app/common/components/Announcement';
 import ApplicationStore from '~app/common/stores/Application.store';
 
 const App = () => {
@@ -17,6 +18,7 @@ const App = () => {
       <ThemeProvider theme={applicationStore.muiTheme}>
         <DeveloperHelper />
         <AppBar />
+        <Announcement />
         <Routes />
         <CssBaseline />
       </ThemeProvider>
