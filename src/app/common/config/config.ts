@@ -9,6 +9,9 @@ const config = {
             HOME: '/validators',
             VALIDATOR: '/validators/:address',
         },
+        PAUSED: {
+            HOME: '/paused',
+        },
     },
     FEATURE: {
         INCENTIVIZED: {
