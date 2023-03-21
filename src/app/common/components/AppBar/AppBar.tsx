@@ -105,6 +105,10 @@ const AppBarComponent = () => {
     ApiParams.initStorage(true);
   };
 
+  if (config.FEATURE.ANNOUNCEMENT) {
+    return null;
+  }
+
   const paused = isPausedPage();
 
   return (
