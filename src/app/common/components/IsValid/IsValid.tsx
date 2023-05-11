@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { observer } from 'mobx-react';
 import Grid from '@material-ui/core/Grid';
 import { Tooltip } from '@material-ui/core';
-import { Skeleton } from '@material-ui/lab';
 import { IsValidProps, useStyles } from './IsValid.styles';
 
 const IsValid = (props: IsValidProps) => {
