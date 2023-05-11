@@ -18,7 +18,7 @@ const IsValid = (props: IsValidProps) => {
 
     if (!props.entry || props.entry.is_valid === true) return <div />;
     return (
-      <Tooltip open={showTooltip && props.size === 'big'} title={'Is the validator performing duties in the last 2 consecutive epochs'}>
+      <Tooltip open={showTooltip && props.size === 'big'} title={'Validator contains malformed public key, shares or encrypted shares'}>
         <Grid
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
