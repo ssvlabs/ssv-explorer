@@ -7,11 +7,11 @@ import config from '~app/common/config';
 import ApiParams from '~lib/api/ApiParams';
 import SsvNetwork from '~lib/api/SsvNetwork';
 import { useStyles } from '~app/components/Styles';
-import IsValid from '~app/common/components/IsValid/IsValid';
 import Status from '~app/common/components/Status';
 import Layout from '~app/common/components/Layout';
 import { longStringShorten } from '~lib/utils/strings';
 import DataTable from '~app/common/components/DataTable';
+import IsValidBadge from '~app/common/components/IsValidBadge/IsValidBadge';
 import BeaconchaLink from '~app/common/components/BeaconchaLink';
 import ContentContainer from '~app/common/components/ContentContainer';
 import EmptyPlaceholder from '~app/common/components/EmptyPlaceholder';
@@ -68,7 +68,7 @@ const ValidatorsList = () => {
           <Status entry={validator} />
         </Box>,
         <Box component="div" display={{ xs: 'block', sm: 'block', md: 'block', lg: 'block' }}>
-          <IsValid entry={validator} />
+          <IsValidBadge entry={validator} />
         </Box>,
         validator.operators.map((operator: any, operatorIndex: number) => {
           return (

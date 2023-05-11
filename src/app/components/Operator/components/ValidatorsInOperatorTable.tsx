@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import BeaconchaLink from '~app/common/components/BeaconchaLink';
 import DataTable from '~app/common/components/DataTable/DataTable';
 import CopyToClipboardIcon from '~app/common/components/CopyToClipboardIcon';
-import IsValid from '~app/common/components/IsValid/IsValid';
+import IsValid from '~app/common/components/IsValidBadge/IsValidBadge';
 import Status from '~app/common/components/Status';
 
 type ValidatorsInOperatorTableProps = {
