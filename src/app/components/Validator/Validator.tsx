@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import config from '~app/common/config';
 import SsvNetwork from '~lib/api/SsvNetwork';
+import IsValid from '~app/common/components/IsValid/IsValid';
 import Status from '~app/common/components/Status';
 import Layout from '~app/common/components/Layout';
 import { longStringShorten } from '~lib/utils/strings';
@@ -92,6 +93,9 @@ const Validator = () =>
                 </Grid>
                 <Grid item>
                   <Status size="big" entry={validator} />
+                </Grid>
+                <Grid item>
+                  <IsValid size="big" entry={validator} />
                 </Grid>
               </Grid>
               {!notFound && (
