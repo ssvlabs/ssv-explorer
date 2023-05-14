@@ -4,12 +4,12 @@ import Link from '@material-ui/core/Link';
 import config from '~app/common/config';
 import { useStyles } from '~app/components/Styles';
 import { longStringShorten } from '~lib/utils/strings';
-import Typography from '@material-ui/core/Typography';
-import BeaconchaLink from '~app/common/components/BeaconchaLink';
-import DataTable from '~app/common/components/DataTable/DataTable';
-import CopyToClipboardIcon from '~app/common/components/CopyToClipboardIcon';
-import IsValid from '~app/common/components/IsValidBadge/IsValidBadge';
 import Status from '~app/common/components/Status';
+import DataTable from '~app/common/components/DataTable/DataTable';
+import Typography from '@material-ui/core/Typography';
+import IsValidBadge from '~app/common/components/IsValidBadge/IsValidBadge';
+import BeaconchaLink from '~app/common/components/BeaconchaLink';
+import CopyToClipboardIcon from '~app/common/components/CopyToClipboardIcon';
 
 type ValidatorsInOperatorTableProps = {
   validators: any[],
@@ -55,7 +55,7 @@ const ValidatorsInOperatorTable = (props: ValidatorsInOperatorTableProps) => {
             <Status entry={validator} />
           </Box>,
           <Box component="div" display={{ xs: 'block', sm: 'block', md: 'block', lg: 'block' }}>
-            <IsValid entry={validator} />
+            <IsValidBadge entry={validator} />
           </Box>,
           <div style={{ marginTop: 3, whiteSpace: 'nowrap' }}>
             <CopyToClipboardIcon data={validator.public_key} />

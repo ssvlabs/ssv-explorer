@@ -6,20 +6,20 @@ import { useParams } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import config from '~app/common/config';
 import SsvNetwork from '~lib/api/SsvNetwork';
-import IsValid from '~app/common/components/IsValidBadge/IsValidBadge';
+import { Heading } from '~app/common/components/Headings';
+import { longStringShorten } from '~lib/utils/strings';
+import { BreadCrumb, BreadCrumbDivider, BreadCrumbsContainer } from '~app/common/components/Breadcrumbs';
+// import { Incentivized } from '~app/common/components/Incentivized';
 import Status from '~app/common/components/Status';
 import Layout from '~app/common/components/Layout';
-import { longStringShorten } from '~lib/utils/strings';
-import { Heading } from '~app/common/components/Headings';
-// import { Incentivized } from '~app/common/components/Incentivized';
-import NotFoundScreen from '~app/common/components/NotFoundScreen';
-import ContentContainer from '~app/common/components/ContentContainer';
-import EmptyPlaceholder from '~app/common/components/EmptyPlaceholder';
-import CopyToClipboardIcon from '~app/common/components/CopyToClipboardIcon';
+import IsValidBadge from '~app/common/components/IsValidBadge/IsValidBadge';
 import BeaconchaLink from '~app/common/components/BeaconchaLink/BeaconchaLink';
+import NotFoundScreen from '~app/common/components/NotFoundScreen';
 import ValidatorDuties from '~app/components/Validator/components/ValidatorDuties';
+import EmptyPlaceholder from '~app/common/components/EmptyPlaceholder';
+import ContentContainer from '~app/common/components/ContentContainer';
 import ValidatorOperators from '~app/components/Validator/components/ValidatorOperators';
-import { BreadCrumb, BreadCrumbDivider, BreadCrumbsContainer } from '~app/common/components/Breadcrumbs';
+import CopyToClipboardIcon from '~app/common/components/CopyToClipboardIcon';
 
 const StatsBlock = styled.div<({ maxWidth?: any })>`
   max-width: ${({ maxWidth }) => `${Number.isNaN(maxWidth ?? 200) ? (maxWidth) : `${(maxWidth ?? 200)}px`}`};
@@ -95,7 +95,7 @@ const Validator = () =>
                   <Status size="big" entry={validator} />
                 </Grid>
                 <Grid item>
-                  <IsValid size="big" entry={validator} />
+                  <IsValidBadge size="big" entry={validator} />
                 </Grid>
               </Grid>
               {!notFound && (
