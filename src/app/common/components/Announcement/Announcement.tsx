@@ -6,7 +6,7 @@ import config from '~app/common/config';
 const AnnouncementContainer = styled.div`
   margin: auto;
   position: relative;
-  background-color: #FFC647;
+  background-color: rgb(255, 198, 71);
   border: 0;
   box-shadow: none;
   min-height: 64px;
@@ -14,7 +14,7 @@ const AnnouncementContainer = styled.div`
   top: 0;
   width: 100%;
   display: flex;
-  z-index: 9999!important;
+  z-index: 9999 !important;
   box-sizing: border-box;
   flex-shrink: 0;
   flex-direction: column;
