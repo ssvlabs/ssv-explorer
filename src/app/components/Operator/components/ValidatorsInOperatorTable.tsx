@@ -1,12 +1,14 @@
 import React from 'react';
 import { Box } from '@material-ui/core';
 import Link from '@material-ui/core/Link';
-import Typography from '@material-ui/core/Typography';
 import config from '~app/common/config';
 import { useStyles } from '~app/components/Styles';
 import { longStringShorten } from '~lib/utils/strings';
-import BeaconchaLink from '~app/common/components/BeaconchaLink';
+import Status from '~app/common/components/Status';
 import DataTable from '~app/common/components/DataTable/DataTable';
+import Typography from '@material-ui/core/Typography';
+import IsValidBadge from '~app/common/components/IsValidBadge/IsValidBadge';
+import BeaconchaLink from '~app/common/components/BeaconchaLink';
 import CopyToClipboardIcon from '~app/common/components/CopyToClipboardIcon';
 
 type ValidatorsInOperatorTableProps = {
@@ -32,8 +34,8 @@ const ValidatorsInOperatorTable = (props: ValidatorsInOperatorTableProps) => {
   return (
     <DataTable
       noDataMessage={'No validators'}
-      headers={[validatorsTitle, '']}
-      headersPositions={['left', 'right']}
+      headers={[validatorsTitle, 'Status', ' ', '']}
+      headersPositions={['left', 'left', 'left', 'right']}
       data={(validators || []).map((validator: any) => {
         return [
           <Link href={`${config.routes.VALIDATORS.HOME}/${validator.public_key}`} className={classes.Link}>
@@ -49,6 +51,12 @@ const ValidatorsInOperatorTable = (props: ValidatorsInOperatorTableProps) => {
               </Box>
             </Typography>
           </Link>,
+          <Box component="div" display={{ xs: 'block', sm: 'block', md: 'block', lg: 'block' }}>
+            <Status entry={validator} />
+          </Box>,
+          <Box component="div" display={{ xs: 'block', sm: 'block', md: 'block', lg: 'block' }}>
+            <IsValidBadge entry={validator} />
+          </Box>,
           <div style={{ marginTop: 3, whiteSpace: 'nowrap' }}>
             <CopyToClipboardIcon data={validator.public_key} />
             <BeaconchaLink height={24} width={24} address={`validator/${validator.public_key}`} />
