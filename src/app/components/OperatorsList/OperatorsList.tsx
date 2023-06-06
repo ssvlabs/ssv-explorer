@@ -66,8 +66,11 @@ const OperatorsList = () => {
           <OperatorDetails operator={operator} />
         </Link>,
         <Box component="div" display={{ xs: 'block', sm: 'block', md: 'block', lg: 'block' }}>
-          <Status status={operator.status} is_deleted={operator.is_deleted} />
+          <Status entry={operator} />
         </Box>,
+        <Link href={`${config.routes.OPERATORS.HOME}/${operator.id}`} className={classes.Link}>
+          {operator.validators_count}
+        </Link>,
       ];
 
       const performances = getPerformances(operator.performance);
@@ -95,12 +98,12 @@ const OperatorsList = () => {
         Status
         <InfoTooltip
           style={{ ...infoIconStyle, marginBottom: -2 }}
-          message="Is the operator performing duties for the majority of its validators in the last 10 epochs."
+          message="Is the operator performing duties for the majority of its validators in the last 2 epochs."
         />
       </div>,
-      'Performance (24h)',
-      // 'Performance (30d)',
       'Validators',
+      'Performance (24h)',
+      'Performance (30d)',
     ];
   };
 

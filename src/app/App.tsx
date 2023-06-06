@@ -7,6 +7,7 @@ import Routes from '~app/components/Routes';
 import { useStores } from '~app/hooks/useStores';
 import AppBar from '~app/common/components/AppBar';
 import DeveloperHelper from '~lib/utils/DeveloperHelper';
+import Announcement from '~app/common/components/Announcement';
 import ApplicationStore from '~app/common/stores/Application.store';
 import { useLocation } from 'react-router-dom';
 
@@ -20,6 +21,7 @@ const App = () => {
     <MuiThemeProvider theme={applicationStore.muiTheme}>
       <ThemeProvider theme={applicationStore.muiTheme}>
         <DeveloperHelper />
+        <Announcement />
         <AppBar whiteBackgroundColor={whiteBackgroundColor} />
         <Routes />
         <CssBaseline />

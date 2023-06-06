@@ -9,6 +9,9 @@ const config = {
             HOME: '/validators',
             VALIDATOR: '/validators/:address',
         },
+        PAUSED: {
+            HOME: '/paused',
+        },
     },
     FEATURE: {
         INCENTIVIZED: {
@@ -16,6 +19,7 @@ const config = {
             EPOCHS_PER_ROUND: 3150,
             START_ROUNDS_FROM_EPOCH: 69084,
         },
+        ANNOUNCEMENT: String(process.env.REACT_APP_ANNOUNCEMENT || '').trim(),
     },
     links: {
         API_BASE_URL: String(process.env.REACT_APP_API_BASE_URL),

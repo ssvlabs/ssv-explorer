@@ -77,33 +77,17 @@ export default (props: ValidatorDutiesProps) => {
     });
   };
 
-  const getGroupedOperators = (operators: any[]) => {
-    const successOperators: any[] = [];
-    const successOperatorsAddresses: any[] = [];
-    const failedOperators: any[] = [];
-    operators.map((operator: any) => {
-      if (operator.status === 'success') {
-        successOperators.push(operator);
-        successOperatorsAddresses.push(operator.address);
-      }
-      return null;
-    });
-    (validator.operators ?? []).map((operator: any) => {
-      if (successOperatorsAddresses.indexOf(operator.address) === -1) {
-        failedOperators.push(operator);
-      }
-      return null;
-    });
+  const getRenderedSigners = (operators: any[], missingOperators: any[]) => {
     return (
       <>
-        {successOperators.length ? (
+        {operators.length ? (
           <SuccessChip
             className={chipClasses.chip}
-            label={successOperators.map((o, oi) => (
+            label={operators.map((o, oi) => (
               <ChipLink
                 key={`operators-success-${oi}`}
                 className={classes.Link}
-                href={`${config.routes.OPERATORS.HOME}/${o.address}`}
+                href={`${config.routes.OPERATORS.HOME}/${o.id}`}
                 style={{ maxWidth: 100 }}
               >
                 <Typography noWrap style={{ fontSize: 14 }}>{o.name}</Typography>
@@ -114,14 +98,14 @@ export default (props: ValidatorDutiesProps) => {
             deleteIcon={<CheckCircleIcon />}
           />
         ) : ''}
-        {failedOperators.length ? (
+        {missingOperators.length ? (
           <FailureChip
             className={chipClasses.chip}
-            label={failedOperators.map((o, oi) => (
+            label={missingOperators.map((o, oi) => (
               <ChipLink
                 key={`operators-failed-${oi}`}
                 className={classes.Link}
-                href={`${config.routes.OPERATORS.HOME}/${o.address}`}
+                href={`${config.routes.OPERATORS.HOME}/${o.id}`}
                 style={{ maxWidth: 100 }}
               >
                 <Typography noWrap style={{ fontSize: 14 }}>{o.name}</Typography>
@@ -163,7 +147,7 @@ export default (props: ValidatorDutiesProps) => {
             duty.slot,
             capitalize(String(duty.duty).toLowerCase()),
             capitalize(duty.status ?? ''),
-            getGroupedOperators(duty.operators),
+            getRenderedSigners(duty.operators, duty.missing_operators),
           ];
         })}
         totalCount={dutiesPagination?.total || 0}

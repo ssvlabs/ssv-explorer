@@ -84,7 +84,7 @@ const SmartSearch = (props: SmartSearchProps) => {
       let url = '';
       switch (newValue.type) {
         case 'OPERATORS':
-          url = `${config.routes.OPERATORS.HOME}/${newValue.address}`;
+          url = `${config.routes.OPERATORS.HOME}/${newValue.id}`;
           break;
         case 'VALIDATORS':
           url = `${config.routes.VALIDATORS.HOME}/${newValue.public_key}`;
@@ -121,7 +121,7 @@ const SmartSearch = (props: SmartSearchProps) => {
       for (let i = 0; i < operatorsList.length; i += 1) {
         const operator = operatorsList[i];
         if (queryString === operator.name || (startsWith0x && `0x${queryString}` === operator.name) || queryString === operator.address) {
-          url = `${config.routes.OPERATORS.HOME}/${operator.address}`;
+          url = `${config.routes.OPERATORS.HOME}/${operator.id}`;
           break;
         }
       }

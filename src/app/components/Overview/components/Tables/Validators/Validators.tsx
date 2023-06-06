@@ -71,7 +71,7 @@ const Validators = (props: Props) => {
                 {row.operators.map((operator: any) => (
                   <span key={`operator-link-${operator.address}`}>
                     <Link
-                      href={`${config.routes.OPERATORS.HOME}/${operator.address}`}
+                      href={`${config.routes.OPERATORS.HOME}/${operator.id}`}
                       className={classes.Link}
                       >
                       {operator.name}
@@ -83,7 +83,6 @@ const Validators = (props: Props) => {
             </StyledCell>
           </StyledRow>
           ))}
-
         {loadingValidators && (
         <StyledRow key="validators-placeholder">
           <StyledCell style={overviewTableCellStyle}>

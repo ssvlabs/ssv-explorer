@@ -11,7 +11,6 @@ import NotFoundScreen from '~app/common/components/NotFoundScreen';
 import OperatorDetails from '~app/common/components/OperatorDetails';
 import ContentContainer from '~app/common/components/ContentContainer';
 // import EmptyPlaceholder from '~app/common/components/EmptyPlaceholder';
-import BreadCrumbs from '~app/components/Operator/components/BreadCrumbs';
 // import OperatorName from '~app/components/Operator/components/OperatorName';
 // import OperatorInfo from '~app/components/Operator/components/OperatorInfo';
 import { useStylesOperator } from '~app/components/Operator/Operator.styles';
@@ -113,7 +112,6 @@ const Operator = () => {
       <Grid item container className={classes.WhiteSection} xs={12}>
         <Grid item container className={classes.OperatorDetailsWrapper}>
           <Grid item>
-            <BreadCrumbs isOperator address={operator.name} />
           </Grid>
           <Grid item container justify={'space-between'}>
             <Grid item>
@@ -144,7 +142,7 @@ const Operator = () => {
           <NotFoundScreen notFound={notFound}>
             {/* <Banner /> */}
             {/* <EmptyPlaceholder height={10} /> */}
-            {/* <BreadCrumbs isOperator address={operator.name} /> */}
+            {/* <BreadCrumbs id={operatorId} /> */}
 
             {/* /!*<Grid container>*!/ */}
             {/* /!*  <Grid container item justify="space-between">*!/ */}
