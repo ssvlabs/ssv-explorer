@@ -9,7 +9,7 @@ type BeaconchaLinkProps = {
   width: number,
   height: number,
   address: string,
-  network?: any
+  network?: string,
 };
 
 const BeaconchaLink = ({ width, height, address, network }: BeaconchaLinkProps) => {
@@ -17,10 +17,11 @@ const BeaconchaLink = ({ width, height, address, network }: BeaconchaLinkProps) 
   const stores = useStores();
   const applicationStore: ApplicationStore = stores.Application;
   const imgSrc = `/images/beaconcha${applicationStore.isDarkMode ? '-white' : ''}.svg`;
+  const networkId = network ? NETWORKS[network.toUpperCase()] : NETWORKS.PRATER;
 
   return (
     <Link
-      href={`${getBaseBeaconchaUrl(network ?? NETWORKS.PRATER)}/${address}`}
+      href={`${getBaseBeaconchaUrl(networkId)}/${address}`}
       target="_blank"
       style={{ marginLeft: 15 }}
       className={classes.Link}

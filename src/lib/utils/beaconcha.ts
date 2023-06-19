@@ -1,4 +1,4 @@
-export const NETWORKS = {
+export const NETWORKS: { [key : string]: number } = {
   MAINNET: 1,
   GOERLI: 5,
   PRATER: 99,
