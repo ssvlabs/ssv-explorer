@@ -31,14 +31,14 @@ const Overview = () => {
         <Stats />
         {/* <Banner style={{ marginBottom: 0, marginTop: 50 }} /> */}
         <Container container className={classes.TablesWrapper}>
-          <Column item md={12} lg>
+          <Column item md={12} sm={12} xs={12} lg>
             <HeaderWrapper>
               <Header>Operators</Header>
               <Button submitAction={() => goTo(config.routes.OPERATORS.HOME)} width={140} height={36} text={'View More'} type={'secondary'} disable={!operatorsExist} />
             </HeaderWrapper>
             <OperatorsTable setOperatorsExist={setOperatorsExist} />
           </Column>
-          <Column item xs>
+          <Column item md={12} sm={12} xs={12} lg>
             <HeaderWrapper>
               <Header>Validators</Header>
               <Button submitAction={() => goTo(config.routes.VALIDATORS.HOME)} width={140} height={36} text={'View More'} type={'secondary'} disable={!validatorsExist} />

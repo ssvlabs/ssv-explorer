@@ -22,6 +22,7 @@ import OperatorPerformance from '~app/components/Operator/components/OperatorPer
 // import OperatorSocialNetworks from '~app/components/Operator/components/OperatorSocialNetworks';
 import ValidatorsInOperatorTable from '~app/components/Operator/components/ValidatorsInOperatorTable';
 import ShowMoreText from '~app/common/components/ShowMoreText';
+import operators from '~app/components/Overview/components/Tables/Operators';
 
 const Operator = () => {
   // Params
@@ -40,13 +41,13 @@ const Operator = () => {
   const defaultValidators: Record<string, any>[] | null = [];
   const [validators, setValidators] = useState(defaultValidators);
   const [validatorsPagination, setValidatorsPagination] = useState(ApiParams.DEFAULT_PAGINATION);
-
+  console.log(operator);
   const items = [
-      { name: 'node_version', label: 'SSV node version' },
-      { name: 'eth_node_2', label: 'ETH2 node client' },
-      { name: 'eth_node_1', label: 'ETH1 node client' },
-      { name: 'cloud_provider', label: 'Cloud provider' },
-      { name: 'location', label: 'location' },
+    { name: 'Node Version', label: 'N/A' },
+    { name: 'ETH2 node client', label: operator.eth2_node_client || 'N/A' },
+    { name: 'ETH1 node client', label: operator.eth1_node_client || 'N/A' },
+    { name: 'Cloud provider', label: 'N/A' },
+    { name: 'Location', label: operator.location || 'N/A' },
   ];
 
   /**
@@ -108,7 +109,7 @@ const Operator = () => {
   const isLoading = loadingValidators || loadingOperator;
 
   return (
-    <Grid>
+    <Grid className={classes.OperatorDataWrapper}>
       <Grid item container className={classes.WhiteSection} xs={12}>
         <Grid item container className={classes.OperatorDetailsWrapper}>
           <Grid item>
@@ -124,14 +125,14 @@ const Operator = () => {
               <img src="/images/socialMedia/discord.svg" className={classes.SocialIcon} />
             </Grid>
           </Grid>
-          <Grid item xs={6}>
-            <ShowMoreText text={'Blox Staking is an open-source, fully non-custodial platform for staking on Ethereum. The platform serves as an easy and accessible way to stake Ether and earn rewards, while akosdjskladjsakldnas lasjdnajks najskdnasjkdb akbdjkasbdhkasdbd abd habd asb hasb hbad hasb bdahsd basbdwbdjkqwbdjkqwbdjkqw bjdkqb jkqwb jkqw bdqjkbqwjkdbqwhjkdbqwd a dahdjkas doashdoiashioash ioas dioas udioasidoua soidjasiodiaosjdios'} />
-          </Grid>
+          {/* <Grid item xs={6}> */}
+          {/*   <ShowMoreText text={'Blox Staking is an open-source, fully non-custodial platform for staking on Ethereum. The platform serves as an easy and accessible way to stake Ether and earn rewards, while akosdjskladjsakldnas lasjdnajks najskdnasjkdb akbdjkasbdhkasdbd abd habd asb hasb hbad hasb bdahsd basbdwbdjkqwbdjkqwbdjkqw bjdkqb jkqwb jkqw bdqjkbqwjkdbqwhjkdbqwd a dahdjkas doashdoiashioash ioas dioas udioasidoua soidjasiodiaosjdios'} /> */}
+          {/* </Grid> */}
           <Grid item container style={{ gap: 80 }}>
             {items.map((item: any) => (
               <Grid item className={classes.itemWrapper}>
-                <Grid item className={classes.itemHeader}>{item.label}</Grid>
-                <Grid item className={classes.itemValue}>{item.name}</Grid>
+                <Grid item className={classes.itemHeader}>{item.name}</Grid>
+                <Grid item className={classes.itemValue}>{item.label}</Grid>
               </Grid>
             ))}
           </Grid>

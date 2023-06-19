@@ -9,7 +9,6 @@ import TableHead from '@material-ui/core/TableHead';
 import TableBody from '@material-ui/core/TableBody';
 import { Table, TableCell } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
-import TableContainer from '@material-ui/core/TableContainer';
 import config from '~app/common/config';
 import { infoIconStyle } from '~root/theme';
 import Status from '~app/common/components/Status';
@@ -106,7 +105,7 @@ const ValidatorOperators = (props: ValidatorOperatorProps) => {
   };
 
   return (
-    <TableContainer className={classes.tableWithBorder} style={{ marginBottom: 30 }}>
+    <Grid>
       <h3 style={{ paddingLeft: 15 }}>
         Operators
         {supportedPeriods.map((period) => (
@@ -114,12 +113,12 @@ const ValidatorOperators = (props: ValidatorOperatorProps) => {
             key={`performance-switcher-${period.key}`}
             selected={selectedPerformancePeriod === period.key}
             onClick={() => {
-              setSelectedPerformancePeriod(period.key);
-            }}
-          >
+                  setSelectedPerformancePeriod(period.key);
+                }}
+              >
             {period.label}
           </PerformanceSwitcher>
-        ))}
+            ))}
       </h3>
       <Grid container>
         <Table stickyHeader aria-label="table">
@@ -133,14 +132,14 @@ const ValidatorOperators = (props: ValidatorOperatorProps) => {
                 <InfoTooltip
                   style={{ ...infoIconStyle, marginBottom: -2 }}
                   message="Is the operator performing duties for the majority of its validators in the last 2 epochs"
-                />
+                    />
               </TableCell>
               <TableCell key={'performance'} style={{ whiteSpace: 'nowrap' }}>
                 Performance
                 <InfoTooltip
                   style={{ ...infoIconStyle, marginBottom: -2 }}
                   message="Operators technical scoring metric - calculated by the percentage of attended duties within a time-frame."
-                />
+                    />
               </TableCell>
             </TableRow>
           </TableHead>
@@ -180,7 +179,7 @@ const ValidatorOperators = (props: ValidatorOperatorProps) => {
                       href={`${config.routes.OPERATORS.HOME}/${operator.id}`}
                       className={classes.Link}
                       style={{ fontWeight: 500, fontSize: 14 }}
-                    >
+                        >
                       {operator.name}
                       <OperatorType type={operator.type} />
                     </Link>
@@ -190,7 +189,7 @@ const ValidatorOperators = (props: ValidatorOperatorProps) => {
                       href={`${config.routes.OPERATORS.HOME}/${operator.id}`}
                       className={classes.Link}
                       style={{ fontWeight: 500, fontSize: 14 }}
-                    >
+                        >
                       ID: {operator.id}
                     </Link>
                   </Typography>
@@ -202,12 +201,114 @@ const ValidatorOperators = (props: ValidatorOperatorProps) => {
                   {renderPerformance(operator)}
                 </StyledCell>
               </StyledRow>
-            ))}
+                ))}
           </TableBody>
         </Table>
       </Grid>
-    </TableContainer>
+    </Grid>
   );
+
+    // <TableContainer className={classes.tableWithBorder} style={{ marginBottom: 30 }}>
+    //   <h3 style={{ paddingLeft: 15 }}>
+    //     Operators
+    //     {supportedPeriods.map((period) => (
+    //       <PerformanceSwitcher
+    //         key={`performance-switcher-${period.key}`}
+    //         selected={selectedPerformancePeriod === period.key}
+    //         onClick={() => {
+    //           setSelectedPerformancePeriod(period.key);
+    //         }}
+    //       >
+    //         {period.label}
+    //       </PerformanceSwitcher>
+    //     ))}
+    //   </h3>
+    //   <Grid container>
+    //     <Table stickyHeader aria-label="table">
+    //       <TableHead>
+    //         <TableRow>
+    //           <TableCell key={'name'} align="left">
+    //             Name
+    //           </TableCell>
+    //           <TableCell key={'status'} align="left">
+    //             Status
+    //             <InfoTooltip
+    //               style={{ ...infoIconStyle, marginBottom: -2 }}
+    //               message="Is the operator performing duties for the majority of its validators in the last 2 epochs"
+    //             />
+    //           </TableCell>
+    //           <TableCell key={'performance'} style={{ whiteSpace: 'nowrap' }}>
+    //             Performance
+    //             <InfoTooltip
+    //               style={{ ...infoIconStyle, marginBottom: -2 }}
+    //               message="Operators technical scoring metric - calculated by the percentage of attended duties within a time-frame."
+    //             />
+    //           </TableCell>
+    //         </TableRow>
+    //       </TableHead>
+    //       <TableBody>
+    //         {!validator?.operators && (
+    //           [1, 2, 3, 4].map((skeleton: any) => (
+    //             <StyledRow
+    //               hover
+    //               role="checkbox"
+    //               tabIndex={skeleton + 1}
+    //               key={`operator-row-${skeleton}`}
+    //               style={{ maxHeight: 20 }}
+    //             >
+    //               <StyledCell key="operator-info">
+    //                 <Skeleton />
+    //               </StyledCell>
+    //               <StyledCell key="operator-performance">
+    //                 <Skeleton />
+    //               </StyledCell>
+    //               <StyledCell key="operator-status">
+    //                 <Skeleton />
+    //               </StyledCell>
+    //             </StyledRow>
+    //           ))
+    //         )}
+    //         {getSortedOperators(validator.operators ?? [], selectedPerformancePeriod)[1].map((operator: any, operatorIndex: number) => (
+    //           <StyledRow
+    //             hover
+    //             role="checkbox"
+    //             tabIndex={operatorIndex + 1}
+    //             key={`operator-row-${operatorIndex}`}
+    //             style={{ maxHeight: 20 }}
+    //           >
+    //             <StyledCell key="operator-info" style={performanceRowStyle}>
+    //               <Typography noWrap>
+    //                 <Link
+    //                   href={`${config.routes.OPERATORS.HOME}/${operator.id}`}
+    //                   className={classes.Link}
+    //                   style={{ fontWeight: 500, fontSize: 14 }}
+    //                 >
+    //                   {operator.name}
+    //                   <OperatorType type={operator.type} />
+    //                 </Link>
+    //               </Typography>
+    //               <Typography noWrap>
+    //                 <Link
+    //                   href={`${config.routes.OPERATORS.HOME}/${operator.id}`}
+    //                   className={classes.Link}
+    //                   style={{ fontWeight: 500, fontSize: 14 }}
+    //                 >
+    //                   ID: {operator.id}
+    //                 </Link>
+    //               </Typography>
+    //             </StyledCell>
+    //             <StyledCell key="operator-status">
+    //               <Status entry={operator} />
+    //             </StyledCell>
+    //             <StyledCell key="operator-performance" style={performanceRowRightStyle}>
+    //               {renderPerformance(operator)}
+    //             </StyledCell>
+    //           </StyledRow>
+    //         ))}
+    //       </TableBody>
+    //     </Table>
+    //   </Grid>
+    // </TableContainer>);
 };
 
 export default observer(ValidatorOperators);

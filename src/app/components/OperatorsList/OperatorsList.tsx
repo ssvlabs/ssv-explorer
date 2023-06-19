@@ -68,9 +68,6 @@ const OperatorsList = () => {
         <Box component="div" display={{ xs: 'block', sm: 'block', md: 'block', lg: 'block' }}>
           <Status entry={operator} />
         </Box>,
-        <Link href={`${config.routes.OPERATORS.HOME}/${operator.id}`} className={classes.Link}>
-          {operator.validators_count}
-        </Link>,
       ];
 
       const performances = getPerformances(operator.performance);
@@ -78,13 +75,13 @@ const OperatorsList = () => {
         const performance = performances[i];
         if (performance.key === '24h') {
           data.push(
-            <Link href={`${config.routes.OPERATORS.HOME}/${operator.id}`} className={classes.Link}>
+            <Link href={`${config.routes.OPERATORS.HOME}/${operator.id}`} className={`${classes.Link} ${classes.blackLinkColor}`}>
               {`${parseFloat(String(performance.value)).toFixed(2)}%`}
             </Link>,
           );
         }
       }
-      data.push(<Link href={`${config.routes.OPERATORS.HOME}/${operator.id}`} className={classes.Link}>
+      data.push(<Link href={`${config.routes.OPERATORS.HOME}/${operator.id}`} className={`${classes.Link} ${classes.blackLinkColor}`}>
         {operator.validators_count}
       </Link>);
       return data;
@@ -101,9 +98,8 @@ const OperatorsList = () => {
           message="Is the operator performing duties for the majority of its validators in the last 2 epochs."
         />
       </div>,
+      '1D Performance',
       'Validators',
-      'Performance (24h)',
-      'Performance (30d)',
     ];
   };
 
@@ -117,15 +113,12 @@ const OperatorsList = () => {
     <Layout>
       <ContentContainer>
         <EmptyPlaceholder height={10} />
-        {/* <Banner /> */}
         <BreadCrumbsContainer>
           <BreadCrumb href={config.routes.HOME}>overview</BreadCrumb>
           <BreadCrumbDivider />
           <BreadCrumb href={config.routes.OPERATORS.HOME}>operators</BreadCrumb>
         </BreadCrumbsContainer>
-
         <Typography variant="h1">Operators</Typography>
-
         <DataTable
           isLoading={loading}
           page={pagination.page - 1}

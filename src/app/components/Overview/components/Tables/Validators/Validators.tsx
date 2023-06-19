@@ -72,7 +72,7 @@ const Validators = (props: Props) => {
                   <span key={`operator-link-${operator.address}`}>
                     <Link
                       href={`${config.routes.OPERATORS.HOME}/${operator.id}`}
-                      className={classes.Link}
+                      className={`${classes.Link} ${classes.blackLinkColor}`}
                       >
                       {operator.name}
                     </Link>

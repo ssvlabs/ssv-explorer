@@ -188,14 +188,15 @@ const SmartSearch = (props: SmartSearchProps) => {
           >
             <Grid container style={{ width: '100%' }} justify={'space-between'}>
               <Grid item container xs>
-                <Grid item className={classes.BlackText} style={{ marginRight: '5px' }}>
-                  {option.name}
+                <Grid item className={classes.SmartSearchOperatorDataOption}>
+                  <Grid item className={classes.BlackText} style={{ marginRight: '5px' }}>
+                    {option.name}
+                  </Grid>
+                  <Grid item className={classes.grayText}>
+                    ID: {option.id}
+                  </Grid>
                 </Grid>
                 <OperatorType type={option.operatorType} />
-              </Grid>
-              <Grid item className={classes.BlackText}>
-                {/* {newLongStringShorten(option.address)} */}
-                ID: {option.id}
               </Grid>
             </Grid>
           </Link>

@@ -27,7 +27,7 @@ class OverviewStore extends BaseStore {
       return;
     }
     new ApiRequest({
-      url: `${config.links.API_BASE_URL}/api/currency/convert?eth=${totalEth}`,
+      url: `${config.links.API_BASE_URL}/currency/convert?eth=${totalEth}`,
       method: 'GET',
     })
     .sendRequest()

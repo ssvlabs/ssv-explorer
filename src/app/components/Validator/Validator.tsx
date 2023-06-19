@@ -20,6 +20,8 @@ import EmptyPlaceholder from '~app/common/components/EmptyPlaceholder';
 import ContentContainer from '~app/common/components/ContentContainer';
 import ValidatorOperators from '~app/components/Validator/components/ValidatorOperators';
 import CopyToClipboardIcon from '~app/common/components/CopyToClipboardIcon';
+import { Box } from '@material-ui/core';
+import { useStyles } from '~app/components/Styles';
 
 const StatsBlock = styled.div<({ maxWidth?: any })>`
   max-width: ${({ maxWidth }) => `${Number.isNaN(maxWidth ?? 200) ? (maxWidth) : `${(maxWidth ?? 200)}px`}`};
@@ -41,6 +43,7 @@ const BreadCrumbs = ({ address }: { address: string }) => {
 
 const Validator = () =>
 {
+  const classes = useStyles();
   const defaultPerformance = '24h';
   const params: Record<string, any> = useParams();
   const defaultValidator: Record<string, any> = {};
@@ -102,7 +105,17 @@ const Validator = () =>
                 <Grid container style={{ alignItems: 'center' }}>
                   <Grid item>
                     <Typography noWrap>
-                      0x{longStringShorten(params.address, 4)}
+                      <Typography noWrap>
+                        <Box component="div" display={{ xs: 'block', sm: 'none', md: 'none', lg: 'none' }}>
+                          0x{params.address}
+                        </Box>
+                        <Box component="div" display={{ xs: 'none', sm: 'block', md: 'block', lg: 'none' }}>
+                          0x{params.address}
+                        </Box>
+                        <Box component="div" display={{ xs: 'none', sm: 'none', md: 'none', lg: 'block' }}>
+                          0x{longStringShorten(params.address, 4)}
+                        </Box>
+                      </Typography>
                     </Typography>
                   </Grid>
                   <Grid item>

@@ -22,6 +22,18 @@ export const useStyles = makeStyles((theme) => ({
     TablesWrapper: {
         gap: 24,
     },
+    SmartSearchOperatorDataOption: {
+      width: 'auto',
+      display: 'flex',
+      flexDirection: 'column',
+      color: theme.colors.black,
+      fontSize: 16,
+      fontWeight: 500,
+    },
+    grayText: {
+        fontSize: 14,
+        color: theme.colors.gray40,
+    },
     BlackText: {
         margin: 0,
         padding: 0,
@@ -207,14 +219,19 @@ export const useStyles = makeStyles((theme) => ({
         fontWeight: 600,
     },
     Link: {
+        fontSize: '14px',
         display: 'inline-flex',
         alignItems: 'center',
         alignContent: 'center',
         cursor: 'pointer',
         flexDirection: 'row',
-        color: `${theme.palette.text.primary}!important`,
+        color: `${theme.colors.primaryBlue}!important`,
         borderColor: `${theme.palette.text.primary}!important`,
         // marginBottom: 12,
+    },
+    blackLinkColor: {
+        fontSize: '14px',
+        color: `${theme.colors.gray90}!important`,
     },
     OperatorLogo: {
         width: 40,
@@ -306,6 +323,7 @@ export const useStyles = makeStyles((theme) => ({
                 '& > .MuiInputAdornment-root > .MuiButtonBase-root > .MuiIconButton-label': {
                     color: 'white',
                 },
+
                 '& > .MuiInputAdornment-root > .MuiButtonBase-root': {
                     borderColor: 'white',
                 },
@@ -313,6 +331,100 @@ export const useStyles = makeStyles((theme) => ({
             },
         },
     },
+    ValidatorOperatorsWrapper: {
+        // [theme.breakpoints.down('sm')]: {
+        //     maxWidth: '720px',
+        // },
+        // [theme.breakpoints.down('md')]: {
+        //     width: '1152px',
+        // },
+
+    },
+    ValidatorDutiesWrapper: {
+        // [theme.breakpoints.down('sm')]: {
+        //     maxWidth: '720px',
+        // },
+        // [theme.breakpoints.down('md')]: {
+        //     width: '1152px',
+        // },
+        // [theme.breakpoints.down('xs')]: {
+        //     width: '100%',
+        //
+        // },
+        // [theme.breakpoints.down('sm')]: {
+        //     width: '100%',
+        //
+        // },
+        // [theme.breakpoints.down('lg')]: {
+        //     maxWidth: 1152,
+        //
+        // },
+        // [theme.breakpoints.up('lg')]: {
+        //     maxWidth: 872,
+        //
+        // },
+    },
+    DutiesAndOperatorsWrapper: {
+        // [theme.breakpoints.down('sm')]: {
+        //     maxWidth: '720px',
+        //     // backgroundColor: theme.palette.grey[300],
+        // },
+        // [theme.breakpoints.up('md')]: {
+        //     // backgroundColor: theme.palette.grey[500],
+        // },
+        // [theme.breakpoints.up('lg')]: {
+        //     // backgroundColor: theme.palette.grey[700],
+        // },
+    },
+    ConsensusWrapper: {
+        display: 'flex',
+        flexDirection: 'column',
+        // alignItems: 'center',
+        // justifyContent: 'space-around',
+    },
+    ConsensusOperatorSlot: {
+        display: 'flex',
+        alignItems: 'center',
+        flexDirection: 'column',
+    },
+    ConsensusOperatorId: {
+        width: 52,
+        // height: 25,
+        flexGrow: 0,
+        fontFamily: 'Manrope',
+        fontSize: '10px!important',
+        fontWeight: 300,
+        fontStretch: 'normal',
+        fontStyle: 'normal',
+        lineHeight: 1.62,
+        letterSpacing: 0.5,
+        // textAlign: 'center',
+        color: '#63768b',
+        // marginRight: '32px!important',
+    },
+    OperatorConsensusWrapper: {
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 5,
+        justifyContent: 'space-between',
+    },
+
+    rhombus: {
+      width: 20,
+      height: 20,
+      transform: 'rotate(45deg)',
+      backgroundColor: theme.colors.primaryBlue,
+    },
+    line: {
+        width: 32,
+        height: 2,
+        flexGrow: 0,
+        borderRadius: 11,
+        backgroundColor: '#d1edfe',
+    },
+
 }));
 
 const size = {

@@ -1,9 +1,10 @@
 import { makeStyles } from '@material-ui/core/styles';
 
 export const useStylesOperator = makeStyles((theme) => ({
+    OperatorDataWrapper: {},
     WhiteSection: {
         height: 340,
-        paddingTop: 27,
+        paddingTop: 100,
         marginBottom: 24,
         backgroundColor: theme.colors.white,
     },

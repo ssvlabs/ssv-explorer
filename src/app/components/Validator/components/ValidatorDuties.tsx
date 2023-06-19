@@ -3,16 +3,13 @@ import styled from 'styled-components';
 import Grid from '@material-ui/core/Grid';
 import { useParams } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import DataTable from '~app/common/components/DataTable/DataTable';
-import config from '~app/common/config';
 import ApiParams from '~lib/api/ApiParams';
 import SsvNetwork from '~lib/api/SsvNetwork';
 import { capitalize } from '~lib/utils/strings';
 import { useStyles } from '~app/components/Styles';
-import { ChipLink, FailureChip, SuccessChip } from '~app/common/components/Chips';
+import DataTable from '~app/common/components/DataTable/DataTable';
 import { DEVELOPER_FLAGS, getLocalStorageFlagValue } from '~lib/utils/DeveloperHelper';
+import OperatorConsensusSlot from '~app/components/Validator/components/OperatorConsensusSlot/OperatorConsensusSlot';
 
 const PaddedGridItem = styled(Grid)<({ paddingLeft?: number })>`
   padding-left: ${({ paddingLeft }) => (paddingLeft || 0) > 0 ? `${paddingLeft}px` : 'initial'};
@@ -22,15 +19,6 @@ const PaddedGridItem = styled(Grid)<({ paddingLeft?: number })>`
   }
 `;
 
-const useChipStyles = makeStyles(() => ({
-  chip: {
-    marginRight: 10,
-    '& > .MuiChip-label': {
-      display: 'inline-flex',
-    },
-  },
-}));
-
 type ValidatorDutiesProps = {
   validator: Record<string, any>;
 };
@@ -38,7 +26,6 @@ type ValidatorDutiesProps = {
 export default (props: ValidatorDutiesProps) => {
   const { validator } = props;
   const classes = useStyles();
-  const chipClasses = useChipStyles();
   const params: Record<string, any> = useParams();
   const defaultDuties: Record<string, any>[] | null = null;
   const [loadingDuties, setLoadingDuties] = useState(true);
@@ -78,42 +65,13 @@ export default (props: ValidatorDutiesProps) => {
   };
 
   const getRenderedSigners = (operators: any[], missingOperators: any[]) => {
+    const operatorList = [...operators, ...missingOperators];
+    console.log(operatorList);
     return (
       <>
-        {operators.length ? (
-          <SuccessChip
-            className={chipClasses.chip}
-            label={operators.map((o, oi) => (
-              <ChipLink
-                key={`operators-success-${oi}`}
-                className={classes.Link}
-                href={`${config.routes.OPERATORS.HOME}/${o.id}`}
-                style={{ maxWidth: 100 }}
-              >
-                <Typography noWrap style={{ fontSize: 14 }}>{o.name}</Typography>
-              </ChipLink>
-            ))
-            }
-            onDelete={() => {}}
-            deleteIcon={<CheckCircleIcon />}
-          />
-        ) : ''}
-        {missingOperators.length ? (
-          <FailureChip
-            className={chipClasses.chip}
-            label={missingOperators.map((o, oi) => (
-              <ChipLink
-                key={`operators-failed-${oi}`}
-                className={classes.Link}
-                href={`${config.routes.OPERATORS.HOME}/${o.id}`}
-                style={{ maxWidth: 100 }}
-              >
-                <Typography noWrap style={{ fontSize: 14 }}>{o.name}</Typography>
-              </ChipLink>
-            ))}
-            onDelete={() => {}}
-          />
-        ) : ''}
+        <Grid className={classes.OperatorConsensusWrapper}>
+          {operatorList.map((operator: any, index: number) => (<OperatorConsensusSlot key={operator.id} operatorName={operator.name} operatorId={operator.id} status={operator.status} isNotFirst={index !== 0} isNotLast={index !== operatorList.length - 1} />))}
+        </Grid>
       </>
     );
   };
