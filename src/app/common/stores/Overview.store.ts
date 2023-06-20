@@ -9,7 +9,6 @@ class OverviewStore extends BaseStore {
   @observable totalUsd: number | null = null;
   @observable totalOperators: number | null = null;
   @observable totalValidators: number | null = null;
-  @observable noData: boolean = false;
 
   @action.bound
   setTotalOperators(totalOperators: number) {
