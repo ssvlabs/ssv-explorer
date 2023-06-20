@@ -28,11 +28,12 @@ const Validators = () => {
   const classes = useStyles();
   const [validators, setValidators] = useState(null);
   const [loadingValidators, setLoadingValidators] = useState(false);
+  const [noData, setNoData] = useState(false);
   const stores = useStores();
   const overviewStore: OverviewStore = stores.Overview;
 
   useEffect(() => {
-    if (validators === null && !loadingValidators) {
+    if (!noData && validators === null && !loadingValidators) {
       loadValidators();
     }
   });
@@ -42,11 +43,17 @@ const Validators = () => {
    */
   const loadValidators = () => {
     setLoadingValidators(true);
-    SsvNetwork.getInstance().fetchValidators(1, ApiParams.PER_PAGE).then((result: any) => {
-      overviewStore.setTotalValidators(result.data.pagination.total);
-      overviewStore.setTotalEth(result.data.pagination.total * 32);
-      setValidators(result.data.validators);
-      setLoadingValidators(false);
+      SsvNetwork.getInstance().fetchValidators(1, ApiParams.PER_PAGE).then((result: any) => {
+        overviewStore.setTotalValidators(result.data.pagination.total);
+        overviewStore.setTotalEth(result.data.pagination.total * 32);
+        setValidators(result.data.validators);
+        setLoadingValidators(false);
+      }).catch((error: any) => {
+        setNoData(true);
+        console.log(error.message);
+        overviewStore.setTotalEth(0);
+        setLoadingValidators(false);
+        overviewStore.setTotalValidators(0);
     });
   };
 
@@ -60,29 +67,35 @@ const Validators = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {(validators || []).map((row: any, rowIndex: number) => (
-            <StyledRow key={rowIndex}>
-              <StyledCell style={overviewTableCellStyle}>
-                <Link href={`/validators/${row.public_key}`} className={classes.Link}>
-                  0x{longStringShorten(row.public_key)}
-                </Link>
-              </StyledCell>
-              <StyledCell style={overviewTableCellStyle}>
-                <>
-                  {row.operators.map((operator: any) => (
-                    <span key={`operator-link-${operator.address}`}>
-                      <Link
-                        href={`${config.routes.OPERATORS.HOME}/${operator.id}`}
-                        className={classes.Link}
+          { noData ? (
+            <StyledCell align="center" colSpan={2}>
+              No records
+            </StyledCell>
+)
+              :
+            (validators || []).map((row: any, rowIndex: number) => (
+              <StyledRow key={rowIndex}>
+                <StyledCell style={overviewTableCellStyle}>
+                  <Link href={`/validators/${row.public_key}`} className={classes.Link}>
+                    0x{longStringShorten(row.public_key)}
+                  </Link>
+                </StyledCell>
+                <StyledCell style={overviewTableCellStyle}>
+                  <>
+                    {row.operators.map((operator: any) => (
+                      <span key={`operator-link-${operator.address}`}>
+                        <Link
+                          href={`${config.routes.OPERATORS.HOME}/${operator.id}`}
+                          className={classes.Link}
                       >
-                        {operator.name}
-                      </Link>
+                          {operator.name}
+                        </Link>
                       &nbsp;
-                    </span>
+                      </span>
                   ))}
-                </>
-              </StyledCell>
-            </StyledRow>
+                  </>
+                </StyledCell>
+              </StyledRow>
           ))}
 
           {loadingValidators && (
