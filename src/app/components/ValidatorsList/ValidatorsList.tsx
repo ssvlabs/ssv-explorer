@@ -54,7 +54,7 @@ const ValidatorsList = () => {
   };
 
   const getValidatorsTableData = () => {
-    return validators.map((validator: any) => {
+    return validators?.map((validator: any) => {
       return [
         <Link href={`${config.routes.VALIDATORS.HOME}/${validator.public_key}`} className={classes.Link}>
           <Box component="div" display={{ xs: 'block', sm: 'block', md: 'none', lg: 'none' }}>
@@ -89,10 +89,10 @@ const ValidatorsList = () => {
   };
 
   useEffect(() => {
-    if (!validators.length && !loading) {
+    if (!validators?.length && !loading) {
       loadValidators();
     }
-  }, [validators.length]);
+  }, [validators?.length]);
 
   return (
     <Layout>
@@ -111,8 +111,8 @@ const ValidatorsList = () => {
           headers={['Public Key', 'Status', ' ', 'Operators', '']}
           headersPositions={['left', 'left', 'left', 'left', 'right']}
           data={getValidatorsTableData()}
-          totalCount={pagination.total}
-          page={pagination.page - 1}
+          totalCount={pagination?.total}
+          page={pagination?.page - 1}
           onChangePage={loadValidators}
           onChangeRowsPerPage={onChangeRowsPerPage}
           perPage={ApiParams.getInteger('validators', 'perPage', ApiParams.PER_PAGE)}

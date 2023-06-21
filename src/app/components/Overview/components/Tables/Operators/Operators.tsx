@@ -24,7 +24,7 @@ export const overviewTableCellStyle: any = { fontSize: 14, height: 62, paddingTo
 
 const Operators = () => {
   const classes = useStyles();
-  const [operators, setOperators] = useState(null);
+  const [operators, setOperators] = useState<null | []>(null);
   const [loadingOperators, setLoadingOperators] = useState(false);
   const stores = useStores();
   const overviewStore: OverviewStore = stores.Overview;
@@ -60,23 +60,28 @@ const Operators = () => {
         </TableHead>
 
         <TableBody>
-          {(operators || []).map((row: any, rowIndex) => (
-            <StyledRow key={rowIndex}>
-              <StyledCell style={overviewTableCellStyle}>
-                <Link href={`/operators/${row.id}`} className={classes.Link}>
-                  {row.id}
-                </Link>
-              </StyledCell>
-              <StyledCell style={overviewTableCellStyle}>
-                <Link href={`/operators/${row.id}`} className={classes.Link}>
-                  {row.name}
-                  <OperatorType type={row.type} />
-                </Link>
-              </StyledCell>
-              <StyledCell style={overviewTableCellStyle}>
-                {row.validators_count}
-              </StyledCell>
-            </StyledRow>
+          { !operators?.length && !loadingOperators ? (
+            <StyledCell align="center" colSpan={3}>
+              No records
+            </StyledCell>
+              )
+              : (operators || []).map((row: any, rowIndex) => (
+                <StyledRow key={rowIndex}>
+                  <StyledCell style={overviewTableCellStyle}>
+                    <Link href={`/operators/${row.id}`} className={classes.Link}>
+                      {row.id}
+                    </Link>
+                  </StyledCell>
+                  <StyledCell style={overviewTableCellStyle}>
+                    <Link href={`/operators/${row.id}`} className={classes.Link}>
+                      {row.name}
+                      <OperatorType type={row.type} />
+                    </Link>
+                  </StyledCell>
+                  <StyledCell style={overviewTableCellStyle}>
+                    {row.validators_count}
+                  </StyledCell>
+                </StyledRow>
           ))}
 
           {loadingOperators ? (
