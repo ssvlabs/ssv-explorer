@@ -1,10 +1,11 @@
 import { makeStyles } from '@material-ui/core/styles';
 
 export const useStylesOperator = makeStyles((theme) => ({
-    OperatorDataWrapper: {},
+    OperatorDataWrapper: {
+    },
     WhiteSection: {
         height: 340,
-        paddingTop: 100,
+        padding: '32px 32px 24px 32px',
         marginBottom: 24,
         backgroundColor: theme.colors.white,
     },
@@ -25,11 +26,12 @@ export const useStylesOperator = makeStyles((theme) => ({
     },
     OperatorDetailsWrapper: {
         gap: 0,
-        width: 1320,
+        // width: 1320,
         margin: '0 auto',
-        '@media (max-width: 1329px)': {
-            width: 1152,
-        },
+        maxWidth: 1320,
+        // '@media (max-width: 1329px)': {
+        //     width: 1152,
+        // },
     },
     SocialIcon: {
         width: 32,

@@ -9,6 +9,14 @@ export const useStyles = makeStyles((theme) => ({
         display: 'flex',
         gap: '24px',
         minHeight: '100px',
+        flexWrap: 'wrap',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        justifyContent: 'center',
+        [theme.breakpoints.down('xs')]: {
+            gap: 12,
+            marginBottom: 20,
+        },
 // @media (${mediaQueryDevices.mobileS}) {
 //     flex-direction: column;
 // }
@@ -44,16 +52,16 @@ export const useStyles = makeStyles((theme) => ({
         paddingLeft: 10,
         textAlign: 'center',
         paddingRight: 10,
-        color: `${(props: any) => props.theme.colors.primaryBlue}`,
+        color: theme.colors.primaryBlue,
     },
     StatsBlockContent: {
-//         margin: 'auto',
-//         width: '100%',
-//         margin-top: 0,
-// fontSize: 14,
-// textAlign: 'center',
-// paddingLeft: 10,
-// paddingRight: 10,
-// color: ${props => props.theme.colors.gray40},
+        margin: 'auto',
+        width: '100%',
+        marginTop: 0,
+        fontSize: 14,
+        textAlign: 'center',
+        paddingLeft: 10,
+        paddingRight: 10,
+        color: theme.colors.gray40,
     },
 }));

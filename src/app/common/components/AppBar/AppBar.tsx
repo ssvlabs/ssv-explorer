@@ -114,7 +114,7 @@ const AppBarComponent = ({ whiteBackgroundColor }: { whiteBackgroundColor: boole
     <div className={classes.root} id="back-to-top-anchor">
       {isSearchOpened ?
           (
-            <AppBar position="fixed">
+            <AppBar>
               {paused ? <></> : (
                 <Toolbar>
                   <SmartSearch inAppBar supportSmallScreen closeSearch={() => { toggleSearch(false); }} />
@@ -123,7 +123,7 @@ const AppBarComponent = ({ whiteBackgroundColor }: { whiteBackgroundColor: boole
             </AppBar>
           ) :
           (
-            <AppBar position="fixed">
+            <AppBar>
               <Toolbar>
                 <Box>
                   <Typography variant="h6" className={classes.title}>

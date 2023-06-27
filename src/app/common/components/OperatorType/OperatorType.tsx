@@ -14,17 +14,17 @@ const OperatorType = (props: Props) => {
     const isVerified = type === 'verified_operator';
     const classes = useStyles({ large, isVerified });
 
-    if (large) {
-        return (
-          <Grid item className={classes.Type}>
-            {isVerified ? 'Verified' : 'Dapp'}
-            <Grid className={classes.typeImg} />
-          </Grid>
-        );
-    }
-
+    // if (large) {
+    //     return (
+    //       <Grid item className={classes.Type}>
+    //         {isVerified ? 'Verified' : 'Dapp'}
+    //         <Grid className={classes.typeImg} />
+    //       </Grid>
+    //     );
+    // }
+    // TODO: check with jon what about icons
     return (
-      <Grid item className={`${classes.OperatorType} ${isVerified ? classes.Verified : ''} ${isDappNode ? classes.DappNode : ''}`} />
+      <Grid item className={`${classes.OperatorType} ${classes.Verified} ${classes.DappNode}`} />
     );
 };
 

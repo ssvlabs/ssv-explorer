@@ -19,9 +19,6 @@ export const useStyles = makeStyles((theme) => ({
             backgroundColor: theme.colors.white,
         },
     },
-    TablesWrapper: {
-        gap: 24,
-    },
     SmartSearchOperatorDataOption: {
       width: 'auto',
       display: 'flex',
@@ -154,8 +151,11 @@ export const useStyles = makeStyles((theme) => ({
         margin: 'auto',
     },
     gridContainer: {
+        // marginTop: 100,
         flexGrow: 1,
         flexDirection: 'column',
+        // alignItems: 'center',
+
     },
     rowGridContainer: {
         flexGrow: 1,
@@ -248,6 +248,7 @@ export const useStyles = makeStyles((theme) => ({
         color: 'red',
     },
     overviewSearch: {
+        maxWidth: '100%',
         // '-webkit-box-shadow': 'none!important',
         // boxShadow: 'none!important',
         // outlineColor: 'red!important',
@@ -424,7 +425,19 @@ export const useStyles = makeStyles((theme) => ({
         borderRadius: 11,
         backgroundColor: '#d1edfe',
     },
+    operatorCellMobileResponse: {
+        [theme.breakpoints.down('xs')]: {
+            width: '100%',
 
+            // backgroundColor: 'red',
+        },
+    },
+    OperatorDataLabel: {
+        fontSize: 12,
+        fontWeight: 500,
+        lineHeight: 1.62,
+        color: theme.colors.gray40,
+    },
 }));
 
 const size = {

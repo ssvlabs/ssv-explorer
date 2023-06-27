@@ -246,7 +246,7 @@ const SmartSearch = (props: SmartSearchProps) => {
   return (
     <Autocomplete
       value=""
-      fullWidth
+      fullWidth={inAppBar}
       clearOnBlur
       autoComplete
       clearOnEscape

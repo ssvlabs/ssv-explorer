@@ -110,7 +110,7 @@ const Operator = () => {
 
   return (
     <Grid className={classes.OperatorDataWrapper}>
-      <Grid item container className={classes.WhiteSection} xs={12}>
+      <Grid item container className={classes.WhiteSection}>
         <Grid item container className={classes.OperatorDetailsWrapper}>
           <Grid item>
           </Grid>
@@ -158,7 +158,7 @@ const Operator = () => {
             {/* /!*</Grid>*!/ */}
             <Grid container>
               <Grid container item justify="space-between" spacing={3}>
-                <Grid item lg={3} md={6} xs={12}>
+                <Grid item lg={3} md={12} xs={12}>
                   <OperatorStatus status={operator.status} is_deleted={operator.is_deleted} />
                   <ValidatorCount validatorCount={operator.validators_count} />
                   <OperatorPerformance operator={operator} isLoading={isLoading} />

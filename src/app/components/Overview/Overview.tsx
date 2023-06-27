@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import { useHistory } from 'react-router-dom';
 import config from '~app/common/config';
 import Layout from '~app/common/components/Layout';
-import { useStyles } from '~app/components/Styles';
+import { useStyles } from '~app/components/Overview/Overview.styles';
 import { Button } from '~app/common/components/Button';
 import Hero from '~app/components/Overview/components/Hero';
 import Stats from '~app/components/Overview/components/Stats';
@@ -26,26 +26,28 @@ const Overview = () => {
 
   return (
     <Layout>
-      <Grid container wrap="nowrap" spacing={0} className={classes.gridContainer}>
+      <Grid container wrap="nowrap" spacing={0} lg={12} className={classes.gridContainer}>
         <Hero />
         <Stats />
         {/* <Banner style={{ marginBottom: 0, marginTop: 50 }} /> */}
-        <Container container className={classes.TablesWrapper}>
-          <Column item md={12} sm={12} xs={12} lg>
-            <HeaderWrapper>
-              <Header>Operators</Header>
-              <Button submitAction={() => goTo(config.routes.OPERATORS.HOME)} width={140} height={36} text={'View More'} type={'secondary'} disable={!operatorsExist} />
-            </HeaderWrapper>
-            <OperatorsTable setOperatorsExist={setOperatorsExist} />
-          </Column>
-          <Column item md={12} sm={12} xs={12} lg>
-            <HeaderWrapper>
-              <Header>Validators</Header>
-              <Button submitAction={() => goTo(config.routes.VALIDATORS.HOME)} width={140} height={36} text={'View More'} type={'secondary'} disable={!validatorsExist} />
-            </HeaderWrapper>
-            <ValidatorsTable setValidatorsExist={setValidatorsExist} />
-          </Column>
-        </Container>
+        <Grid className={classes.TablesContainerWrapper}>
+          <Container md={12} lg={12} container className={classes.TablesWrapper}>
+            <Column item md={10} sm={10} xs={12} lg>
+              <HeaderWrapper>
+                <Header>Operators</Header>
+                <Button submitAction={() => goTo(config.routes.OPERATORS.HOME)} width={140} height={36} text={'View More'} type={'secondary'} disable={!operatorsExist} />
+              </HeaderWrapper>
+              <OperatorsTable setOperatorsExist={setOperatorsExist} />
+            </Column>
+            <Column item md={10} sm={10} xs={12} lg>
+              <HeaderWrapper>
+                <Header>Validators</Header>
+                <Button submitAction={() => goTo(config.routes.VALIDATORS.HOME)} width={140} height={36} text={'View More'} type={'secondary'} disable={!validatorsExist} />
+              </HeaderWrapper>
+              <ValidatorsTable setValidatorsExist={setValidatorsExist} />
+            </Column>
+          </Container>
+        </Grid>
       </Grid>
     </Layout>
   );
