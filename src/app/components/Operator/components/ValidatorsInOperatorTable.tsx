@@ -59,7 +59,7 @@ const ValidatorsInOperatorTable = (props: ValidatorsInOperatorTableProps) => {
           </Box>,
           <div style={{ marginTop: 3, whiteSpace: 'nowrap' }}>
             <CopyToClipboardIcon data={validator.public_key} />
-            <BeaconchaLink height={24} width={24} address={`validator/${validator.public_key}`} />
+            <BeaconchaLink height={24} width={24} network={validator.network} address={`validator/${validator.public_key}`} />
           </div>,
         ];
       })}
