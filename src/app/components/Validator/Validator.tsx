@@ -113,7 +113,7 @@ const Validator = () => {
                   </Grid>
                   <Grid item>
                     <CopyToClipboardIcon data={params.address} style={{ marginLeft: 15, width: 22, height: 22 }} />
-                    <BeaconchaLink height={22} width={22} address={`validator/${params.address}`} />
+                    <BeaconchaLink network={validator.network} height={22} width={22} address={`validator/${params.address}`} />
                   </Grid>
                 </Grid>
                 )}
