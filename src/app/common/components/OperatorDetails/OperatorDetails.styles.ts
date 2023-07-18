@@ -17,7 +17,7 @@ export const useStyles = makeStyles((theme) => ({
         backgroundColor: 'rgba(230, 234, 247, 0.5)',
         height: (props: any) => props.large ? 72 : 40,
         width: (props: any) => props.large ? 62.3 : 40,
-        backgroundImage: (props: any) => `url(${props.operatorLogo ?? '/images/operator_default_background/light.svg'})`,
+        backgroundImage: (props: any) => `url(${props.operatorLogo || '/images/operator_default_background/light.svg'})`,
     },
     OperatorTypeWrapper: {
         marginTop: 4,
