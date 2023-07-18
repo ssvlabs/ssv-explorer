@@ -15,14 +15,14 @@ export const useStyles = makeStyles((theme) => ({
         backgroundSize: 'contain',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
-        backgroundImage: 'url(/images/verified_icon.svg)',
+        backgroundImage: 'url(/images/verified-badge-icon.svg)',
     },
     DappNode: {
         width: 13,
         backgroundSize: 'contain',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
-        backgroundImage: 'url(/images/dapp_node_icon.svg)',
+        backgroundImage: 'url(/images/dapp_node_badge.svg)',
     },
     Type: {
         gap: 8,
@@ -37,8 +37,8 @@ export const useStyles = makeStyles((theme) => ({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        color: theme.colors.primaryBlue,
-        backgroundColor: theme.colors.tint90,
+        color: (props: any) => props.isVerified ? theme.colors.primaryBlue : theme.colors.primarySuccessDark,
+        backgroundColor: (props: any) => props.isVerified ? theme.colors.tint90 : theme.colors.primarySuccessRegularOpacity,
     },
     typeImg: {
         width: 16,
@@ -46,6 +46,6 @@ export const useStyles = makeStyles((theme) => ({
         backgroundSize: 'contain',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
-        backgroundImage: (props: any) => `url(/images/operatorType/${props.isVerified ? 'verified' : 'verified'}.svg)`,
+        backgroundImage: (props: any) => `url(/images/${props.isVerified ? 'verified-badge-icon' : 'dapp_node_badge'}.svg)`,
     },
 }));

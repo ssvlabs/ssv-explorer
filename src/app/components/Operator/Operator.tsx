@@ -1,52 +1,37 @@
 import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
+import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import { useParams } from 'react-router-dom';
 import ApiParams from '~lib/api/ApiParams';
 import SsvNetwork from '~lib/api/SsvNetwork';
 import Layout from '~app/common/components/Layout';
-// import Banner from '~app/common/components/Banner';
+import ShowMoreText from '~app/common/components/ShowMoreText';
 import NotFoundScreen from '~app/common/components/NotFoundScreen';
-// import { Incentivized } from '~app/common/components/Incentivized';
 import OperatorDetails from '~app/common/components/OperatorDetails';
 import ContentContainer from '~app/common/components/ContentContainer';
-// import EmptyPlaceholder from '~app/common/components/EmptyPlaceholder';
-// import OperatorName from '~app/components/Operator/components/OperatorName';
-// import OperatorInfo from '~app/components/Operator/components/OperatorInfo';
 import { useStylesOperator } from '~app/components/Operator/Operator.styles';
 import OperatorStatus from '~app/components/Operator/components/OperatorStatus';
 import ValidatorCount from '~app/components/Operator/components/ValidatorsCount';
-// import OperatorMetadata from '~app/components/Operator/components/OperatorMetadata';
-// import OperatorDescription from '~app/components/Operator/components/OperatorDescription';
 import OperatorPerformance from '~app/components/Operator/components/OperatorPerformance';
-// import OperatorSocialNetworks from '~app/components/Operator/components/OperatorSocialNetworks';
 import ValidatorsInOperatorTable from '~app/components/Operator/components/ValidatorsInOperatorTable';
-import ShowMoreText from '~app/common/components/ShowMoreText';
-import operators from '~app/components/Overview/components/Tables/Operators';
 
 const Operator = () => {
-  // Params
   const params: any = useParams();
   const classes = useStylesOperator();
-  // Loading indicators
   const [loadingOperator, setLoadingOperator] = useState(false);
   const [loadingValidators, setLoadingValidators] = useState(false);
-
-  // Operator
   const defaultOperator: Record<string, any> = {};
   const [operator, setOperator] = useState(defaultOperator);
-
-  // Validators
   const [notFound, setNotFound] = useState(false);
   const defaultValidators: Record<string, any>[] | null = [];
   const [validators, setValidators] = useState(defaultValidators);
   const [validatorsPagination, setValidatorsPagination] = useState(ApiParams.DEFAULT_PAGINATION);
-  console.log(operator);
   const items = [
     { name: 'Node Version', label: 'N/A' },
     { name: 'ETH2 node client', label: operator.eth2_node_client || 'N/A' },
     { name: 'ETH1 node client', label: operator.eth1_node_client || 'N/A' },
-    { name: 'Cloud provider', label: 'N/A' },
+    { name: 'Cloud provider', label: operator.setup_provider || 'N/A' },
     { name: 'Location', label: operator.location || 'N/A' },
   ];
 
@@ -119,15 +104,20 @@ const Operator = () => {
               <OperatorDetails large operator={operator} />
             </Grid>
             <Grid item container style={{ gap: 12, justifyContent: 'flex-end' }} xs>
-              <img src="/images/socialMedia/website.svg" className={classes.SocialIcon} />
-              <img src="/images/socialMedia/twitter.svg" className={classes.SocialIcon} />
-              <img src="/images/socialMedia/linkedin.svg" className={classes.SocialIcon} />
-              <img src="/images/socialMedia/discord.svg" className={classes.SocialIcon} />
+              <Link href={operator.twitter_url} target={'_blank'} className={classes.SocialIcon}>
+                <img src="/images/socialMedia/twitter.svg" className={classes.SocialIcon} />
+              </Link>
+              <Link href={operator.linkedin_url} target={'_blank'} className={classes.SocialIcon}>
+                <img src="/images/socialMedia/linkedin.svg" className={classes.SocialIcon} />
+              </Link>
+              <Link href={operator.website_url} target={'_blank'} className={classes.SocialIcon}>
+                <img src="/images/socialMedia/website.svg" className={classes.SocialIcon} />
+              </Link>
             </Grid>
           </Grid>
-          {/* <Grid item xs={6}> */}
-          {/*   <ShowMoreText text={'Blox Staking is an open-source, fully non-custodial platform for staking on Ethereum. The platform serves as an easy and accessible way to stake Ether and earn rewards, while akosdjskladjsakldnas lasjdnajks najskdnasjkdb akbdjkasbdhkasdbd abd habd asb hasb hbad hasb bdahsd basbdwbdjkqwbdjkqwbdjkqw bjdkqb jkqwb jkqw bdqjkbqwjkdbqwhjkdbqwd a dahdjkas doashdoiashioash ioas dioas udioasidoua soidjasiodiaosjdios'} /> */}
-          {/* </Grid> */}
+          <Grid item xs={6}>
+            <ShowMoreText text={operator.description || ''} />
+          </Grid> 
           <Grid item container style={{ gap: 80 }}>
             {items.map((item: any) => (
               <Grid item className={classes.itemWrapper}>
@@ -141,28 +131,12 @@ const Operator = () => {
       <Layout>
         <ContentContainer>
           <NotFoundScreen notFound={notFound}>
-            {/* <Banner /> */}
-            {/* <EmptyPlaceholder height={10} /> */}
-            {/* <BreadCrumbs id={operatorId} /> */}
-
-            {/* /!*<Grid container>*!/ */}
-            {/* /!*  <Grid container item justify="space-between">*!/ */}
-            {/* /!*    <Grid item lg={6} md={12} xs={12}>*!/ */}
-            {/* /!*      <OperatorName operator={operator} params={params} isLoading={isLoading} />*!/ */}
-            {/* /!*      <OperatorMetadata operator={operator} isLoading={isLoading} />*!/ */}
-            {/* /!*      <OperatorDescription operator={operator} isLoading={isLoading} />*!/ */}
-            {/* /!*      <OperatorSocialNetworks operator={operator} isLoading={isLoading} />*!/ */}
-            {/* /!*    </Grid>*!/ */}
-            {/* /!*    <OperatorInfo operator={operator} isLoading={isLoading} />*!/ */}
-            {/* /!*  </Grid>*!/ */}
-            {/* /!*</Grid>*!/ */}
             <Grid container>
               <Grid container item justify="space-between" spacing={3}>
                 <Grid item lg={3} md={12} xs={12}>
                   <OperatorStatus status={operator.status} is_deleted={operator.is_deleted} />
                   <ValidatorCount validatorCount={operator.validators_count} />
                   <OperatorPerformance operator={operator} isLoading={isLoading} />
-                  {/* <Incentivized operator={params.address} /> */}
                 </Grid>
                 <Grid item lg={9} md={6} xs={12}>
                   <ValidatorsInOperatorTable

@@ -63,7 +63,7 @@ const Operators = (props: Props) => {
           <StyledRow key={rowIndex}>
             <StyledCell style={overviewTableCellStyle}>
               <Link href={`/operators/${row.id}`} className={classes.Link}>
-                <OperatorDetails operator={row} />
+                <OperatorDetails large={false} operator={row} />
               </Link>
             </StyledCell>
             <StyledCell style={overviewTableCellStyle}>

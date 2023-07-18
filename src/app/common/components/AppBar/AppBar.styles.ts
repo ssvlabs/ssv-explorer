@@ -23,7 +23,7 @@ export const useStyles = makeStyles((theme) => ({
             paddingTop: 18,
             paddingRight: 5,
             justifyContent: 'space-between',
-            backgroundColor: (props: any) => props.whiteBackgroundColor ? theme.colors.white : theme.colors.applicationBackground,
+            backgroundColor: theme.colors.gray10,
         },
         '& > .MuiPaper-elevation4': {
             boxShadow: 'none',

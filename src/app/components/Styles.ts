@@ -45,8 +45,6 @@ export const useStyles = makeStyles((theme) => ({
         width: 13,
         height: 13,
         marginLeft: 5,
-        // margin: 15px 34px 14px 4px;
-        // padding: 5px 4px;
         backgroundSize: 'contain',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
@@ -54,8 +52,6 @@ export const useStyles = makeStyles((theme) => ({
     Verified: {
         width: 13,
         height: 13,
-        // margin: 15px 34px 14px 4px;
-        // padding: 5px 4px;
         backgroundSize: 'contain',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
@@ -63,8 +59,6 @@ export const useStyles = makeStyles((theme) => ({
     },
     DappNode: {
         width: 13,
-        // margin: 15px 34px 14px 4px;
-        // padding: 5px 4px;
         backgroundSize: 'contain',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
@@ -151,10 +145,8 @@ export const useStyles = makeStyles((theme) => ({
         margin: 'auto',
     },
     gridContainer: {
-        // marginTop: 100,
         flexGrow: 1,
         flexDirection: 'column',
-        // alignItems: 'center',
 
     },
     rowGridContainer: {
@@ -227,7 +219,6 @@ export const useStyles = makeStyles((theme) => ({
         flexDirection: 'row',
         color: `${theme.colors.primaryBlue}!important`,
         borderColor: `${theme.palette.text.primary}!important`,
-        // marginBottom: 12,
     },
     blackLinkColor: {
         fontSize: '14px',
@@ -249,51 +240,14 @@ export const useStyles = makeStyles((theme) => ({
     },
     overviewSearch: {
         maxWidth: '100%',
-        // '-webkit-box-shadow': 'none!important',
-        // boxShadow: 'none!important',
-        // outlineColor: 'red!important',
-        // border: 'none !important',
-        // outline: 'none !important',
-        // '&.Mui-focused, &:focus-visible': {
-        //   '& > .MuiFormControl-root': {
-        //     borderImageWidth: 0,
-        //     '-webkit-box-shadow': 'none!important',
-        //     boxShadow: 'none!important',
-        //     outlineColor: 'red!important',
-        //     border: 'none !important',
-        //     outline: 'none !important',
-        //     '& > .MuiInputBase-root': {
-        //       '-webkit-box-shadow': 'none!important',
-        //       boxShadow: 'none!important',
-        //       outlineColor: 'red!important',
-        //       borderImageWidth: 0,
-        //       border: 'none !important',
-        //       outline: 'none !important',
-        //     },
-        //   },
-        // },
         '& > .MuiFormControl-root': {
-            // borderImageWidth: 0,
-            // '& > .MuiInputBase-root.Mui-focused': {
-            //   // border: '1px solid #5B6C84',
-            //   borderImageWidth: 0,
-            //   '-webkit-box-shadow': 'none!important',
-            //   boxShadow: 'none!important',
-            //   outlineColor: 'red!important',
-            //   border: 'none !important',
-            //   outline: 'none !important',
-            // },
             '& > .MuiInputBase-root': {
-                // '-webkit-box-shadow': 'none!important',
-                // boxShadow: 'none!important',
-                // outlineColor: 'red!important',
                 outline: 'none!important',
                 '-webkit-appearance': 'none',
                 '&:hover': {
                   border: 'none',
                 },
                 borderRadius: 6,
-                // backgroundColor: 'white',
                 color: '#5B6C84',
                 '& > .MuiInputAdornment-root > .MuiButtonBase-root': {
                     width: 38,
@@ -333,55 +287,23 @@ export const useStyles = makeStyles((theme) => ({
         },
     },
     ValidatorOperatorsWrapper: {
-        // [theme.breakpoints.down('sm')]: {
-        //     maxWidth: '720px',
-        // },
-        // [theme.breakpoints.down('md')]: {
-        //     width: '1152px',
-        // },
-
+        backgroundColor: theme.colors.white,
+        borderRadius: '16px',
+        height: '385px',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     ValidatorDutiesWrapper: {
-        // [theme.breakpoints.down('sm')]: {
-        //     maxWidth: '720px',
-        // },
-        // [theme.breakpoints.down('md')]: {
-        //     width: '1152px',
-        // },
-        // [theme.breakpoints.down('xs')]: {
-        //     width: '100%',
-        //
-        // },
-        // [theme.breakpoints.down('sm')]: {
-        //     width: '100%',
-        //
-        // },
-        // [theme.breakpoints.down('lg')]: {
-        //     maxWidth: 1152,
-        //
-        // },
-        // [theme.breakpoints.up('lg')]: {
-        //     maxWidth: 872,
-        //
-        // },
-    },
-    DutiesAndOperatorsWrapper: {
-        // [theme.breakpoints.down('sm')]: {
-        //     maxWidth: '720px',
-        //     // backgroundColor: theme.palette.grey[300],
-        // },
-        // [theme.breakpoints.up('md')]: {
-        //     // backgroundColor: theme.palette.grey[500],
-        // },
-        // [theme.breakpoints.up('lg')]: {
-        //     // backgroundColor: theme.palette.grey[700],
-        // },
+        marginTop: 12,
+        backgroundColor: theme.colors.white,
+        borderRadius: '16px',
     },
     ConsensusWrapper: {
         display: 'flex',
         flexDirection: 'column',
-        // alignItems: 'center',
-        // justifyContent: 'space-around',
+
     },
     ConsensusOperatorSlot: {
         display: 'flex',
@@ -390,7 +312,6 @@ export const useStyles = makeStyles((theme) => ({
     },
     ConsensusOperatorId: {
         width: 52,
-        // height: 25,
         flexGrow: 0,
         fontFamily: 'Manrope',
         fontSize: '10px!important',
@@ -399,9 +320,7 @@ export const useStyles = makeStyles((theme) => ({
         fontStyle: 'normal',
         lineHeight: 1.62,
         letterSpacing: 0.5,
-        // textAlign: 'center',
         color: '#63768b',
-        // marginRight: '32px!important',
     },
     OperatorConsensusWrapper: {
         width: '100%',
@@ -428,14 +347,51 @@ export const useStyles = makeStyles((theme) => ({
     operatorCellMobileResponse: {
         [theme.breakpoints.down('xs')]: {
             width: '100%',
-
-            // backgroundColor: 'red',
         },
     },
     OperatorDataLabel: {
         fontSize: 12,
         fontWeight: 500,
         lineHeight: 1.62,
+        color: theme.colors.gray40,
+    },
+    ValidatorOperatorsSwitcherWrapper: {
+        color: theme.colors.gray40,
+        width: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        padding: '0px 15px 0px 15px',
+    },
+    PerformanceSwitcher: {
+        padding: '3px 3px 3px 3px',
+        border: `1px solid ${theme.colors.gray40}`,
+
+        float: 'right',
+        fontSize: 16,
+        color: theme.colors.gray40,
+        fontWeight: 600,
+        userSelect: 'none',
+        cursor: 'pointer',
+
+    },
+    chosenPerformance: {
+        fontWeight: 900,
+        color: theme.colors.primaryBlue,
+        border: `1px solid ${theme.colors.primaryBlue}`,
+        borderRadius: '4px',
+        display: 'flex',
+        alignText: 'center',
+        justifyContent: 'center',
+        padding: '3px 3px 3px 3px',
+    },
+    performanceButtonsWrapper: {
+        width: 70,
+        display: 'flex',
+        justifyContent: 'space-between',
+    },
+    TableCellColor: {
+        backgroundColor: theme.colors.white,
         color: theme.colors.gray40,
     },
 }));

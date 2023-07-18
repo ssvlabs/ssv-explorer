@@ -6,7 +6,7 @@ import OperatorType from '~app/common/components/OperatorType';
 import CopyToClipboardIcon from '~app/common/components/CopyToClipboardIcon';
 
 type Props = {
-    operator: any // ?? IOperator
+    operator: any;
     large?: boolean;
     gray80?: boolean;
 };
@@ -24,11 +24,9 @@ const OperatorDetails = (props: Props) => {
           <Grid item className={classes.Name}>{operatorName}</Grid>
           <Grid item className={classes.Id}>ID: {operator.id}</Grid>
         </Grid>
-        {/* {operator.type !== 'operator' && ( */}
         <Grid item className={classes.OperatorType}>
-          <OperatorType large type={operator.type} />
+          <OperatorType large={large} type={operator.type} />
         </Grid>
-        {/* )} */}
         {large && (
         <Grid item>
           <CopyToClipboardIcon

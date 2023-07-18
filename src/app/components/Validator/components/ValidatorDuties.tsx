@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Grid from '@material-ui/core/Grid';
 import { useParams } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
 import ApiParams from '~lib/api/ApiParams';
 import SsvNetwork from '~lib/api/SsvNetwork';
 import { capitalize } from '~lib/utils/strings';
@@ -66,7 +65,6 @@ export default (props: ValidatorDutiesProps) => {
 
   const getRenderedSigners = (operators: any[], missingOperators: any[]) => {
     const operatorList = [...operators, ...missingOperators];
-    console.log(operatorList);
     return (
       <>
         <Grid className={classes.OperatorConsensusWrapper}>
@@ -95,11 +93,12 @@ export default (props: ValidatorDutiesProps) => {
   }, [loadingDuties, validator?.public_key]);
 
   return (
-    <PaddedGridItem item xs={12} md={9} style={{ paddingLeft: 30 }}>
-      <DataTable
-        title="Duties"
-        headers={['Epoch', 'Slot', 'Duty', 'Status', 'Operator Consensus Breakdown']}
-        data={(validator?.public_key ? (validatorDuties ?? []) : []).map((duty: any) => {
+    <Grid className={classes.ValidatorDutiesWrapper} xl={9}>
+      <PaddedGridItem item xs={12} md={12} xl={12} style={{ paddingLeft: 30 }}>
+        <DataTable
+          title="Duties"
+          headers={['Epoch', 'Slot', 'Duty', 'Status', 'Operator Consensus Breakdown']}
+          data={(validator?.public_key ? (validatorDuties ?? []) : []).map((duty: any) => {
           return [
             (<>{duty.epoch} {renderSequenceNumber(duty.sequence)}</>),
             duty.slot,
@@ -108,15 +107,16 @@ export default (props: ValidatorDutiesProps) => {
             getRenderedSigners(duty.operators, duty.missing_operators),
           ];
         })}
-        totalCount={dutiesPagination?.total || 0}
-        page={(dutiesPagination?.page ?? 1) - 1}
-        onChangePage={(page: number) => {
+          totalCount={dutiesPagination?.total || 0}
+          page={(dutiesPagination?.page ?? 1) - 1}
+          onChangePage={(page: number) => {
           loadValidatorDuties(params.address, page);
         }}
-        onChangeRowsPerPage={onChangeRowsPerPage}
-        perPage={ApiParams.getInteger('validator:duties', 'perPage', ApiParams.PER_PAGE)}
-        isLoading={loadingDuties || !validator?.public_key}
+          onChangeRowsPerPage={onChangeRowsPerPage}
+          perPage={ApiParams.getInteger('validator:duties', 'perPage', ApiParams.PER_PAGE)}
+          isLoading={loadingDuties || !validator?.public_key}
       />
-    </PaddedGridItem>
+      </PaddedGridItem>
+    </Grid>
   );
 };

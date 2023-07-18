@@ -2,7 +2,7 @@ import React from 'react';
 import { observer } from 'mobx-react';
 import { Skeleton } from '@material-ui/lab';
 import Table from '@material-ui/core/Table';
-import { Grid, TableCell } from '@material-ui/core';
+import { TableCell } from '@material-ui/core';
 import TableRow from '@material-ui/core/TableRow';
 import TableHead from '@material-ui/core/TableHead';
 import TableBody from '@material-ui/core/TableBody';
@@ -14,7 +14,6 @@ import StyledRow from '~app/common/components/Table/StyledRow';
 import StyledCell from '~app/common/components/Table/StyledCell';
 import PaginationActions from '~app/common/components/DataTable/components/PaginationActions';
 import { overviewTableHeadersStyle } from '~app/components/Overview/components/Tables/Operators/Operators';
-import Typography from '@material-ui/core/Typography';
 
 type HeaderPosition = 'inherit' | 'left' | 'center' | 'right' | 'justify';
 
@@ -67,18 +66,15 @@ const DataTable = (props: DataTableProps) => {
     }
     return data.map((row: any[], rowIndex: number) => (
       <StyledRow hover role="checkbox" tabIndex={-1} key={`row-${rowIndex}`}>
-        {row.map((cell: any, cellIndex: number) => {
-              return (
-                <StyledCell
-                  key={`cell-${cellIndex}`}
-                  className={cellIndex === 0 ? classes.operatorCellMobileResponse : ''}
-                  align={headersPositions?.length ? headersPositions[cellIndex] : undefined}
-                  >
-                  <Typography className={classes.OperatorDataLabel}>{headers[cellIndex]}</Typography>
-                  {cell}
-                </StyledCell>
-              );
-            })}
+        {row.map((cell: any, cellIndex: number) => (
+          <StyledCell
+            key={`cell-${cellIndex}`}
+            align={headersPositions?.length ? headersPositions[cellIndex] : undefined}
+            >
+            {cell}
+          </StyledCell>
+        ))}
+
       </StyledRow>
     ));
   };
@@ -86,7 +82,7 @@ const DataTable = (props: DataTableProps) => {
   return (
     <div className={classes.tableWithBorder}>
       <TableContainer>
-        {title ? <h3 style={{ paddingLeft: 15 }}>{title}</h3> : ''}
+        {title ? <h3 style={{ paddingLeft: 15, color: '#97a5ba', fontSize: 20 }}>{title}</h3> : ''}
         {!hidePagination && perPage && perPage > defaultPerPageOptions[0] && data?.length ? (
           <TablePagination
             page={page}
@@ -100,30 +96,26 @@ const DataTable = (props: DataTableProps) => {
             onChangeRowsPerPage={(event: any) => onChangeRowsPerPage ? onChangeRowsPerPage(event.target.value) : null}
           />
         ) : ''}
-
         <Table className={classes.TableWrapper} stickyHeader aria-label="sticky table">
-          {/* TODO: uncomment it */}
-          {/* <TableHead> */}
-          {/*  <TableRow> */}
-          {/*    {headers.map((header: string, headerIndex: number) => ( */}
-          {/*      <TableCell */}
-          {/*        style={overviewTableHeadersStyle} */}
-          {/*        key={header} */}
-          {/*        align={headersPositions?.length ? headersPositions[headerIndex] : undefined} */}
-          {/*      > */}
-          {/*        {header} */}
-          {/*      </TableCell> */}
-          {/*      ))} */}
-          {/*  </TableRow> */}
-          {/* </TableHead> */}
+          <TableHead>
+            <TableRow>
+              {headers.map((header: string, headerIndex: number) => (
+                <TableCell
+                  style={overviewTableHeadersStyle}
+                  key={header}
+                  align={headersPositions?.length ? headersPositions[headerIndex] : undefined}
+                >
+                  {header}
+                </TableCell>
+                ))}
+            </TableRow>
+          </TableHead>
           <TableBody>
             {dataRows()}
           </TableBody>
         </Table>
-
         {!hidePagination && data?.length ? (
           <TablePagination
-            // className={Operators}
             page={page}
             component="div"
             count={totalCount}

@@ -1,5 +1,6 @@
 import React from 'react';
 import { observer } from 'mobx-react';
+import { useLocation } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
@@ -9,7 +10,6 @@ import AppBar from '~app/common/components/AppBar';
 import DeveloperHelper from '~lib/utils/DeveloperHelper';
 import Announcement from '~app/common/components/Announcement';
 import ApplicationStore from '~app/common/stores/Application.store';
-import { useLocation } from 'react-router-dom';
 
 const App = () => {
   const stores = useStores();

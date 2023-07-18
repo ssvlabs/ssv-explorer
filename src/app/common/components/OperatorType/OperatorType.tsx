@@ -12,19 +12,19 @@ const OperatorType = (props: Props) => {
     const { type, large } = props;
     const isDappNode = type === 'dapp_node';
     const isVerified = type === 'verified_operator';
-    const classes = useStyles({ large, isVerified });
+    const classes = useStyles({ large, isVerified, isDappNode });
 
-    // if (large) {
-    //     return (
-    //       <Grid item className={classes.Type}>
-    //         {isVerified ? 'Verified' : 'Dapp'}
-    //         <Grid className={classes.typeImg} />
-    //       </Grid>
-    //     );
-    // }
-    // TODO: check with jon what about icons
+    if (large && (isDappNode || isVerified)) {
+        return (
+          <Grid item className={classes.Type}>
+            {isVerified ? 'Verified' : 'Dapp'}
+            <Grid className={classes.typeImg} />
+          </Grid>
+        );
+    }
+
     return (
-      <Grid item className={`${classes.OperatorType} ${classes.Verified} ${classes.DappNode}`} />
+      <Grid item className={`${classes.OperatorType} ${isVerified && classes.Verified} ${isDappNode && classes.DappNode}`} />
     );
 };
 

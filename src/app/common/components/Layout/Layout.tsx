@@ -24,7 +24,7 @@ const Layout = ({ children }: any) => {
 
     return (
       <Grid container className={classes.root} spacing={0}>
-        <Grid xs={12} sm={12} md={12} lg={10} className={classes.ChildrenWrapper} item>
+        <Grid xs={12} sm={12} md={12} lg={12} className={classes.ChildrenWrapper} item>
           { children }
         </Grid>
         <BarMessage />

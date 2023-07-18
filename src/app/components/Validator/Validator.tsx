@@ -1,27 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
 import styled from 'styled-components';
+import { Box } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import { useParams } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import config from '~app/common/config';
 import SsvNetwork from '~lib/api/SsvNetwork';
-import { Heading } from '~app/common/components/Headings';
-import { longStringShorten } from '~lib/utils/strings';
-import { BreadCrumb, BreadCrumbDivider, BreadCrumbsContainer } from '~app/common/components/Breadcrumbs';
-// import { Incentivized } from '~app/common/components/Incentivized';
 import Status from '~app/common/components/Status';
 import Layout from '~app/common/components/Layout';
-import IsValidBadge from '~app/common/components/IsValidBadge/IsValidBadge';
-import BeaconchaLink from '~app/common/components/BeaconchaLink/BeaconchaLink';
+import { longStringShorten } from '~lib/utils/strings';
+import { Heading } from '~app/common/components/Headings';
 import NotFoundScreen from '~app/common/components/NotFoundScreen';
-import ValidatorDuties from '~app/components/Validator/components/ValidatorDuties';
 import EmptyPlaceholder from '~app/common/components/EmptyPlaceholder';
 import ContentContainer from '~app/common/components/ContentContainer';
-import ValidatorOperators from '~app/components/Validator/components/ValidatorOperators';
+import IsValidBadge from '~app/common/components/IsValidBadge/IsValidBadge';
 import CopyToClipboardIcon from '~app/common/components/CopyToClipboardIcon';
-import { Box } from '@material-ui/core';
-import { useStyles } from '~app/components/Styles';
+import BeaconchaLink from '~app/common/components/BeaconchaLink/BeaconchaLink';
+import ValidatorDuties from '~app/components/Validator/components/ValidatorDuties';
+import ValidatorOperators from '~app/components/Validator/components/ValidatorOperators';
+import { BreadCrumb, BreadCrumbDivider, BreadCrumbsContainer } from '~app/common/components/Breadcrumbs';
 
 const StatsBlock = styled.div<({ maxWidth?: any })>`
   max-width: ${({ maxWidth }) => `${Number.isNaN(maxWidth ?? 200) ? (maxWidth) : `${(maxWidth ?? 200)}px`}`};
@@ -41,9 +39,7 @@ const BreadCrumbs = ({ address }: { address: string }) => {
   );
 };
 
-const Validator = () =>
-{
-  const classes = useStyles();
+const Validator = () => {
   const defaultPerformance = '24h';
   const params: Record<string, any> = useParams();
   const defaultValidator: Record<string, any> = {};
@@ -78,12 +74,9 @@ const Validator = () =>
     <Layout>
       <ContentContainer>
         <EmptyPlaceholder height={10} />
-
         <NotFoundScreen notFound={notFound}>
-          {/* <Banner /> */}
           <BreadCrumbs address={params.address} />
           <EmptyPlaceholder height={20} />
-
           <Grid container alignContent="center" alignItems="center">
             <Grid item xs={12} md={8}>
               <Grid container spacing={1} style={{ alignItems: 'center', marginTop: 22 }}>
@@ -128,14 +121,12 @@ const Validator = () =>
           </Grid>
 
           <EmptyPlaceholder height={40} />
-
           <Grid container spacing={3}>
-            <Grid item xs={12} md={3}>
+            <Grid item xs={12} md={6} lg={4} xl={3}>
               <ValidatorOperators
                 validator={validator}
                 defaultPerformance={defaultPerformance}
               />
-              {/* <Incentivized validator={params.address} /> */}
             </Grid>
             <ValidatorDuties validator={validator} />
           </Grid>

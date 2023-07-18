@@ -16,7 +16,7 @@ const BeaconchaLink = ({ width, height, address, network }: BeaconchaLinkProps) 
   const classes = useStyles();
   const stores = useStores();
   const applicationStore: ApplicationStore = stores.Application;
-  const imgSrc = `/images/beaconcha${applicationStore.isDarkMode ? '-white' : ''}-new.svg`;
+  const imgSrc = `/images/beaconcha${applicationStore.isDarkMode ? '-white' : '-new'}.svg`;
 
   return (
     <Link
