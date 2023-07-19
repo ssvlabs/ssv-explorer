@@ -29,13 +29,7 @@ export default (props: OperatorProps) => {
   const { operator } = props;
   const operatorClasses = useStylesOperator();
 
-  const openInTab = (url: string) => {
-    if (url.indexOf('http://') === -1 || url.indexOf('https://') === -1) {
-      // eslint-disable-next-line no-param-reassign
-      url = `https://${url}`;
-    }
-    window.open(url, '_blank', 'noopener,noreferrer');
-  };
+  const openInTab = (url: string) => window.open(url, '_blank', 'noopener,noreferrer');
 
   const networks = socialNetworks.filter((network: any) => {
     return operator[network.name];
