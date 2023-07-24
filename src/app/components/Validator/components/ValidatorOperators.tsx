@@ -93,7 +93,7 @@ const ValidatorOperators = (props: ValidatorOperatorProps) => {
   };
 
   return (
-    <Grid className={classes.ValidatorOperatorsWrapper}>
+    <Grid className={classes.ValidatorOperatorsWrapper} xs={12} md={12} lg={4} xl={3}>
       <Grid className={classes.ValidatorOperatorsSwitcherWrapper}>
         <h3 style={{ color: '#97a5ba', fontSize: 20 }}>
           Operators
@@ -108,7 +108,7 @@ const ValidatorOperators = (props: ValidatorOperatorProps) => {
         </Grid>
       </Grid>
 
-      <Grid container md={8} lg={10} xl={11}>
+      <Grid container>
         <Table stickyHeader aria-label="table">
           <TableHead>
             <TableRow>

@@ -20,7 +20,7 @@ export const useStyles = makeStyles((theme) => ({
         height: 48,
         flexGrow: 1,
         '& > .MuiPaper-root > .MuiToolbar-root': {
-            paddingTop: 18,
+            paddingTop: 20,
             paddingRight: 5,
             justifyContent: 'space-between',
             backgroundColor: (props: any) => props.whiteBackgroundColor ? theme.colors.white : theme.colors.gray10,
@@ -30,6 +30,7 @@ export const useStyles = makeStyles((theme) => ({
         },
     },
     menuButtons: {
+        color: theme.colors.gray90,
         marginRight: 24,
     },
     FirstSection: {
@@ -110,10 +111,6 @@ export const useStyles = makeStyles((theme) => ({
         marginLeft: 'auto',
         alignItems: 'center',
         '& > .MuiButtonBase-root, & > .MuiTypography-root > .MuiButtonBase-root': {
-            // width: '100%',
-            // height: 40,
-            // minWidth: 180,
-            // marginRight: 10,
             boxShadow: 'none',
         },
         '& > .MuiTypography-root': {

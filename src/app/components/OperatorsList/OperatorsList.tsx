@@ -2,26 +2,34 @@ import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
 import { Box } from '@material-ui/core';
 import Link from '@material-ui/core/Link';
+import Grid from '@material-ui/core/Grid';
+import { Skeleton } from '@material-ui/lab';
 import Typography from '@material-ui/core/Typography';
 import config from '~app/common/config';
 import ApiParams from '~lib/api/ApiParams';
 import { infoIconStyle } from '~root/theme';
 import SsvNetwork from '~lib/api/SsvNetwork';
+import { useStores } from '~app/hooks/useStores';
 import Status from '~app/common/components/Status';
 import Layout from '~app/common/components/Layout';
 import { useStyles } from '~app/components/Styles';
 import DataTable from '~app/common/components/DataTable';
 import { getPerformances } from '~lib/utils/performance';
 import InfoTooltip from '~app/common/components/InfoTooltip';
+import OverviewStore from '~app/common/stores/Overview.store';
 import OperatorDetails from '~app/common/components/OperatorDetails';
 import EmptyPlaceholder from '~app/common/components/EmptyPlaceholder';
 import ContentContainer from '~app/common/components/ContentContainer';
+import { useWindowSize, WINDOW_SIZES } from '~app/hooks/useWindowSize';
 import { BreadCrumb, BreadCrumbDivider, BreadCrumbsContainer } from '~app/common/components/Breadcrumbs';
 
 const OperatorsList = () => {
+  const stores = useStores();
   const classes = useStyles();
-  const [loading, setLoading] = useState(false);
+  const windowSize = useWindowSize();
+  const overviewStore: OverviewStore = stores.Overview;
   const defaultOperators: Record<string, any>[] = [];
+  const [loading, setLoading] = useState(false);
   const [operators, setOperators] = useState(defaultOperators);
   const [pagination, setPagination] = useState(ApiParams.DEFAULT_PAGINATION);
 
@@ -44,6 +52,7 @@ const OperatorsList = () => {
     setLoading(true);
     SsvNetwork.getInstance().fetchOperators({ page, perPage, validatorsCount: 'true', status: 'true' })
       .then((result: any) => {
+        overviewStore.setTotalOperators(result.data.pagination.total);
         setOperators(result.data.operators);
         setPagination(result.data.pagination);
         setLoading(false);
@@ -113,22 +122,31 @@ const OperatorsList = () => {
     <Layout>
       <ContentContainer>
         <EmptyPlaceholder height={10} />
-        <BreadCrumbsContainer>
-          <BreadCrumb href={config.routes.HOME}>overview</BreadCrumb>
-          <BreadCrumbDivider />
-          <BreadCrumb href={config.routes.OPERATORS.HOME}>operators</BreadCrumb>
-        </BreadCrumbsContainer>
-        <Typography variant="h1">Operators</Typography>
-        <DataTable
-          isLoading={loading}
-          page={pagination.page - 1}
-          onChangePage={loadOperators}
-          totalCount={pagination.total}
-          data={getOperatorsTableData()}
-          headers={getOperatorsTableHeaders()}
-          onChangeRowsPerPage={onChangeRowsPerPage}
-          perPage={ApiParams.getInteger('operators', 'perPage', ApiParams.PER_PAGE)}
-        />
+        <Grid className={classes.operatorTopWrapper}>
+          <BreadCrumbsContainer>
+            <BreadCrumb href={config.routes.HOME}>Overview</BreadCrumb>
+            <BreadCrumbDivider />
+            <BreadCrumb href={config.routes.OPERATORS.HOME}>Operators</BreadCrumb>
+          </BreadCrumbsContainer>
+          <Grid className={classes.OperatorListTitleWrapper}>
+            <Typography variant="h1">Operators</Typography>
+            {windowSize.size === WINDOW_SIZES.XS && overviewStore.totalOperators ? <Typography className={classes.OperatorsCountLabel} variant="h1">{`(${overviewStore.totalOperators} results)`}</Typography> : <Skeleton />}
+          </Grid>
+        </Grid>
+        <Grid xs={12} md={12} lg={12} xl={12}>
+          <DataTable
+            isLoading={loading}
+            page={pagination.page - 1}
+            onChangePage={loadOperators}
+            totalCount={pagination.total}
+            data={getOperatorsTableData()}
+            headers={getOperatorsTableHeaders()}
+            operatorListFlow
+            onChangeRowsPerPage={onChangeRowsPerPage}
+            perPage={ApiParams.getInteger('operators', 'perPage', ApiParams.PER_PAGE)}
+          />
+        </Grid>
+
       </ContentContainer>
     </Layout>
   );

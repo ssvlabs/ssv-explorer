@@ -1,6 +1,6 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import { useStylesOperator } from '~app/components/Operator/Operator.styles';
+import { useStyles } from '~app/components/Operator/Operator.styles';
 import { OperatorProps } from '~app/components/Operator/components/OperatorProps';
 
 const subDashboardFields = [
@@ -28,7 +28,7 @@ const subDashboardFields = [
 
 export default (props: OperatorProps) => {
   const { operator } = props;
-  const operatorClasses = useStylesOperator();
+  const operatorClasses = useStyles();
 
   const shouldDisplay = subDashboardFields.map((field: any) => {
     return operator[field.name];

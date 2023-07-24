@@ -12,11 +12,13 @@ import { longStringShorten } from '~lib/utils/strings';
 import DataTable from '~app/common/components/DataTable';
 import BeaconchaLink from '~app/common/components/BeaconchaLink';
 import ContentContainer from '~app/common/components/ContentContainer';
+import { useWindowSize, WINDOW_SIZES } from '~app/hooks/useWindowSize';
 import EmptyPlaceholder from '~app/common/components/EmptyPlaceholder';
 import { BreadCrumb, BreadCrumbDivider, BreadCrumbsContainer } from '~app/common/components/Breadcrumbs';
 
 const ValidatorsList = () => {
   const classes = useStyles();
+  const windowSize = useWindowSize();
   const [loading, setLoading] = useState(false);
   const [validators, setValidators] = useState([]);
   const [pagination, setPagination] = useState(ApiParams.DEFAULT_PAGINATION);
@@ -54,8 +56,8 @@ const ValidatorsList = () => {
     return validators.map((validator: any) => {
       return [
         <Link href={`${config.routes.VALIDATORS.HOME}/${validator.public_key}`} className={classes.Link}>
-          <Box component="div" display={{ xs: 'none', sm: 'none', md: 'block', lg: 'block' }}>
-            0x{longStringShorten(validator.public_key)}
+          <Box className={classes.ValidatorListInfoBox} component="div" display={{ xs: 'none', sm: 'none', md: 'block', lg: 'block' }}>
+            0x{longStringShorten(validator.public_key, windowSize.size === WINDOW_SIZES.XS ? 6 : 4)}
             <BeaconchaLink height={24} width={24} address={`validator/${validator.public_key}`} />
           </Box>
         </Link>,
@@ -95,6 +97,7 @@ const ValidatorsList = () => {
         <DataTable
           headers={['Public Key', 'Joined at Date', 'Operators']}
           headersPositions={['left', 'left', 'left']}
+          validatorListFlow
           data={getValidatorsTableData()}
           totalCount={pagination.total}
           page={pagination.page - 1}

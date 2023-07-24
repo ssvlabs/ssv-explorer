@@ -1,6 +1,12 @@
 import { makeStyles } from '@material-ui/core/styles';
 
 export const useStyles = makeStyles((theme) => ({
+    WhiteSection: {
+        width: '100%',
+        height: 230,
+        padding: '32px 32px 32px 32px',
+        backgroundColor: theme.colors.white,
+    },
     mainContainer: {
         height: '100%',
         width: '100%',
@@ -11,13 +17,6 @@ export const useStyles = makeStyles((theme) => ({
         alignContent: 'center',
         margin: 'auto',
         flexDirection: 'row',
-    },
-    TableWrapper: {
-        backgroundColor: theme.colors.white,
-        '& .MuiTableCell-stickyHeader': {
-            height: 16,
-            backgroundColor: theme.colors.white,
-        },
     },
     SmartSearchOperatorDataOption: {
       width: 'auto',
@@ -172,27 +171,6 @@ export const useStyles = makeStyles((theme) => ({
             padding: 15,
         },
     },
-    tableWithBorder: {
-        borderRadius: 6,
-        fontSize: 18,
-        '& h3': {
-            color: theme.palette.divider,
-            fontWeight: 900,
-            fontSize: 18,
-        },
-        '& > .MuiTableContainer-root': {
-            borderRadius: 6,
-        },
-        '& .MuiTableCell-head': {
-            fontWeight: 'bold',
-            fontSize: 12,
-            textTransform: 'uppercase',
-            color: '#A1ACBE',
-            maxHeight: 26,
-            paddingTop: 8,
-            paddingBottom: 8,
-        },
-    },
     condensedTableRows: {
         '& .MuiTableCell-body': {
             height: 34,
@@ -239,7 +217,7 @@ export const useStyles = makeStyles((theme) => ({
         color: 'red',
     },
     overviewSearch: {
-        maxWidth: '100%',
+        // maxWidth: '100%',
         '& > .MuiFormControl-root': {
             '& > .MuiInputBase-root': {
                 outline: 'none!important',
@@ -296,14 +274,12 @@ export const useStyles = makeStyles((theme) => ({
         alignItems: 'center',
     },
     ValidatorDutiesWrapper: {
-        marginTop: 12,
         backgroundColor: theme.colors.white,
         borderRadius: '16px',
     },
     ConsensusWrapper: {
         display: 'flex',
         flexDirection: 'column',
-
     },
     ConsensusOperatorSlot: {
         display: 'flex',
@@ -330,7 +306,6 @@ export const useStyles = makeStyles((theme) => ({
         marginBottom: 5,
         justifyContent: 'space-between',
     },
-
     rhombus: {
       width: 20,
       height: 20,
@@ -366,14 +341,12 @@ export const useStyles = makeStyles((theme) => ({
     PerformanceSwitcher: {
         padding: '3px 3px 3px 3px',
         border: `1px solid ${theme.colors.gray40}`,
-
         float: 'right',
         fontSize: 16,
         color: theme.colors.gray40,
         fontWeight: 600,
         userSelect: 'none',
         cursor: 'pointer',
-
     },
     chosenPerformance: {
         fontWeight: 900,
@@ -393,6 +366,51 @@ export const useStyles = makeStyles((theme) => ({
     TableCellColor: {
         backgroundColor: theme.colors.white,
         color: theme.colors.gray40,
+    },
+    ValidatorListInfoBox: {
+        display: 'flex',
+    },
+    SingleValidatorWrapper: {
+        gap: 10,
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center',
+    },
+    tableWithBorder: {
+        borderRadius: 6,
+        fontSize: 18,
+        '& h3': {
+            color: theme.palette.divider,
+            fontWeight: 900,
+            fontSize: 18,
+        },
+        '& > .MuiTableContainer-root': {
+            borderRadius: 6,
+        },
+        '& .MuiTableCell-head': {
+            fontWeight: 'bold',
+            fontSize: 12,
+            textTransform: 'uppercase',
+            color: '#A1ACBE',
+            maxHeight: 26,
+            paddingTop: 8,
+            paddingBottom: 8,
+        },
+    },
+    OperatorListTitleWrapper: {
+        width: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+    },
+    OperatorsCountLabel: {
+        fontSize: 16,
+        fontWeight: 500,
+        lineHeight: 1.62,
+        color: theme.colors.gray40,
+    },
+    operatorTopWrapper: {
+        padding: '32px 32px 0 32px',
     },
 }));
 

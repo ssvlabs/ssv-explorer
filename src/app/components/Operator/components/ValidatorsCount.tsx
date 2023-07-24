@@ -11,8 +11,11 @@ const ValidatorCountContainer = styled.div`
   margin-bottom: 25px;
   border-radius: 16px;
   flex-direction: column;
-  padding: 32px 158px 41px 32px;
+  padding: 32px 20px 41px 32px;
   background-color: ${props => props.theme.colors.white};
+  @media (max-width: 576px) {
+    width: 100%;
+  },
 `;
 
 const DataHeader = styled.div`

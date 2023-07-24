@@ -1,8 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-export const useStylesOperator = makeStyles((theme) => ({
-    OperatorDataWrapper: {
-    },
+export const useStyles = makeStyles((theme) => ({
     WhiteSection: {
         height: 340,
         padding: '32px 32px 24px 32px',
@@ -26,12 +24,8 @@ export const useStylesOperator = makeStyles((theme) => ({
     },
     OperatorDetailsWrapper: {
         gap: 0,
-        // width: 1320,
         margin: '0 auto',
         maxWidth: 1320,
-        // '@media (max-width: 1329px)': {
-        //     width: 1152,
-        // },
     },
     SocialIcon: {
         width: 32,
@@ -41,15 +35,14 @@ export const useStylesOperator = makeStyles((theme) => ({
         justifyItems: 'center',
         alignItems: 'center',
         alignContent: 'center',
-        // backgroundColor: 'red',
     },
     OperatorLogo: {
         width: '56px',
         height: '56px',
         margin: '10px 24px 0 0',
         padding: '12px 14px 10px',
-        backgroundPosition: 'center', /* Center the image */
-        backgroundRepeat: 'no-repeat', /* Do not repeat the image */
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
         backgroundSize: 'contain',
         borderRadius: '4px',
         marginTop: 25,
@@ -133,7 +126,6 @@ export const useStylesOperator = makeStyles((theme) => ({
         fontStyle: 'normal',
         lineHeight: '1.43',
         letterSpacing: 'normal',
-        // color: '#2a323e',
         '&.mainHeader': {
             height: '35px',
             fontSize: '28px',
@@ -180,5 +172,37 @@ export const useStylesOperator = makeStyles((theme) => ({
         color: '#5b6c84',
         marginTop: -18,
         display: 'flex',
+    },
+    OperatorWrapper: {
+        gap: 10,
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+    },
+    OperatorInfoWrapper: {
+        gap: 24,
+        [theme.breakpoints.down('lg')]: {
+            display: 'flex',
+            flexDirection: 'row!important',
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+        },
+        [theme.breakpoints.down('md')]: {
+            justifyContent: 'flex-start',
+        },
+    },
+    OperatorDataComponentWrapper: {
+        display: 'flex',
+        borderRadius: 16,
+        flexDirection: 'column',
+        padding: '32px 32px 32px 32px',
+        backgroundColor: theme.colors.white,
+    },
+    LabelWrapper: {
+        height: '50%',
+        width: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
     },
 }));

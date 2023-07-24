@@ -4,12 +4,12 @@ import Grid from '@material-ui/core/Grid';
 import { useHistory } from 'react-router-dom';
 import config from '~app/common/config';
 import Layout from '~app/common/components/Layout';
-import { useStyles } from '~app/components/Overview/Overview.styles';
 import { Button } from '~app/common/components/Button';
 import Hero from '~app/components/Overview/components/Hero';
 import Stats from '~app/components/Overview/components/Stats';
 import Column from '~app/components/Overview/components/Column';
 import Header from '~app/components/Overview/components/Header';
+import { useStyles } from '~app/components/Overview/Overview.styles';
 import Container from '~app/components/Overview/components/Container';
 import HeaderWrapper from '~app/components/Overview/components/HeaderWrapper';
 import { OperatorsTable, ValidatorsTable } from '~app/components/Overview/components/Tables';
@@ -29,7 +29,6 @@ const Overview = () => {
       <Grid container wrap="nowrap" spacing={0} lg={12} className={classes.gridContainer}>
         <Hero />
         <Stats />
-        {/* <Banner style={{ marginBottom: 0, marginTop: 50 }} /> */}
         <Grid className={classes.TablesContainerWrapper}>
           <Container md={12} lg={12} container className={classes.TablesWrapper}>
             <Column item md={10} sm={10} xs={12} lg>

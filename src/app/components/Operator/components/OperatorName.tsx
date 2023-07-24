@@ -2,14 +2,14 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import { Skeleton } from '@material-ui/lab';
 import Typography from '@material-ui/core/Typography';
+import { useStyles } from '~app/components/Operator/Operator.styles';
 import OperatorType from '~app/components/Operator/components/OperatorType';
-import { useStylesOperator } from '~app/components/Operator/Operator.styles';
 import CopyToClipboardIcon from '~app/common/components/CopyToClipboardIcon';
 import { OperatorProps } from '~app/components/Operator/components/OperatorProps';
 
 export default (props: OperatorProps) => {
   const { operator } = props;
-  const operatorClasses = useStylesOperator();
+  const operatorClasses = useStyles();
   const operatorId = operator?.id || props.params.address;
   const operatorImage = {
     backgroundImage: `url(${operator.logo})`,

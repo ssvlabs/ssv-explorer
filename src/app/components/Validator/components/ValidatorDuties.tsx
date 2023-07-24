@@ -93,8 +93,8 @@ export default (props: ValidatorDutiesProps) => {
   }, [loadingDuties, validator?.public_key]);
 
   return (
-    <Grid className={classes.ValidatorDutiesWrapper} xl={9}>
-      <PaddedGridItem item xs={12} md={12} xl={12} style={{ paddingLeft: 30 }}>
+    <Grid className={classes.ValidatorDutiesWrapper} xs={12} sm={12} md={12} lg={7} xl={7}>
+      <PaddedGridItem item style={{ paddingLeft: 30 }}>
         <DataTable
           title="Duties"
           headers={['Epoch', 'Slot', 'Duty', 'Status', 'Operator Consensus Breakdown']}

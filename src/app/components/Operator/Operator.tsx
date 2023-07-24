@@ -9,8 +9,8 @@ import Layout from '~app/common/components/Layout';
 import ShowMoreText from '~app/common/components/ShowMoreText';
 import NotFoundScreen from '~app/common/components/NotFoundScreen';
 import OperatorDetails from '~app/common/components/OperatorDetails';
+import { useStyles } from '~app/components/Operator/Operator.styles';
 import ContentContainer from '~app/common/components/ContentContainer';
-import { useStylesOperator } from '~app/components/Operator/Operator.styles';
 import OperatorStatus from '~app/components/Operator/components/OperatorStatus';
 import ValidatorCount from '~app/components/Operator/components/ValidatorsCount';
 import OperatorPerformance from '~app/components/Operator/components/OperatorPerformance';
@@ -18,7 +18,7 @@ import ValidatorsInOperatorTable from '~app/components/Operator/components/Valid
 
 const Operator = () => {
   const params: any = useParams();
-  const classes = useStylesOperator();
+  const classes = useStyles();
   const [loadingOperator, setLoadingOperator] = useState(false);
   const [loadingValidators, setLoadingValidators] = useState(false);
   const defaultOperator: Record<string, any> = {};
@@ -94,7 +94,7 @@ const Operator = () => {
   const isLoading = loadingValidators || loadingOperator;
 
   return (
-    <Grid className={classes.OperatorDataWrapper}>
+    <Grid>
       <Grid item container className={classes.WhiteSection}>
         <Grid item container className={classes.OperatorDetailsWrapper}>
           <Grid item>
@@ -131,24 +131,22 @@ const Operator = () => {
       <Layout>
         <ContentContainer>
           <NotFoundScreen notFound={notFound}>
-            <Grid container>
-              <Grid container item justify="space-between" spacing={3}>
-                <Grid item lg={3} md={12} xs={12}>
-                  <OperatorStatus status={operator.status} is_deleted={operator.is_deleted} />
-                  <ValidatorCount validatorCount={operator.validators_count} />
-                  <OperatorPerformance operator={operator} isLoading={isLoading} />
-                </Grid>
-                <Grid item lg={9} md={6} xs={12}>
-                  <ValidatorsInOperatorTable
-                    params={params}
-                    isLoading={isLoading}
-                    validators={validators}
-                    pagination={validatorsPagination}
-                    onLoadPage={loadOperatorValidators}
-                    onChangeRowsPerPage={onChangeRowsPerPage}
-                    perPage={ApiParams.getInteger('operator:validators', 'perPage', ApiParams.PER_PAGE)}
+            <Grid container className={classes.OperatorWrapper}>
+              <Grid xs={12} sm={12} md={9} lg={12} item className={classes.OperatorInfoWrapper}>
+                <OperatorStatus status={operator.status} is_deleted={operator.is_deleted} />
+                <ValidatorCount validatorCount={operator.validators_count} />
+                <OperatorPerformance operator={operator} isLoading={isLoading} />
+              </Grid>
+              <Grid xs={12} sm={12} md={9} lg={10} xl={7} item>
+                <ValidatorsInOperatorTable
+                  params={params}
+                  isLoading={isLoading}
+                  validators={validators}
+                  pagination={validatorsPagination}
+                  onLoadPage={loadOperatorValidators}
+                  onChangeRowsPerPage={onChangeRowsPerPage}
+                  perPage={ApiParams.getInteger('operator:validators', 'perPage', ApiParams.PER_PAGE)}
                     />
-                </Grid>
               </Grid>
             </Grid>
           </NotFoundScreen>

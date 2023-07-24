@@ -9,10 +9,10 @@ import config from '~app/common/config';
 import SsvNetwork from '~lib/api/SsvNetwork';
 import Status from '~app/common/components/Status';
 import Layout from '~app/common/components/Layout';
+import { useStyles } from '~app/components/Styles';
 import { longStringShorten } from '~lib/utils/strings';
 import { Heading } from '~app/common/components/Headings';
 import NotFoundScreen from '~app/common/components/NotFoundScreen';
-import EmptyPlaceholder from '~app/common/components/EmptyPlaceholder';
 import ContentContainer from '~app/common/components/ContentContainer';
 import IsValidBadge from '~app/common/components/IsValidBadge/IsValidBadge';
 import CopyToClipboardIcon from '~app/common/components/CopyToClipboardIcon';
@@ -28,9 +28,9 @@ const StatsBlock = styled.div<({ maxWidth?: any })>`
 const BreadCrumbs = ({ address }: { address: string }) => {
   return (
     <BreadCrumbsContainer>
-      <BreadCrumb href={config.routes.HOME}>overview</BreadCrumb>
+      <BreadCrumb href={config.routes.HOME}>Overview</BreadCrumb>
       <BreadCrumbDivider />
-      <BreadCrumb href={config.routes.VALIDATORS.HOME}>validators</BreadCrumb>
+      <BreadCrumb href={config.routes.VALIDATORS.HOME}>Validators</BreadCrumb>
       <BreadCrumbDivider />
       <BreadCrumb href={`${config.routes.VALIDATORS.HOME}/${address}`}>
         0x{longStringShorten(address, 4)}
@@ -40,6 +40,7 @@ const BreadCrumbs = ({ address }: { address: string }) => {
 };
 
 const Validator = () => {
+  const classes = useStyles();
   const defaultPerformance = '24h';
   const params: Record<string, any> = useParams();
   const defaultValidator: Record<string, any> = {};
@@ -71,68 +72,64 @@ const Validator = () => {
   });
 
   return (
-    <Layout>
-      <ContentContainer>
-        <EmptyPlaceholder height={10} />
-        <NotFoundScreen notFound={notFound}>
-          <BreadCrumbs address={params.address} />
-          <EmptyPlaceholder height={20} />
-          <Grid container alignContent="center" alignItems="center">
-            <Grid item xs={12} md={8}>
-              <Grid container spacing={1} style={{ alignItems: 'center', marginTop: 22 }}>
-                <Grid item>
-                  <StatsBlock>
-                    <Heading variant="h1" style={{ padding: 0, marginBottom: 6 }}>
-                      Validator
-                    </Heading>
-                  </StatsBlock>
-                </Grid>
-                <Grid item>
-                  <Status size="big" entry={validator} />
-                </Grid>
-                <Grid item>
-                  <IsValidBadge size="big" entry={validator} />
-                </Grid>
-              </Grid>
-              {!notFound && (
-                <Grid container style={{ alignItems: 'center' }}>
-                  <Grid item>
-                    <Typography noWrap>
-                      <Typography noWrap>
-                        <Box component="div" display={{ xs: 'block', sm: 'none', md: 'none', lg: 'none' }}>
-                          0x{params.address}
-                        </Box>
-                        <Box component="div" display={{ xs: 'none', sm: 'block', md: 'block', lg: 'none' }}>
-                          0x{params.address}
-                        </Box>
-                        <Box component="div" display={{ xs: 'none', sm: 'none', md: 'none', lg: 'block' }}>
-                          0x{longStringShorten(params.address, 4)}
-                        </Box>
-                      </Typography>
-                    </Typography>
-                  </Grid>
-                  <Grid item>
-                    <CopyToClipboardIcon data={params.address} style={{ marginLeft: 15, width: 22, height: 22 }} />
-                    <BeaconchaLink network={validator.network} height={22} width={22} address={`validator/${params.address}`} />
-                  </Grid>
-                </Grid>
-                )}
+    <Grid>
+      <Grid item container className={classes.WhiteSection}>
+        <BreadCrumbs address={params.address} />
+        <Grid item xs={12} md={12}>
+          <Grid container spacing={1}>
+            <Grid item>
+              <StatsBlock>
+                <Heading variant="h1" style={{ padding: 0, marginBottom: 6 }}>
+                  Validator
+                </Heading>
+              </StatsBlock>
+            </Grid>
+            <Grid item>
+              <Status size="big" entry={validator} />
+            </Grid>
+            <Grid item>
+              <IsValidBadge size="big" entry={validator} />
             </Grid>
           </Grid>
-
-          <EmptyPlaceholder height={40} />
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={6} lg={4} xl={3}>
+          {!notFound && (
+            <Grid container>
+              <Grid item>
+                <Typography noWrap>
+                  <Typography noWrap>
+                    <Box component="div" display={{ xs: 'none', sm: 'none', md: 'none', lg: 'none' }}>
+                      0x{params.address}
+                    </Box>
+                    <Box component="div" display={{ xs: 'none', sm: 'block', md: 'block', lg: 'block' }}>
+                      0x{params.address}
+                    </Box>
+                    <Box component="div" display={{ xs: 'block', sm: 'none', md: 'none', lg: 'none' }}>
+                      0x{longStringShorten(params.address, 4)}
+                    </Box>
+                  </Typography>
+                </Typography>
+              </Grid>
+              <Grid item>
+                <CopyToClipboardIcon data={params.address} style={{ marginLeft: 15, width: 22, height: 22 }} />
+                <BeaconchaLink network={validator.network} height={22} width={22} address={`validator/${params.address}`} />
+              </Grid>
+            </Grid>
+            )}
+        </Grid>
+      </Grid>
+      <Layout>
+        <ContentContainer>
+          <NotFoundScreen notFound={notFound}>
+            <Grid container className={classes.SingleValidatorWrapper} spacing={3} xl={12}>
               <ValidatorOperators
                 validator={validator}
                 defaultPerformance={defaultPerformance}
               />
+              <ValidatorDuties validator={validator} />
             </Grid>
-            <ValidatorDuties validator={validator} />
-          </Grid>
-        </NotFoundScreen>
-      </ContentContainer>
-    </Layout>
+          </NotFoundScreen>
+        </ContentContainer>
+      </Layout>
+    </Grid>
   );
 };
 export default observer(Validator);

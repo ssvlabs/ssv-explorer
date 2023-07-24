@@ -1,6 +1,6 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import { useStylesOperator } from '~app/components/Operator/Operator.styles';
+import { useStyles } from '~app/components/Operator/Operator.styles';
 
 const socialNetworks = [
   {
@@ -27,7 +27,7 @@ type OperatorProps = {
 
 export default (props: OperatorProps) => {
   const { operator } = props;
-  const operatorClasses = useStylesOperator();
+  const operatorClasses = useStyles();
 
   const openInTab = (url: string) => {
     if (url.indexOf('http://') === -1 || url.indexOf('https://') === -1) {

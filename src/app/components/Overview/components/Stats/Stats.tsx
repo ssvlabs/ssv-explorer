@@ -1,15 +1,11 @@
 import React from 'react';
 import { observer } from 'mobx-react';
+import { Grid } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import SsvNetwork from '~lib/api/SsvNetwork';
 import { useStores } from '~app/hooks/useStores';
 import { numberWithCommas } from '~lib/utils/numbers';
 import OverviewStore from '~app/common/stores/Overview.store';
-// import StatsBlock from '~app/components/Overview/components/Stats/Block/Block';
-// import StatsContainer from '~app/components/Overview/components/Stats/Container/Container';
-// import StatsBlockHeader from '~app/components/Overview/components/Stats/BlockHeader/BlockHeader';
-// import StatsBlockContent from '~app/components/Overview/components/Stats/BlockContent/BlockContent';
-import { Grid } from '@material-ui/core';
 import { useStyles } from '~app/components/Overview/components/Stats/Stats.styles';
 
 const Stats = () => {

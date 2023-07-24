@@ -15,6 +15,9 @@ const OperatorPerformanceContainer = styled.div`
   flex-direction: column;
   padding: 32px 27px 44px 32px;
   background-color: ${props => props.theme.colors.white};
+  @media (max-width: 576px) {
+    width: 100%;
+  },
 `;
 
 const PerformanceDataHeader = styled.div`

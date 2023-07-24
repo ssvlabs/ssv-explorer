@@ -16,9 +16,7 @@ const StyledCell = withStyles((theme: Theme) => createStyles({
         lineHeight: 1.62,
         color: theme.colors.gray90,
         [theme.breakpoints.down('xs')]: {
-            // backgroundColor: 'aqua',
-            // height: 213,
-            // width: '60%',
+            width: '100%',
             border: 'none',
         },
     },

@@ -5,26 +5,16 @@ import Typography from '@material-ui/core/Typography';
 import { infoIconStyle } from '~root/theme';
 import { getPerformances } from '~lib/utils/performance';
 import InfoTooltip from '~app/common/components/InfoTooltip';
-import { useStylesOperator } from '~app/components/Operator/Operator.styles';
+import { useStyles } from '~app/components/Operator/Operator.styles';
 import { OperatorProps } from '~app/components/Operator/components/OperatorProps';
 
 const getDashboardFields = () => {
-  // const dashboardFields: any[] = [];
-
-  // dashboardFields.push({
-  //   name: 'validators_count',
-  //   hint: false,
-  //   displayName: 'Validators',
-  //   toolTipText: null,
-  // });
-
-  // return dashboardFields;
   return [];
 };
 
 export default (props: OperatorProps) => {
   const { operator, isLoading } = props;
-  const operatorClasses = useStylesOperator();
+  const operatorClasses = useStyles();
 
   return (
     <Grid item xs={12} lg={5}>
