@@ -51,16 +51,22 @@ const DataTable = (props: DataTableProps) => {
     onChangePage, onChangeRowsPerPage, headersPositions, title, noDataMessage, hidePagination } = props;
   const classes = useStyles();
   const windowSize = useWindowSize();
-
+  const isXsWindowSize = windowSize.size === WINDOW_SIZES.XS;
   const dataRows = () => {
     if (isLoading) {
       return skeletons.map((rowIndex: number) => (
         <StyledRow hover role="checkbox" tabIndex={-1} key={`row-${rowIndex}`}>
-          {headers.map((header: string) => (
-            <StyledCell key={`cell-${header}`}>
+          {isXsWindowSize ? (
+            <StyledCell>
               <Skeleton />
             </StyledCell>
-          ))}
+) :
+                headers.map((header: string) => (
+                  <StyledCell key={`cell-${header}`}>
+                    <Skeleton />
+                  </StyledCell>
+                ))
+              }
         </StyledRow>
       ));
     }
@@ -73,7 +79,7 @@ const DataTable = (props: DataTableProps) => {
         </StyledRow>
       );
     }
-    if (operatorListFlow && windowSize.size === WINDOW_SIZES.XS) {
+    if (operatorListFlow && isXsWindowSize) {
       return data.map((row: any[], rowIndex: number) => {
         return (
           <Grid key={`row-key-${rowIndex}`} xs={10} className={classes.TableStyledRow}>
@@ -94,7 +100,7 @@ const DataTable = (props: DataTableProps) => {
       );
       });
     }
-    if (validatorListFlow && windowSize.size === WINDOW_SIZES.XS) {
+    if (validatorListFlow && isXsWindowSize) {
       return data.map((row: any[], rowIndex: number) => {
         return (
           <Grid key={`row-key-${rowIndex}`} xs={10} className={classes.TableStyledRow}>
