@@ -9,8 +9,10 @@ const Hero = () => {
   const classes = useStyles();
 
   return (
-    <Grid className={classes.HeroContainer}>
-      <Typography className={classes.HeroHeader}>Discover the SSV Network</Typography>
+    <Grid className={classes.HeroContainer} xl={12}>
+      <Grid className={classes.HeroWrapper} xs={12} md={10} lg={12}>
+        <Typography className={classes.HeroHeader}>Discover the SSV Network</Typography>
+      </Grid>
       <Grid className={classes.SmartSearchWrapper} xs={12} md={10} lg={12} xl={10}>
         <SmartSearch />
       </Grid>

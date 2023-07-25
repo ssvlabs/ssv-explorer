@@ -13,8 +13,16 @@ export const useStyles = makeStyles((theme) => ({
         flexDirection: 'column',
         alignItems: 'center',
     },
+    HeroWrapper: {
+        width: '1320px',
+        display: 'flex',
+        [theme.breakpoints.down('xs')]: {
+            fontSize: 20,
+            justifyContent: 'center',
+        },
+    },
     HeroHeader: {
-        width: '90%',
+        width: '100%',
         marginTop: 50,
         marginBottom: 30,
         color: theme.palette.text.primary,
@@ -23,7 +31,6 @@ export const useStyles = makeStyles((theme) => ({
         fontSize: 28,
         lineHeight: '120%',
         display: 'flex',
-        alignItems: 'center',
         [theme.breakpoints.down('xs')]: {
             fontSize: 20,
             justifyContent: 'center',
