@@ -1,7 +1,5 @@
 import React from 'react';
 import { Button } from '@material-ui/core';
-// import { useStores } from '~app/hooks/useStores';
-// import ApplicationStore from '~app/common/stores/Application.store';
 import { useStyles } from '~app/common/components/Button/Button.styles';
 
 type ButtonProps = {
@@ -14,7 +12,6 @@ type ButtonProps = {
 };
 
 const AppButton = (props: ButtonProps) => {
-    // eslint-disable-next-line no-unused-vars
     const classes = useStyles();
     const { text, type, height, width, disable, submitAction } = props;
 
@@ -32,7 +29,6 @@ const AppButton = (props: ButtonProps) => {
         {text}
       </Button>
     );
-    // <Grid style={{ height, width }} onClick={onClick} className={classes.Wrapper}>{text}</Grid>;
 };
 
 export default AppButton;

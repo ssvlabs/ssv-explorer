@@ -25,8 +25,7 @@ const SmartSearch = (props: SmartSearchProps) => {
   const classes = useStyles();
   const [query, setQuery] = useState('');
   const [loading, setLoading] = useState(false);
-  const { placeholder, withBorder, inAppBar, supportSmallScreen, closeSearch } = props;
-  withBorder;
+  const { placeholder, inAppBar, supportSmallScreen, closeSearch } = props;
 
   const [searchResults, setSearchResults]: [any[], any] = useState([]);
   let searchTimeout: any;
@@ -154,15 +153,6 @@ const SmartSearch = (props: SmartSearchProps) => {
   };
 
   /**
-   * React on click on search icon addon in the query input.
-   */
-  const onSearchButtonClicked = () => {
-    setTimeout(() => {
-      redirectUserToSearchPage(query);
-    }, 10);
-  };
-  onSearchButtonClicked;
-  /**
    * Rendering option of the search results
    * @param option
    */
@@ -213,8 +203,7 @@ const SmartSearch = (props: SmartSearchProps) => {
     <SearchInput
       style={{ height: inAppBar ? 48 : 60 }}
       {...params}
-      value=""
-      // variant="outlined"
+      value={query}
       data-testid="smart-search"
       placeholder={placeholder || 'Search for validators and operators...'}
       InputProps={{

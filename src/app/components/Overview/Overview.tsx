@@ -20,9 +20,7 @@ const Overview = () => {
   const [operatorsExist, setOperatorsExist] = useState(false);
   const [validatorsExist, setValidatorsExist] = useState(false);
   
-  const goTo = (url: string) => {
-    history.push(url);
-  };
+  const goTo = (url: string) => history.push(url);
 
   return (
     <Layout>

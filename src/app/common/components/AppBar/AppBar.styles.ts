@@ -16,7 +16,6 @@ export const useStyles = makeStyles((theme) => ({
         },
     },
     root: {
-        marginTop: 38,
         height: 48,
         flexGrow: 1,
         '& > .MuiPaper-root > .MuiToolbar-root': {

@@ -1,6 +1,5 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import Grid from '@material-ui/core/Grid';
 import ApiParams from '~lib/api/ApiParams';
 import { Skeleton } from '@material-ui/lab';
 import Table from '@material-ui/core/Table';
@@ -8,7 +7,6 @@ import { TableCell } from '@material-ui/core';
 import TableRow from '@material-ui/core/TableRow';
 import TableHead from '@material-ui/core/TableHead';
 import TableBody from '@material-ui/core/TableBody';
-import Typography from '@material-ui/core/Typography';
 import TableContainer from '@material-ui/core/TableContainer';
 import TablePagination from '@material-ui/core/TablePagination';
 import StyledRow from '~app/common/components/Table/StyledRow';
@@ -20,14 +18,12 @@ import { overviewTableHeadersStyle } from '~app/components/Overview/components/T
 
 type HeaderPosition = 'inherit' | 'left' | 'center' | 'right' | 'justify';
 
-const OPERATOR_CELL_LABEL_NAME = ['', 'Status', '1D Performance', 'Validators'];
-const VALIDATOR_CELL_LABEL_NAME = ['', '', 'Operators'];
-
 type DataTableProps = {
   title?: string,
   headers: any[],
   headersPositions?: HeaderPosition[],
   data: any[],
+  customRows?: any,
   rowsPerPageOptions?: number[],
   totalCount: number,
   perPage?: number,
@@ -39,16 +35,14 @@ type DataTableProps = {
   onChangeRowsPerPage?: (event: any) => void,
   noDataMessage?: string,
   hidePagination?: boolean,
-  operatorListFlow?: boolean,
-  validatorListFlow?: boolean,
 };
 
 const defaultPerPageOptions = [10, 25, 50, 100];
 const skeletons = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 const DataTable = (props: DataTableProps) => {
-  const { headers, data, rowsPerPageOptions, totalCount, perPage, page, isLoading, operatorListFlow, validatorListFlow,
-    onChangePage, onChangeRowsPerPage, headersPositions, title, noDataMessage, hidePagination } = props;
+  const { headers, data, rowsPerPageOptions, totalCount, perPage, page, isLoading,
+    onChangePage, onChangeRowsPerPage, headersPositions, title, noDataMessage, hidePagination, customRows } = props;
   const classes = useStyles();
   const windowSize = useWindowSize();
   const isXsWindowSize = windowSize.size === WINDOW_SIZES.XS;
@@ -79,50 +73,8 @@ const DataTable = (props: DataTableProps) => {
         </StyledRow>
       );
     }
-    if (operatorListFlow && isXsWindowSize) {
-      return data.map((row: any[], rowIndex: number) => {
-        return (
-          <Grid key={`row-key-${rowIndex}`} xs={10} className={classes.TableStyledRow}>
-            {row.map((cell: any, cellIndex: number) => {
-              return (
-                <Grid key={`cell-key-${cellIndex}`} xs={cellIndex > 0 ? 4 : 12}>
-                  <StyledCell
-                    key={`cell-${cellIndex}`}
-                    align={headersPositions?.length ? headersPositions[cellIndex] : undefined}
-                    >
-                    <Typography className={classes.TableCellLabel}>{OPERATOR_CELL_LABEL_NAME[cellIndex]}</Typography>
-                    {cell}
-                  </StyledCell> 
-                </Grid>
-              );
-            })}
-          </Grid>
-      );
-      });
-    }
-    if (validatorListFlow && isXsWindowSize) {
-      return data.map((row: any[], rowIndex: number) => {
-        return (
-          <Grid key={`row-key-${rowIndex}`} xs={10} className={classes.TableStyledRow}>
-            {row.map((cell: any, cellIndex: number) => {
-              if (cellIndex === 1) {
-                return;
-              }
-              return (
-                <Grid key={`cell-key-${cellIndex}`} xs={12}>
-                  <StyledCell
-                    key={`cell-${cellIndex}`}
-                    align={headersPositions?.length ? headersPositions[cellIndex] : undefined}
-                    >
-                    <Typography className={classes.TableCellLabel}>{VALIDATOR_CELL_LABEL_NAME[cellIndex]}</Typography>
-                    {cell}
-                  </StyledCell>
-                </Grid>
-              );
-            })}
-          </Grid>
-      );
-      });
+    if (customRows) {
+      return customRows;
     }
     return data.map((row: any[], rowIndex: number) => (
       <StyledRow hover role="checkbox" tabIndex={-1} key={`row-${rowIndex}`}>

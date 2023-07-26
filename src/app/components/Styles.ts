@@ -410,7 +410,30 @@ export const useStyles = makeStyles((theme) => ({
         color: theme.colors.gray40,
     },
     operatorTopWrapper: {
-        padding: '32px 32px 0 32px',
+        padding: '32px 32px 0 0',
+        [theme.breakpoints.down('xs')]: {
+            padding: '32px 32px 0 32px',
+        },
+    },
+    TableStyledRow: {
+        [theme.breakpoints.down('xs')]: {
+            paddingBottom: '50px',
+            width: '100%',
+            height: 213,
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderBottom: `1px solid ${theme.colors.gray20}`,
+            margin: 32,
+        },
+    },
+    TableCellLabel: {
+        fontSize: 12,
+        fontWeight: 500,
+        width: 90,
+        lineHeight: 1.62,
+        color: theme.colors.gray40,
     },
 }));
 

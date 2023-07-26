@@ -69,8 +69,6 @@ export const AppTheme = ({ isDarkMode }: ThemeParams): any => {
         verticalAlign: 'middle',
         color: isDarkMode ? 'white' : '#2a323e',
       },
-      button: {
-      },
     },
   };
 };

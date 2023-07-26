@@ -49,8 +49,7 @@ const ValidatorCount = ({ validatorCount }: { validatorCount: number }) => {
           Validators
           <InfoTooltip
             style={headerTooltipStyle}
-            message="Is the operator performing duties for the majority of its validators in the last 10 epochs."
-                />
+            message="Is the operator performing duties for the majority of its validators in the last 10 epochs." />
         </DataHeader>
         <ValueContent>{validatorCount}</ValueContent>
       </ValidatorCountContainer>

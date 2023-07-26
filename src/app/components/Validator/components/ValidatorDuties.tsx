@@ -68,7 +68,15 @@ export default (props: ValidatorDutiesProps) => {
     return (
       <>
         <Grid className={classes.OperatorConsensusWrapper}>
-          {operatorList.map((operator: any, index: number) => (<OperatorConsensusSlot key={operator.id} operatorName={operator.name} operatorId={operator.id} status={operator.status} isNotFirst={index !== 0} isNotLast={index !== operatorList.length - 1} />))}
+          {operatorList.map((operator: any, index: number) => (
+            <OperatorConsensusSlot
+              key={operator.id}
+              status={operator.status}
+              operatorId={operator.id}
+              isNotFirst={index !== 0}
+              operatorName={operator.name}
+              isNotLast={index !== operatorList.length - 1} />
+          ))}
         </Grid>
       </>
     );

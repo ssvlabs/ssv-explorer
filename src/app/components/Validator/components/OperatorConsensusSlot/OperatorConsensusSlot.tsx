@@ -23,12 +23,14 @@ function OperatorConsensusSlot({ status, isNotFirst, isNotLast, operatorId, oper
         if (isNotFirst && isNotLast) {
             return LINE_AREAS.center;
         } 
-            if (!isNotFirst) {
-                return LINE_AREAS.right;
-            } 
-                return LINE_AREAS.left;
-};
+        if (!isNotFirst) {
+            return LINE_AREAS.right;
+        }
+        return LINE_AREAS.left;
+    };
+
     const classes = useStyles({ status, area: lineArea() });
+
     return (
       <Grid className={classes.OperatorConsensusSlot}>
         <Tooltip title={operatorName} placement={'top'} className={classes.tooltip}>

@@ -96,11 +96,11 @@ const Validator = () => {
               <Grid item>
                 <Typography noWrap>
                   <Typography noWrap>
-                    <Box component="div" display={{ xs: 'none', sm: 'none', md: 'none', lg: 'none' }}>
-                      0x{params.address}
-                    </Box>
-                    <Box component="div" display={{ xs: 'none', sm: 'block', md: 'block', lg: 'block' }}>
-                      0x{params.address}
+                    <Box component="div" display={{ xs: 'none', sm: 'block', md: 'none', lg: 'none' }}>
+                      0x{longStringShorten(params.address, 30)}
+                    </Box> 
+                    <Box component="div" display={{ xs: 'none', sm: 'none', md: 'block', lg: 'block' }}>
+                      <Grid>0x{params.address}</Grid>
                     </Box>
                     <Box component="div" display={{ xs: 'block', sm: 'none', md: 'none', lg: 'none' }}>
                       0x{longStringShorten(params.address, 4)}
@@ -110,7 +110,7 @@ const Validator = () => {
               </Grid>
               <Grid item>
                 <CopyToClipboardIcon data={params.address} style={{ marginLeft: 15, width: 22, height: 22 }} />
-                <BeaconchaLink network={validator.network} height={22} width={22} address={`validator/${params.address}`} />
+                <BeaconchaLink height={22} width={22} address={`validator/${params.address}`} />
               </Grid>
             </Grid>
             )}

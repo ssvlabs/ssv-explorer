@@ -15,6 +15,13 @@ import ContentContainer from '~app/common/components/ContentContainer';
 import { useWindowSize, WINDOW_SIZES } from '~app/hooks/useWindowSize';
 import EmptyPlaceholder from '~app/common/components/EmptyPlaceholder';
 import { BreadCrumb, BreadCrumbDivider, BreadCrumbsContainer } from '~app/common/components/Breadcrumbs';
+import Grid from '@material-ui/core/Grid';
+import StyledCell from '~app/common/components/Table/StyledCell';
+
+type HeaderPosition = 'inherit' | 'left' | 'center' | 'right' | 'justify';
+
+const HEADER_POSITIONS: HeaderPosition[] = ['left', 'left', 'left'];
+const VALIDATOR_CELL_LABEL_NAME = ['', '', 'Operators'];
 
 const ValidatorsList = () => {
   const classes = useStyles();
@@ -22,7 +29,7 @@ const ValidatorsList = () => {
   const [loading, setLoading] = useState(false);
   const [validators, setValidators] = useState([]);
   const [pagination, setPagination] = useState(ApiParams.DEFAULT_PAGINATION);
-
+  const isXsWindowSize = windowSize.size === WINDOW_SIZES.XS;
   /**
    * Loading operators by page
    * @param paginationPage
@@ -57,11 +64,11 @@ const ValidatorsList = () => {
       return [
         <Link href={`${config.routes.VALIDATORS.HOME}/${validator.public_key}`} className={classes.Link}>
           <Box className={classes.ValidatorListInfoBox} component="div" display={{ xs: 'none', sm: 'none', md: 'block', lg: 'block' }}>
-            0x{longStringShorten(validator.public_key, windowSize.size === WINDOW_SIZES.XS ? 6 : 4)}
+            0x{longStringShorten(validator.public_key, isXsWindowSize ? 6 : 4)}
             <BeaconchaLink height={24} width={24} address={`validator/${validator.public_key}`} />
           </Box>
         </Link>,
-        <Box component="div" display={{ xs: 'none', sm: 'none', md: 'block', lg: 'block' }}>
+        <Box component="div" display={{ xs: 'none', sm: 'none', md: 'none', lg: 'block' }}>
           N/A
         </Box>,
         validator.operators.map((operator: any, operatorIndex: number) => {
@@ -78,6 +85,34 @@ const ValidatorsList = () => {
     });    
   };
 
+  const getCustomOwnTableRows = () => {
+    if (isXsWindowSize) {
+      return getValidatorsTableData().map((row: any[], rowIndex: number) => {
+        return (
+          <Grid key={`row-key-${rowIndex}`} xs={10} className={classes.TableStyledRow}>
+            {row.map((cell: any, cellIndex: number) => {
+                if (cellIndex === 1) {
+                  return;
+                }
+                return (
+                  <Grid key={`cell-key-${cellIndex}`} xs={12}>
+                    <StyledCell
+                      key={`cell-${cellIndex}`}
+                      align={HEADER_POSITIONS?.length ? HEADER_POSITIONS[cellIndex] : undefined}
+                      >
+                      <Typography className={classes.TableCellLabel}>{VALIDATOR_CELL_LABEL_NAME[cellIndex]}</Typography>
+                      {cell}
+                    </StyledCell>
+                  </Grid>
+                );
+              })}
+          </Grid>
+        );
+      });
+    } 
+      return null;
+  };
+
   useEffect(() => {
     if (!validators.length && !loading) {
       loadValidators();
@@ -89,15 +124,15 @@ const ValidatorsList = () => {
       <ContentContainer>
         <EmptyPlaceholder height={10} />
         <BreadCrumbsContainer>
-          <BreadCrumb href={config.routes.HOME}>overview</BreadCrumb>
+          <BreadCrumb href={config.routes.HOME}>Overview</BreadCrumb>
           <BreadCrumbDivider />
-          <BreadCrumb href={config.routes.VALIDATORS.HOME}>validators</BreadCrumb>
+          <BreadCrumb href={config.routes.VALIDATORS.HOME}>Validators</BreadCrumb>
         </BreadCrumbsContainer>
         <Typography variant="h1">Validators</Typography>
         <DataTable
           headers={['Public Key', 'Joined at Date', 'Operators']}
-          headersPositions={['left', 'left', 'left']}
-          validatorListFlow
+          headersPositions={HEADER_POSITIONS}
+          customRows={getCustomOwnTableRows()}
           data={getValidatorsTableData()}
           totalCount={pagination.total}
           page={pagination.page - 1}

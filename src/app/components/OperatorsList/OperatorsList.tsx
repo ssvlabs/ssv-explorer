@@ -14,14 +14,16 @@ import Status from '~app/common/components/Status';
 import Layout from '~app/common/components/Layout';
 import { useStyles } from '~app/components/Styles';
 import DataTable from '~app/common/components/DataTable';
-import { getPerformances } from '~lib/utils/performance';
 import InfoTooltip from '~app/common/components/InfoTooltip';
 import OverviewStore from '~app/common/stores/Overview.store';
+import StyledCell from '~app/common/components/Table/StyledCell';
 import OperatorDetails from '~app/common/components/OperatorDetails';
 import EmptyPlaceholder from '~app/common/components/EmptyPlaceholder';
 import ContentContainer from '~app/common/components/ContentContainer';
 import { useWindowSize, WINDOW_SIZES } from '~app/hooks/useWindowSize';
 import { BreadCrumb, BreadCrumbDivider, BreadCrumbsContainer } from '~app/common/components/Breadcrumbs';
+
+const OPERATOR_CELL_LABEL_NAME = ['', 'Status', '1D Performance', 'Validators'];
 
 const OperatorsList = () => {
   const stores = useStores();
@@ -32,6 +34,7 @@ const OperatorsList = () => {
   const [loading, setLoading] = useState(false);
   const [operators, setOperators] = useState(defaultOperators);
   const [pagination, setPagination] = useState(ApiParams.DEFAULT_PAGINATION);
+  const isXsWindowSize = windowSize.size === WINDOW_SIZES.XS;
 
   /**
    * Loading operators by page
@@ -79,22 +82,41 @@ const OperatorsList = () => {
         </Box>,
       ];
 
-      const performances = getPerformances(operator.performance);
-      for (let i = 0; i < performances.length; i += 1) {
-        const performance = performances[i];
-        if (performance.key === '24h') {
-          data.push(
-            <Link href={`${config.routes.OPERATORS.HOME}/${operator.id}`} className={`${classes.Link} ${classes.blackLinkColor}`}>
-              {`${parseFloat(String(performance.value)).toFixed(2)}%`}
-            </Link>,
+      const performance = operator.performance['24h'];
+
+      data.push(
+        <Link href={`${config.routes.OPERATORS.HOME}/${operator.id}`} className={`${classes.Link} ${classes.blackLinkColor}`}>
+          {`${parseFloat(String(performance)).toFixed(2)}%`}
+        </Link>, <Link href={`${config.routes.OPERATORS.HOME}/${operator.id}`} className={`${classes.Link} ${classes.blackLinkColor}`}>
+          {operator.validators_count}
+        </Link>,
           );
-        }
-      }
-      data.push(<Link href={`${config.routes.OPERATORS.HOME}/${operator.id}`} className={`${classes.Link} ${classes.blackLinkColor}`}>
-        {operator.validators_count}
-      </Link>);
       return data;
     });
+  };
+
+  const getCustomTableRows = () => {
+    if (isXsWindowSize) {
+      return getOperatorsTableData().map((row: any[], rowIndex: number) => {
+        return (
+          <Grid key={`row-key-${rowIndex}`} xs={10} className={classes.TableStyledRow}>
+            {row.map((cell: any, cellIndex: number) => {
+                return (
+                  <Grid key={`cell-key-${cellIndex}`} xs={cellIndex > 0 ? 4 : 12}>
+                    <StyledCell
+                      key={`cell-${cellIndex}`}
+                      >
+                      <Typography className={classes.TableCellLabel}>{OPERATOR_CELL_LABEL_NAME[cellIndex]}</Typography>
+                      {cell}
+                    </StyledCell>
+                  </Grid>
+                );
+              })}
+          </Grid>
+        );
+      });
+    }
+    return null;
   };
 
   const getOperatorsTableHeaders = () => {
@@ -141,12 +163,11 @@ const OperatorsList = () => {
             totalCount={pagination.total}
             data={getOperatorsTableData()}
             headers={getOperatorsTableHeaders()}
-            operatorListFlow
+            customRows={getCustomTableRows()}
             onChangeRowsPerPage={onChangeRowsPerPage}
             perPage={ApiParams.getInteger('operators', 'perPage', ApiParams.PER_PAGE)}
           />
         </Grid>
-
       </ContentContainer>
     </Layout>
   );

@@ -21,7 +21,7 @@ type Props = {
 };
 
 const Operators = (props: Props) => {
-    const { setOperatorsExist } = props;
+  const { setOperatorsExist } = props;
   const classes = useStyles();
   const [operators, setOperators] = useState(null);
   const [loadingOperators, setLoadingOperators] = useState(false);
@@ -42,7 +42,7 @@ const Operators = (props: Props) => {
     SsvNetwork.getInstance().fetchOperators({ page: 1, validatorsCount: 'true' })
       .then((result: any) => {
         overviewStore.setTotalOperators(result.data.pagination.total);
-        if (result.data.operators.length > 0) setOperatorsExist(true);
+        setOperatorsExist(result.data.operators.length > 0);
         setOperators(result.data.operators);
         setLoadingOperators(false);
       });
