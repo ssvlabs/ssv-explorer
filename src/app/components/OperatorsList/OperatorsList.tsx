@@ -82,7 +82,7 @@ const OperatorsList = () => {
         </Box>,
       ];
 
-      const performance = operator.performance['24h'];
+      const performance = operator.performance['24h'] || '0';
 
       data.push(
         <Link href={`${config.routes.OPERATORS.HOME}/${operator.id}`} className={`${classes.Link} ${classes.blackLinkColor}`}>
