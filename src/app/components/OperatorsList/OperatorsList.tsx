@@ -91,7 +91,7 @@ const OperatorsList = () => {
         <Link href={`${config.routes.OPERATORS.HOME}/${operator.id}`} className={`${classes.Link} ${classes.blackLinkColor}`}>
           {operator.validators_count}
         </Link>,
-          );
+      );
       return data;
     });
   };
