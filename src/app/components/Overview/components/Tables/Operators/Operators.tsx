@@ -42,7 +42,7 @@ const Operators = (props: Props) => {
     SsvNetwork.getInstance().fetchOperators({ page: 1, validatorsCount: 'true' })
       .then((result: any) => {
         overviewStore.setTotalOperators(result.data.pagination.total);
-        setOperatorsExist(result.data.operators.length > 0);
+        setOperatorsExist(result.data.operators.total > 0);
         setOperators(result.data.operators);
         setLoadingOperators(false);
       });

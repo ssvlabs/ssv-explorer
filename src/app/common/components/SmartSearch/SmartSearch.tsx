@@ -13,6 +13,9 @@ import OperatorType from '~app/common/components/OperatorType';
 import SearchInput from '~app/common/components/SmartSearch/components/SearchInput';
 import SearchButton from '~app/common/components/SmartSearch/components/SearchButton';
 
+const HEIGHT_IN_APP_BAR = 48;
+const HEIGHT_IN_DASHBOARD = 60;
+
 type SmartSearchProps = {
   closeSearch?: any,
   inAppBar?: boolean;
@@ -201,7 +204,7 @@ const SmartSearch = (props: SmartSearchProps) => {
    */
   const onRenderSearchInput = (params: AutocompleteRenderInputParams) => (
     <SearchInput
-      style={{ height: inAppBar ? 48 : 60 }}
+      style={{ height: inAppBar ? HEIGHT_IN_APP_BAR : HEIGHT_IN_DASHBOARD }}
       {...params}
       value={query}
       data-testid="smart-search"

@@ -1,6 +1,11 @@
 import { makeStyles } from '@material-ui/core/styles';
 
 export const useStyles = makeStyles((theme) => ({
+    TitleLabel: {
+        paddingLeft: 15,
+        color: '#97a5ba',
+        fontSize: 20,
+    },
     tableWithBorder: {
         borderRadius: 6,
         fontSize: 18,

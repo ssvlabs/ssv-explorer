@@ -87,7 +87,8 @@ const OperatorsList = () => {
       data.push(
         <Link href={`${config.routes.OPERATORS.HOME}/${operator.id}`} className={`${classes.Link} ${classes.blackLinkColor}`}>
           {`${parseFloat(String(performance)).toFixed(2)}%`}
-        </Link>, <Link href={`${config.routes.OPERATORS.HOME}/${operator.id}`} className={`${classes.Link} ${classes.blackLinkColor}`}>
+        </Link>,
+        <Link href={`${config.routes.OPERATORS.HOME}/${operator.id}`} className={`${classes.Link} ${classes.blackLinkColor}`}>
           {operator.validators_count}
         </Link>,
           );

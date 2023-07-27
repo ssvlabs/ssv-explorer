@@ -23,12 +23,7 @@ class OverviewStore extends BaseStore {
 
   @action.bound
   setTotalEth(totalEth: number) {
-    let unversionUrl = config.links.API_COMPLETE_BASE_URL;
-
-    const pathnames = unversionUrl.split('/');
-    pathnames.splice(-2);
-    unversionUrl = pathnames.join('/');
-
+    const unversionUrl = config.links.API_COMPLETE_BASE_URL.replace(/(\/api\/).*/, '$1').replace(/\/+$/, '');
     this.totalEth = totalEth;
     if (SsvNetwork.getActiveNetwork() !== 'mainnet') {
       return;

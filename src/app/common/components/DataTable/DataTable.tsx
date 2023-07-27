@@ -54,13 +54,12 @@ const DataTable = (props: DataTableProps) => {
             <StyledCell>
               <Skeleton />
             </StyledCell>
-) :
-                headers.map((header: string) => (
-                  <StyledCell key={`cell-${header}`}>
-                    <Skeleton />
-                  </StyledCell>
-                ))
-              }
+          ) :
+          headers.map((header: string) => (
+            <StyledCell key={`cell-${header}`}>
+              <Skeleton />
+            </StyledCell>
+          ))}
         </StyledRow>
       ));
     }
@@ -94,7 +93,7 @@ const DataTable = (props: DataTableProps) => {
   return (
     <div className={classes.tableWithBorder}>
       <TableContainer>
-        {title ? <h3 style={{ paddingLeft: 15, color: '#97a5ba', fontSize: 20 }}>{title}</h3> : ''}
+        {title ? <h3 className={classes.TitleLabel}>{title}</h3> : ''}
         {!hidePagination && perPage && perPage > defaultPerPageOptions[0] && data?.length ? (
           <TablePagination
             page={page}
