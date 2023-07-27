@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import throttle from 'lodash/throttle';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
-import CloseIcon from '@material-ui/icons/Close';
-import SearchIcon from '@material-ui/icons/Search';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -15,18 +13,23 @@ import OperatorType from '~app/common/components/OperatorType';
 import SearchInput from '~app/common/components/SmartSearch/components/SearchInput';
 import SearchButton from '~app/common/components/SmartSearch/components/SearchButton';
 
+const HEIGHT_IN_APP_BAR = 48;
+const HEIGHT_IN_DASHBOARD = 60;
+
 type SmartSearchProps = {
-  placeholder?: string;
-  inAppBar?: boolean;
   closeSearch?: any,
+  inAppBar?: boolean;
+  withBorder?: boolean;
+  placeholder?: string;
   supportSmallScreen?: boolean,
 };
 
 const SmartSearch = (props: SmartSearchProps) => {
-  const { placeholder, inAppBar, supportSmallScreen, closeSearch } = props;
   const classes = useStyles();
   const [query, setQuery] = useState('');
   const [loading, setLoading] = useState(false);
+  const { placeholder, inAppBar, supportSmallScreen, closeSearch } = props;
+
   const [searchResults, setSearchResults]: [any[], any] = useState([]);
   let searchTimeout: any;
   const SEARCH_TIMEOUT_DELAY = 700;
@@ -153,15 +156,6 @@ const SmartSearch = (props: SmartSearchProps) => {
   };
 
   /**
-   * React on click on search icon addon in the query input.
-   */
-  const onSearchButtonClicked = () => {
-    setTimeout(() => {
-      redirectUserToSearchPage(query);
-    }, 10);
-  };
-
-  /**
    * Rendering option of the search results
    * @param option
    */
@@ -187,14 +181,15 @@ const SmartSearch = (props: SmartSearchProps) => {
           >
             <Grid container style={{ width: '100%' }} justify={'space-between'}>
               <Grid item container xs>
-                <Grid item className={classes.BlackText} style={{ marginRight: '5px' }}>
-                  {option.name}
+                <Grid item className={classes.SmartSearchOperatorDataOption}>
+                  <Grid item className={classes.BlackText} style={{ marginRight: '5px' }}>
+                    {option.name}
+                  </Grid>
+                  <Grid item className={classes.grayText}>
+                    ID: {option.id}
+                  </Grid>
                 </Grid>
                 <OperatorType type={option.operatorType} />
-              </Grid>
-              <Grid item className={classes.BlackText}>
-                {/* {newLongStringShorten(option.address)} */}
-                ID: {option.id}
               </Grid>
             </Grid>
           </Link>
@@ -209,24 +204,23 @@ const SmartSearch = (props: SmartSearchProps) => {
    */
   const onRenderSearchInput = (params: AutocompleteRenderInputParams) => (
     <SearchInput
+      style={{ height: inAppBar ? HEIGHT_IN_APP_BAR : HEIGHT_IN_DASHBOARD }}
       {...params}
-      value=""
-      variant="outlined"
+      value={query}
       data-testid="smart-search"
       placeholder={placeholder || 'Search for validators and operators...'}
       InputProps={{
         ...params.InputProps,
-        endAdornment: (
+        endAdornment: '',
+        startAdornment: (
           <InputAdornment position="end">
             {loading && <CircularProgress color="inherit" size={20} />}
             {!loading && !supportSmallScreen && (
-              <SearchButton edge="end" onClick={onSearchButtonClicked}>
-                <SearchIcon />
-              </SearchButton>
+            <img src="/images/search_icon.svg" />
             )}
             {(supportSmallScreen && (
             <SearchButton edge="end" onClick={closeSearch}>
-              <CloseIcon />
+              <img src="/images/search_icon.svg" />
             </SearchButton>
             ))}
           </InputAdornment>
@@ -244,7 +238,7 @@ const SmartSearch = (props: SmartSearchProps) => {
   return (
     <Autocomplete
       value=""
-      fullWidth
+      fullWidth={inAppBar}
       clearOnBlur
       autoComplete
       clearOnEscape

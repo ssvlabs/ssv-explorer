@@ -1,42 +1,39 @@
 import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
+import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import { useParams } from 'react-router-dom';
 import ApiParams from '~lib/api/ApiParams';
 import SsvNetwork from '~lib/api/SsvNetwork';
 import Layout from '~app/common/components/Layout';
-// import Banner from '~app/common/components/Banner';
+import ShowMoreText from '~app/common/components/ShowMoreText';
 import NotFoundScreen from '~app/common/components/NotFoundScreen';
-// import { Incentivized } from '~app/common/components/Incentivized';
+import OperatorDetails from '~app/common/components/OperatorDetails';
+import { useStyles } from '~app/components/Operator/Operator.styles';
 import ContentContainer from '~app/common/components/ContentContainer';
-import EmptyPlaceholder from '~app/common/components/EmptyPlaceholder';
-import BreadCrumbs from '~app/components/Operator/components/BreadCrumbs';
-import OperatorName from '~app/components/Operator/components/OperatorName';
-import OperatorInfo from '~app/components/Operator/components/OperatorInfo';
 import OperatorStatus from '~app/components/Operator/components/OperatorStatus';
-import OperatorMetadata from '~app/components/Operator/components/OperatorMetadata';
-import OperatorDescription from '~app/components/Operator/components/OperatorDescription';
+import ValidatorCount from '~app/components/Operator/components/ValidatorsCount';
 import OperatorPerformance from '~app/components/Operator/components/OperatorPerformance';
-import OperatorSocialNetworks from '~app/components/Operator/components/OperatorSocialNetworks';
 import ValidatorsInOperatorTable from '~app/components/Operator/components/ValidatorsInOperatorTable';
 
 const Operator = () => {
-  // Params
   const params: any = useParams();
-
-  // Loading indicators
+  const classes = useStyles();
   const [loadingOperator, setLoadingOperator] = useState(false);
   const [loadingValidators, setLoadingValidators] = useState(false);
-
-  // Operator
   const defaultOperator: Record<string, any> = {};
   const [operator, setOperator] = useState(defaultOperator);
-
-  // Validators
   const [notFound, setNotFound] = useState(false);
   const defaultValidators: Record<string, any>[] | null = [];
   const [validators, setValidators] = useState(defaultValidators);
   const [validatorsPagination, setValidatorsPagination] = useState(ApiParams.DEFAULT_PAGINATION);
+  const items = [
+    { name: 'Node Version', label: 'N/A' },
+    { name: 'ETH2 node client', label: operator.eth2_node_client || 'N/A' },
+    { name: 'ETH1 node client', label: operator.eth1_node_client || 'N/A' },
+    { name: 'Cloud provider', label: operator.setup_provider || 'N/A' },
+    { name: 'Location', label: operator.location || 'N/A' },
+  ];
 
   /**
    * Fetch one operator by it's address
@@ -95,39 +92,52 @@ const Operator = () => {
   }, [params.address, operator.address]);
 
   const isLoading = loadingValidators || loadingOperator;
-  const operatorId = operator?.id || params.address;
 
   return (
-    <Layout>
-      <ContentContainer>
-        <NotFoundScreen notFound={notFound}>
-          {/* <Banner /> */}
-          <EmptyPlaceholder height={10} />
-          <BreadCrumbs id={operatorId} />
-
-          <Grid container>
-            <Grid container item justify="space-between">
-              <Grid item lg={6} md={12} xs={12}>
-                <OperatorName operator={operator} params={params} isLoading={isLoading} />
-                <OperatorMetadata operator={operator} isLoading={isLoading} />
-                <OperatorDescription operator={operator} isLoading={isLoading} />
-                <OperatorSocialNetworks operator={operator} isLoading={isLoading} />
-              </Grid>
-              <OperatorInfo operator={operator} isLoading={isLoading} />
+    <Grid>
+      <Grid item container className={classes.WhiteSection}>
+        <Grid item container className={classes.OperatorDetailsWrapper}>
+          <Grid item>
+          </Grid>
+          <Grid item container justify={'space-between'}>
+            <Grid item>
+              <OperatorDetails large operator={operator} />
+            </Grid>
+            <Grid item container style={{ gap: 12, justifyContent: 'flex-end' }} xs>
+              <Link href={operator.twitter_url} target={'_blank'} className={classes.SocialIcon}>
+                <img src="/images/socialMedia/twitter.svg" className={classes.SocialIcon} />
+              </Link>
+              <Link href={operator.linkedin_url} target={'_blank'} className={classes.SocialIcon}>
+                <img src="/images/socialMedia/linkedin.svg" className={classes.SocialIcon} />
+              </Link>
+              <Link href={operator.website_url} target={'_blank'} className={classes.SocialIcon}>
+                <img src="/images/socialMedia/website.svg" className={classes.SocialIcon} />
+              </Link>
             </Grid>
           </Grid>
-          <Grid container>
-            <Grid container item justify="space-between" spacing={3}>
-              <Grid item lg={3} md={6} xs={12}>
-                <OperatorStatus status={operator.status} is_deleted={operator.is_deleted} />
-
-                <OperatorPerformance
-                  operator={operator}
-                  isLoading={isLoading}
-                 />
-                {/* <Incentivized operator={params.address} /> */}
+          <Grid item xs={6}>
+            <ShowMoreText text={operator.description || ''} />
+          </Grid> 
+          <Grid item container style={{ gap: 80 }}>
+            {items.map((item: any) => (
+              <Grid item className={classes.itemWrapper}>
+                <Grid item className={classes.itemHeader}>{item.name}</Grid>
+                <Grid item className={classes.itemValue}>{item.label}</Grid>
               </Grid>
-              <Grid item lg={9} md={6} xs={12}>
+            ))}
+          </Grid>
+        </Grid>
+      </Grid>
+      <Layout>
+        <ContentContainer>
+          <NotFoundScreen notFound={notFound}>
+            <Grid container className={classes.OperatorWrapper}>
+              <Grid xs={12} sm={12} md={9} lg={12} xl={3} item className={classes.OperatorInfoWrapper}>
+                <OperatorStatus status={operator.status} is_deleted={operator.is_deleted} />
+                <ValidatorCount validatorCount={operator.validators_count} />
+                <OperatorPerformance operator={operator} isLoading={isLoading} />
+              </Grid>
+              <Grid xs={12} sm={12} md={9} lg={10} xl={8} item>
                 <ValidatorsInOperatorTable
                   params={params}
                   isLoading={isLoading}
@@ -136,13 +146,13 @@ const Operator = () => {
                   onLoadPage={loadOperatorValidators}
                   onChangeRowsPerPage={onChangeRowsPerPage}
                   perPage={ApiParams.getInteger('operator:validators', 'perPage', ApiParams.PER_PAGE)}
-                />
+                    />
               </Grid>
             </Grid>
-          </Grid>
-        </NotFoundScreen>
-      </ContentContainer>
-    </Layout>
+          </NotFoundScreen>
+        </ContentContainer>
+      </Layout>
+    </Grid>
   );
 };
 

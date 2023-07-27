@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 
 const Header = styled.h3`
-  margin-top: 0;
+  color: #5B6C84;
+  font-size: 18px;
   padding-left: 15px;
   padding-top: 15px;
-  font-size: 18px;
-  color: #5B6C84;
+  color: ${props => props.theme.colors.gray90};
 `;
 
 export default Header;

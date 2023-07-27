@@ -5,48 +5,39 @@ import { Skeleton } from '@material-ui/lab';
 import InfoTooltip from '~app/common/components/InfoTooltip';
 
 const OperatorPerformanceContainer = styled.div`
-  height: 164px;
+  width: 312px;
+  height: 158px;
   display: flex;
-  border-radius: 6px;
-  align-items: center;
   margin-bottom: 25px;
-  justify-items: center;
-  align-content: center;
+  border-radius: 16px;
   flex-direction: column;
-  justify-content: center;
-  padding: 16px 20px 20px;
-  border: solid 1px #5b6c84;
+  padding: 32px 20px 46px 32px;
+  background-color: ${props => props.theme.colors.white};
+  @media (max-width: 576px) {
+    width: 100%;
+  },
 `;
 
 const DataHeader = styled.div`
-  font-size: 18px;
-  font-weight: bold;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: 1.56;
-  width: 100%;
-  text-align: left;
   margin-top: 0;
+  font-size: 20px;
+  line-height: 1.4;
+  text-align: left;
+  font-weight: bold;
+  font-style: normal;
   margin-bottom: auto;
+  font-stretch: normal;
+  color: ${props => props.theme.colors.gray40};
 `;
 
 const ValueContent = styled.div`
-  width: 100%;
-  height: 35px;
-  display: flex;
   font-size: 28px;
-  font-weight: 600;
+  font-weight: 800;
+  line-height: 1.24;
   font-style: normal;
-  text-align: center;
-  line-height: normal;
-  align-items: center;
-  margin-bottom: auto;
   font-stretch: normal;
-  align-content: center;
-  justify-items: center;
-  flex-direction: column;
-  letter-spacing: normal;
-  justify-content: center;
+  letter-spacing: -0.5px;
+  color: ${props => props.theme.colors.gray100};
 `;
 
 const OperatorStatus = ({ status, is_deleted }: { status: string, is_deleted?: boolean }) => {

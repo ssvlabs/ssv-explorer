@@ -3,7 +3,7 @@ const config = {
         HOME: '/',
         OPERATORS: {
             HOME: '/operators',
-            OPERATOR: '/operators/:address?',
+            OPERATOR: '/operators/:address',
         },
         VALIDATORS: {
             HOME: '/validators',
@@ -22,8 +22,8 @@ const config = {
         ANNOUNCEMENT: String(process.env.REACT_APP_ANNOUNCEMENT || '').trim(),
     },
     links: {
-        API_BASE_URL: String(process.env.REACT_APP_API_BASE_URL),
         LINK_SSV_WEBAPP: String(process.env.REACT_APP_LINK_SSV_WEBAPP),
+        API_COMPLETE_BASE_URL: `${process.env.REACT_APP_API_BASE_URL}`,
     },
 };
 

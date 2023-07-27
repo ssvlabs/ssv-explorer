@@ -1,16 +1,13 @@
 import TableRow from '@material-ui/core/TableRow';
-import { createStyles, withStyles } from '@material-ui/core/styles';
-import { grayBackgroundColor } from '~root/theme';
-import BaseStore from '~app/common/stores/BaseStore';
-import ApplicationStore from '~app/common/stores/Application.store';
+import { createStyles, Theme, withStyles } from '@material-ui/core/styles';
 
-const applicationStore: ApplicationStore = BaseStore.getInstance().getStore('Application');
-
-const StyledRow = withStyles(() => createStyles({
+const StyledRow = withStyles((theme: Theme) => createStyles({
   root: {
-    '&:nth-of-type(odd)': {
-      backgroundColor: applicationStore.isDarkMode ? 'rgba(255, 255, 255, 0.08)' : '#F4F6F8',
-      color: applicationStore.isDarkMode ? grayBackgroundColor : 'initial',
+    [theme.breakpoints.down('xs')]: {
+      maxWidth: '100%',
+      justifyContent: 'space-between',
+      borderBottom: `1px solid ${theme.colors.gray20}`,
+      margin: 32,
     },
   },
 }))(TableRow);

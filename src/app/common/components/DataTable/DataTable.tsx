@@ -1,5 +1,6 @@
 import React from 'react';
 import { observer } from 'mobx-react';
+import ApiParams from '~lib/api/ApiParams';
 import { Skeleton } from '@material-ui/lab';
 import Table from '@material-ui/core/Table';
 import { TableCell } from '@material-ui/core';
@@ -8,10 +9,10 @@ import TableHead from '@material-ui/core/TableHead';
 import TableBody from '@material-ui/core/TableBody';
 import TableContainer from '@material-ui/core/TableContainer';
 import TablePagination from '@material-ui/core/TablePagination';
-import ApiParams from '~lib/api/ApiParams';
-import { useStyles } from '~app/components/Styles';
 import StyledRow from '~app/common/components/Table/StyledRow';
 import StyledCell from '~app/common/components/Table/StyledCell';
+import { useWindowSize, WINDOW_SIZES } from '~app/hooks/useWindowSize';
+import { useStyles } from '~app/common/components/DataTable/DataTable.styles';
 import PaginationActions from '~app/common/components/DataTable/components/PaginationActions';
 import { overviewTableHeadersStyle } from '~app/components/Overview/components/Tables/Operators/Operators';
 
@@ -22,6 +23,7 @@ type DataTableProps = {
   headers: any[],
   headersPositions?: HeaderPosition[],
   data: any[],
+  customRows?: any,
   rowsPerPageOptions?: number[],
   totalCount: number,
   perPage?: number,
@@ -40,14 +42,20 @@ const skeletons = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 const DataTable = (props: DataTableProps) => {
   const { headers, data, rowsPerPageOptions, totalCount, perPage, page, isLoading,
-    onChangePage, onChangeRowsPerPage, headersPositions, title, noDataMessage, hidePagination } = props;
+    onChangePage, onChangeRowsPerPage, headersPositions, title, noDataMessage, hidePagination, customRows } = props;
   const classes = useStyles();
-
+  const windowSize = useWindowSize();
+  const isXsWindowSize = windowSize.size === WINDOW_SIZES.XS;
   const dataRows = () => {
     if (isLoading) {
       return skeletons.map((rowIndex: number) => (
         <StyledRow hover role="checkbox" tabIndex={-1} key={`row-${rowIndex}`}>
-          {headers.map((header: string) => (
+          {isXsWindowSize ? (
+            <StyledCell>
+              <Skeleton />
+            </StyledCell>
+          ) :
+          headers.map((header: string) => (
             <StyledCell key={`cell-${header}`}>
               <Skeleton />
             </StyledCell>
@@ -64,16 +72,20 @@ const DataTable = (props: DataTableProps) => {
         </StyledRow>
       );
     }
+    if (customRows) {
+      return customRows;
+    }
     return data.map((row: any[], rowIndex: number) => (
       <StyledRow hover role="checkbox" tabIndex={-1} key={`row-${rowIndex}`}>
         {row.map((cell: any, cellIndex: number) => (
           <StyledCell
             key={`cell-${cellIndex}`}
             align={headersPositions?.length ? headersPositions[cellIndex] : undefined}
-          >
+            >
             {cell}
           </StyledCell>
         ))}
+
       </StyledRow>
     ));
   };
@@ -81,23 +93,22 @@ const DataTable = (props: DataTableProps) => {
   return (
     <div className={classes.tableWithBorder}>
       <TableContainer>
-        {title ? <h3 style={{ paddingLeft: 15 }}>{title}</h3> : ''}
+        {title ? <h3 className={classes.TitleLabel}>{title}</h3> : ''}
         {!hidePagination && perPage && perPage > defaultPerPageOptions[0] && data?.length ? (
           <TablePagination
-            ActionsComponent={PaginationActions}
-            colSpan={headers.length}
-            rowsPerPageOptions={rowsPerPageOptions ?? defaultPerPageOptions}
+            page={page}
             component="div"
             count={totalCount}
+            colSpan={headers.length}
+            ActionsComponent={PaginationActions}
             rowsPerPage={perPage ?? ApiParams.PER_PAGE}
-            page={page}
+            rowsPerPageOptions={rowsPerPageOptions ?? defaultPerPageOptions}
             onChangePage={(event: any, changedPage: number) => onChangePage ? onChangePage(changedPage + 1) : null}
             onChangeRowsPerPage={(event: any) => onChangeRowsPerPage ? onChangeRowsPerPage(event.target.value) : null}
           />
         ) : ''}
-
-        <Table stickyHeader aria-label="sticky table">
-          <TableHead>
+        <Table className={classes.TableWrapper} stickyHeader aria-label="sticky table">
+          <TableHead className={classes.tableHeaderOffOnMobile}>
             <TableRow>
               {headers.map((header: string, headerIndex: number) => (
                 <TableCell
@@ -114,18 +125,18 @@ const DataTable = (props: DataTableProps) => {
             {dataRows()}
           </TableBody>
         </Table>
-
         {!hidePagination && data?.length ? (
           <TablePagination
-            ActionsComponent={PaginationActions}
-            colSpan={headers.length}
-            rowsPerPageOptions={rowsPerPageOptions ?? defaultPerPageOptions}
+            className={classes.tablePaginationMobileSize}
+            page={page}
             component="div"
             count={totalCount}
+            colSpan={headers.length}
+            ActionsComponent={PaginationActions}
             rowsPerPage={perPage ?? ApiParams.PER_PAGE}
-            page={page}
-            onChangePage={(event: any, changedPage: number) => onChangePage ? onChangePage(changedPage + 1) : null}
+            rowsPerPageOptions={rowsPerPageOptions ?? defaultPerPageOptions}
             onChangeRowsPerPage={(event: any) => onChangeRowsPerPage ? onChangeRowsPerPage(event.target.value) : null}
+            onChangePage={(event: any, changedPage: number) => onChangePage ? onChangePage(changedPage + 1) : null}
           />
         ) : ''}
       </TableContainer>

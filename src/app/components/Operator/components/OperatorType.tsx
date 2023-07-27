@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import { defaultFont } from '~root/theme';
 
 const OperatorTypes = {
   VERIFIED_OPERATOR: 'verified_operator',
@@ -26,7 +25,6 @@ const OperatorTypeBadge = styled.div<({ operator_type: any })>`
     }
   }};
   height: 28px;
-  font-family: ${defaultFont};
   font-size: 14px;
   min-width: 90px;
   padding: 4px;

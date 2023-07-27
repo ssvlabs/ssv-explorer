@@ -1,25 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
 import styled from 'styled-components';
+import { Box } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import { useParams } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import config from '~app/common/config';
 import SsvNetwork from '~lib/api/SsvNetwork';
-import { Heading } from '~app/common/components/Headings';
-import { longStringShorten } from '~lib/utils/strings';
-import { BreadCrumb, BreadCrumbDivider, BreadCrumbsContainer } from '~app/common/components/Breadcrumbs';
-// import { Incentivized } from '~app/common/components/Incentivized';
 import Status from '~app/common/components/Status';
 import Layout from '~app/common/components/Layout';
-import IsValidBadge from '~app/common/components/IsValidBadge/IsValidBadge';
-import BeaconchaLink from '~app/common/components/BeaconchaLink/BeaconchaLink';
+import { useStyles } from '~app/components/Styles';
+import { longStringShorten } from '~lib/utils/strings';
+import { Heading } from '~app/common/components/Headings';
 import NotFoundScreen from '~app/common/components/NotFoundScreen';
-import ValidatorDuties from '~app/components/Validator/components/ValidatorDuties';
-import EmptyPlaceholder from '~app/common/components/EmptyPlaceholder';
 import ContentContainer from '~app/common/components/ContentContainer';
-import ValidatorOperators from '~app/components/Validator/components/ValidatorOperators';
+import IsValidBadge from '~app/common/components/IsValidBadge/IsValidBadge';
 import CopyToClipboardIcon from '~app/common/components/CopyToClipboardIcon';
+import BeaconchaLink from '~app/common/components/BeaconchaLink/BeaconchaLink';
+import ValidatorDuties from '~app/components/Validator/components/ValidatorDuties';
+import ValidatorOperators from '~app/components/Validator/components/ValidatorOperators';
+import { BreadCrumb, BreadCrumbDivider, BreadCrumbsContainer } from '~app/common/components/Breadcrumbs';
 
 const StatsBlock = styled.div<({ maxWidth?: any })>`
   max-width: ${({ maxWidth }) => `${Number.isNaN(maxWidth ?? 200) ? (maxWidth) : `${(maxWidth ?? 200)}px`}`};
@@ -28,9 +28,9 @@ const StatsBlock = styled.div<({ maxWidth?: any })>`
 const BreadCrumbs = ({ address }: { address: string }) => {
   return (
     <BreadCrumbsContainer>
-      <BreadCrumb href={config.routes.HOME}>overview</BreadCrumb>
+      <BreadCrumb href={config.routes.HOME}>Overview</BreadCrumb>
       <BreadCrumbDivider />
-      <BreadCrumb href={config.routes.VALIDATORS.HOME}>validators</BreadCrumb>
+      <BreadCrumb href={config.routes.VALIDATORS.HOME}>Validators</BreadCrumb>
       <BreadCrumbDivider />
       <BreadCrumb href={`${config.routes.VALIDATORS.HOME}/${address}`}>
         0x{longStringShorten(address, 4)}
@@ -39,8 +39,8 @@ const BreadCrumbs = ({ address }: { address: string }) => {
   );
 };
 
-const Validator = () =>
-{
+const Validator = () => {
+  const classes = useStyles();
   const defaultPerformance = '24h';
   const params: Record<string, any> = useParams();
   const defaultValidator: Record<string, any> = {};
@@ -72,63 +72,64 @@ const Validator = () =>
   });
 
   return (
-    <Layout>
-      <ContentContainer>
-        <EmptyPlaceholder height={10} />
-
-        <NotFoundScreen notFound={notFound}>
-          {/* <Banner /> */}
-          <BreadCrumbs address={params.address} />
-          <EmptyPlaceholder height={20} />
-
-          <Grid container alignContent="center" alignItems="center">
-            <Grid item xs={12} md={8}>
-              <Grid container spacing={1} style={{ alignItems: 'center', marginTop: 22 }}>
-                <Grid item>
-                  <StatsBlock>
-                    <Heading variant="h1" style={{ padding: 0, marginBottom: 6 }}>
-                      Validator
-                    </Heading>
-                  </StatsBlock>
-                </Grid>
-                <Grid item>
-                  <Status size="big" entry={validator} />
-                </Grid>
-                <Grid item>
-                  <IsValidBadge size="big" entry={validator} />
-                </Grid>
-              </Grid>
-              {!notFound && (
-                <Grid container style={{ alignItems: 'center' }}>
-                  <Grid item>
-                    <Typography noWrap>
-                      0x{longStringShorten(params.address, 4)}
-                    </Typography>
-                  </Grid>
-                  <Grid item>
-                    <CopyToClipboardIcon data={params.address} style={{ marginLeft: 15, width: 22, height: 22 }} />
-                    <BeaconchaLink network={validator.network} height={22} width={22} address={`validator/${params.address}`} />
-                  </Grid>
-                </Grid>
-                )}
+    <Grid>
+      <Grid item container className={classes.WhiteSection}>
+        <BreadCrumbs address={params.address} />
+        <Grid item xs={12} md={12}>
+          <Grid container spacing={1}>
+            <Grid item>
+              <StatsBlock>
+                <Heading variant="h1" style={{ padding: 0, marginBottom: 6 }}>
+                  Validator
+                </Heading>
+              </StatsBlock>
+            </Grid>
+            <Grid item>
+              <Status size="big" entry={validator} />
+            </Grid>
+            <Grid item>
+              <IsValidBadge size="big" entry={validator} />
             </Grid>
           </Grid>
-
-          <EmptyPlaceholder height={40} />
-
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={3}>
+          {!notFound && (
+            <Grid container>
+              <Grid item>
+                <Typography noWrap>
+                  <Typography noWrap>
+                    <Box component="div" display={{ xs: 'none', sm: 'block', md: 'none', lg: 'none' }}>
+                      0x{longStringShorten(params.address, 30)}
+                    </Box> 
+                    <Box component="div" display={{ xs: 'none', sm: 'none', md: 'block', lg: 'block' }}>
+                      <Grid>0x{params.address}</Grid>
+                    </Box>
+                    <Box component="div" display={{ xs: 'block', sm: 'none', md: 'none', lg: 'none' }}>
+                      0x{longStringShorten(params.address, 4)}
+                    </Box>
+                  </Typography>
+                </Typography>
+              </Grid>
+              <Grid item>
+                <CopyToClipboardIcon data={params.address} style={{ marginLeft: 15, width: 22, height: 22 }} />
+                <BeaconchaLink height={22} width={22} address={`validator/${params.address}`} />
+              </Grid>
+            </Grid>
+            )}
+        </Grid>
+      </Grid>
+      <Layout>
+        <ContentContainer>
+          <NotFoundScreen notFound={notFound}>
+            <Grid container className={classes.SingleValidatorWrapper} spacing={3} xl={12}>
               <ValidatorOperators
                 validator={validator}
                 defaultPerformance={defaultPerformance}
               />
-              {/* <Incentivized validator={params.address} /> */}
+              <ValidatorDuties validator={validator} />
             </Grid>
-            <ValidatorDuties validator={validator} />
-          </Grid>
-        </NotFoundScreen>
-      </ContentContainer>
-    </Layout>
+          </NotFoundScreen>
+        </ContentContainer>
+      </Layout>
+    </Grid>
   );
 };
 export default observer(Validator);

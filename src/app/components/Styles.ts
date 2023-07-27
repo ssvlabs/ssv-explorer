@@ -1,7 +1,12 @@
 import { makeStyles } from '@material-ui/core/styles';
-import { defaultFont } from '~root/theme';
 
 export const useStyles = makeStyles((theme) => ({
+    WhiteSection: {
+        width: '100%',
+        height: 230,
+        padding: '32px 32px 32px 32px',
+        backgroundColor: theme.colors.white,
+    },
     mainContainer: {
         height: '100%',
         width: '100%',
@@ -13,22 +18,32 @@ export const useStyles = makeStyles((theme) => ({
         margin: 'auto',
         flexDirection: 'row',
     },
+    SmartSearchOperatorDataOption: {
+      width: 'auto',
+      display: 'flex',
+      flexDirection: 'column',
+      color: theme.colors.black,
+      fontSize: 16,
+      fontWeight: 500,
+    },
+    grayText: {
+        fontSize: 14,
+        color: theme.colors.gray40,
+    },
     BlackText: {
         margin: 0,
         padding: 0,
         fontSize: 14,
         fontWeight: 600,
+        lineHeight: 1.29,
         overflow: 'hidden',
         whiteSpace: 'nowrap',
         textOverflow: 'ellipsis',
-        lineHeight: 1.29,
     },
     OperatorType: {
         width: 13,
         height: 13,
         marginLeft: 5,
-        // margin: 15px 34px 14px 4px;
-        // padding: 5px 4px;
         backgroundSize: 'contain',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
@@ -36,8 +51,6 @@ export const useStyles = makeStyles((theme) => ({
     Verified: {
         width: 13,
         height: 13,
-        // margin: 15px 34px 14px 4px;
-        // padding: 5px 4px;
         backgroundSize: 'contain',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
@@ -45,8 +58,6 @@ export const useStyles = makeStyles((theme) => ({
     },
     DappNode: {
         width: 13,
-        // margin: 15px 34px 14px 4px;
-        // padding: 5px 4px;
         backgroundSize: 'contain',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
@@ -135,6 +146,7 @@ export const useStyles = makeStyles((theme) => ({
     gridContainer: {
         flexGrow: 1,
         flexDirection: 'column',
+
     },
     rowGridContainer: {
         flexGrow: 1,
@@ -159,29 +171,6 @@ export const useStyles = makeStyles((theme) => ({
             padding: 15,
         },
     },
-    tableWithBorder: {
-        border: `1px solid ${theme.palette.divider}`,
-        borderRadius: 6,
-        fontSize: 18,
-        '& h3': {
-            fontFamily: defaultFont,
-            color: theme.palette.divider,
-            fontWeight: 900,
-            fontSize: 18,
-        },
-        '& > .MuiTableContainer-root': {
-            borderRadius: 6,
-        },
-        '& .MuiTableCell-head': {
-            fontWeight: 'bold',
-            fontSize: 12,
-            textTransform: 'uppercase',
-            color: '#A1ACBE',
-            maxHeight: 26,
-            paddingTop: 8,
-            paddingBottom: 8,
-        },
-    },
     condensedTableRows: {
         '& .MuiTableCell-body': {
             height: 34,
@@ -200,14 +189,18 @@ export const useStyles = makeStyles((theme) => ({
         fontWeight: 600,
     },
     Link: {
+        fontSize: '14px',
         display: 'inline-flex',
         alignItems: 'center',
         alignContent: 'center',
         cursor: 'pointer',
         flexDirection: 'row',
-        color: `${theme.palette.text.primary}!important`,
+        color: `${theme.colors.primaryBlue}!important`,
         borderColor: `${theme.palette.text.primary}!important`,
-        // marginBottom: 12,
+    },
+    blackLinkColor: {
+        fontSize: '14px',
+        color: `${theme.colors.gray90}!important`,
     },
     OperatorLogo: {
         width: 40,
@@ -224,57 +217,23 @@ export const useStyles = makeStyles((theme) => ({
         color: 'red',
     },
     overviewSearch: {
-        // '-webkit-box-shadow': 'none!important',
-        // boxShadow: 'none!important',
-        // outlineColor: 'red!important',
-        // border: 'none !important',
-        // outline: 'none !important',
-        // '&.Mui-focused, &:focus-visible': {
-        //   '& > .MuiFormControl-root': {
-        //     borderImageWidth: 0,
-        //     '-webkit-box-shadow': 'none!important',
-        //     boxShadow: 'none!important',
-        //     outlineColor: 'red!important',
-        //     border: 'none !important',
-        //     outline: 'none !important',
-        //     '& > .MuiInputBase-root': {
-        //       '-webkit-box-shadow': 'none!important',
-        //       boxShadow: 'none!important',
-        //       outlineColor: 'red!important',
-        //       borderImageWidth: 0,
-        //       border: 'none !important',
-        //       outline: 'none !important',
-        //     },
-        //   },
-        // },
+        // maxWidth: '100%',
         '& > .MuiFormControl-root': {
-            // borderImageWidth: 0,
-            // '& > .MuiInputBase-root.Mui-focused': {
-            //   // border: '1px solid #5B6C84',
-            //   borderImageWidth: 0,
-            //   '-webkit-box-shadow': 'none!important',
-            //   boxShadow: 'none!important',
-            //   outlineColor: 'red!important',
-            //   border: 'none !important',
-            //   outline: 'none !important',
-            // },
             '& > .MuiInputBase-root': {
-                // '-webkit-box-shadow': 'none!important',
-                // boxShadow: 'none!important',
-                // outlineColor: 'red!important',
-                // outline: 'none!important',
-                border: '1px solid #5B6C84',
+                outline: 'none!important',
                 '-webkit-appearance': 'none',
+                '&:hover': {
+                  border: 'none',
+                },
                 borderRadius: 6,
-                backgroundColor: 'white',
                 color: '#5B6C84',
                 '& > .MuiInputAdornment-root > .MuiButtonBase-root': {
-                    backgroundColor: '#5B6C84',
-                    height: 38,
                     width: 38,
+                    height: 38,
                     marginRight: -13,
-                    borderBottomRightRadius: 5,
                     borderTopRightRadius: 5,
+                    borderBottomRightRadius: 5,
+                    backgroundColor: '#5B6C84',
                 },
                 '& > .MuiInputAdornment-root > .MuiButtonBase-root > .MuiIconButton-label': {
                     color: 'white',
@@ -286,12 +245,10 @@ export const useStyles = makeStyles((theme) => ({
         display: 'inline-flex',
         '& > .MuiFormControl-root': {
             '& > .MuiInputBase-root': {
-                border: '1px solid #5B6C84',
-                color: '#5B6C84',
-                width: 340,
-                display: 'inline-flex',
+                width: 300,
                 margin: 'auto',
-                marginRight: 10,
+                color: '#5B6C84',
+                display: 'inline-flex',
                 '@media (max-width:767px)': {
                     width: '100%',
                     margin: 0,
@@ -299,12 +256,184 @@ export const useStyles = makeStyles((theme) => ({
                 '& > .MuiInputAdornment-root > .MuiButtonBase-root > .MuiIconButton-label': {
                     color: 'white',
                 },
+
                 '& > .MuiInputAdornment-root > .MuiButtonBase-root': {
                     borderColor: 'white',
                 },
                 '& > .MuiInputBase-input': {},
             },
         },
+    },
+    ValidatorOperatorsWrapper: {
+        backgroundColor: theme.colors.white,
+        borderRadius: '16px',
+        height: '385px',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    ValidatorDutiesWrapper: {
+        backgroundColor: theme.colors.white,
+        borderRadius: '16px',
+    },
+    ConsensusWrapper: {
+        display: 'flex',
+        flexDirection: 'column',
+    },
+    ConsensusOperatorSlot: {
+        display: 'flex',
+        alignItems: 'center',
+        flexDirection: 'column',
+    },
+    ConsensusOperatorId: {
+        width: 52,
+        flexGrow: 0,
+        fontFamily: 'Manrope',
+        fontSize: '10px!important',
+        fontWeight: 300,
+        fontStretch: 'normal',
+        fontStyle: 'normal',
+        lineHeight: 1.62,
+        letterSpacing: 0.5,
+        color: '#63768b',
+    },
+    OperatorConsensusWrapper: {
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 5,
+        justifyContent: 'space-between',
+    },
+    rhombus: {
+      width: 20,
+      height: 20,
+      transform: 'rotate(45deg)',
+      backgroundColor: theme.colors.primaryBlue,
+    },
+    line: {
+        width: 32,
+        height: 2,
+        flexGrow: 0,
+        borderRadius: 11,
+        backgroundColor: '#d1edfe',
+    },
+    operatorCellMobileResponse: {
+        [theme.breakpoints.down('xs')]: {
+            width: '100%',
+        },
+    },
+    OperatorDataLabel: {
+        fontSize: 12,
+        fontWeight: 500,
+        lineHeight: 1.62,
+        color: theme.colors.gray40,
+    },
+    ValidatorOperatorsSwitcherWrapper: {
+        color: theme.colors.gray40,
+        width: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        padding: '0px 15px 0px 15px',
+    },
+    PerformanceSwitcher: {
+        padding: '3px 3px 3px 3px',
+        border: `1px solid ${theme.colors.gray40}`,
+        float: 'right',
+        fontSize: 16,
+        color: theme.colors.gray40,
+        fontWeight: 600,
+        userSelect: 'none',
+        cursor: 'pointer',
+    },
+    chosenPerformance: {
+        fontWeight: 900,
+        color: theme.colors.primaryBlue,
+        border: `1px solid ${theme.colors.primaryBlue}`,
+        borderRadius: '4px',
+        display: 'flex',
+        alignText: 'center',
+        justifyContent: 'center',
+        padding: '3px 3px 3px 3px',
+    },
+    performanceButtonsWrapper: {
+        width: 70,
+        display: 'flex',
+        justifyContent: 'space-between',
+    },
+    TableCellColor: {
+        backgroundColor: theme.colors.white,
+        color: theme.colors.gray40,
+    },
+    ValidatorListInfoBox: {
+        display: 'flex',
+    },
+    SingleValidatorWrapper: {
+        gap: 10,
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center',
+    },
+    tableWithBorder: {
+        borderRadius: 6,
+        fontSize: 18,
+        '& h3': {
+            color: theme.palette.divider,
+            fontWeight: 900,
+            fontSize: 18,
+        },
+        '& > .MuiTableContainer-root': {
+            borderRadius: 6,
+        },
+        '& .MuiTableCell-head': {
+            fontWeight: 'bold',
+            fontSize: 12,
+            textTransform: 'uppercase',
+            color: '#A1ACBE',
+            maxHeight: 26,
+            paddingTop: 8,
+            paddingBottom: 8,
+        },
+    },
+    OperatorListTitleWrapper: {
+        width: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+    },
+    OperatorsCountLabel: {
+        fontSize: 16,
+        fontWeight: 500,
+        lineHeight: 1.62,
+        color: theme.colors.gray40,
+    },
+    operatorTopWrapper: {
+        padding: '32px 32px 0 0',
+        [theme.breakpoints.down('xs')]: {
+            padding: '32px 32px 0 32px',
+        },
+    },
+    TableStyledRow: {
+        [theme.breakpoints.down('xs')]: {
+            paddingBottom: '50px',
+            width: '100%',
+            height: 213,
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderBottom: `1px solid ${theme.colors.gray20}`,
+            margin: 32,
+        },
+    },
+    TableCellLabel: {
+        fontSize: 12,
+        fontWeight: 500,
+        width: 90,
+        lineHeight: 1.62,
+        color: theme.colors.gray40,
     },
 }));
 

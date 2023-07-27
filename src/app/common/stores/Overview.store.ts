@@ -1,3 +1,4 @@
+import Decimal from 'decimal.js';
 import { action, observable } from 'mobx';
 import config from '~app/common/config';
 import SsvNetwork from '~lib/api/SsvNetwork';
@@ -22,17 +23,19 @@ class OverviewStore extends BaseStore {
 
   @action.bound
   setTotalEth(totalEth: number) {
+    const unversionUrl = config.links.API_COMPLETE_BASE_URL.replace(/(\/api\/).*/, '$1').replace(/\/+$/, '');
     this.totalEth = totalEth;
     if (SsvNetwork.getActiveNetwork() !== 'mainnet') {
       return;
     }
     new ApiRequest({
-      url: `${config.links.API_BASE_URL}/api/currency/convert?eth=${totalEth}`,
+      url: `${unversionUrl}/finance/currency/convert/eth/usd`,
       method: 'GET',
     })
     .sendRequest()
     .then(({ data }: { data: any }) => {
-      this.totalUsd = data.usd ? parseInt(String(data.usd), 10) : NaN;
+     const result = new Decimal(Number(this.totalEth)).mul(new Decimal(data.price));
+     this.setTotalUsd(Number(result.toFixed(0)));
     });
   }
 

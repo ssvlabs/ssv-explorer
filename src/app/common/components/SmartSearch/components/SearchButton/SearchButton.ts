@@ -2,11 +2,11 @@ import styled from 'styled-components';
 import IconButton from '@material-ui/core/IconButton';
 
 const SearchButton = styled(IconButton)`
-  height: 40px;
-  width: 40px;
-  border-radius: 0;
+  width: 24px;
+  height: 24px;
   float: right;
-  margin-left: auto;
+  border-radius: 0;
+  margin-left: 30px;
 `;
 
 export default SearchButton;
