@@ -82,6 +82,7 @@ const AppBarComponent = () => {
   const [isDrawerOpened, toggleDrawer] = useState(false);
   const [isSearchOpened, toggleSearch] = useState(false);
   const joinSsvLink = config.links.LINK_SSV_WEBAPP;
+  const isPrater = config.links.API_BASE_URL.includes('prater');
 
   const isRouteActive = (routeLink: string, returnValue: any, exact: boolean = false) => {
     const location = useLocation();
@@ -172,11 +173,13 @@ const AppBarComponent = () => {
                         ) : (
                           <SmartSearch inAppBar />
                         )}
+                        {isPrater && (
                         <Button variant="outlined" disabled
                           className={`${classes.appBarButton} ${classes.appBarButtonWhite}`}
                           style={{ textTransform: 'capitalize' }}>
                           <GreenDot /> {capitalize(SsvNetwork.getActiveNetwork())} Network
                         </Button>
+)}
                         <DarkModeSwitcher style={{ marginLeft: 'auto', marginRight: 0, minWidth: 'auto', width: 40 }} />
                       </div>
                     </Box>
@@ -249,6 +252,7 @@ const AppBarComponent = () => {
                                   </Button>
                                 </Link>
                               </DrawerButton>
+                              {isPrater && (
                               <DrawerButton>
                                 <Link href="/" onClick={(event: any) => {
                                   event.preventDefault();
@@ -260,6 +264,7 @@ const AppBarComponent = () => {
                                   </Button>
                                 </Link>
                               </DrawerButton>
+)}
                             </DrawerButtonsContainers>
                           </MobileMenuContainer>
                         </List>

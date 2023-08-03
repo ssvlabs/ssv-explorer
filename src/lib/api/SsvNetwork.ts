@@ -162,7 +162,7 @@ class SsvNetwork {
   }
 
   static getActiveNetwork() {
-    const defaultNetwork = 'prater';
+    const defaultNetwork = 'goerli';
     try {
       return window.localStorage.getItem('chain_network') || defaultNetwork;
     } catch (e) {
