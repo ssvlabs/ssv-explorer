@@ -370,6 +370,11 @@ export const useStyles = makeStyles((theme) => ({
     ValidatorListInfoBox: {
         display: 'flex',
     },
+    ValidatorPublicKey: {
+        [theme.breakpoints.up('sm')]: {
+            width: '100px',
+        },
+    },
     SingleValidatorWrapper: {
         gap: 10,
         display: 'flex',
