@@ -28,11 +28,11 @@ const Operator = () => {
   const [validators, setValidators] = useState(defaultValidators);
   const [validatorsPagination, setValidatorsPagination] = useState(ApiParams.DEFAULT_PAGINATION);
   const items = [
-    { name: 'Node Version', label: 'N/A' },
-    { name: 'ETH2 node client', label: operator.eth2_node_client || 'N/A' },
-    { name: 'ETH1 node client', label: operator.eth1_node_client || 'N/A' },
-    { name: 'Cloud provider', label: operator.setup_provider || 'N/A' },
-    { name: 'Location', label: operator.location || 'N/A' },
+    { name: 'Node Version', label: '-' },
+    { name: 'ETH2 node client', label: operator.eth2_node_client || '-' },
+    { name: 'ETH1 node client', label: operator.eth1_node_client || '-' },
+    { name: 'Cloud provider', label: operator.setup_provider || '-' },
+    { name: 'Location', label: operator.location || '-' },
   ];
 
   /**

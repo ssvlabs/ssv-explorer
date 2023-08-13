@@ -69,7 +69,7 @@ const ValidatorsList = () => {
           </Box>
         </Link>,
         <Box component="div" display={{ xs: 'none', sm: 'none', md: 'none', lg: 'block' }}>
-          N/A
+          -
         </Box>,
         validator.operators.map((operator: any, operatorIndex: number) => {
           return (
