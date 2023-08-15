@@ -64,12 +64,14 @@ const ValidatorsList = () => {
       return [
         <Link href={`${config.routes.VALIDATORS.HOME}/${validator.public_key}`} className={classes.Link}>
           <Box className={classes.ValidatorListInfoBox} component="div" display={{ xs: 'none', sm: 'none', md: 'block', lg: 'block' }}>
-            0x{longStringShorten(validator.public_key, isXsWindowSize ? 6 : 4)}
+            <Typography className={classes.ValidatorPublicKey}>
+              0x{longStringShorten(validator.public_key, isXsWindowSize ? 6 : 4)}
+            </Typography>
             <BeaconchaLink height={24} width={24} address={`validator/${validator.public_key}`} />
           </Box>
         </Link>,
         <Box component="div" display={{ xs: 'none', sm: 'none', md: 'none', lg: 'block' }}>
-          N/A
+          -
         </Box>,
         validator.operators.map((operator: any, operatorIndex: number) => {
           return (

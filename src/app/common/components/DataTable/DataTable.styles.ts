@@ -20,7 +20,6 @@ export const useStyles = makeStyles((theme) => ({
         '& .MuiTableCell-head': {
             fontWeight: 'bold',
             fontSize: 12,
-            textTransform: 'uppercase',
             color: '#A1ACBE',
             maxHeight: 26,
             paddingTop: 8,
