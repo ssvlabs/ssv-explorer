@@ -3,6 +3,7 @@ import { observer } from 'mobx-react';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import { useParams } from 'react-router-dom';
+import config from '~app/common/config';
 import ApiParams from '~lib/api/ApiParams';
 import SsvNetwork from '~lib/api/SsvNetwork';
 import Layout from '~app/common/components/Layout';
@@ -11,14 +12,17 @@ import NotFoundScreen from '~app/common/components/NotFoundScreen';
 import OperatorDetails from '~app/common/components/OperatorDetails';
 import { useStyles } from '~app/components/Operator/Operator.styles';
 import ContentContainer from '~app/common/components/ContentContainer';
+import { useWindowSize, WINDOW_SIZES } from '~app/hooks/useWindowSize';
 import OperatorStatus from '~app/components/Operator/components/OperatorStatus';
 import ValidatorCount from '~app/components/Operator/components/ValidatorsCount';
 import OperatorPerformance from '~app/components/Operator/components/OperatorPerformance';
 import ValidatorsInOperatorTable from '~app/components/Operator/components/ValidatorsInOperatorTable';
+import { BreadCrumb, BreadCrumbDivider, BreadCrumbsContainer } from '~app/common/components/Breadcrumbs';
 
 const Operator = () => {
   const params: any = useParams();
   const classes = useStyles();
+  const windowSize = useWindowSize();
   const [loadingOperator, setLoadingOperator] = useState(false);
   const [loadingValidators, setLoadingValidators] = useState(false);
   const defaultOperator: Record<string, any> = {};
@@ -34,6 +38,32 @@ const Operator = () => {
     { name: 'Cloud provider', label: operator.setup_provider || 'N/A' },
     { name: 'Location', label: operator.location || 'N/A' },
   ];
+
+  const BreadCrumbs = () => {
+    return (
+      <BreadCrumbsContainer className={classes.BreadCrumbExtendClass}>
+        <BreadCrumb href={config.routes.HOME}>Overview</BreadCrumb>
+        <BreadCrumbDivider />
+        <BreadCrumb href={config.routes.OPERATORS.HOME}>Operators</BreadCrumb>
+        <BreadCrumbDivider />
+        <BreadCrumb href={`${config.routes.OPERATORS.HOME}/${operator.id}`}>{operator.name}</BreadCrumb>
+      </BreadCrumbsContainer>
+    );
+  };
+
+  const SocialMediaLinks = () => (
+    <Grid xs={12} sm={3} md={2} lg={2} xl={2} className={classes.SocialMediaLinksWrapper}>
+      <Link href={operator.twitter_url} target={'_blank'} className={classes.SocialIcon}>
+        <img src="/images/socialMedia/twitter.svg" className={classes.SocialIcon} />
+      </Link>
+      <Link href={operator.linkedin_url} target={'_blank'} className={classes.SocialIcon}>
+        <img src="/images/socialMedia/linkedin.svg" className={classes.SocialIcon} />
+      </Link>
+      <Link href={operator.website_url} target={'_blank'} className={classes.SocialIcon}>
+        <img src="/images/socialMedia/website.svg" className={classes.SocialIcon} />
+      </Link>
+    </Grid>
+);
 
   /**
    * Fetch one operator by it's address
@@ -94,50 +124,40 @@ const Operator = () => {
   const isLoading = loadingValidators || loadingOperator;
 
   return (
-    <Grid>
+    <Grid className={classes.OperatorContainerWrapper}>
       <Grid item container className={classes.WhiteSection}>
-        <Grid item container className={classes.OperatorDetailsWrapper}>
-          <Grid item>
+        <BreadCrumbs />
+        <Grid xs={12} sm={12} md={12} lg={12} xl={12} className={classes.OperatorDataAndLinksWrapper}>
+          <Grid xs={12} sm={9}>
+            <OperatorDetails large operator={operator} />
           </Grid>
-          <Grid item container justify={'space-between'}>
-            <Grid item>
-              <OperatorDetails large operator={operator} />
-            </Grid>
-            <Grid item container style={{ gap: 12, justifyContent: 'flex-end' }} xs>
-              <Link href={operator.twitter_url} target={'_blank'} className={classes.SocialIcon}>
-                <img src="/images/socialMedia/twitter.svg" className={classes.SocialIcon} />
-              </Link>
-              <Link href={operator.linkedin_url} target={'_blank'} className={classes.SocialIcon}>
-                <img src="/images/socialMedia/linkedin.svg" className={classes.SocialIcon} />
-              </Link>
-              <Link href={operator.website_url} target={'_blank'} className={classes.SocialIcon}>
-                <img src="/images/socialMedia/website.svg" className={classes.SocialIcon} />
-              </Link>
-            </Grid>
-          </Grid>
-          <Grid item xs={6}>
+          {windowSize.size !== WINDOW_SIZES.XS && (<SocialMediaLinks />)}
+        </Grid>
+        <Grid xs={12} sm={12} md={12} lg={12} xl={12} className={classes.OperatorMetadataWrapper}>
+          <Grid item xs={12} sm={12} md={8} lg={8} xl={8}>
             <ShowMoreText text={operator.description || ''} />
-          </Grid> 
-          <Grid item container style={{ gap: 80 }}>
+          </Grid>
+          <Grid xs={12} sm={12} md={12} lg={12} xl={12} className={classes.MetadataItemsWrapper}>
             {items.map((item: any) => (
-              <Grid item className={classes.itemWrapper}>
+              <Grid xs={3} sm={3} item className={classes.itemWrapper}>
                 <Grid item className={classes.itemHeader}>{item.name}</Grid>
                 <Grid item className={classes.itemValue}>{item.label}</Grid>
               </Grid>
-            ))}
+              ))}
           </Grid>
+          {windowSize.size === WINDOW_SIZES.XS && (<SocialMediaLinks />)}
         </Grid>
       </Grid>
       <Layout>
         <ContentContainer>
           <NotFoundScreen notFound={notFound}>
             <Grid container className={classes.OperatorWrapper}>
-              <Grid xs={12} sm={12} md={9} lg={12} xl={3} item className={classes.OperatorInfoWrapper}>
+              <Grid xs={12} sm={12} md={12} lg={3} xl={2} item className={classes.OperatorInfoWrapper}>
                 <OperatorStatus status={operator.status} is_deleted={operator.is_deleted} />
                 <ValidatorCount validatorCount={operator.validators_count} />
                 <OperatorPerformance operator={operator} isLoading={isLoading} />
               </Grid>
-              <Grid xs={12} sm={12} md={9} lg={10} xl={8} item>
+              <Grid xs={12} sm={12} md={12} lg={8} xl={8} item>
                 <ValidatorsInOperatorTable
                   params={params}
                   isLoading={isLoading}
