@@ -18,6 +18,7 @@ const StyledCell = withStyles((theme: Theme) => createStyles({
         [theme.breakpoints.down('xs')]: {
             width: '100%',
             border: 'none',
+            wordWrap: 'break-word',
         },
     },
 }))(TableCell);

@@ -4,8 +4,17 @@ export const useStyles = makeStyles((theme) => ({
     WhiteSection: {
         width: '100%',
         height: 230,
-        padding: '32px 32px 32px 32px',
+        padding: '32px 32px 32px 220px',
         backgroundColor: theme.colors.white,
+        [theme.breakpoints.down('lg')]: {
+            padding: '32px 32px 32px 102px',
+        },
+        [theme.breakpoints.down('md')]: {
+            padding: '32px 32px 32px 55px',
+        },
+        [theme.breakpoints.down('md')]: {
+            padding: '32px 32px 32px 32px',
+        },
     },
     mainContainer: {
         height: '100%',
@@ -265,6 +274,7 @@ export const useStyles = makeStyles((theme) => ({
         },
     },
     ValidatorOperatorsWrapper: {
+        padding: '0 32px 0 32px',
         backgroundColor: theme.colors.white,
         borderRadius: '16px',
         height: '385px',
@@ -321,7 +331,7 @@ export const useStyles = makeStyles((theme) => ({
     },
     operatorCellMobileResponse: {
         [theme.breakpoints.down('xs')]: {
-            width: '100%',
+            width: '20%!important',
         },
     },
     OperatorDataLabel: {
@@ -434,6 +444,9 @@ export const useStyles = makeStyles((theme) => ({
         width: 90,
         lineHeight: 1.62,
         color: theme.colors.gray40,
+    },
+    statusPaddingTop: {
+        paddingTop: 4,
     },
 }));
 

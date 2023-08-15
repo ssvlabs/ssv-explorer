@@ -11,17 +11,19 @@ import ApiParams from '~lib/api/ApiParams';
 import SsvNetwork from '~lib/api/SsvNetwork';
 import { useStores } from '~app/hooks/useStores';
 import { useStyles } from '~app/components/Styles';
-import { longStringShorten } from '~lib/utils/strings';
 import OverviewStore from '~app/common/stores/Overview.store';
 import StyledRow from '~app/common/components/Table/StyledRow';
 import StyledCell from '~app/common/components/Table/StyledCell';
+import { longStringShorten, truncateText } from '~lib/utils/strings';
 import {
   overviewTableCellStyle,
   overviewTableHeadersStyle,
 } from '~app/components/Overview/components/Tables/Operators/Operators';
+
 type Props = {
   setValidatorsExist?: any;
 };
+
 const Validators = (props: Props) => {
   const { setValidatorsExist } = props;
   const classes = useStyles();
@@ -61,7 +63,7 @@ const Validators = (props: Props) => {
       <TableBody>
         {(validators || []).map((row: any, rowIndex: number) => (
           <StyledRow key={rowIndex}>
-            <StyledCell style={overviewTableCellStyle}>
+            <StyledCell className={classes.operatorCellMobileResponse} style={overviewTableCellStyle}>
               <Link href={`/validators/${row.public_key}`} className={classes.Link}>
                 0x{longStringShorten(row.public_key)}
               </Link>
@@ -74,7 +76,7 @@ const Validators = (props: Props) => {
                       href={`${config.routes.OPERATORS.HOME}/${operator.id}`}
                       className={`${classes.Link} ${classes.blackLinkColor}`}
                       >
-                      {operator.name}
+                      {truncateText(operator.name, 12)}
                     </Link>
                       &nbsp;
                   </span>

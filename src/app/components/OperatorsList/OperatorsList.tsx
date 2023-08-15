@@ -104,10 +104,13 @@ const OperatorsList = () => {
             {row.map((cell: any, cellIndex: number) => {
                 return (
                   <Grid key={`cell-key-${cellIndex}`} xs={cellIndex > 0 ? 4 : 12}>
-                    <StyledCell
-                      key={`cell-${cellIndex}`}
-                      >
-                      <Typography className={classes.TableCellLabel}>{OPERATOR_CELL_LABEL_NAME[cellIndex]}</Typography>
+                    <StyledCell key={`cell-${cellIndex}`}>
+                      <Typography className={classes.TableCellLabel}>{OPERATOR_CELL_LABEL_NAME[cellIndex]}{OPERATOR_CELL_LABEL_NAME[cellIndex] === 'Status' && (
+                        <InfoTooltip
+                          message="Is the operator performing duties for the majority of its validators in the last 2 epochs."
+                        />
+ )}
+                      </Typography>
                       {cell}
                     </StyledCell>
                   </Grid>
