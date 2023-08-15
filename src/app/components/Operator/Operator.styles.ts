@@ -236,20 +236,26 @@ export const useStyles = makeStyles((theme) => ({
         gap: 12,
         marginTop: 25,
         display: 'flex',
-
+        flexDirection: 'row-reverse',
+        [theme.breakpoints.down('xs')]: {
+            flexDirection: 'row',
+        },
     },
     BreadCrumbExtendClass: {
-        marginLeft: 240,
+        marginLeft: '230px',
         [theme.breakpoints.down('lg')]: {
-            marginLeft: 32,
+            marginLeft: '70px',
+        },
+        [theme.breakpoints.down('sm')]: {
+            marginLeft: '50px',
         },
         [theme.breakpoints.down('xs')]: {
-            marginLeft: 0,
+            marginLeft: '32px',
         },
 },
     OperatorDataAndLinksWrapper: {
-      display: 'flex',
-      justifyContent: 'space-between',
+        display: 'flex',
+        justifyContent: 'space-between',
         padding: '32px 230px 32px 230px',
         [theme.breakpoints.down('lg')]: {
             padding: '32px 70px 32px 70px',
