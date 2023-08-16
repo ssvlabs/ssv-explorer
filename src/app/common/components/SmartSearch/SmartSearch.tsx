@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import throttle from 'lodash/throttle';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
@@ -29,10 +29,19 @@ const SmartSearch = (props: SmartSearchProps) => {
   const [query, setQuery] = useState('');
   const [loading, setLoading] = useState(false);
   const { placeholder, inAppBar, supportSmallScreen, closeSearch } = props;
-
+  const [onFocus, setOnFocus] = useState(false);
   const [searchResults, setSearchResults]: [any[], any] = useState([]);
   let searchTimeout: any;
   const SEARCH_TIMEOUT_DELAY = 700;
+
+  useEffect(() => {
+    if (!onFocus && loading) {
+        setLoading(false);
+      }
+    if (!onFocus && searchResults.length > 0) {
+      setSearchResults([]);
+    }
+  }, [searchResults, loading, onFocus]);
 
   const fetch = React.useMemo(
     () => throttle((request: { input: string }, callback: any) => {
@@ -74,7 +83,6 @@ const SmartSearch = (props: SmartSearchProps) => {
       });
     }, SEARCH_TIMEOUT_DELAY);
   };
-
   /**
    * When the search results changes
    * @param event
@@ -198,6 +206,7 @@ const SmartSearch = (props: SmartSearchProps) => {
     );
   };
 
+  const searchIconCondition = loading ? loading && !onFocus : !loading;
   /**
    * Search input rendering component
    * @param params
@@ -207,6 +216,8 @@ const SmartSearch = (props: SmartSearchProps) => {
       style={{ height: inAppBar ? HEIGHT_IN_APP_BAR : HEIGHT_IN_DASHBOARD }}
       {...params}
       value={query}
+      onFocus={() => setOnFocus(true)}
+      onBlur={() => setOnFocus(false)}
       data-testid="smart-search"
       placeholder={placeholder || 'Search for validators and operators...'}
       InputProps={{
@@ -214,8 +225,8 @@ const SmartSearch = (props: SmartSearchProps) => {
         endAdornment: '',
         startAdornment: (
           <InputAdornment position="end">
-            {loading && <CircularProgress color="inherit" size={20} />}
-            {!loading && !supportSmallScreen && (
+            {loading && onFocus && <CircularProgress color="inherit" size={20} />}
+            {searchIconCondition && !supportSmallScreen && (
             <img src="/images/search_icon.svg" />
             )}
             {(supportSmallScreen && (
