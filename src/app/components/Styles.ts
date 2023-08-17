@@ -278,16 +278,15 @@ export const useStyles = makeStyles((theme) => ({
         },
     },
     ValidatorOperatorsWrapper: {
-        backgroundColor: theme.colors.white,
-        borderRadius: '16px',
-        height: '385px',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'center',
         alignItems: 'center',
     },
-    ValidatorDutiesWrapper: {
+    backgroundColorTest: {
+        borderRadius: '16px',
         backgroundColor: theme.colors.white,
+    },
+    ValidatorDutiesWrapper: {
         borderRadius: '16px',
     },
     ConsensusWrapper: {
@@ -334,7 +333,7 @@ export const useStyles = makeStyles((theme) => ({
     },
     operatorCellMobileResponse: {
         [theme.breakpoints.down('xs')]: {
-            width: '100%',
+            width: '30%!important',
         },
     },
     OperatorDataLabel: {
@@ -343,7 +342,10 @@ export const useStyles = makeStyles((theme) => ({
         lineHeight: 1.62,
         color: theme.colors.gray40,
     },
-    ValidatorOperatorsSwitcherWrapper: {
+    ValidatorTableHeaderWrapper: {
+        borderTopLeftRadius: '16px',
+        borderTopRightRadius: '16px',
+        backgroundColor: theme.colors.white,
         color: theme.colors.gray40,
         width: '100%',
         display: 'flex',
@@ -457,9 +459,14 @@ export const useStyles = makeStyles((theme) => ({
       height: '100vh',
     },
     ValidatorOperatorsCellWrapper: {
+        width: '100%',
       display: 'flex',
       alignItems: 'center',
       flexWrap: 'wrap',
+        backgroundColor: 'aqua',
+    },
+    tableWrapper: {
+        width: '100%',
     },
     statusPaddingTop: {
         paddingTop: 4,

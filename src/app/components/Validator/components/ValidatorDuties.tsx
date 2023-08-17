@@ -102,9 +102,14 @@ export default (props: ValidatorDutiesProps) => {
 
   return (
     <Grid className={classes.ValidatorDutiesWrapper} xs={12} sm={12} md={12} lg={7} xl={7}>
-      <PaddedGridItem item style={{ paddingLeft: 30 }}>
+      <PaddedGridItem item>
+        <Grid className={classes.ValidatorTableHeaderWrapper}>
+          <h3 style={{ color: '#97a5ba', fontSize: 20 }}>
+            Duties
+          </h3>
+        </Grid>
         <DataTable
-          title="Duties"
+          noDataMessage={'This validator has not performed any duties on the SSV network yet'}
           headers={['Epoch', 'Slot', 'Duty', 'Status', 'Operator Consensus Breakdown']}
           data={(validator?.public_key ? (validatorDuties ?? []) : []).map((duty: any) => {
           return [

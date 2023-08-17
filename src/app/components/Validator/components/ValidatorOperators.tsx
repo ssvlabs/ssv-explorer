@@ -4,6 +4,7 @@ import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import { Skeleton } from '@material-ui/lab';
 import TableRow from '@material-ui/core/TableRow';
+import { truncateText } from '~lib/utils/strings';
 import TableHead from '@material-ui/core/TableHead';
 import TableBody from '@material-ui/core/TableBody';
 import { Table, TableCell } from '@material-ui/core';
@@ -96,8 +97,8 @@ const ValidatorOperators = (props: ValidatorOperatorProps) => {
   };
 
   return (
-    <Grid className={classes.ValidatorOperatorsWrapper} xs={12} md={12} lg={4} xl={3}>
-      <Grid className={classes.ValidatorOperatorsSwitcherWrapper}>
+    <Grid className={classes.ValidatorOperatorsWrapper} xs={12} sm={12} md={12} lg={4} xl={3}>
+      <Grid className={classes.ValidatorTableHeaderWrapper}>
         <h3 style={{ color: '#97a5ba', fontSize: 20 }}>
           Operators
         </h3>
@@ -111,7 +112,7 @@ const ValidatorOperators = (props: ValidatorOperatorProps) => {
         </Grid>
       </Grid>
 
-      <Grid container>
+      <Grid className={classes.backgroundColorTest} container>
         <Table stickyHeader aria-label="table">
           <TableHead>
             <TableRow>
@@ -171,7 +172,7 @@ const ValidatorOperators = (props: ValidatorOperatorProps) => {
                       className={classes.Link}
                       style={{ fontWeight: 500, fontSize: 14 }}
                         >
-                      {operator.name}
+                      {truncateText(operator.name, 16)}
                       <OperatorType type={operator.type} />
                     </Link>
                   </Typography>

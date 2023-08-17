@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
 import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
 import { Skeleton } from '@material-ui/lab';
 import Table from '@material-ui/core/Table';
 import TableRow from '@material-ui/core/TableRow';
@@ -70,19 +69,19 @@ const Validators = (props: Props) => {
               </Link>
             </StyledCell>
             <StyledCell style={overviewTableCellStyle}>
-              <Grid xs={12} className={classes.ValidatorOperatorsCellWrapper}>
-                {row.operators.map((operator: any) => (
-                  <span key={`operator-link-${operator.address}`}>
-                    <Link
-                      href={`${config.routes.OPERATORS.HOME}/${operator.id}`}
-                      className={`${classes.Link} ${classes.blackLinkColor}`}
+              {/* <Grid xs={12} className={classes.ValidatorOperatorsCellWrapper}> */}
+              {row.operators.map((operator: any) => (
+                <span key={`operator-link-${operator.address}`}>
+                  <Link
+                    href={`${config.routes.OPERATORS.HOME}/${operator.id}`}
+                    className={`${classes.Link} ${classes.blackLinkColor}`}
                       >
-                      {truncateText(operator.name, 12)}
-                    </Link>
+                    {truncateText(operator.name, 12)}
+                  </Link>
                       &nbsp;
-                  </span>
+                </span>
                   ))}
-              </Grid>
+              {/* </Grid> */}
             </StyledCell>
           </StyledRow>
           ))}
