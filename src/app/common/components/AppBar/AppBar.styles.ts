@@ -18,8 +18,10 @@ export const useStyles = makeStyles((theme) => ({
     root: {
         height: 48,
         flexGrow: 1,
+        '& > .MuiPaper-root': {
+            backgroundColor: 'inherit',
+        },
         '& > .MuiPaper-root > .MuiToolbar-root': {
-            paddingTop: 20,
             paddingRight: 5,
             justifyContent: 'space-between',
             backgroundColor: (props: any) => props.whiteBackgroundColor ? theme.colors.white : theme.colors.gray10,
@@ -31,6 +33,16 @@ export const useStyles = makeStyles((theme) => ({
     menuButtons: {
         color: theme.colors.gray90,
         marginRight: 24,
+    },
+    AppBarWrapper: {
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        [theme.breakpoints.down('md')]: {
+            flexDirection: 'row-reverse',
+        },
     },
     FirstSection: {
         display: 'none',
@@ -60,7 +72,8 @@ export const useStyles = makeStyles((theme) => ({
         flexDirection: 'row',
         alignItems: 'center',
         maxWidth: 200,
-        marginTop: -9,
+        marginTop: 5,
+
     },
     appBarLink: {
         fontSize: 16,
