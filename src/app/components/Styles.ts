@@ -217,6 +217,7 @@ export const useStyles = makeStyles((theme) => ({
         color: 'red',
     },
     overviewSearch: {
+        // maxWidth: '100%',
         '& > .MuiFormControl-root': {
             '& > .MuiInput-underline:after': {
                 display: 'none',
@@ -269,16 +270,15 @@ export const useStyles = makeStyles((theme) => ({
         },
     },
     ValidatorOperatorsWrapper: {
-        backgroundColor: theme.colors.white,
-        borderRadius: '16px',
-        height: '385px',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'center',
         alignItems: 'center',
     },
-    ValidatorDutiesWrapper: {
+    backgroundColorTest: {
+        borderRadius: '16px',
         backgroundColor: theme.colors.white,
+    },
+    ValidatorDutiesWrapper: {
         borderRadius: '16px',
     },
     ConsensusWrapper: {
@@ -334,7 +334,10 @@ export const useStyles = makeStyles((theme) => ({
         lineHeight: 1.62,
         color: theme.colors.gray40,
     },
-    ValidatorOperatorsSwitcherWrapper: {
+    ValidatorTableHeaderWrapper: {
+        borderTopLeftRadius: '16px',
+        borderTopRightRadius: '16px',
+        backgroundColor: theme.colors.white,
         color: theme.colors.gray40,
         width: '100%',
         display: 'flex',
@@ -451,6 +454,9 @@ export const useStyles = makeStyles((theme) => ({
       display: 'flex',
       alignItems: 'center',
       flexWrap: 'wrap',
+    },
+    tableWrapper: {
+        width: '100%',
     },
 }));
 
