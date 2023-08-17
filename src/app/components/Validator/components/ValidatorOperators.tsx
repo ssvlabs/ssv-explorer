@@ -17,6 +17,7 @@ import InfoTooltip from '~app/common/components/InfoTooltip';
 import OperatorType from '~app/common/components/OperatorType';
 import StyledRow from '~app/common/components/Table/StyledRow';
 import StyledCell from '~app/common/components/Table/StyledCell';
+import { useWindowSize, WINDOW_SIZES } from '~app/hooks/useWindowSize';
 
 type ValidatorOperatorProps = {
   validator: Record<string, any>;
@@ -57,8 +58,10 @@ function getSortedOperators(operators: any[], selectedPerformancePeriod: string)
 
 const ValidatorOperators = (props: ValidatorOperatorProps) => {
   const classes = useStyles();
+  const windowSize = useWindowSize();
   const { validator, defaultPerformance } = props;
   const [selectedPerformancePeriod, setSelectedPerformancePeriod] = useState(defaultPerformance);
+  const isMobileDevice = windowSize.size === WINDOW_SIZES.XS;
   let operatorsPerformanceZero: number = 0;
       validator?.operators?.forEach((operator: any) => {
         // eslint-disable-next-line no-plusplus
@@ -116,9 +119,11 @@ const ValidatorOperators = (props: ValidatorOperatorProps) => {
               <TableCell className={classes.TableCellColor} key={'name'} align="left">
                 Name
               </TableCell>
+              {!isMobileDevice && (
               <TableCell className={classes.TableCellColor} key={'status'} align="left">
                 Status
               </TableCell>
+)}
               <TableCell className={classes.TableCellColor} key={'performance'} style={{ whiteSpace: 'nowrap' }}>
                 Performance
                 <InfoTooltip
@@ -144,9 +149,11 @@ const ValidatorOperators = (props: ValidatorOperatorProps) => {
                   <StyledCell key="operator-performance">
                     <Skeleton />
                   </StyledCell>
+                  {!isMobileDevice && (
                   <StyledCell key="operator-status">
                     <Skeleton />
                   </StyledCell>
+)}
                 </StyledRow>
               ))
             )}
@@ -171,10 +178,13 @@ const ValidatorOperators = (props: ValidatorOperatorProps) => {
                   </Typography>
                   <Typography noWrap>
                   </Typography>
+                  {isMobileDevice && <Status extendClass={classes.statusPaddingTop} entry={operator} />}
                 </StyledCell>
+                {!isMobileDevice && (
                 <StyledCell key="operator-status">
                   <Status entry={operator} />
                 </StyledCell>
+)}
                 <StyledCell key="operator-performance" style={performanceRowRightStyle}>
                   {renderPerformance(operator)}
                 </StyledCell>
