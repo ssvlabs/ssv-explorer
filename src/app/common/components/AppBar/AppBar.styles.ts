@@ -18,6 +18,9 @@ export const useStyles = makeStyles((theme) => ({
     root: {
         height: 48,
         flexGrow: 1,
+        '& > .MuiPaper-root': {
+            backgroundColor: 'inherit',
+        },
         '& > .MuiPaper-root > .MuiToolbar-root': {
             paddingTop: 20,
             paddingRight: 5,

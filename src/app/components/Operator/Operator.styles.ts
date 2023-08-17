@@ -1,11 +1,31 @@
 import { makeStyles } from '@material-ui/core/styles';
 
 export const useStyles = makeStyles((theme) => ({
+    OperatorContainerWrapper: {
+        display: 'flex',
+        flexDirection: 'column',
+    },
     WhiteSection: {
-        height: 340,
-        padding: '32px 32px 24px 32px',
-        marginBottom: 24,
+        padding: '32px 0px 32px 0px',
         backgroundColor: theme.colors.white,
+        display: 'flex',
+        flexDirection: 'column',
+        [theme.breakpoints.down('lg')]: {
+            padding: '32px 20px 32px 20px',
+        },
+        },
+    MetadataItemsWrapper: {
+        gap: 20,
+        display: 'flex',
+        marginTop: 40,
+        [theme.breakpoints.down('sm')]: {
+            gap: 50,
+            display: 'flex',
+            flexWrap: 'wrap',
+        },
+        [theme.breakpoints.down('xs')]: {
+            justifyContent: 'space-between',
+        },
     },
     itemWrapper: {
         flexDirection: 'column',
@@ -28,8 +48,12 @@ export const useStyles = makeStyles((theme) => ({
         maxWidth: 1320,
     },
     SocialIcon: {
+        marginLeft: 12,
         width: 32,
         height: 32,
+        [theme.breakpoints.down('xs')]: {
+            marginLeft: 0,
+        },
     },
     ItemContainer: {
         justifyItems: 'center',
@@ -182,13 +206,16 @@ export const useStyles = makeStyles((theme) => ({
     OperatorInfoWrapper: {
         gap: 24,
         [theme.breakpoints.down('lg')]: {
-            display: 'flex',
-            flexDirection: 'row!important',
-            flexWrap: 'wrap',
-            justifyContent: 'center',
+            marginRight: 50,
         },
         [theme.breakpoints.down('md')]: {
+            marginRight: 0,
+            display: 'flex',
+            flexWrap: 'nowrap',
             justifyContent: 'flex-start',
+        },
+        [theme.breakpoints.down('sm')]: {
+            flexWrap: 'wrap',
         },
     },
     OperatorDataComponentWrapper: {
@@ -204,5 +231,52 @@ export const useStyles = makeStyles((theme) => ({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
+    },
+    SocialMediaLinksWrapper: {
+        gap: 12,
+        marginTop: 25,
+        display: 'flex',
+        flexDirection: 'row-reverse',
+        [theme.breakpoints.down('xs')]: {
+            flexDirection: 'row',
+        },
+    },
+    BreadCrumbExtendClass: {
+        marginLeft: '230px',
+        [theme.breakpoints.down('lg')]: {
+            marginLeft: '70px',
+        },
+        [theme.breakpoints.down('sm')]: {
+            marginLeft: '50px',
+        },
+        [theme.breakpoints.down('xs')]: {
+            marginLeft: '32px',
+        },
+},
+    OperatorDataAndLinksWrapper: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        padding: '32px 230px 32px 230px',
+        [theme.breakpoints.down('lg')]: {
+            padding: '32px 70px 32px 70px',
+        },
+        [theme.breakpoints.down('sm')]: {
+            padding: '32px 50px 32px 50px',
+        },
+        [theme.breakpoints.down('xs')]: {
+            padding: '32px 32px 32px 32px',
+        },
+    },
+    OperatorMetadataWrapper: {
+        padding: '0 320px 32px 320px',
+        [theme.breakpoints.down('lg')]: {
+            padding: '0 32px 32px 160px',
+        },
+        [theme.breakpoints.down('sm')]: {
+            padding: '0 32px 32px 140px',
+        },
+        [theme.breakpoints.down('xs')]: {
+            padding: '0 32px 32px 32px',
+        },
     },
 }));

@@ -15,6 +15,12 @@ const OperatorPerformanceContainer = styled.div`
   flex-direction: column;
   padding: 32px 27px 44px 32px;
   background-color: ${props => props.theme.colors.white};
+  @media (min-width: 993px) and (max-width: 1200px) {
+    width: 348px;
+  }
+  @media (max-width: 992px) {
+    width: 312px;
+  }
   @media (max-width: 576px) {
     width: 100%;
   },
@@ -85,7 +91,7 @@ function getPerformance(operator: any, selectedPerformance: string): any {
 }
 
 const OperatorPerformanceWidget = (props: OperatorProps) => {
-  const supportedPerformances: any = { '30d': '1M', '24h': '1D' };
+  const supportedPerformances: any = { '24h': '1D', '30d': '1M' };
   const [selectedPerformance, setSelectedPerformance] = useState('24h');
   const headerTooltipStyle = { fontSize: '14px', color: 'rgb(161, 172, 190)', marginBottom: '-2px' };
 
