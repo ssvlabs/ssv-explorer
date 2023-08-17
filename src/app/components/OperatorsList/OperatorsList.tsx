@@ -18,7 +18,6 @@ import InfoTooltip from '~app/common/components/InfoTooltip';
 import OverviewStore from '~app/common/stores/Overview.store';
 import StyledCell from '~app/common/components/Table/StyledCell';
 import OperatorDetails from '~app/common/components/OperatorDetails';
-import EmptyPlaceholder from '~app/common/components/EmptyPlaceholder';
 import ContentContainer from '~app/common/components/ContentContainer';
 import { useWindowSize, WINDOW_SIZES } from '~app/hooks/useWindowSize';
 import { BreadCrumb, BreadCrumbDivider, BreadCrumbsContainer } from '~app/common/components/Breadcrumbs';
@@ -143,33 +142,34 @@ const OperatorsList = () => {
 
   return (
     <Layout>
-      <ContentContainer>
-        <EmptyPlaceholder height={10} />
-        <Grid className={classes.operatorTopWrapper}>
-          <BreadCrumbsContainer>
-            <BreadCrumb href={config.routes.HOME}>Overview</BreadCrumb>
-            <BreadCrumbDivider />
-            <BreadCrumb href={config.routes.OPERATORS.HOME}>Operators</BreadCrumb>
-          </BreadCrumbsContainer>
-          <Grid className={classes.OperatorListTitleWrapper}>
-            <Typography variant="h1">Operators</Typography>
-            {windowSize.size === WINDOW_SIZES.XS && overviewStore.totalOperators ? <Typography className={classes.OperatorsCountLabel} variant="h1">{`(${overviewStore.totalOperators} results)`}</Typography> : <Skeleton />}
+      <Grid className={classes.ListWrapper}>
+        <ContentContainer>
+          <Grid className={classes.operatorTopWrapper}>
+            <BreadCrumbsContainer>
+              <BreadCrumb href={config.routes.HOME}>Overview</BreadCrumb>
+              <BreadCrumbDivider />
+              <BreadCrumb href={config.routes.OPERATORS.HOME}>Operators</BreadCrumb>
+            </BreadCrumbsContainer>
+            <Grid className={classes.OperatorListTitleWrapper}>
+              <Typography variant="h1">Operators</Typography>
+              {windowSize.size === WINDOW_SIZES.XS && overviewStore.totalOperators ? <Typography className={classes.OperatorsCountLabel} variant="h1">{`(${overviewStore.totalOperators} results)`}</Typography> : <Skeleton />}
+            </Grid>
           </Grid>
-        </Grid>
-        <Grid xs={12} md={12} lg={12} xl={12}>
-          <DataTable
-            isLoading={loading}
-            page={pagination.page - 1}
-            onChangePage={loadOperators}
-            totalCount={pagination.total}
-            data={getOperatorsTableData()}
-            headers={getOperatorsTableHeaders()}
-            customRows={getCustomTableRows()}
-            onChangeRowsPerPage={onChangeRowsPerPage}
-            perPage={ApiParams.getInteger('operators', 'perPage', ApiParams.PER_PAGE)}
+          <Grid xs={12} md={12} lg={12} xl={12}>
+            <DataTable
+              isLoading={loading}
+              page={pagination.page - 1}
+              onChangePage={loadOperators}
+              totalCount={pagination.total}
+              data={getOperatorsTableData()}
+              headers={getOperatorsTableHeaders()}
+              customRows={getCustomTableRows()}
+              onChangeRowsPerPage={onChangeRowsPerPage}
+              perPage={ApiParams.getInteger('operators', 'perPage', ApiParams.PER_PAGE)}
           />
-        </Grid>
-      </ContentContainer>
+          </Grid>
+        </ContentContainer>
+      </Grid>
     </Layout>
   );
 };

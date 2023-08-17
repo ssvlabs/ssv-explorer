@@ -123,27 +123,29 @@ const ValidatorsList = () => {
 
   return (
     <Layout>
-      <ContentContainer>
-        <EmptyPlaceholder height={10} />
-        <BreadCrumbsContainer>
-          <BreadCrumb href={config.routes.HOME}>Overview</BreadCrumb>
-          <BreadCrumbDivider />
-          <BreadCrumb href={config.routes.VALIDATORS.HOME}>Validators</BreadCrumb>
-        </BreadCrumbsContainer>
-        <Typography variant="h1">Validators</Typography>
-        <DataTable
-          headers={['Public Key', 'Joined at Date', 'Operators']}
-          headersPositions={HEADER_POSITIONS}
-          customRows={getCustomOwnTableRows()}
-          data={getValidatorsTableData()}
-          totalCount={pagination.total}
-          page={pagination.page - 1}
-          onChangePage={loadValidators}
-          onChangeRowsPerPage={onChangeRowsPerPage}
-          perPage={ApiParams.getInteger('validators', 'perPage', ApiParams.PER_PAGE)}
-          isLoading={loading}
-        />
-      </ContentContainer>
+      <Grid className={classes.ListWrapper}>
+        <ContentContainer>
+          <EmptyPlaceholder height={10} />
+          <BreadCrumbsContainer>
+            <BreadCrumb href={config.routes.HOME}>Overview</BreadCrumb>
+            <BreadCrumbDivider />
+            <BreadCrumb href={config.routes.VALIDATORS.HOME}>Validators</BreadCrumb>
+          </BreadCrumbsContainer>
+          <Typography variant="h1">Validators</Typography>
+          <DataTable
+            headers={['Public Key', 'Joined at Date', 'Operators']}
+            headersPositions={HEADER_POSITIONS}
+            customRows={getCustomOwnTableRows()}
+            data={getValidatorsTableData()}
+            totalCount={pagination.total}
+            page={pagination.page - 1}
+            onChangePage={loadValidators}
+            onChangeRowsPerPage={onChangeRowsPerPage}
+            perPage={ApiParams.getInteger('validators', 'perPage', ApiParams.PER_PAGE)}
+            isLoading={loading}
+          />
+        </ContentContainer>
+      </Grid>
     </Layout>
   );
 };
