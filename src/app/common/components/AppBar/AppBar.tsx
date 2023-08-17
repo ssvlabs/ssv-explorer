@@ -25,6 +25,7 @@ import SmartSearch from '~app/common/components/SmartSearch';
 import { useStyles as useAppStyles } from '~app/components/Styles';
 import ApplicationStore from '~app/common/stores/Application.store';
 import DarkModeSwitcher from '~app/common/components/DarkModeSwitcher';
+import Grid from '@material-ui/core/Grid';
 
 const DrawerButtonsContainers = styled.div`
   font-size: 12px;
@@ -137,7 +138,7 @@ const AppBarComponent = () => {
                     </Typography>
                   </Box>
                   {paused ? <></> : (
-                    <>
+                    <Grid className={classes.AppBarWrapper}>
                       <Box className={classes.toolbarLinks} component="div"
                         display={{ xs: 'none', sm: 'none', md: 'none', lg: 'block' }}>
                         <Link
@@ -256,7 +257,7 @@ const AppBarComponent = () => {
                           </List>
                         </Drawer>
                       </Box>
-                    </>
+                    </Grid>
                     )}
                 </Toolbar>
               </AppBar>

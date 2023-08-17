@@ -90,7 +90,7 @@ const ValidatorOperators = (props: ValidatorOperatorProps) => {
   };
 
   const renderPerformance = (operator: any) => {
-    if (operatorsPerformanceZero === 4) return 'N/A';
+    if (operatorsPerformanceZero === 4) return '-';
     if (operator.performance[selectedPerformancePeriod] !== undefined) return `${parseFloat(String(operator.performance[selectedPerformancePeriod])).toFixed(1)}%`;
     return <Skeleton />;
   };

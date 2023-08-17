@@ -5,7 +5,6 @@ export const useStyles = makeStyles((theme: Theme) => ({
         backgroundColor: theme.colors.gray10,
         flexGrow: 1,
         height: 'auto',
-        marginTop: -50,
         padding: '40px 24px 40px 24px',
         overflow: 'hidden',
         display: 'flex',

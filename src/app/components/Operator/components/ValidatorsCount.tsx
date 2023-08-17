@@ -1,8 +1,6 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 import styled from 'styled-components';
-// import { Skeleton } from '@material-ui/lab';
-import InfoTooltip from '~app/common/components/InfoTooltip';
 
 const ValidatorCountContainer = styled.div`
   width: 312px;
@@ -41,15 +39,10 @@ const ValueContent = styled.div`
 `;
 
 const ValidatorCount = ({ validatorCount }: { validatorCount: number }) => {
-    const headerTooltipStyle = { fontSize: '14px', color: 'rgb(161, 172, 190)', marginBottom: '-2px' };
-
     return (
       <ValidatorCountContainer>
         <DataHeader>
           Validators
-          <InfoTooltip
-            style={headerTooltipStyle}
-            message="Is the operator performing duties for the majority of its validators in the last 10 epochs." />
         </DataHeader>
         <ValueContent>{validatorCount}</ValueContent>
       </ValidatorCountContainer>

@@ -226,16 +226,20 @@ export const useStyles = makeStyles((theme) => ({
         color: 'red',
     },
     overviewSearch: {
-        // maxWidth: '100%',
         '& > .MuiFormControl-root': {
+            '& > .MuiInput-underline:after': {
+                display: 'none',
+            },
             '& > .MuiInputBase-root': {
                 outline: 'none!important',
+                backgroundColor: theme.colors.white,
                 '-webkit-appearance': 'none',
                 '&:hover': {
                   border: 'none',
+                    borderBottom: 'none!important',
                 },
                 borderRadius: 6,
-                color: '#5B6C84',
+                color: theme.colors.gray90,
                 '& > .MuiInputAdornment-root > .MuiButtonBase-root': {
                     width: 38,
                     height: 38,
@@ -274,7 +278,6 @@ export const useStyles = makeStyles((theme) => ({
         },
     },
     ValidatorOperatorsWrapper: {
-        padding: '0 32px 0 32px',
         backgroundColor: theme.colors.white,
         borderRadius: '16px',
         height: '385px',
@@ -331,7 +334,7 @@ export const useStyles = makeStyles((theme) => ({
     },
     operatorCellMobileResponse: {
         [theme.breakpoints.down('xs')]: {
-            width: '20%!important',
+            width: '100%',
         },
     },
     OperatorDataLabel: {
@@ -380,6 +383,11 @@ export const useStyles = makeStyles((theme) => ({
     ValidatorListInfoBox: {
         display: 'flex',
     },
+    ValidatorPublicKey: {
+        [theme.breakpoints.up('sm')]: {
+            width: '100px',
+        },
+    },
     SingleValidatorWrapper: {
         gap: 10,
         display: 'flex',
@@ -420,7 +428,7 @@ export const useStyles = makeStyles((theme) => ({
         color: theme.colors.gray40,
     },
     operatorTopWrapper: {
-        padding: '32px 32px 0 0',
+        padding: '10px 32px 0 0',
         [theme.breakpoints.down('xs')]: {
             padding: '32px 32px 0 32px',
         },
@@ -444,6 +452,14 @@ export const useStyles = makeStyles((theme) => ({
         width: 90,
         lineHeight: 1.62,
         color: theme.colors.gray40,
+    },
+    ListWrapper: {
+      height: '100vh',
+    },
+    ValidatorOperatorsCellWrapper: {
+      display: 'flex',
+      alignItems: 'center',
+      flexWrap: 'wrap',
     },
     statusPaddingTop: {
         paddingTop: 4,

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import _ from 'underscore';
 import { observer } from 'mobx-react';
 import styled from 'styled-components';
 import { Box } from '@material-ui/core';
@@ -85,10 +86,10 @@ const Validator = () => {
               </StatsBlock>
             </Grid>
             <Grid item>
-              <Status size="big" entry={validator} />
+              {!_.isEmpty(validator) && <Status size="big" entry={validator} />}
             </Grid>
             <Grid item>
-              <IsValidBadge size="big" entry={validator} />
+              {!_.isEmpty(validator) && <IsValidBadge size="big" entry={validator} />}
             </Grid>
           </Grid>
           {!notFound && (

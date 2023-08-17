@@ -14,7 +14,7 @@ import StyledRow from '~app/common/components/Table/StyledRow';
 import StyledCell from '~app/common/components/Table/StyledCell';
 import OperatorDetails from '~app/common/components/OperatorDetails';
 
-export const overviewTableHeadersStyle: any = { textTransform: 'uppercase', fontSize: 12, fontWeight: 'bold' };
+export const overviewTableHeadersStyle: any = { fontSize: 12, fontWeight: 'bold' };
 export const overviewTableCellStyle: any = { fontSize: 14, height: 64, paddingLeft: 32, paddingTop: 0, paddingBottom: 0 };
 type Props = {
     setOperatorsExist?: any;
@@ -42,7 +42,7 @@ const Operators = (props: Props) => {
     SsvNetwork.getInstance().fetchOperators({ page: 1, validatorsCount: 'true' })
       .then((result: any) => {
         overviewStore.setTotalOperators(result.data.pagination.total);
-        setOperatorsExist(result.data.operators.total > 0);
+        setOperatorsExist(result.data.pagination.total > 0);
         setOperators(result.data.operators);
         setLoadingOperators(false);
       });

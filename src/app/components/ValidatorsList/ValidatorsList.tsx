@@ -64,12 +64,14 @@ const ValidatorsList = () => {
       return [
         <Link href={`${config.routes.VALIDATORS.HOME}/${validator.public_key}`} className={classes.Link}>
           <Box className={classes.ValidatorListInfoBox} component="div" display={{ xs: 'none', sm: 'none', md: 'block', lg: 'block' }}>
-            0x{longStringShorten(validator.public_key, isXsWindowSize ? 6 : 4)}
+            <Typography className={classes.ValidatorPublicKey}>
+              0x{longStringShorten(validator.public_key, isXsWindowSize ? 6 : 4)}
+            </Typography>
             <BeaconchaLink height={24} width={24} address={`validator/${validator.public_key}`} />
           </Box>
         </Link>,
         <Box component="div" display={{ xs: 'none', sm: 'none', md: 'none', lg: 'block' }}>
-          N/A
+          -
         </Box>,
         validator.operators.map((operator: any, operatorIndex: number) => {
           return (
@@ -121,27 +123,29 @@ const ValidatorsList = () => {
 
   return (
     <Layout>
-      <ContentContainer>
-        <EmptyPlaceholder height={10} />
-        <BreadCrumbsContainer>
-          <BreadCrumb href={config.routes.HOME}>Overview</BreadCrumb>
-          <BreadCrumbDivider />
-          <BreadCrumb href={config.routes.VALIDATORS.HOME}>Validators</BreadCrumb>
-        </BreadCrumbsContainer>
-        <Typography variant="h1">Validators</Typography>
-        <DataTable
-          headers={['Public Key', 'Joined at Date', 'Operators']}
-          headersPositions={HEADER_POSITIONS}
-          customRows={getCustomOwnTableRows()}
-          data={getValidatorsTableData()}
-          totalCount={pagination.total}
-          page={pagination.page - 1}
-          onChangePage={loadValidators}
-          onChangeRowsPerPage={onChangeRowsPerPage}
-          perPage={ApiParams.getInteger('validators', 'perPage', ApiParams.PER_PAGE)}
-          isLoading={loading}
-        />
-      </ContentContainer>
+      <Grid className={classes.ListWrapper}>
+        <ContentContainer>
+          <EmptyPlaceholder height={10} />
+          <BreadCrumbsContainer>
+            <BreadCrumb href={config.routes.HOME}>Overview</BreadCrumb>
+            <BreadCrumbDivider />
+            <BreadCrumb href={config.routes.VALIDATORS.HOME}>Validators</BreadCrumb>
+          </BreadCrumbsContainer>
+          <Typography variant="h1">Validators</Typography>
+          <DataTable
+            headers={['Public Key', 'Joined at Date', 'Operators']}
+            headersPositions={HEADER_POSITIONS}
+            customRows={getCustomOwnTableRows()}
+            data={getValidatorsTableData()}
+            totalCount={pagination.total}
+            page={pagination.page - 1}
+            onChangePage={loadValidators}
+            onChangeRowsPerPage={onChangeRowsPerPage}
+            perPage={ApiParams.getInteger('validators', 'perPage', ApiParams.PER_PAGE)}
+            isLoading={loading}
+          />
+        </ContentContainer>
+      </Grid>
     </Layout>
   );
 };
