@@ -456,7 +456,7 @@ export const useStyles = makeStyles((theme) => ({
         color: theme.colors.gray40,
     },
     ListWrapper: {
-      height: '100vh',
+      height: 'auto',
     },
     ValidatorOperatorsCellWrapper: {
         width: '100%',
