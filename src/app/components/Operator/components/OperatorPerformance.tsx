@@ -50,7 +50,7 @@ const PerformanceBox = styled.div`
   border-radius: 4px;
   font-stretch: normal;
   letter-spacing: normal;
-  padding: 6px 7px 6px 6px;
+  padding: 5px 5px 5px 5px;
   color: ${props => {
     // @ts-ignore
       return props.selected ? props.theme.colors.primaryBlue : props.theme.colors.gray40;
