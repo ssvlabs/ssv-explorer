@@ -24,7 +24,7 @@ const HEADER_POSITIONS: HeaderPosition[] = ['left', 'left', 'left'];
 const VALIDATOR_CELL_LABEL_NAME = ['', '', 'Operators'];
 
 const ValidatorsList = () => {
-  const classes = useStyles();
+  const classes = useStyles({});
   const windowSize = useWindowSize();
   const [loading, setLoading] = useState(false);
   const [validators, setValidators] = useState([]);
@@ -70,9 +70,6 @@ const ValidatorsList = () => {
             <BeaconchaLink height={24} width={24} address={`validator/${validator.public_key}`} />
           </Box>
         </Link>,
-        <Box component="div" display={{ xs: 'none', sm: 'none', md: 'none', lg: 'block' }}>
-          -
-        </Box>,
         validator.operators.map((operator: any, operatorIndex: number) => {
           return (
             <span key={`operator-${operatorIndex}`}>
@@ -133,7 +130,7 @@ const ValidatorsList = () => {
           </BreadCrumbsContainer>
           <Typography variant="h1">Validators</Typography>
           <DataTable
-            headers={['Public Key', 'Joined at Date', 'Operators']}
+            headers={['Public Key', 'Operators']}
             headersPositions={HEADER_POSITIONS}
             customRows={getCustomOwnTableRows()}
             data={getValidatorsTableData()}

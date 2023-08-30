@@ -7,7 +7,7 @@ type ContentContainerProps = {
 };
 
 const ContentContainer = ({ children }: ContentContainerProps) => {
-  const classes = useStyles();
+  const classes = useStyles({});
   return (
     <Grid container wrap="nowrap" spacing={0} className={classes.gridContainer}>
       {children}

@@ -25,7 +25,7 @@ type ValidatorsInOperatorTableProps = {
 };
 
 const ValidatorsInOperatorTable = (props: ValidatorsInOperatorTableProps) => {
-  const classes = useStyles();
+  const classes = useStyles({});
   const { validators, pagination, params, isLoading, onLoadPage, onChangeRowsPerPage, perPage } = props;
   const validatorsTitle = `${pagination?.total ? pagination?.total : ''} Validator${(pagination?.total ?? 0) > 1 || pagination?.total === 0 ? 's' : ''}`;
 

@@ -26,7 +26,7 @@ type Props = {
 
 const Validators = (props: Props) => {
   const { setValidatorsExist } = props;
-  const classes = useStyles();
+  const classes = useStyles({});
   const [validators, setValidators] = useState(null);
   const [loadingValidators, setLoadingValidators] = useState(false);
   const stores = useStores();

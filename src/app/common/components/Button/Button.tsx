@@ -9,11 +9,12 @@ type ButtonProps = {
     height?: number,
     disable: boolean,
     submitAction?: any,
+    extendClass?: string,
 };
 
 const AppButton = (props: ButtonProps) => {
     const classes = useStyles();
-    const { text, type, height, width, disable, submitAction } = props;
+    const { text, type, height, width, disable, submitAction, extendClass } = props;
 
     const onClick = () => {
         if (typeof submitAction === 'function') submitAction();
@@ -21,10 +22,11 @@ const AppButton = (props: ButtonProps) => {
 
     return (
       <Button
+        disableTouchRipple
         onClick={onClick}
         disabled={disable}
         style={{ width, height }}
-        className={type === 'primary' ? classes.Primary : classes.Secondary}
+        className={`${type === 'primary' ? classes.Primary : classes.Secondary} ${extendClass} `}
         >
         {text}
       </Button>

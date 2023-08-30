@@ -12,7 +12,7 @@ type BeaconchaLinkProps = {
 };
 
 const BeaconchaLink = ({ width, height, address }: BeaconchaLinkProps) => {
-  const classes = useStyles();
+  const classes = useStyles({});
   const stores = useStores();
   const applicationStore: ApplicationStore = stores.Application;
   const imgSrc = `/images/beaconcha${applicationStore.isDarkMode ? '-white' : '-dark'}.svg`;

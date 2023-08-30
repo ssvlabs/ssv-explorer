@@ -41,7 +41,7 @@ const BreadCrumbs = ({ address }: { address: string }) => {
 };
 
 const Validator = () => {
-  const classes = useStyles();
+  const classes = useStyles({});
   const defaultPerformance = '24h';
   const params: Record<string, any> = useParams();
   const defaultValidator: Record<string, any> = {};

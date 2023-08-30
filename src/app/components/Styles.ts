@@ -198,7 +198,8 @@ export const useStyles = makeStyles((theme) => ({
         fontWeight: 600,
     },
     Link: {
-        fontSize: '14px',
+        fontSize: '16px',
+        fontWeight: 500,
         display: 'inline-flex',
         alignItems: 'center',
         alignContent: 'center',
@@ -238,8 +239,12 @@ export const useStyles = makeStyles((theme) => ({
                   border: 'none',
                     borderBottom: 'none!important',
                 },
-                borderRadius: 6,
-                color: theme.colors.gray90,
+                borderRadius: 8,
+                fontSize: 16,
+                fontStyle: 'normal',
+                fontWeight: 500,
+                color: theme.colors.gray60,
+                border: (props: any) => props.inAppBar && `1px solid ${theme.colors.gray30}`,
                 '& > .MuiInputAdornment-root > .MuiButtonBase-root': {
                     width: 38,
                     height: 38,
@@ -354,7 +359,8 @@ export const useStyles = makeStyles((theme) => ({
         padding: '0px 15px 0px 15px',
     },
     PerformanceSwitcher: {
-        padding: '3px 3px 3px 3px',
+        width: 32,
+        height: 32,
         border: `1px solid ${theme.colors.gray40}`,
         float: 'right',
         fontSize: 16,
@@ -363,16 +369,17 @@ export const useStyles = makeStyles((theme) => ({
         userSelect: 'none',
         cursor: 'pointer',
         borderRadius: '4px',
+
+        padding: '5px 5px 5px 5px',
     },
     chosenPerformance: {
+        width: 32,
+        height: 32,
         fontWeight: 700,
         color: theme.colors.primaryBlue,
         border: `1px solid ${theme.colors.primaryBlue}`,
         borderRadius: '4px',
-        display: 'flex',
-        alignText: 'center',
-        justifyContent: 'center',
-        padding: '3px 3px 3px 3px',
+        padding: '5px 5px 5px 5px',
     },
     performanceButtonsWrapper: {
         width: 70,
@@ -384,9 +391,12 @@ export const useStyles = makeStyles((theme) => ({
         color: theme.colors.gray40,
     },
     ValidatorListInfoBox: {
+        gap: 16,
         display: 'flex',
     },
     ValidatorPublicKey: {
+        fontSize: 16,
+        fontWeight: 500,
         [theme.breakpoints.up('sm')]: {
             width: '100px',
         },
@@ -471,6 +481,18 @@ export const useStyles = makeStyles((theme) => ({
     },
     statusPaddingTop: {
         paddingTop: 4,
+    },
+    SearchIcon: {
+        margin: (props: any) => props.inAppBar ? '12px 10px 12px 12px' : '18px 15px 18px 20px',
+    },
+    ValidatorOperatorLink: {
+        fontSize: 14,
+        fontWeight: 500,
+        display: 'flex',
+        cursor: 'pointer',
+        flexDirection: 'row',
+        gap: 4,
+        color: `${theme.colors.gray90}!important`,
     },
 }));
 

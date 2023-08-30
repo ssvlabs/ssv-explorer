@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 export const useStyles = makeStyles((theme) => ({
     Wrapper: {
-        gap: 12,
+        gap: 6,
         alignItems: 'flex-start',
     },
     TextWrapper: {
@@ -35,6 +35,6 @@ export const useStyles = makeStyles((theme) => ({
         fontSize: 14,
         fontWeight: 500,
         lineHeight: 1.62,
-        color: theme.colors.gray60,
+        color: theme.colors.gray40,
     },
 }));

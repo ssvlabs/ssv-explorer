@@ -14,7 +14,7 @@ import StyledRow from '~app/common/components/Table/StyledRow';
 import StyledCell from '~app/common/components/Table/StyledCell';
 import OperatorDetails from '~app/common/components/OperatorDetails';
 
-export const overviewTableHeadersStyle: any = { fontSize: 12, fontWeight: 'bold' };
+export const overviewTableHeadersStyle: any = { fontSize: 12, fontWeight: 500 };
 export const overviewTableCellStyle: any = { fontSize: 14, height: 64, paddingLeft: 32, paddingTop: 0, paddingBottom: 0 };
 type Props = {
     setOperatorsExist?: any;
@@ -22,7 +22,7 @@ type Props = {
 
 const Operators = (props: Props) => {
   const { setOperatorsExist } = props;
-  const classes = useStyles();
+  const classes = useStyles({});
   const [operators, setOperators] = useState(null);
   const [loadingOperators, setLoadingOperators] = useState(false);
   const stores = useStores();
@@ -53,8 +53,8 @@ const Operators = (props: Props) => {
     <Table aria-label="Operators">
       <TableHead>
         <TableRow>
-          <StyledCell>Name Operator</StyledCell>
-          <StyledCell>Validators</StyledCell>
+          <StyledCell style={overviewTableHeadersStyle}>Name Operator</StyledCell>
+          <StyledCell style={overviewTableHeadersStyle}>Validators</StyledCell>
         </TableRow>
       </TableHead>
 

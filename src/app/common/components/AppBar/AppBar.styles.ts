@@ -167,4 +167,14 @@ export const useStyles = makeStyles((theme) => ({
             backgroundColor: 'lightgreen',
         },
     },
+    PraterButton: {
+       backgroundColor: theme.colors.tint80,
+       color: theme.colors.primary,
+        '&:hover': {
+           cursor: 'default',
+        },
+        '&:active': {
+            backgroundColor: theme.colors.tint80,
+        },
+    },
 }));

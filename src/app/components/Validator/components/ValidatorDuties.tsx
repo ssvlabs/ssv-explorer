@@ -24,7 +24,7 @@ type ValidatorDutiesProps = {
 
 export default (props: ValidatorDutiesProps) => {
   const { validator } = props;
-  const classes = useStyles();
+  const classes = useStyles({});
   const params: Record<string, any> = useParams();
   const defaultDuties: Record<string, any>[] | null = null;
   const [loadingDuties, setLoadingDuties] = useState(true);
