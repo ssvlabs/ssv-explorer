@@ -9,6 +9,7 @@ import SsvNetwork from '~lib/api/SsvNetwork';
 import Layout from '~app/common/components/Layout';
 import ShowMoreText from '~app/common/components/ShowMoreText';
 import NotFoundScreen from '~app/common/components/NotFoundScreen';
+import MevRelaysBadge from '~app/common/components/MevRelaysBadge';
 import OperatorDetails from '~app/common/components/OperatorDetails';
 import { useStyles } from '~app/components/Operator/Operator.styles';
 import ContentContainer from '~app/common/components/ContentContainer';
@@ -144,6 +145,14 @@ const Operator = () => {
                 <Grid item className={classes.itemValue}>{item.label}</Grid>
               </Grid>
               ))}
+          </Grid>
+          <Grid xs={12} sm={12} md={12} lg={12} xl={12} className={classes.MevRelays}>
+            <Grid item className={classes.itemHeader}>MEV relays supported</Grid>
+            <Grid xs={12} sm={12} md={12} lg={12} xl={12} className={classes.MevRelaysListWrapper}>
+              {operator?.mev_relays?.split(',').map((relay: string) => (
+                <MevRelaysBadge label={relay} />
+              ))}
+            </Grid>
           </Grid>
           {windowSize.size === WINDOW_SIZES.XS && (<SocialMediaLinks />)}
         </Grid>
