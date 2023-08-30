@@ -203,6 +203,17 @@ export const useStyles = makeStyles((theme) => ({
         display: 'flex',
         justifyContent: 'center',
     },
+    MevRelays: {
+        marginTop: 24,
+    },
+    MevRelaysListWrapper: {
+        marginTop: 6,
+        gap: 6,
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        flexWrap: 'wrap',
+    },
     OperatorInfoWrapper: {
         gap: 24,
         [theme.breakpoints.down('lg')]: {

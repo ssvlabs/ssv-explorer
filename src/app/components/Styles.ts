@@ -369,6 +369,7 @@ export const useStyles = makeStyles((theme) => ({
         userSelect: 'none',
         cursor: 'pointer',
         borderRadius: '4px',
+
         padding: '5px 5px 5px 5px',
     },
     chosenPerformance: {
