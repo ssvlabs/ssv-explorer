@@ -362,9 +362,10 @@ export const useStyles = makeStyles((theme) => ({
         fontWeight: 600,
         userSelect: 'none',
         cursor: 'pointer',
+        borderRadius: '4px',
     },
     chosenPerformance: {
-        fontWeight: 900,
+        fontWeight: 700,
         color: theme.colors.primaryBlue,
         border: `1px solid ${theme.colors.primaryBlue}`,
         borderRadius: '4px',
