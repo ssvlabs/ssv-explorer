@@ -24,7 +24,7 @@ const HEADER_POSITIONS: HeaderPosition[] = ['left', 'left', 'left'];
 const VALIDATOR_CELL_LABEL_NAME = ['', '', 'Operators'];
 
 const ValidatorsList = () => {
-  const classes = useStyles();
+  const classes = useStyles({});
   const windowSize = useWindowSize();
   const [loading, setLoading] = useState(false);
   const [validators, setValidators] = useState([]);

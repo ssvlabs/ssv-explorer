@@ -22,7 +22,7 @@ type Props = {
 
 const Operators = (props: Props) => {
   const { setOperatorsExist } = props;
-  const classes = useStyles();
+  const classes = useStyles({});
   const [operators, setOperators] = useState(null);
   const [loadingOperators, setLoadingOperators] = useState(false);
   const stores = useStores();

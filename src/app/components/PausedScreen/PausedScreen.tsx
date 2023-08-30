@@ -21,7 +21,7 @@ const Paragraph = (props: Record<string, any>) => {
 };
 
 const PausedScreen = () => {
-  const classes = useStyles();
+  const classes = useStyles({});
   const tableContainerStyle = {
     border: '1px solid transparent',
     width: '100%',

@@ -26,7 +26,7 @@ const OPERATOR_CELL_LABEL_NAME = ['', 'Status', '1D Performance', 'Validators'];
 
 const OperatorsList = () => {
   const stores = useStores();
-  const classes = useStyles();
+  const classes = useStyles({});
   const windowSize = useWindowSize();
   const overviewStore: OverviewStore = stores.Overview;
   const defaultOperators: Record<string, any>[] = [];
