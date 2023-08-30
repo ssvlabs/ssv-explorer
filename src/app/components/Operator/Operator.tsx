@@ -146,6 +146,7 @@ const Operator = () => {
               </Grid>
               ))}
           </Grid>
+          {operator?.mev_relays && (
           <Grid xs={12} sm={12} md={12} lg={12} xl={12} className={classes.MevRelays}>
             <Grid item className={classes.itemHeader}>MEV relays supported</Grid>
             <Grid xs={12} sm={12} md={12} lg={12} xl={12} className={classes.MevRelaysListWrapper}>
@@ -154,6 +155,7 @@ const Operator = () => {
               ))}
             </Grid>
           </Grid>
+)}
           {windowSize.size === WINDOW_SIZES.XS && (<SocialMediaLinks />)}
         </Grid>
       </Grid>
