@@ -57,7 +57,7 @@ function getSortedOperators(operators: any[], selectedPerformancePeriod: string)
 }
 
 const ValidatorOperators = (props: ValidatorOperatorProps) => {
-  const classes = useStyles();
+  const classes = useStyles({});
   const windowSize = useWindowSize();
   const { validator, defaultPerformance } = props;
   const [selectedPerformancePeriod, setSelectedPerformancePeriod] = useState(defaultPerformance);
@@ -169,10 +169,8 @@ const ValidatorOperators = (props: ValidatorOperatorProps) => {
                   <Typography noWrap>
                     <Link
                       href={`${config.routes.OPERATORS.HOME}/${operator.id}`}
-                      className={classes.Link}
-                      style={{ fontWeight: 500, fontSize: 14 }}
-                        >
-                      {truncateText(operator.name, 16)}
+                      className={classes.ValidatorOperatorLink}>
+                      <Typography style={{ fontWeight: 500, fontSize: 14, marginTop: 3 }}>{truncateText(operator.name, 16)}</Typography>
                       <OperatorType type={operator.type} />
                     </Link>
                   </Typography>

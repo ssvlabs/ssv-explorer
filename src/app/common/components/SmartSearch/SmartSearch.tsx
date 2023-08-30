@@ -25,10 +25,10 @@ type SmartSearchProps = {
 };
 
 const SmartSearch = (props: SmartSearchProps) => {
-  const classes = useStyles();
+  const { placeholder, inAppBar, supportSmallScreen, closeSearch } = props;
+  const classes = useStyles({ inAppBar });
   const [query, setQuery] = useState('');
   const [loading, setLoading] = useState(false);
-  const { placeholder, inAppBar, supportSmallScreen, closeSearch } = props;
   const [onFocus, setOnFocus] = useState(false);
   const [searchResults, setSearchResults]: [any[], any] = useState([]);
   let searchTimeout: any;
@@ -49,14 +49,14 @@ const SmartSearch = (props: SmartSearchProps) => {
       SsvNetwork.getInstance().search(request.input).then((results: any) => {
         const convolutedResults: any[] = (results.data?.validators || []).map((validator: any) => {
           return {
-            type: 'VALIDATORS',
+            type: 'Validators',
             public_key: validator.public_key,
           };
         });
         (results.data?.operators || []).map((operator: any) => {
           const op = {
             id: operator.id,
-            type: 'OPERATORS',
+            type: 'Operators',
             name: operator.name,
             address: operator.address,
             operatorType: operator.type,
@@ -93,10 +93,10 @@ const SmartSearch = (props: SmartSearchProps) => {
     if (newValue) {
       let url = '';
       switch (newValue.type) {
-        case 'OPERATORS':
+        case 'Operators':
           url = `${config.routes.OPERATORS.HOME}/${newValue.id}`;
           break;
-        case 'VALIDATORS':
+        case 'Validators':
           url = `${config.routes.VALIDATORS.HOME}/${newValue.public_key}`;
           break;
       }
@@ -126,7 +126,7 @@ const SmartSearch = (props: SmartSearchProps) => {
 
       // Search for exact match in operators
       const operatorsList = searchResults.filter((entry: any) => {
-        return entry.type === 'OPERATORS';
+        return entry.type === 'Operators';
       });
       for (let i = 0; i < operatorsList.length; i += 1) {
         const operator = operatorsList[i];
@@ -137,7 +137,7 @@ const SmartSearch = (props: SmartSearchProps) => {
       }
       if (!url) {
         const validatorsList = searchResults.filter((entry: any) => {
-          return entry.type === 'VALIDATORS';
+          return entry.type === 'Validators';
         });
         for (let i = 0; i < validatorsList.length; i += 1) {
           const validator = validatorsList[i];
@@ -170,18 +170,18 @@ const SmartSearch = (props: SmartSearchProps) => {
   const onRenderOption = (option: any) => {
     return (
       <>
-        {option.type === 'VALIDATORS' && (
+        {option.type === 'Validators' && (
           <Link
             href={`${config.routes.VALIDATORS.HOME}/${option.public_key}`}
             className={classes.Link}
-            style={{ width: '100%' }}
+            style={{ width: '100%', marginBottom: 32 }}
           >
             <Grid item className={classes.BlackText}>
               0x{option.public_key}
             </Grid>
           </Link>
           )}
-        {option.type === 'OPERATORS' && (
+        {option.type === 'Operators' && (
           <Link
             href={`${config.routes.OPERATORS.HOME}/${option.id}`}
             className={classes.Link}
@@ -225,9 +225,9 @@ const SmartSearch = (props: SmartSearchProps) => {
         endAdornment: '',
         startAdornment: (
           <InputAdornment position="end">
-            {loading && onFocus && <CircularProgress color="inherit" size={20} />}
+            {loading && onFocus && <CircularProgress className={classes.SearchIcon} color="inherit" size={20} />}
             {searchIconCondition && !supportSmallScreen && (
-            <img src="/images/search_icon.svg" />
+            <img className={classes.SearchIcon} src="/images/search_icon.svg" />
             )}
             {(supportSmallScreen && (
             <SearchButton edge="end" onClick={closeSearch}>

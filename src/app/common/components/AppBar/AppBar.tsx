@@ -69,7 +69,7 @@ const MobileMenuContainer = styled.div`
 
 const AppBarComponent = () => {
   const stores = useStores();
-  const appClasses = useAppStyles();
+  const appClasses = useAppStyles({});
   const [isDrawerOpened, toggleDrawer] = useState(false);
   const [isSearchOpened, toggleSearch] = useState(false);
   const joinSsvLink = config.links.LINK_SSV_WEBAPP;
@@ -171,7 +171,7 @@ const AppBarComponent = () => {
                             <Button disable={false} type={'primary'} text={'Join SSV Network'} />
                           </Link>
                           {isPrater && (
-                          <Button disable={false} type={'secondary'}
+                          <Button disable={false} extendClass={classes.PraterButton} type={'secondary'}
                             text={`${capitalize(currentNetwork)}`} />
                            )}
                           <DarkModeSwitcher style={{ marginLeft: 'auto', marginRight: 0, minWidth: 'auto', width: 70 }} />
