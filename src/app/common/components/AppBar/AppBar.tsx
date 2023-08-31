@@ -241,7 +241,7 @@ const AppBarComponent = () => {
                                     <Button disable={false} type={'primary'} text={'Join SSV Network'} />
                                   </Link>
                                 </DrawerButton>
-                                <DrawerButton>
+                                {isPrater && (<DrawerButton>
                                   <Link href="/" onClick={(event: any) => {
                                         event.preventDefault();
                                         event.stopPropagation();
@@ -251,7 +251,7 @@ const AppBarComponent = () => {
                                       text={`${capitalize(currentNetwork)}`} />
                                     )}
                                   </Link>
-                                </DrawerButton>
+                                </DrawerButton>)}
                               </DrawerButtonsContainers>
                             </MobileMenuContainer>
                           </List>
