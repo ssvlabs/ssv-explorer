@@ -27,7 +27,7 @@ const Incentivized = (props: IncentivizedProps) => {
     return <></>;
   }
 
-  const classes = useStyles();
+  const classes = useStyles({});
   const defaultRounds: any = null;
   const [rounds, setRounds] = useState(defaultRounds);
   const [currentEpoch, setCurrentEpoch] = useState(0);

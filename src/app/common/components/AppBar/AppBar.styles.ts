@@ -1,9 +1,13 @@
 import { makeStyles } from '@material-ui/core/styles';
-import { defaultFont } from '~root/theme';
 
 export const useStyles = makeStyles((theme) => ({
     '@global': {
-
+        'body': {
+            backgroundColor: theme.colors.applicationBackground,
+            '& *': {
+                fontFamily: 'Manrope, sans-serif !important',
+            },
+        },
         '.MuiPaper-root.MuiAutocomplete-paper.MuiPaper-elevation1.MuiPaper-rounded ul': {
             maxHeight: '493px!important',
             '@media (max-width:540px)': {
@@ -12,16 +16,33 @@ export const useStyles = makeStyles((theme) => ({
         },
     },
     root: {
-        marginTop: 64,
+        height: 48,
         flexGrow: 1,
+        '& > .MuiPaper-root': {
+            backgroundColor: 'inherit',
+        },
         '& > .MuiPaper-root > .MuiToolbar-root': {
             paddingRight: 5,
-            backgroundColor: '#A1ACBE',
             justifyContent: 'space-between',
+            backgroundColor: (props: any) => props.whiteBackgroundColor ? theme.colors.white : theme.colors.gray10,
+        },
+        '& > .MuiPaper-elevation4': {
+            boxShadow: 'none',
         },
     },
     menuButtons: {
+        color: theme.colors.gray90,
         marginRight: 24,
+    },
+    AppBarWrapper: {
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        [theme.breakpoints.down('md')]: {
+            flexDirection: 'row-reverse',
+        },
     },
     FirstSection: {
         display: 'none',
@@ -51,16 +72,15 @@ export const useStyles = makeStyles((theme) => ({
         flexDirection: 'row',
         alignItems: 'center',
         maxWidth: 200,
-        marginTop: -9,
+        marginTop: 5,
+
     },
     appBarLink: {
-        textTransform: 'uppercase',
-        fontStyle: 'normal',
-        fontWeight: 'bold',
-        fontSize: 12,
+        fontSize: 16,
+        fontWeight: 600,
+        lineHeight: 1.25,
+        color: theme.colors.gray90,
         margin: 'auto',
-        fontFamily: defaultFont,
-        color: 'white',
         borderColor: 'white!important',
         marginRight: 10,
         '& > a': {
@@ -68,29 +88,22 @@ export const useStyles = makeStyles((theme) => ({
             borderColor: 'white',
         },
         '& > a:hover, & > a:active, & > a:focus': {
-            color: '#D7D7D7',
+            color: '#1ba5f8',
         },
     },
     appBarLinkActive: {
-        color: '#D7D7D7!important',
+        color: '#1ba5f8 !important',
     },
     appBarButton: {
         margin: 'auto',
-        color: theme.palette.text.primary,
-        borderColor: '#5B6C84',
         marginRight: 10,
+        borderColor: '#5B6C84',
+        color: theme.palette.text.primary,
         '&.Mui-disabled': {
             border: '1px solid #5B6C84',
         },
         '& > a, & > a:hover, & > a:active, & > a:focus': {
             color: 'white',
-        },
-    },
-    appBarButtonWhite: {
-        color: 'white!important',
-        borderColor: '#5B6C84',
-        '& > a, & > a:hover, & > a:active, & > a:focus': {
-            color: 'white!important',
         },
     },
     toolbarLinks: {
@@ -110,10 +123,7 @@ export const useStyles = makeStyles((theme) => ({
         marginLeft: 'auto',
         alignItems: 'center',
         '& > .MuiButtonBase-root, & > .MuiTypography-root > .MuiButtonBase-root': {
-            width: '100%',
-            height: 40,
-            minWidth: 180,
-            marginRight: 10,
+            boxShadow: 'none',
         },
         '& > .MuiTypography-root': {
             marginRight: 10,
@@ -155,6 +165,16 @@ export const useStyles = makeStyles((theme) => ({
             marginTop: 18,
             marginLeft: 15,
             backgroundColor: 'lightgreen',
+        },
+    },
+    PraterButton: {
+       backgroundColor: theme.colors.tint80,
+       color: theme.colors.primary,
+        '&:hover': {
+           cursor: 'default',
+        },
+        '&:active': {
+            backgroundColor: theme.colors.tint80,
         },
     },
 }));

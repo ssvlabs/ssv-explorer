@@ -1,6 +1,5 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
 import { useStyles } from '~app/components/Styles';
 
 type ContentContainerProps = {
@@ -8,12 +7,10 @@ type ContentContainerProps = {
 };
 
 const ContentContainer = ({ children }: ContentContainerProps) => {
-  const classes = useStyles();
+  const classes = useStyles({});
   return (
     <Grid container wrap="nowrap" spacing={0} className={classes.gridContainer}>
-      <Paper className={classes.paperContainer}>
-        {children}
-      </Paper>
+      {children}
     </Grid>
   );
 };

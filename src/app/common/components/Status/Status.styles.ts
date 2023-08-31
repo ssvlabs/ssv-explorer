@@ -10,6 +10,7 @@ interface StatusEntry {
 export interface StatusProps {
     size?: string;
     entry?: StatusEntry;
+    extendClass?: string
 }
 
 export const useStyles = makeStyles(() => ({

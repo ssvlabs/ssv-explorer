@@ -1,6 +1,5 @@
 import { observer } from 'mobx-react';
 import styled from 'styled-components';
-import { defaultFont } from '~root/theme';
 import BaseStore from '~app/common/stores/BaseStore';
 import ApplicationStore from '~app/common/stores/Application.store';
 
@@ -9,7 +8,6 @@ const applicationStore: ApplicationStore = BaseStore.getInstance().getStore('App
 const SubHeading = styled.div`
     ${() => {
         return `
-          font-family: ${defaultFont};
           font-style: normal;
           font-weight: 500;
           font-size: 14px;

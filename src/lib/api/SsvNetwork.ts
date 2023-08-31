@@ -1,6 +1,7 @@
 import config from '~app/common/config';
 import ApiParams from '~lib/api/ApiParams';
 import ApiRequest from '~lib/utils/ApiRequest';
+import { NETWORKS } from '~lib/utils/networkHelper';
 
 export enum IncentivizedType {
   // eslint-disable-next-line no-unused-vars
@@ -19,7 +20,7 @@ class SsvNetwork {
 
   static getInstance(): SsvNetwork {
     if (!SsvNetwork.instance) {
-      SsvNetwork.instance = new SsvNetwork(config.links.API_BASE_URL);
+      SsvNetwork.instance = new SsvNetwork(config.links.API_COMPLETE_BASE_URL);
     }
     return SsvNetwork.instance;
   }
@@ -162,12 +163,7 @@ class SsvNetwork {
   }
 
   static getActiveNetwork() {
-    const defaultNetwork = 'goerli';
-    try {
-      return window.localStorage.getItem('chain_network') || defaultNetwork;
-    } catch (e) {
-      return defaultNetwork;
-    }
+    return config.links.API_COMPLETE_BASE_URL.includes(NETWORKS.PRATER) ? NETWORKS.PRATER : NETWORKS.MAINNET;
   }
 }
 

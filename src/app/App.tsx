@@ -13,12 +13,13 @@ import ApplicationStore from '~app/common/stores/Application.store';
 const App = () => {
   const stores = useStores();
   const applicationStore: ApplicationStore = stores.Application;
+
   return (
     <MuiThemeProvider theme={applicationStore.muiTheme}>
       <ThemeProvider theme={applicationStore.muiTheme}>
         <DeveloperHelper />
-        <AppBar />
         <Announcement />
+        <AppBar />
         <Routes />
         <CssBaseline />
       </ThemeProvider>

@@ -1,27 +1,51 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-export const useStyles = makeStyles(() => ({
+export const useStyles = makeStyles((theme) => ({
     OperatorType: {
         width: 13,
         height: 13,
-        marginLeft: 5,
         backgroundSize: 'contain',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
     },
     Verified: {
-        width: 13,
-        height: 13,
+        width: 16,
+        height: 16,
         backgroundSize: 'contain',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
-        backgroundImage: 'url(/images/verified_icon.svg)',
+        backgroundImage: 'url(/images/verified-badge-icon.svg)',
     },
     DappNode: {
-        width: 13,
+        width: 16,
+        height: 16,
         backgroundSize: 'contain',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
-        backgroundImage: 'url(/images/dapp_node_icon.svg)',
+        backgroundImage: 'url(/images/dapp_node_badge.svg)',
+    },
+    Type: {
+        gap: 8,
+        width: 91,
+        height: 26,
+        fontSize: 14,
+        fontWeight: 500,
+        display: 'flex',
+        lineHeight: 1.62,
+        borderRadius: '4px',
+        padding: '1.5px 8px',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: (props: any) => props.isVerified ? theme.colors.primaryBlue : theme.colors.primarySuccessDark,
+        backgroundColor: (props: any) => props.isVerified ? theme.colors.tint90 : theme.colors.primarySuccessRegularOpacity,
+    },
+    typeImg: {
+        width: 16,
+        height: 16,
+        backgroundSize: 'contain',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        backgroundImage: (props: any) => `url(/images/${props.isVerified ? 'verified-badge-icon' : 'dapp_node_badge'}.svg)`,
     },
 }));
