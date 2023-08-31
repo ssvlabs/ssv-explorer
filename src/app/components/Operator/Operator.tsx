@@ -18,7 +18,7 @@ import OperatorStatus from '~app/components/Operator/components/OperatorStatus';
 import ValidatorCount from '~app/components/Operator/components/ValidatorsCount';
 import OperatorPerformance from '~app/components/Operator/components/OperatorPerformance';
 import ValidatorsInOperatorTable from '~app/components/Operator/components/ValidatorsInOperatorTable';
-import { BreadCrumb, BreadCrumbDivider, BreadCrumbsContainer } from '~app/common/components/Breadcrumbs';
+import { BreadCrumb, BreadCrumbDivider } from '~app/common/components/Breadcrumbs';
 
 const Operator = () => {
   const params: any = useParams();
@@ -42,13 +42,13 @@ const Operator = () => {
 
   const BreadCrumbs = () => {
     return (
-      <BreadCrumbsContainer className={classes.BreadCrumbExtendClass}>
+      <div className={classes.BreadCrumbExtendClass}>
         <BreadCrumb href={config.routes.HOME}>Overview</BreadCrumb>
         <BreadCrumbDivider />
         <BreadCrumb href={config.routes.OPERATORS.HOME}>Operators</BreadCrumb>
         <BreadCrumbDivider />
         <BreadCrumb href={`${config.routes.OPERATORS.HOME}/${operator.id}`}>{operator.name}</BreadCrumb>
-      </BreadCrumbsContainer>
+      </div>
     );
   };
 

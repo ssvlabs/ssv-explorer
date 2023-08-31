@@ -21,6 +21,6 @@ export const capitalize = (s: string): string => {
 export const truncateText = (text: string, maxCharacters: number): string => {
   if (text.length <= maxCharacters) {
     return text;
-  } 
-    return `${text.slice(0, maxCharacters - 3)}...`;
+  }
+  return `${text.slice(0, maxCharacters - 3)}...`;
 };
