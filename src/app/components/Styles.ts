@@ -236,8 +236,7 @@ export const useStyles = makeStyles((theme) => ({
                 backgroundColor: theme.colors.white,
                 '-webkit-appearance': 'none',
                 '&:hover': {
-                  border: 'none',
-                    borderBottom: 'none!important',
+                    border: (props: any) => props.inAppBar && `1px solid ${theme.colors.gray30}`,
                 },
                 borderRadius: 8,
                 fontSize: 16,
