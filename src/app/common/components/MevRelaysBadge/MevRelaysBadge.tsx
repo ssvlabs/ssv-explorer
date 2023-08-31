@@ -7,7 +7,7 @@ const MevRelaysBadge = ({ label }: { label: string }) => {
     const classes = useStyles();
     const logo = label.toLowerCase().includes('bloxroute') ?
         getImage('mevs/bloxroute.svg') :
-        getImage(`mevs/${label.trim().toLowerCase()}.svg`);
+        getImage(`mevs/${label.trim().replaceAll(' ', '_').toLowerCase()}.svg`);
 
     return (
       <Grid className={classes.MevRelaysBadgeWrapper}>
