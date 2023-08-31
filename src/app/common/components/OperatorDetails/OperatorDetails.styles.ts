@@ -30,6 +30,7 @@ export const useStyles = makeStyles((theme) => ({
     },
     OperatorType: {
         alignSelf: 'flex-start',
+        paddingTop: 4,
     },
     Id: {
         fontSize: 14,
