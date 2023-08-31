@@ -14,7 +14,7 @@ import StyledRow from '~app/common/components/Table/StyledRow';
 import StyledCell from '~app/common/components/Table/StyledCell';
 import OperatorDetails from '~app/common/components/OperatorDetails';
 
-export const overviewTableHeadersStyle: any = { fontSize: 12, fontWeight: 500 };
+export const overviewTableHeadersStyle: any = { fontSize: 12, fontWeight: 500, color: '#97A5BA' };
 export const overviewTableCellStyle: any = { fontSize: 14, height: 64, paddingLeft: 32, paddingTop: 0, paddingBottom: 0 };
 type Props = {
     setOperatorsExist?: any;

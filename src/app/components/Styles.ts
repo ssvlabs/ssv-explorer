@@ -209,7 +209,7 @@ export const useStyles = makeStyles((theme) => ({
         borderColor: `${theme.palette.text.primary}!important`,
     },
     blackLinkColor: {
-        fontSize: '14px',
+        fontSize: '16px',
         color: `${theme.colors.gray90}!important`,
     },
     OperatorLogo: {

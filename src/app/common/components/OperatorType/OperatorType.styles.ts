@@ -11,7 +11,6 @@ export const useStyles = makeStyles((theme) => ({
     Verified: {
         width: 16,
         height: 16,
-        marginTop: 5,
         backgroundSize: 'contain',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
@@ -20,7 +19,6 @@ export const useStyles = makeStyles((theme) => ({
     DappNode: {
         width: 16,
         height: 16,
-        marginTop: 3,
         backgroundSize: 'contain',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
