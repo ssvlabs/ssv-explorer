@@ -241,6 +241,7 @@ const AppBarComponent = () => {
                                     <Button disable={false} type={'primary'} text={'Join SSV Network'} />
                                   </Link>
                                 </DrawerButton>
+                                {isPrater && (
                                 <DrawerButton>
                                   <Link href="/" onClick={(event: any) => {
                                         event.preventDefault();
@@ -252,6 +253,7 @@ const AppBarComponent = () => {
                                     )}
                                   </Link>
                                 </DrawerButton>
+)}
                               </DrawerButtonsContainers>
                             </MobileMenuContainer>
                           </List>
