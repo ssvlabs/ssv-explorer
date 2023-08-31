@@ -20,7 +20,7 @@ import CopyToClipboardIcon from '~app/common/components/CopyToClipboardIcon';
 import BeaconchaLink from '~app/common/components/BeaconchaLink/BeaconchaLink';
 import ValidatorDuties from '~app/components/Validator/components/ValidatorDuties';
 import ValidatorOperators from '~app/components/Validator/components/ValidatorOperators';
-import { BreadCrumb, BreadCrumbDivider, BreadCrumbsContainer } from '~app/common/components/Breadcrumbs';
+import { BreadCrumb, BreadCrumbDivider } from '~app/common/components/Breadcrumbs';
 
 const StatsBlock = styled.div<({ maxWidth?: any })>`
   max-width: ${({ maxWidth }) => `${Number.isNaN(maxWidth ?? 200) ? (maxWidth) : `${(maxWidth ?? 200)}px`}`};
@@ -28,7 +28,7 @@ const StatsBlock = styled.div<({ maxWidth?: any })>`
 
 const BreadCrumbs = ({ address }: { address: string }) => {
   return (
-    <BreadCrumbsContainer>
+    <div>
       <BreadCrumb href={config.routes.HOME}>Overview</BreadCrumb>
       <BreadCrumbDivider />
       <BreadCrumb href={config.routes.VALIDATORS.HOME}>Validators</BreadCrumb>
@@ -36,7 +36,7 @@ const BreadCrumbs = ({ address }: { address: string }) => {
       <BreadCrumb href={`${config.routes.VALIDATORS.HOME}/${address}`}>
         0x{longStringShorten(address, 4)}
       </BreadCrumb>
-    </BreadCrumbsContainer>
+    </div>
   );
 };
 

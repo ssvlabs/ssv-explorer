@@ -20,7 +20,7 @@ import StyledCell from '~app/common/components/Table/StyledCell';
 import OperatorDetails from '~app/common/components/OperatorDetails';
 import ContentContainer from '~app/common/components/ContentContainer';
 import { useWindowSize, WINDOW_SIZES } from '~app/hooks/useWindowSize';
-import { BreadCrumb, BreadCrumbDivider, BreadCrumbsContainer } from '~app/common/components/Breadcrumbs';
+import { BreadCrumb, BreadCrumbDivider } from '~app/common/components/Breadcrumbs';
 
 const OPERATOR_CELL_LABEL_NAME = ['', 'Status', '1D Performance', 'Validators'];
 
@@ -152,11 +152,11 @@ const OperatorsList = () => {
       <Grid className={classes.ListWrapper}>
         <ContentContainer>
           <Grid className={classes.operatorTopWrapper}>
-            <BreadCrumbsContainer>
+            <div>
               <BreadCrumb href={config.routes.HOME}>Overview</BreadCrumb>
               <BreadCrumbDivider />
               <BreadCrumb href={config.routes.OPERATORS.HOME}>Operators</BreadCrumb>
-            </BreadCrumbsContainer>
+            </div>
             <Grid className={classes.OperatorListTitleWrapper}>
               <Typography variant="h1">Operators</Typography>
               {windowSize.size === WINDOW_SIZES.XS && overviewStore.totalOperators ? <Typography className={classes.OperatorsCountLabel} variant="h1">{`(${overviewStore.totalOperators} results)`}</Typography> : <Skeleton />}

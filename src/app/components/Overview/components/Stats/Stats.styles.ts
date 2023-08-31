@@ -17,14 +17,6 @@ export const useStyles = makeStyles((theme) => ({
             gap: 12,
             marginBottom: 20,
         },
-// @media (${mediaQueryDevices.mobileS}) {
-//     flex-direction: column;
-// }
-//
-// @media (${mediaQueryDevices.tablet}) {
-//     flex-direction: row;
-// margin-top: -50px;
-// }
     },
    StatsBlock: {
        width: 424,
@@ -36,12 +28,6 @@ export const useStyles = makeStyles((theme) => ({
        alignContent: 'center',
        flexDirection: 'column',
        backgroundColor: `${applicationStore.isDarkMode ? theme.palette.background.default : '#fff'}`,
-// @media (max-width: 368px ) {
-//     width: 200px;
-// }
-// @media (max-width: 1329px) {
-//     width: 368px;
-// },
    },
     BlockHeader: {
         width: '100%',

@@ -49,6 +49,11 @@ const Validators = (props: Props) => {
       overviewStore.setTotalEth(result.data.pagination.total * 32);
       setValidators(result.data.validators);
       setLoadingValidators(false);
+    }).catch((error: any) => {
+      console.log(error.message);
+      overviewStore.setTotalEth(0);
+      setLoadingValidators(false);
+      overviewStore.setTotalValidators(0);
     });
   };
 
@@ -69,7 +74,6 @@ const Validators = (props: Props) => {
               </Link>
             </StyledCell>
             <StyledCell style={overviewTableCellStyle}>
-              {/* <Grid xs={12} className={classes.ValidatorOperatorsCellWrapper}> */}
               {row.operators.map((operator: any) => (
                 <span key={`operator-link-${operator.address}`}>
                   <Link
@@ -81,7 +85,6 @@ const Validators = (props: Props) => {
                       &nbsp;
                 </span>
                   ))}
-              {/* </Grid> */}
             </StyledCell>
           </StyledRow>
           ))}

@@ -206,7 +206,7 @@ const SmartSearch = (props: SmartSearchProps) => {
     );
   };
 
-  const searchIconCondition = loading ? loading && !onFocus : !loading;
+  const searchIconCondition = loading === onFocus;
   /**
    * Search input rendering component
    * @param params

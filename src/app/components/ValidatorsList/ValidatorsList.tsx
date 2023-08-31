@@ -14,7 +14,7 @@ import BeaconchaLink from '~app/common/components/BeaconchaLink';
 import ContentContainer from '~app/common/components/ContentContainer';
 import { useWindowSize, WINDOW_SIZES } from '~app/hooks/useWindowSize';
 import EmptyPlaceholder from '~app/common/components/EmptyPlaceholder';
-import { BreadCrumb, BreadCrumbDivider, BreadCrumbsContainer } from '~app/common/components/Breadcrumbs';
+import { BreadCrumb, BreadCrumbDivider } from '~app/common/components/Breadcrumbs';
 import Grid from '@material-ui/core/Grid';
 import StyledCell from '~app/common/components/Table/StyledCell';
 
@@ -108,8 +108,9 @@ const ValidatorsList = () => {
           </Grid>
         );
       });
-    } 
-      return null;
+    }
+
+    return null;
   };
 
   useEffect(() => {
@@ -123,11 +124,11 @@ const ValidatorsList = () => {
       <Grid className={classes.ListWrapper}>
         <ContentContainer>
           <EmptyPlaceholder height={10} />
-          <BreadCrumbsContainer>
+          <div>
             <BreadCrumb href={config.routes.HOME}>Overview</BreadCrumb>
             <BreadCrumbDivider />
             <BreadCrumb href={config.routes.VALIDATORS.HOME}>Validators</BreadCrumb>
-          </BreadCrumbsContainer>
+          </div>
           <Typography variant="h1">Validators</Typography>
           <DataTable
             headers={['Public Key', 'Operators']}

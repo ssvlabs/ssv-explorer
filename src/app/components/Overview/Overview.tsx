@@ -19,8 +19,6 @@ const Overview = () => {
   const classes = useStyles();
   const [operatorsExist, setOperatorsExist] = useState(false);
   const [validatorsExist, setValidatorsExist] = useState(false);
-  
-  const goTo = (url: string) => history.push(url);
 
   return (
     <Layout>
@@ -32,14 +30,14 @@ const Overview = () => {
             <Column item md={10} sm={10} xs={12} lg>
               <HeaderWrapper>
                 <Header>Operators</Header>
-                <Button submitAction={() => goTo(config.routes.OPERATORS.HOME)} width={140} height={36} text={'View More'} type={'secondary'} disable={!operatorsExist} />
+                <Button submitAction={() => history.push(config.routes.OPERATORS.HOME)} width={140} height={36} text={'View More'} type={'secondary'} disable={!operatorsExist} />
               </HeaderWrapper>
               <OperatorsTable setOperatorsExist={setOperatorsExist} />
             </Column>
             <Column item md={10} sm={10} xs={12} lg>
               <HeaderWrapper>
                 <Header>Validators</Header>
-                <Button submitAction={() => goTo(config.routes.VALIDATORS.HOME)} width={140} height={36} text={'View More'} type={'secondary'} disable={!validatorsExist} />
+                <Button submitAction={() => history.push(config.routes.VALIDATORS.HOME)} width={140} height={36} text={'View More'} type={'secondary'} disable={!validatorsExist} />
               </HeaderWrapper>
               <ValidatorsTable setValidatorsExist={setValidatorsExist} />
             </Column>
