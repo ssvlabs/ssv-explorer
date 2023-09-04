@@ -30,7 +30,7 @@ const Announcement = () => {
   if (!config.FEATURE.ANNOUNCEMENT) {
     return null;
   }
-  return <AnnouncementContainer>{config.FEATURE.ANNOUNCEMENT}</AnnouncementContainer>;
+  return <AnnouncementContainer dangerouslySetInnerHTML={{ __html: config.FEATURE.ANNOUNCEMENT }} />;
 };
 
 export default observer(Announcement);
