@@ -25,6 +25,9 @@ const config = {
         LINK_SSV_WEBAPP: String(process.env.REACT_APP_LINK_SSV_WEBAPP),
         API_COMPLETE_BASE_URL: `${process.env.REACT_APP_API_BASE_URL}`,
     },
+    GLOBAL_VARIABLE: {
+        DEFAULT_ADDRESS_WHITELIST: '0x0000000000000000000000000000000000000000',
+    },
 };
 
 export default config;
