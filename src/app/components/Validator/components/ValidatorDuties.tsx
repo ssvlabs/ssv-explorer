@@ -113,7 +113,7 @@ export default (props: ValidatorDutiesProps) => {
           headers={['Epoch', 'Slot', 'Duty', 'Status', 'Operator Consensus Breakdown']}
           data={(validator?.public_key ? (validatorDuties ?? []) : []).map((duty: any) => {
           return [
-            (<>{duty.epoch} {renderSequenceNumber(duty.sequence)}</>),
+            (<>{Math.floor(duty.slot / 32)} {renderSequenceNumber(duty.sequence)}</>),
             duty.slot,
             capitalize(String(duty.duty).toLowerCase()),
             capitalize(duty.status ?? ''),
