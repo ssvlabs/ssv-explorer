@@ -33,11 +33,11 @@ const Operator = () => {
   const [validators, setValidators] = useState(defaultValidators);
   const [validatorsPagination, setValidatorsPagination] = useState(ApiParams.DEFAULT_PAGINATION);
   const items = [
-    { name: 'Node Version', label: '-' },
-    { name: 'ETH2 node client', label: operator.eth2_node_client || '-' },
     { name: 'ETH1 node client', label: operator.eth1_node_client || '-' },
+    { name: 'ETH2 node client', label: operator.eth2_node_client || '-' },
     { name: 'Cloud provider', label: operator.setup_provider || '-' },
     { name: 'Location', label: operator.location || '-' },
+    { name: 'DKG Endpoint', label: operator.dkg_address || '-' },
   ];
 
   const BreadCrumbs = () => {
