@@ -35,30 +35,28 @@ export default (props: OperatorProps) => {
     return operator[network.name];
   });
 
-  if (!networks?.length) {
-    return <></>;
+  if (!networks.length) {
+    return null;
   }
 
   return (
     <Grid item className={operatorClasses.OperatorsSocialNetworks}>
-      {networks.map((socialNetwork, index) => {
+      {networks.map((socialNetwork) => {
         const operatorSocialNetwork = operator[socialNetwork.name];
         return (
-          operatorSocialNetwork ? (
+          operatorSocialNetwork && (
             <div
               tabIndex={0}
               role="button"
-              onKeyDown={() => {
-                openInTab(operator[socialNetwork.name]);
-              }}
-              onClick={() => {
-                openInTab(operator[socialNetwork.name]);
-              }}
-              className={operatorClasses.SocialNetwork} key={index}
+              onKeyDown={() => openInTab(operator[socialNetwork.name])}
+              onClick={() => openInTab(operator[socialNetwork.name])}
+              className={operatorClasses.SocialNetwork}
+              key={socialNetwork.name} // Use 'name' as a unique key
+              aria-label={`Open ${socialNetwork.name}`} // Provides an accessible label
             >
               <img className={operatorClasses.SocialNetworkImage} src={socialNetwork.image} />
             </div>
-          ) : ''
+          )
         );
       })}
     </Grid>
