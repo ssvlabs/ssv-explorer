@@ -1,7 +1,7 @@
 import config from '~app/common/config';
 import ApiParams from '~lib/api/ApiParams';
 import ApiRequest from '~lib/utils/ApiRequest';
-import { NETWORKS } from '~lib/utils/networkHelper';
+import ChainService from '~lib/utils/ChainService';
 
 export enum IncentivizedType {
   // eslint-disable-next-line no-unused-vars
@@ -13,9 +13,11 @@ export enum IncentivizedType {
 class SsvNetwork {
   private readonly baseUrl: string = '';
   private static instance: SsvNetwork;
+  private chainService: ChainService;
 
   constructor(baseUrl: string) {
     this.baseUrl = baseUrl;
+    this.chainService = new ChainService(config.links.API_COMPLETE_BASE_URL);
   }
 
   static getInstance(): SsvNetwork {
@@ -163,7 +165,7 @@ class SsvNetwork {
   }
 
   static getActiveNetwork() {
-    return config.links.API_COMPLETE_BASE_URL.includes(NETWORKS.PRATER) ? NETWORKS.PRATER : NETWORKS.MAINNET;
+    return this.getInstance().chainService.getNetwork();
   }
 }
 
