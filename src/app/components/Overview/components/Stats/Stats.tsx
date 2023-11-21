@@ -7,6 +7,7 @@ import { useStores } from '~app/hooks/useStores';
 import { numberWithCommas } from '~lib/utils/numbers';
 import OverviewStore from '~app/common/stores/Overview.store';
 import { useStyles } from '~app/components/Overview/components/Stats/Stats.styles';
+import { Chain } from '~lib/utils/ChainService';
 
 const Stats = () => {
     const stores = useStores();
@@ -39,7 +40,7 @@ const Stats = () => {
             {overviewStore.totalEth !== null ? `${numberWithCommas(overviewStore.totalEth)} ETH` : ''}
           </Grid>
           <Grid className={classes.StatsBlockContent}>
-            {SsvNetwork.getActiveNetwork() === 'mainnet' ? (
+            {SsvNetwork.isChain(Chain.Ethereum) ? (
               <>
                 {overviewStore.totalUsd === null && <Skeleton />}
                 {overviewStore.totalUsd ? `$${numberWithCommas(overviewStore.totalUsd)}` : ''}

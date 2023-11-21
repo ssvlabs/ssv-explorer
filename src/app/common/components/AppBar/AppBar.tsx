@@ -73,7 +73,7 @@ const AppBarComponent = () => {
   const [isSearchOpened, toggleSearch] = useState(false);
   const joinSsvLink = config.links.LINK_SSV_WEBAPP;
   const applicationStore: ApplicationStore = stores.Application;
-  const currentNetwork = SsvNetwork.getActiveNetwork();
+  const currentNetwork = SsvNetwork.getActiveChain();
   let isWhiteBackground = false;
 
   const whiteBackgroundRoutes = [

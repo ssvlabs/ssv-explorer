@@ -1,7 +1,7 @@
 import config from '~app/common/config';
 import ApiParams from '~lib/api/ApiParams';
 import ApiRequest from '~lib/utils/ApiRequest';
-import { BaseChain, IChain } from '~lib/utils/ChainService';
+import { BaseChain, IChain, Chain } from '~lib/utils/ChainService';
 
 export enum IncentivizedType {
   operator = 'operator',
@@ -161,12 +161,16 @@ class SsvNetwork {
     }).sendRequest();
   }
 
-  static getActiveNetwork() {
+  static getActiveChain() {
     return SsvNetwork.getInstance().chain.getNetwork();
   }
 
   static getBeaconchaUrl() {
     return SsvNetwork.getInstance().chain.getBeaconchaUrl();
+  }
+
+  static isChain(chain: Chain): boolean {
+    return SsvNetwork.getInstance().chain.chain === chain;
   }
 }
 

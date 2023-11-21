@@ -4,6 +4,7 @@ import config from '~app/common/config';
 import SsvNetwork from '~lib/api/SsvNetwork';
 import ApiRequest from '~lib/utils/ApiRequest';
 import BaseStore from '~app/common/stores/BaseStore';
+import { Chain } from '~lib/utils/ChainService';
 
 class OverviewStore extends BaseStore {
   @observable totalEth: number | null = null;
@@ -25,7 +26,7 @@ class OverviewStore extends BaseStore {
   setTotalEth(totalEth: number) {
     const unversionUrl = config.links.API_COMPLETE_BASE_URL.replace(/(\/api\/).*/, '$1').replace(/\/+$/, '');
     this.totalEth = totalEth;
-    if (SsvNetwork.getActiveNetwork() !== 'mainnet') {
+    if (!SsvNetwork.isChain(Chain.Ethereum)) {
       return;
     }
     new ApiRequest({
