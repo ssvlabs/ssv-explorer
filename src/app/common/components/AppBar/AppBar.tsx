@@ -16,7 +16,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import config from '~app/common/config';
 import ApiParams from '~lib/api/ApiParams';
 import { useStyles } from './AppBar.styles';
-import SsvNetwork from '~lib/api/SsvNetwork';
+import chainService from '~lib/utils/ChainService';
 import { capitalize } from '~lib/utils/strings';
 import { useStores } from '~app/hooks/useStores';
 import { Button } from '~app/common/components/Button';
@@ -73,7 +73,7 @@ const AppBarComponent = () => {
   const [isSearchOpened, toggleSearch] = useState(false);
   const joinSsvLink = config.links.LINK_SSV_WEBAPP;
   const applicationStore: ApplicationStore = stores.Application;
-  const currentNetwork = SsvNetwork.getActiveChain();
+  const currentNetwork = chainService.getNetwork();
   let isWhiteBackground = false;
 
   const whiteBackgroundRoutes = [

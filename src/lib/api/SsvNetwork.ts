@@ -1,7 +1,6 @@
 import config from '~app/common/config';
 import ApiParams from '~lib/api/ApiParams';
 import ApiRequest from '~lib/utils/ApiRequest';
-import chainService, { EChain, Chain } from '~lib/utils/ChainService';
 
 export enum IncentivizedType {
   operator = 'operator',
@@ -11,7 +10,6 @@ export enum IncentivizedType {
 class SsvNetwork {
   private readonly baseUrl: string = '';
   private static instance: SsvNetwork;
-  private chain: EChain = chainService.getNetwork() as EChain;
 
   constructor(baseUrl: string) {
     this.baseUrl = baseUrl;
@@ -159,18 +157,6 @@ class SsvNetwork {
       url: `${this.baseUrl}/${type}s/incentivized/${String(address).replace('0x', '')}/?${params.toString()}`,
       method: 'GET',
     }).sendRequest();
-  }
-
-  static getActiveChain() {
-    return SsvNetwork.getInstance().chain.getNetwork();
-  }
-
-  static getBeaconchaUrl() {
-    return SsvNetwork.getInstance().chain.getBeaconchaUrl();
-  }
-
-  static isChain(chain: Chain): boolean {
-    return SsvNetwork.getInstance().chain.chain === chain;
   }
 }
 
