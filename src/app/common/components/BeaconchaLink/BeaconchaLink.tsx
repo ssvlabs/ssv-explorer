@@ -19,7 +19,7 @@ const BeaconchaLink = ({ width, height, address }: BeaconchaLinkProps) => {
 
   return (
     <Link
-      href={`${SsvNetwork.getActiveNetwork()}/${address}`}
+      href={`${SsvNetwork.getBeaconchaUrl()}/${address}`}
       target="_blank"
       style={{ marginLeft: 15 }}
       className={classes.Link}
