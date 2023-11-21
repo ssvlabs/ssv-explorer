@@ -25,7 +25,6 @@ import { useStyles as useAppStyles } from '~app/components/Styles';
 import ApplicationStore from '~app/common/stores/Application.store';
 import DarkModeSwitcher from '~app/common/components/DarkModeSwitcher';
 import Grid from '@material-ui/core/Grid';
-import { Chain } from '~lib/utils/ChainService';
 
 const DrawerButtonsContainers = styled.div`
   font-size: 12px;
