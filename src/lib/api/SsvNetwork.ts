@@ -1,23 +1,20 @@
 import config from '~app/common/config';
 import ApiParams from '~lib/api/ApiParams';
 import ApiRequest from '~lib/utils/ApiRequest';
-import ChainService from '~lib/utils/ChainService';
+import { BaseChain, IChain } from '~lib/utils/ChainService';
 
 export enum IncentivizedType {
-  // eslint-disable-next-line no-unused-vars
   operator = 'operator',
-  // eslint-disable-next-line no-unused-vars
   validator = 'validator',
 }
 
 class SsvNetwork {
   private readonly baseUrl: string = '';
   private static instance: SsvNetwork;
-  private chainService: ChainService;
+  private static chain: IChain = BaseChain.createChain();
 
   constructor(baseUrl: string) {
     this.baseUrl = baseUrl;
-    this.chainService = new ChainService(config.links.API_COMPLETE_BASE_URL);
   }
 
   static getInstance(): SsvNetwork {
@@ -165,7 +162,11 @@ class SsvNetwork {
   }
 
   static getActiveNetwork() {
-    return this.getInstance().chainService.getNetwork();
+    return this.chain.getNetwork();
+  }
+
+  static getBeaconchaUrl() {
+    return this.chain.getBeaconchaUrl();
   }
 }
 

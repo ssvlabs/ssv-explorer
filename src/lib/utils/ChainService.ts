@@ -1,39 +1,84 @@
-import { CHAIN, IChain } from '~lib/utils/BaseChain';
-import { EthereumChain } from '~lib/utils/EthereumChain';
-import { HoleskyChain } from '~lib/utils/HoleskyChain';
-import { GoerliChain } from '~lib/utils/GoerliChain';
+// eslint-disable-next-line max-classes-per-file
+import config from '~app/common/config';
 
-class ChainService {
-    private chain: IChain;
-    constructor(apiBaseUrl: string) {
-        this.chain = this.createChain(apiBaseUrl);
+export enum Chain {
+    Holesky = 'holesky',
+    Ethereum = 'ethereum',
+    Goerli = 'goerli',
+    Prater = 'prater',
+    UNDEFINED = 'undefined',
+}
+
+export const CHAIN = {
+    HOLESKY: Chain.Holesky,
+    ETHEREUM: Chain.Ethereum,
+    PRATER: Chain.Prater, // Goerli was merged with Prater. The combined network retained the Goerli name post-merge.
+    GOERLI: Chain.Goerli,
+};
+
+function extractChain(apiUrl: string): string {
+    const match = apiUrl.match(/\/([^/]+)$/);
+    if (match) {
+        return match[1];
     }
-    
-    static chainToHandler: Map<string, { new(): IChain }> = new Map<string, new() =>IChain>([
-        [CHAIN.ETHEREUM.toLowerCase(), EthereumChain],
-        [CHAIN.HOLESKY.toLowerCase(), HoleskyChain],
-        // Goerli was merged with Prater. The combined network retained the Goerli name post-merge.
-        [CHAIN.PRATER.toLowerCase(), GoerliChain],
-        [CHAIN.GOERLI.toLowerCase(), GoerliChain],
-    ]);
+    throw new Error('Failed to instantiate a chain service. Chain missing in api url.');
+}
 
-    private createChain(apiBaseUrl: string): IChain {
-        const slashIndex: number = apiBaseUrl.lastIndexOf('/');
-        if (slashIndex !== -1) {
-            const chainName = apiBaseUrl.substring(slashIndex + 1);
-            console.log(`Operating on ${chainName}`);
-            const ChainType = ChainService.chainToHandler.get(chainName);
-            if (ChainType) {
-                return new ChainType();
-            }
-        }
-        // TODO throw error? How to handle such case?
-        throw new Error('Failed to instantiate a chain service');
+export interface IChain {
+    chain: Chain
+    getChainPrefix(): string
+    getBeaconchaUrl(): string;
+    getNetwork(): string
+}
+
+export abstract class BaseChain implements IChain {
+    chain: Chain = Chain.UNDEFINED;
+
+    static createChain() {
+        const extractedChainName: string = extractChain(config.links.API_COMPLETE_BASE_URL);
+        const ChainType = chainToHandler.get(extractedChainName) ?? (() => {
+            throw new Error('Failed to instantiate a chain service. Provided chain name not supported.');
+        })();
+        return new ChainType();
+    }
+
+    getChainPrefix(): string {
+        return `${this.chain}.`;
+    }
+
+    getBeaconchaUrl(): string {
+        return `https://${this.getChainPrefix()}beaconcha.in`;
     }
 
     getNetwork(): string {
-        return this.chain.getNetwork();
+        return this.chain.toString();
+    }
+
+    // Add more chain/network related functions in the IChain interface and here(BaseChain) to extend functionality.
+    // For chain specific functionality, override the function in the specific chain service.
+    // See getChainPrefix in EthereumChain as an example.
+}
+
+export class EthereumChain extends BaseChain {
+    chain: Chain = CHAIN.ETHEREUM;
+
+    getChainPrefix(): string {
+        return '';
     }
 }
 
-export default ChainService;
+export class GoerliChain extends BaseChain {
+    chain: Chain = CHAIN.GOERLI;
+}
+
+export class HoleskyChain extends BaseChain {
+    chain: Chain = CHAIN.HOLESKY;
+}
+
+const chainToHandler: Map<string, { new(): IChain }> = new Map<string, new() =>IChain>([
+    [CHAIN.ETHEREUM.toLowerCase(), EthereumChain],
+    [CHAIN.HOLESKY.toLowerCase(), HoleskyChain],
+    // Goerli was merged with Prater. The combined network retained the Goerli name post-merge.
+    [CHAIN.PRATER.toLowerCase(), GoerliChain],
+    [CHAIN.GOERLI.toLowerCase(), GoerliChain],
+]);

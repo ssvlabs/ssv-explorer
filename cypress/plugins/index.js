@@ -38,7 +38,7 @@ const onBrowserLaunch = (browser, launchOptions) => {
 /**
  * @type {Cypress.PluginConfig}
  */
-// eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
+// @typescript-eslint/no-unused-vars
 module.exports = (on, config) => {
   // Hooks
   on('before:browser:launch', onBrowserLaunch);
