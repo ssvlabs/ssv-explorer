@@ -3,7 +3,7 @@ import config from '~app/common/config';
 
 export enum Chain {
     Holesky = 'holesky',
-    Ethereum = 'ethereum',
+    Ethereum = 'mainnet', // ethereum
     Goerli = 'goerli',
     Prater = 'prater',
     UNDEFINED = 'undefined',
