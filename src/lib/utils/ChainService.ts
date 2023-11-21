@@ -1,19 +1,18 @@
 // eslint-disable-next-line max-classes-per-file
 import config from '~app/common/config';
 
-export enum Chain {
+export enum EChain {
     Holesky = 'holesky',
     Ethereum = 'mainnet', // ethereum
     Goerli = 'goerli',
     Prater = 'prater',
-    UNDEFINED = 'undefined',
 }
 
 export const CHAIN = {
-    HOLESKY: Chain.Holesky,
-    ETHEREUM: Chain.Ethereum,
-    PRATER: Chain.Prater, // Goerli was merged with Prater. The combined network retained the Goerli name post-merge.
-    GOERLI: Chain.Goerli,
+    HOLESKY: EChain.Holesky,
+    ETHEREUM: EChain.Ethereum,
+    PRATER: EChain.Prater, // Goerli was merged with Prater. The combined network retained the Goerli name post-merge.
+    GOERLI: EChain.Goerli,
 };
 
 function extractChain(apiUrl: string): string {
@@ -25,60 +24,77 @@ function extractChain(apiUrl: string): string {
 }
 
 export interface IChain {
-    chain: Chain
+    chain: EChain | string
     getChainPrefix(): string
     getBeaconchaUrl(): string;
     getNetwork(): string
 }
 
-export abstract class BaseChain implements IChain {
-    chain: Chain = Chain.UNDEFINED;
+const baseChain = () => {
+    let chain: EChain | string = '';
+    const extractedChainName: string = extractChain(config.links.API_COMPLETE_BASE_URL);
 
-    static createChain() {
-        const extractedChainName: string = extractChain(config.links.API_COMPLETE_BASE_URL);
-        const ChainType = chainToHandler.get(extractedChainName) ?? (() => {
-            throw new Error('Failed to instantiate a chain service. Provided chain name not supported.');
-        })();
-        return new ChainType();
+    if (extractedChainName in EChain) {
+        chain = extractedChainName;
+    } else {
+        throw new Error('Failed to instantiate a chain service. Provided chain name not supported.');
     }
 
-    getChainPrefix(): string {
-        return `${this.chain}.`;
-    }
-
-    getBeaconchaUrl(): string {
-        return `https://${this.getChainPrefix()}beaconcha.in`;
-    }
-
-    getNetwork(): string {
-        return this.chain.toString();
-    }
+    // static createChain() {
+    //     const extractedChainName: string = extractChain(config.links.API_COMPLETE_BASE_URL);
+    //     const ChainType = EChain[extractedChainName] chainToHandler.get(extractedChainName) ?? (() => {
+    //         throw new Error('Failed to instantiate a chain service. Provided chain name not supported.');
+    //     })();
+    //     return new ChainType();
+    // }
+    //
+    // getChainPrefix(): string {
+    //     return `${this.chain}.`;
+    // }
+    //
+    // getBeaconchaUrl(): string {
+    //     return `https://${this.getChainPrefix()}beaconcha.in`;
+    // }
+    //
+    // getNetwork(): string {
+    //     return this.chain.toString();
+    // }
 
     // Add more chain/network related functions in the IChain interface and here(BaseChain) to extend functionality.
     // For chain specific functionality, override the function in the specific chain service.
     // See getChainPrefix in EthereumChain as an example.
-}
+    const getChainPrefix = () => chain === EChain.Ethereum ? '' : `${chain}.`;
 
-export class EthereumChain extends BaseChain {
-    chain: Chain = CHAIN.ETHEREUM;
+    const getBeaconchaUrl = () => `https://${getChainPrefix()}beaconcha.in`;
 
-    getChainPrefix(): string {
-        return '';
-    }
-}
+    const getNetwork = () => chain.toString();
 
-export class GoerliChain extends BaseChain {
-    chain: Chain = CHAIN.GOERLI;
-}
+    return { getBeaconchaUrl, getNetwork };
+};
 
-export class HoleskyChain extends BaseChain {
-    chain: Chain = CHAIN.HOLESKY;
-}
+const chainService = baseChain();
+export default chainService;
 
-const chainToHandler: Map<string, { new(): IChain }> = new Map<string, new() =>IChain>([
-    [CHAIN.ETHEREUM.toLowerCase(), EthereumChain],
-    [CHAIN.HOLESKY.toLowerCase(), HoleskyChain],
-    // Goerli was merged with Prater. The combined network retained the Goerli name post-merge.
-    [CHAIN.PRATER.toLowerCase(), GoerliChain],
-    [CHAIN.GOERLI.toLowerCase(), GoerliChain],
-]);
+// export class EthereumChain extends BaseChain {
+//     chain: Chain = CHAIN.ETHEREUM;
+//
+//     getChainPrefix(): string {
+//         return '';
+//     }
+// }
+//
+// export class GoerliChain extends BaseChain {
+//     chain: Chain = CHAIN.GOERLI;
+// }
+//
+// export class HoleskyChain extends BaseChain {
+//     chain: Chain = CHAIN.HOLESKY;
+// }
+//
+// const chainToHandler: Map<string, { new(): IChain }> = new Map<string, new() =>IChain>([
+//     [CHAIN.ETHEREUM.toLowerCase(), EthereumChain],
+//     [CHAIN.HOLESKY.toLowerCase(), HoleskyChain],
+//     // Goerli was merged with Prater. The combined network retained the Goerli name post-merge.
+//     [CHAIN.PRATER.toLowerCase(), GoerliChain],
+//     [CHAIN.GOERLI.toLowerCase(), GoerliChain],
+// ]);

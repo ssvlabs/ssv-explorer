@@ -1,7 +1,7 @@
 import config from '~app/common/config';
 import ApiParams from '~lib/api/ApiParams';
 import ApiRequest from '~lib/utils/ApiRequest';
-import { BaseChain, IChain, Chain } from '~lib/utils/ChainService';
+import chainService, { EChain, Chain } from '~lib/utils/ChainService';
 
 export enum IncentivizedType {
   operator = 'operator',
@@ -11,7 +11,7 @@ export enum IncentivizedType {
 class SsvNetwork {
   private readonly baseUrl: string = '';
   private static instance: SsvNetwork;
-  private chain: IChain = BaseChain.createChain();
+  private chain: EChain = chainService.getNetwork() as EChain;
 
   constructor(baseUrl: string) {
     this.baseUrl = baseUrl;
