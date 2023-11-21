@@ -11,7 +11,7 @@ export enum IncentivizedType {
 class SsvNetwork {
   private readonly baseUrl: string = '';
   private static instance: SsvNetwork;
-  private static chain: IChain = BaseChain.createChain();
+  private chain: IChain = BaseChain.createChain();
 
   constructor(baseUrl: string) {
     this.baseUrl = baseUrl;
@@ -162,11 +162,11 @@ class SsvNetwork {
   }
 
   static getActiveNetwork() {
-    return this.chain.getNetwork();
+    return SsvNetwork.getInstance().chain.getNetwork();
   }
 
   static getBeaconchaUrl() {
-    return this.chain.getBeaconchaUrl();
+    return SsvNetwork.getInstance().chain.getBeaconchaUrl();
   }
 }
 
