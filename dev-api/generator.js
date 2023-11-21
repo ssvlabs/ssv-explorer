@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars,@typescript-eslint/no-unused-vars */
 const crypto = require('crypto');
 
 const randomValueHex = (len) => {
@@ -42,46 +41,46 @@ function genOperators() {
   console.log(JSON.stringify(operators, null, '  '));
 }
 
-function genValidators() {
-  const validators = [];
-  for (let i = 0; i < 30; i += 1) {
-    const validator = {
-      publicKey: `0x${randomValueHex(32)}`,
-      status: getRandomArbitrary(0, 1) > 0.3 ? 'active' : 'inactive',
-      operators: [],
-      duties: [],
-    };
-    for (let j = 0; j < getRandomArbitrary(3, 6); j += 1) {
-      validator.operators.push({
-        address: `0x${randomValueHex(32)}`,
-        name: `Name${randomValueHex(5)}`,
-        performance: {
-          '24h': parseFloat(getRandomArbitrary(80, 100).toFixed(2)),
-          'all': parseFloat(getRandomArbitrary(80, 100).toFixed(2)),
-        },
-      });
-    }
-    for (let k = 0; k < getRandomArbitrary(1000, 10000, true); k += 1) {
-      const duty = {
-        epoch: getRandomArbitrary(12345, 1234567, true),
-        slot: getRandomArbitrary(123450, 912567, true),
-        duty: getRandomArbitrary(0, 1) ? 'attestation' : 'proposal',
-        status: getRandomArbitrary(0, 1) ? 'success' : 'failed',
-        operators: [],
-      };
-      for (let m = 0; m < getRandomArbitrary(3, 6, true); m += 1) {
-        duty.operators.push({
-          address: `0x${randomValueHex(32)}`,
-          name: `Name${randomValueHex(5)}`,
-          status: getRandomArbitrary(0, 1) > 0.3 ? 'success' : 'failed',
-        });
-      }
-      validator.duties.push(duty);
-    }
-    validators.push(validator);
-  }
-  console.log(JSON.stringify(validators, null, '  '));
-}
+// function genValidators() {
+//   const validators = [];
+//   for (let i = 0; i < 30; i += 1) {
+//     const validator = {
+//       publicKey: `0x${randomValueHex(32)}`,
+//       status: getRandomArbitrary(0, 1) > 0.3 ? 'active' : 'inactive',
+//       operators: [],
+//       duties: [],
+//     };
+//     for (let j = 0; j < getRandomArbitrary(3, 6); j += 1) {
+//       validator.operators.push({
+//         address: `0x${randomValueHex(32)}`,
+//         name: `Name${randomValueHex(5)}`,
+//         performance: {
+//           '24h': parseFloat(getRandomArbitrary(80, 100).toFixed(2)),
+//           'all': parseFloat(getRandomArbitrary(80, 100).toFixed(2)),
+//         },
+//       });
+//     }
+//     for (let k = 0; k < getRandomArbitrary(1000, 10000, true); k += 1) {
+//       const duty = {
+//         epoch: getRandomArbitrary(12345, 1234567, true),
+//         slot: getRandomArbitrary(123450, 912567, true),
+//         duty: getRandomArbitrary(0, 1) ? 'attestation' : 'proposal',
+//         status: getRandomArbitrary(0, 1) ? 'success' : 'failed',
+//         operators: [],
+//       };
+//       for (let m = 0; m < getRandomArbitrary(3, 6, true); m += 1) {
+//         duty.operators.push({
+//           address: `0x${randomValueHex(32)}`,
+//           name: `Name${randomValueHex(5)}`,
+//           status: getRandomArbitrary(0, 1) > 0.3 ? 'success' : 'failed',
+//         });
+//       }
+//       validator.duties.push(duty);
+//     }
+//     validators.push(validator);
+//   }
+//   console.log(JSON.stringify(validators, null, '  '));
+// }
 
 function main() {
   genOperators();

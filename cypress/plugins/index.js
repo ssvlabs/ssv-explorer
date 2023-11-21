@@ -38,8 +38,7 @@ const onBrowserLaunch = (browser, launchOptions) => {
 /**
  * @type {Cypress.PluginConfig}
  */
-// @typescript-eslint/no-unused-vars
-module.exports = (on, config) => {
+module.exports = (on) => {
   // Hooks
   on('before:browser:launch', onBrowserLaunch);
 

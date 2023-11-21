@@ -1,7 +1,6 @@
 import TableCell from '@material-ui/core/TableCell';
 import { createStyles, Theme, withStyles } from '@material-ui/core/styles';
 
-// @typescript-eslint/no-unused-vars
 const StyledCell = withStyles((theme: Theme) => createStyles({
     head: {
         height: 36,
