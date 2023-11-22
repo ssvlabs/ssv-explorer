@@ -39,7 +39,7 @@ const Stats = () => {
             {overviewStore.totalEth !== null ? `${numberWithCommas(overviewStore.totalEth)} ETH` : ''}
           </Grid>
           <Grid className={classes.StatsBlockContent}>
-            {chainService.isChain(EChain.Ethereum) ? (
+            {chainService().isChain(EChain.Ethereum) ? (
               <>
                 {overviewStore.totalUsd === null && <Skeleton />}
                 {overviewStore.totalUsd ? `$${numberWithCommas(overviewStore.totalUsd)}` : ''}

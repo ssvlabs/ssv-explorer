@@ -25,7 +25,7 @@ class OverviewStore extends BaseStore {
   setTotalEth(totalEth: number) {
     const unversionUrl = config.links.API_COMPLETE_BASE_URL.replace(/(\/api\/).*/, '$1').replace(/\/+$/, '');
     this.totalEth = totalEth;
-    if (!chainService.isChain(EChain.Ethereum)) {
+    if (!chainService().isChain(EChain.Ethereum)) {
       return;
     }
     new ApiRequest({

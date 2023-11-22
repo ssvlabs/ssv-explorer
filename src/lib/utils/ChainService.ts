@@ -23,11 +23,11 @@ function extractChain(apiUrl: string): string {
     throw new Error('Failed to instantiate a chain service. Chain missing in api url.');
 }
 
-const baseChain = () => {
+const chainService = () => {
     let chain: EChain | string = '';
-    const extractedChainName: string = extractChain(config.links.API_COMPLETE_BASE_URL);
 
-    if (extractedChainName in EChain) {
+    const extractedChainName: string = extractChain(config.links.API_COMPLETE_BASE_URL);
+    if (Object.values(EChain).includes(extractedChainName as EChain)) {
         chain = extractedChainName;
     } else {
         throw new Error('Failed to instantiate a chain service. Provided chain name not supported.');
@@ -40,5 +40,4 @@ const baseChain = () => {
     return { getBeaconchaUrl, getNetwork, isChain };
 };
 
-const chainService = baseChain();
 export default chainService;

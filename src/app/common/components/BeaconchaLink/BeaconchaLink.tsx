@@ -19,7 +19,7 @@ const BeaconchaLink = ({ width, height, address }: BeaconchaLinkProps) => {
 
   return (
     <Link
-      href={`${chainService.getBeaconchaUrl()}/${address}`}
+      href={`${chainService().getBeaconchaUrl()}/${address}`}
       target="_blank"
       style={{ marginLeft: 15 }}
       className={classes.Link}

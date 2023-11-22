@@ -1,4 +1,5 @@
 import React, { Component, ErrorInfo, ReactNode } from 'react';
+import styled from 'styled-components';
 
 interface ErrorBoundaryProps {
     children: ReactNode;
@@ -8,15 +9,26 @@ interface ErrorBoundaryState {
     hasError: boolean;
 }
 
+const ErrorMessage = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  color: black;
+  font-size: 1.5rem;
+  background-color: white;
+  padding: 20px;
+`;
+
 class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
     constructor(props: ErrorBoundaryProps) {
         super(props);
         this.state = { hasError: false };
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    static getDerivedStateFromError(error: Error): { hasError: boolean } {
-        return { hasError: true };
+    static getDerivedStateFromError(error?: Error): { hasError: boolean } {
+        return { hasError: !!error };
     }
 
     componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
@@ -26,19 +38,9 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
     render(): ReactNode {
         if (this.state.hasError) {
             return (
-              <div style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    height: '100vh',
-                    color: 'black',
-                    fontSize: '1.5rem',
-                    backgroundColor: 'white',
-                    padding: '20px',
-                }}>
+              <ErrorMessage>
                 <p>We apologize for the inconvenience. Please try again later.</p>
-              </div>
+              </ErrorMessage>
             );
         }
 
