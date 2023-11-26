@@ -18,9 +18,7 @@ type ValidatorsInOperatorTableProps = {
     page: number,
   },
   isLoading: boolean,
-  // eslint-disable-next-line no-unused-vars
   onLoadPage: (address: string, page: number) => void,
-  // eslint-disable-next-line no-unused-vars
   onChangeRowsPerPage: (perPage: number) => void,
 };
 

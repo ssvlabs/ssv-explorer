@@ -2,8 +2,8 @@ import React from 'react';
 import Link from '@material-ui/core/Link';
 import { useStores } from '~app/hooks/useStores';
 import { useStyles } from '~app/components/Styles';
-import { getBaseBeaconchaUrl } from '~lib/utils/beaconcha';
 import ApplicationStore from '~app/common/stores/Application.store';
+import chainService from '~lib/utils/ChainService';
 
 type BeaconchaLinkProps = {
   width: number,
@@ -19,7 +19,7 @@ const BeaconchaLink = ({ width, height, address }: BeaconchaLinkProps) => {
 
   return (
     <Link
-      href={`${getBaseBeaconchaUrl()}/${address}`}
+      href={`${chainService().getBeaconchaUrl()}/${address}`}
       target="_blank"
       style={{ marginLeft: 15 }}
       className={classes.Link}

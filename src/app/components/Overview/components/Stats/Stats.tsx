@@ -2,11 +2,11 @@ import React from 'react';
 import { observer } from 'mobx-react';
 import { Grid } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
-import SsvNetwork from '~lib/api/SsvNetwork';
 import { useStores } from '~app/hooks/useStores';
 import { numberWithCommas } from '~lib/utils/numbers';
 import OverviewStore from '~app/common/stores/Overview.store';
 import { useStyles } from '~app/components/Overview/components/Stats/Stats.styles';
+import chainService, { EChain } from '~lib/utils/ChainService';
 
 const Stats = () => {
     const stores = useStores();
@@ -39,7 +39,7 @@ const Stats = () => {
             {overviewStore.totalEth !== null ? `${numberWithCommas(overviewStore.totalEth)} ETH` : ''}
           </Grid>
           <Grid className={classes.StatsBlockContent}>
-            {SsvNetwork.getActiveNetwork() === 'mainnet' ? (
+            {chainService().isChain(EChain.Ethereum) ? (
               <>
                 {overviewStore.totalUsd === null && <Skeleton />}
                 {overviewStore.totalUsd ? `$${numberWithCommas(overviewStore.totalUsd)}` : ''}

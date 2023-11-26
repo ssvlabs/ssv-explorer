@@ -17,7 +17,6 @@ interface TablePaginationActionsProps {
   count: number;
   page: number;
   rowsPerPage: number;
-  // eslint-disable-next-line no-unused-vars
   onChangePage: (event: React.MouseEvent<HTMLButtonElement>, newPage: number) => void;
 }
 
