@@ -52,31 +52,21 @@ const Operator = () => {
     );
   };
 
+  const socialIcon = (url: string, imageSrc: string, className: string) => {
+    return (url && (
+    <Link href={url} target="_blank" className={className}>
+      <img src={imageSrc} className={className} />
+    </Link>
+    ));
+  };
+
   const SocialMediaLinks = () => (
     <Grid xs={12} sm={3} md={2} lg={2} xl={2} className={classes.SocialMediaLinksWrapper}>
-      { operator.twitter_url &&
-          (
-            <Link href={operator.twitter_url} target={'_blank'} className={classes.SocialIcon}>
-              <img src="/images/socialMedia/twitter.svg" className={classes.SocialIcon} />
-            </Link>
-          )
-      }
-      {operator.linkedin_url &&
-          (
-            <Link href={operator.linkedin_url} target={'_blank'} className={classes.SocialIcon}>
-              <img src="/images/socialMedia/linkedin.svg" className={classes.SocialIcon} />
-            </Link>
-        )
-      }
-      { operator.website_url &&
-          (
-            <Link href={operator.website_url} target={'_blank'} className={classes.SocialIcon}>
-              <img src="/images/socialMedia/website.svg" className={classes.SocialIcon} />
-            </Link>
-          )
-      }
+      {socialIcon(operator.twitter_url, '/images/socialMedia/twitter.svg', classes.SocialIcon)}
+      {socialIcon(operator.linkedin_url, '/images/socialMedia/linkedin.svg', classes.SocialIcon)}
+      {socialIcon(operator.website_url, '/images/socialMedia/website.svg', classes.SocialIcon)}
     </Grid>
-);
+  );
 
   /**
    * Fetch one operator by it's address
