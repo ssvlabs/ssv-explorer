@@ -2,6 +2,8 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import { getImage } from '~lib/utils/filePath';
 import { useStyles } from '~app/common/components/MevRelaysBadge/MevRelaysBadge.styles';
+import ApplicationStore from '~app/common/stores/Application.store';
+import BaseStore from '~app/common/stores/BaseStore';
 
 const MEVS = {
     AESTUS: 'Aestus',
@@ -30,8 +32,9 @@ const mevIcons: Record<string, string> = {
 };
 
 const MevRelaysBadge = ({ label }: { label: string }) => {
+    const applicationStore: ApplicationStore = BaseStore.getInstance().getStore('Application');
     const classes = useStyles();
-    const logo = getImage(`mevs/${mevIcons[label]}.svg`);
+    const logo = getImage(`mevs/${mevIcons[label]}${applicationStore.darkMode ? '-dark' : ''}.svg`);
 
     return (
       <Grid className={classes.MevRelaysBadgeWrapper}>
