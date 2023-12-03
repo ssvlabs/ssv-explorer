@@ -54,15 +54,27 @@ const Operator = () => {
 
   const SocialMediaLinks = () => (
     <Grid xs={12} sm={3} md={2} lg={2} xl={2} className={classes.SocialMediaLinksWrapper}>
-      <Link href={operator.twitter_url} target={'_blank'} className={classes.SocialIcon}>
-        <img src="/images/socialMedia/twitter.svg" className={classes.SocialIcon} />
-      </Link>
-      <Link href={operator.linkedin_url} target={'_blank'} className={classes.SocialIcon}>
-        <img src="/images/socialMedia/linkedin.svg" className={classes.SocialIcon} />
-      </Link>
-      <Link href={operator.website_url} target={'_blank'} className={classes.SocialIcon}>
-        <img src="/images/socialMedia/website.svg" className={classes.SocialIcon} />
-      </Link>
+      { operator.twitter_url &&
+          (
+            <Link href={operator.twitter_url} target={'_blank'} className={classes.SocialIcon}>
+              <img src="/images/socialMedia/twitter.svg" className={classes.SocialIcon} />
+            </Link>
+          )
+      }
+      {operator.linkedin_url &&
+          (
+            <Link href={operator.linkedin_url} target={'_blank'} className={classes.SocialIcon}>
+              <img src="/images/socialMedia/linkedin.svg" className={classes.SocialIcon} />
+            </Link>
+        )
+      }
+      { operator.website_url &&
+          (
+            <Link href={operator.website_url} target={'_blank'} className={classes.SocialIcon}>
+              <img src="/images/socialMedia/website.svg" className={classes.SocialIcon} />
+            </Link>
+          )
+      }
     </Grid>
 );
 
