@@ -19,6 +19,7 @@ import ValidatorCount from '~app/components/Operator/components/ValidatorsCount'
 import OperatorPerformance from '~app/components/Operator/components/OperatorPerformance';
 import ValidatorsInOperatorTable from '~app/components/Operator/components/ValidatorsInOperatorTable';
 import { BreadCrumb, BreadCrumbDivider } from '~app/common/components/Breadcrumbs';
+import { useStores } from '~app/hooks/useStores';
 
 const Operator = () => {
   const params: any = useParams();
@@ -123,6 +124,7 @@ const Operator = () => {
   }, [params.address, operator.address]);
 
   const isLoading = loadingValidators || loadingOperator;
+  const stores = useStores();
 
   return (
     <Grid className={classes.OperatorContainerWrapper}>
@@ -151,7 +153,7 @@ const Operator = () => {
             <Grid item className={classes.itemHeader}>MEV relays supported</Grid>
             <Grid xs={12} sm={12} md={12} lg={12} xl={12} className={classes.MevRelaysListWrapper}>
               {operator?.mev_relays?.split(',').map((relay: string) => (
-                <MevRelaysBadge label={relay} />
+                <MevRelaysBadge label={relay} darkMode={stores.Application.darkMode} />
               ))}
             </Grid>
           </Grid>
