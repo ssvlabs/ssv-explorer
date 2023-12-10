@@ -29,9 +29,9 @@ const mevIcons: Record<string, string> = {
     [MEVS.ULTRA_SOUND]: 'ultra_sound',
 };
 
-const MevRelaysBadge = ({ label }: { label: string }) => {
+const MevRelaysBadge = ({ label, darkMode }: { label: string, darkMode: boolean }) => {
     const classes = useStyles();
-    const logo = getImage(`mevs/${mevIcons[label]}.svg`);
+    const logo = getImage(`mevs/${mevIcons[label]}${darkMode ? '-dark' : ''}.svg`);
 
     return (
       <Grid className={classes.MevRelaysBadgeWrapper}>
