@@ -9,21 +9,24 @@ import AppBar from '~app/common/components/AppBar';
 import DeveloperHelper from '~lib/utils/DeveloperHelper';
 import Announcement from '~app/common/components/Announcement';
 import ApplicationStore from '~app/common/stores/Application.store';
+import ErrorBoundary from '~app/components/ErrorBoundary';
 
 const App = () => {
   const stores = useStores();
   const applicationStore: ApplicationStore = stores.Application;
 
   return (
-    <MuiThemeProvider theme={applicationStore.muiTheme}>
-      <ThemeProvider theme={applicationStore.muiTheme}>
-        <DeveloperHelper />
-        <Announcement />
-        <AppBar />
-        <Routes />
-        <CssBaseline />
-      </ThemeProvider>
-    </MuiThemeProvider>
+    <ErrorBoundary>
+      <MuiThemeProvider theme={applicationStore.muiTheme}>
+        <ThemeProvider theme={applicationStore.muiTheme}>
+          <DeveloperHelper />
+          <Announcement />
+          <AppBar />
+          <Routes />
+          <CssBaseline />
+        </ThemeProvider>
+      </MuiThemeProvider>
+    </ErrorBoundary>
   );
 };
 

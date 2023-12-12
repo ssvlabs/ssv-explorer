@@ -1,12 +1,9 @@
 import config from '~app/common/config';
 import ApiParams from '~lib/api/ApiParams';
 import ApiRequest from '~lib/utils/ApiRequest';
-import { NETWORKS } from '~lib/utils/networkHelper';
 
 export enum IncentivizedType {
-  // eslint-disable-next-line no-unused-vars
   operator = 'operator',
-  // eslint-disable-next-line no-unused-vars
   validator = 'validator',
 }
 
@@ -160,10 +157,6 @@ class SsvNetwork {
       url: `${this.baseUrl}/${type}s/incentivized/${String(address).replace('0x', '')}/?${params.toString()}`,
       method: 'GET',
     }).sendRequest();
-  }
-
-  static getActiveNetwork() {
-    return config.links.API_COMPLETE_BASE_URL.includes(NETWORKS.PRATER) ? NETWORKS.PRATER : NETWORKS.MAINNET;
   }
 }
 

@@ -29,9 +29,7 @@ type DataTableProps = {
   perPage?: number,
   page: number,
   isLoading?: boolean,
-  // eslint-disable-next-line no-unused-vars
   onChangePage?: (page: number) => void,
-  // eslint-disable-next-line no-unused-vars
   onChangeRowsPerPage?: (event: any) => void,
   noDataMessage?: string,
   hidePagination?: boolean,

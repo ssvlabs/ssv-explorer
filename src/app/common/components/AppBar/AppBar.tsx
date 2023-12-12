@@ -16,10 +16,9 @@ import ListItemText from '@material-ui/core/ListItemText';
 import config from '~app/common/config';
 import ApiParams from '~lib/api/ApiParams';
 import { useStyles } from './AppBar.styles';
-import SsvNetwork from '~lib/api/SsvNetwork';
+import chainService from '~lib/utils/ChainService';
 import { capitalize } from '~lib/utils/strings';
 import { useStores } from '~app/hooks/useStores';
-import { NETWORKS } from '~lib/utils/networkHelper';
 import { Button } from '~app/common/components/Button';
 import SmartSearch from '~app/common/components/SmartSearch';
 import { useStyles as useAppStyles } from '~app/components/Styles';
@@ -74,8 +73,7 @@ const AppBarComponent = () => {
   const [isSearchOpened, toggleSearch] = useState(false);
   const joinSsvLink = config.links.LINK_SSV_WEBAPP;
   const applicationStore: ApplicationStore = stores.Application;
-  const currentNetwork = SsvNetwork.getActiveNetwork();
-  const isPrater = currentNetwork === NETWORKS.PRATER;
+  const currentNetwork = chainService().getNetwork();
   let isWhiteBackground = false;
 
   const whiteBackgroundRoutes = [
@@ -170,10 +168,8 @@ const AppBarComponent = () => {
                           <Link href={joinSsvLink} target="_blank">
                             <Button disable={false} type={'primary'} text={'Join SSV Network'} />
                           </Link>
-                          {isPrater && (
                           <Button disable={false} extendClass={classes.PraterButton} type={'secondary'}
                             text={`${capitalize(currentNetwork)}`} />
-                           )}
                           <DarkModeSwitcher style={{ marginLeft: 'auto', marginRight: 0, minWidth: 'auto', width: 70 }} />
                         </div>
                       </Box>
@@ -241,19 +237,15 @@ const AppBarComponent = () => {
                                     <Button disable={false} type={'primary'} text={'Join SSV Network'} />
                                   </Link>
                                 </DrawerButton>
-                                {isPrater && (
                                 <DrawerButton>
                                   <Link href="/" onClick={(event: any) => {
-                                        event.preventDefault();
-                                        event.stopPropagation();
-                                      }}>
-                                    {isPrater && (
+                                    event.preventDefault();
+                                    event.stopPropagation();
+                                  }}>
                                     <Button disable={false} type={'secondary'}
                                       text={`${capitalize(currentNetwork)}`} />
-                                    )}
                                   </Link>
                                 </DrawerButton>
-)}
                               </DrawerButtonsContainers>
                             </MobileMenuContainer>
                           </List>

@@ -19,6 +19,7 @@ import ValidatorCount from '~app/components/Operator/components/ValidatorsCount'
 import OperatorPerformance from '~app/components/Operator/components/OperatorPerformance';
 import ValidatorsInOperatorTable from '~app/components/Operator/components/ValidatorsInOperatorTable';
 import { BreadCrumb, BreadCrumbDivider } from '~app/common/components/Breadcrumbs';
+import { useStores } from '~app/hooks/useStores';
 
 const Operator = () => {
   const params: any = useParams();
@@ -52,19 +53,21 @@ const Operator = () => {
     );
   };
 
+  const socialIcon = (url: string, imageSrc: string, className: string) => {
+    return (url && (
+    <Link href={url} target="_blank" className={className}>
+      <img src={imageSrc} className={className} />
+    </Link>
+    ));
+  };
+
   const SocialMediaLinks = () => (
     <Grid xs={12} sm={3} md={2} lg={2} xl={2} className={classes.SocialMediaLinksWrapper}>
-      <Link href={operator.twitter_url} target={'_blank'} className={classes.SocialIcon}>
-        <img src="/images/socialMedia/twitter.svg" className={classes.SocialIcon} />
-      </Link>
-      <Link href={operator.linkedin_url} target={'_blank'} className={classes.SocialIcon}>
-        <img src="/images/socialMedia/linkedin.svg" className={classes.SocialIcon} />
-      </Link>
-      <Link href={operator.website_url} target={'_blank'} className={classes.SocialIcon}>
-        <img src="/images/socialMedia/website.svg" className={classes.SocialIcon} />
-      </Link>
+      {socialIcon(operator.twitter_url, '/images/socialMedia/twitter.svg', classes.SocialIcon)}
+      {socialIcon(operator.linkedin_url, '/images/socialMedia/linkedin.svg', classes.SocialIcon)}
+      {socialIcon(operator.website_url, '/images/socialMedia/website.svg', classes.SocialIcon)}
     </Grid>
-);
+  );
 
   /**
    * Fetch one operator by it's address
@@ -123,6 +126,7 @@ const Operator = () => {
   }, [params.address, operator.address]);
 
   const isLoading = loadingValidators || loadingOperator;
+  const stores = useStores();
 
   return (
     <Grid className={classes.OperatorContainerWrapper}>
@@ -151,7 +155,7 @@ const Operator = () => {
             <Grid item className={classes.itemHeader}>MEV relays supported</Grid>
             <Grid xs={12} sm={12} md={12} lg={12} xl={12} className={classes.MevRelaysListWrapper}>
               {operator?.mev_relays?.split(',').map((relay: string) => (
-                <MevRelaysBadge label={relay} />
+                <MevRelaysBadge label={relay} darkMode={stores.Application.darkMode} />
               ))}
             </Grid>
           </Grid>
