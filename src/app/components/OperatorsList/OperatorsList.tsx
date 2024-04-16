@@ -56,7 +56,7 @@ const OperatorsList = () => {
       .then((result: any) => {
         overviewStore.setTotalOperators(result.data.pagination.total);
         setOperators(result.data.operators);
-        setPagination(result.data.pagination);
+        setPagination({ page, ...result.data.pagination });
         setLoading(false);
       });
   };
