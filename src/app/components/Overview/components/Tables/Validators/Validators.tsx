@@ -7,7 +7,7 @@ import TableRow from '@material-ui/core/TableRow';
 import TableHead from '@material-ui/core/TableHead';
 import TableBody from '@material-ui/core/TableBody';
 import config from '~app/common/config';
-import ApiParams from '~lib/api/ApiParams';
+import ApiParams, { PageDirection } from '~lib/api/ApiParams';
 import SsvNetwork from '~lib/api/SsvNetwork';
 import { useStores } from '~app/hooks/useStores';
 import { useStyles } from '~app/components/Styles';
@@ -43,7 +43,7 @@ const Validators = (props: Props) => {
    */
   const loadValidators = () => {
     setLoadingValidators(true);
-    SsvNetwork.getInstance().fetchValidators(1, ApiParams.PER_PAGE).then((result: any) => {
+    SsvNetwork.getInstance().fetchValidators({ lastFetchedRecordId: 1, pageDirection: PageDirection.NEXT, perPage: ApiParams.PER_PAGE }).then((result: any) => {
       overviewStore.setTotalValidators(result.data.pagination.total);
       if (result.data.validators.length > 0) setValidatorsExist(true);
       overviewStore.setTotalEth(result.data.pagination.total * 32);
