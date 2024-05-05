@@ -1,5 +1,5 @@
 import config from '~app/common/config';
-import ApiParams from '~lib/api/ApiParams';
+import ApiParams, { PageDirection } from '~lib/api/ApiParams';
 import ApiRequest from '~lib/utils/ApiRequest';
 
 export enum IncentivizedType {
@@ -22,11 +22,14 @@ class SsvNetwork {
     return SsvNetwork.instance;
   }
 
-  async fetchValidators(page: number = 1, perPage: number = ApiParams.PER_PAGE) {
+  async fetchValidators({ lastFetchedRecordId, pageDirection, perPage = ApiParams.PER_PAGE }: { lastFetchedRecordId?: number, pageDirection: PageDirection, perPage?: number }) {
     let params: any = {
-      page,
+      pageDirection,
       perPage,
     };
+    if (lastFetchedRecordId) {
+      params.lastId = lastFetchedRecordId;
+    }
     params = new URLSearchParams(params);
     const url = `${this.baseUrl}/validators/?${params.toString()}`;
     return new ApiRequest({

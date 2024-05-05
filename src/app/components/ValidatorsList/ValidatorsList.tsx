@@ -4,7 +4,7 @@ import { Box } from '@material-ui/core';
 import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import config from '~app/common/config';
-import ApiParams from '~lib/api/ApiParams';
+import ApiParams, { PageDirection } from '~lib/api/ApiParams';
 import SsvNetwork from '~lib/api/SsvNetwork';
 import Layout from '~app/common/components/Layout';
 import { useStyles } from '~app/components/Styles';
@@ -29,23 +29,21 @@ const ValidatorsList = () => {
   const [loading, setLoading] = useState(false);
   const [validators, setValidators] = useState([]);
   const [pagination, setPagination] = useState(ApiParams.DEFAULT_PAGINATION);
+  const [firstAndLastRecordIds, setLastRecordIds]: [number[], any] = useState([]);
+
   const isXsWindowSize = windowSize.size === WINDOW_SIZES.XS;
   /**
    * Loading operators by page
    * @param paginationPage
    */
   const loadValidators = (paginationPage?: number) => {
-    if (paginationPage) {
-      ApiParams.saveInStorage('validators', 'page', paginationPage);
-    }
-
-    const page: number = ApiParams.getInteger('validators', 'page', 1);
-    const perPage: number = ApiParams.getInteger('validators', 'perPage', ApiParams.PER_PAGE);
-
+    const { page, perPage } = getGlobalPageData(paginationPage);
     setLoading(true);
-    SsvNetwork.getInstance().fetchValidators(page, perPage).then((result: any) => {
-      setValidators(result.data.validators);
-      setPagination(result.data.pagination);
+    const directionAndRecord = getDirectionAndRecordId(paginationPage);
+    SsvNetwork.getInstance().fetchValidators({ perPage, ...directionAndRecord }).then((result: any) => {
+      setValidators(directionAndRecord.pageDirection === PageDirection.NEXT ? result.data.validators : result.data.validators.reverse());
+      setPagination({ ...result.data.pagination, page });
+      setLastRecordIds([result.data.pagination.current_first, result.data.pagination.current_last]);
       setLoading(false);
     });
   };
@@ -81,7 +79,46 @@ const ValidatorsList = () => {
           );
         }),
       ];
-    });    
+    });
+  };
+
+  const getGlobalPageData = (paginationPage?: number) => {
+    if (paginationPage) {
+      ApiParams.saveInStorage('validators', 'page', paginationPage);
+    }
+    const page: number = ApiParams.getInteger('validators', 'page', 1);
+    const perPage: number = ApiParams.getInteger('validators', 'perPage', ApiParams.PER_PAGE);
+    return { page, perPage };
+  };
+
+  const getDirectionAndRecordId = (paginationPage?: number): { lastFetchedRecordId?: number, pageDirection: PageDirection } => {
+    const params: any = {
+      pageDirection: PageDirection.NEXT,
+      lastFetchedRecordId: 0,
+    };
+
+    if (paginationPage === undefined) {
+      return params;
+    }
+    // last page
+    if (paginationPage === pagination.pages) {
+      params.pageDirection = PageDirection.PREV;
+      delete params.lastFetchedRecordId;
+    }
+    // first page
+    else if (paginationPage === 1) {
+      params.lastFetchedRecordId = 1;
+    }
+    // previous page
+    else if (paginationPage < pagination.page) {
+      params.pageDirection = PageDirection.PREV;
+      params.lastFetchedRecordId = firstAndLastRecordIds[0];
+    }
+    // next page
+    else {
+      params.lastFetchedRecordId = firstAndLastRecordIds[1];
+    }
+    return params;
   };
 
   const getCustomOwnTableRows = () => {

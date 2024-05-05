@@ -1,3 +1,8 @@
+export enum PageDirection {
+  NEXT = 'next',
+  PREV = 'prev',
+}
+
 class ApiParams {
   static PER_PAGE: number = 10;
   static DEFAULT_PAGINATION = {

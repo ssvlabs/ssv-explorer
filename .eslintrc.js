@@ -38,7 +38,7 @@ module.exports = {
     'no-confusing-arrow': 0,
     'no-console': 0,
     'no-unused-vars': 'off',
-    '@typescript-eslint/no-unused-vars': 'error',
+    '@typescript-eslint/no-unused-vars': 'warn',
     'no-use-before-define': 0,
     'prefer-template': 2,
     'prefer-destructuring': 0,
@@ -100,6 +100,7 @@ module.exports = {
     '@typescript-eslint/no-unused-expressions': 0,
     '@typescript-eslint/naming-convention': 0,
     '@typescript-eslint/brace-style': 0,
+    'no-param-reassign': 1,
   },
   parserOptions: {
     ecmaVersion: 2020,
