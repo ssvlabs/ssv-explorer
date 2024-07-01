@@ -4,15 +4,11 @@ import config from '~app/common/config';
 export enum EChain {
     Holesky = 'holesky',
     Ethereum = 'mainnet', // ethereum
-    Goerli = 'goerli',
-    Prater = 'prater',
 }
 
 export const CHAIN = {
     HOLESKY: EChain.Holesky,
     ETHEREUM: EChain.Ethereum,
-    PRATER: EChain.Prater, // Goerli was merged with Prater. The combined network retained the Goerli name post-merge.
-    GOERLI: EChain.Goerli,
 };
 
 function extractChain(apiUrl: string): string {
