@@ -132,6 +132,9 @@ export const useStyles = makeStyles((theme) => ({
             textDecoration: 'none',
         },
     },
+    networkSwitchWrapper: {
+        paddingRight: 12,
+    },
     drawer: {
         '& > .MuiDrawer-paper': {
             backgroundColor: '#A1ABBE',
@@ -165,16 +168,6 @@ export const useStyles = makeStyles((theme) => ({
             marginTop: 18,
             marginLeft: 15,
             backgroundColor: 'lightgreen',
-        },
-    },
-    PraterButton: {
-       backgroundColor: theme.colors.tint80,
-       color: theme.colors.primary,
-        '&:hover': {
-           cursor: 'default',
-        },
-        '&:active': {
-            backgroundColor: theme.colors.tint80,
         },
     },
 }));
