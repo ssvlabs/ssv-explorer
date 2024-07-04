@@ -25,6 +25,7 @@ import { useStyles as useAppStyles } from '~app/components/Styles';
 import ApplicationStore from '~app/common/stores/Application.store';
 import DarkModeSwitcher from '~app/common/components/DarkModeSwitcher';
 import Grid from '@material-ui/core/Grid';
+import NetworkSelect from '~app/common/components/NetworkSelect';
 
 const DrawerButtonsContainers = styled.div`
   font-size: 12px;
@@ -165,11 +166,12 @@ const AppBarComponent = () => {
                         display={{ xs: 'none', sm: 'none', md: 'none', lg: 'block' }}>
                         <div className={classes.toolbarButtons}>
                           {!isOverviewPage() && <SmartSearch placeholder={'Search...'} inAppBar />}
+                          <div className={classes.networkSwitchWrapper}>
+                            <NetworkSelect />
+                          </div>
                           <Link href={joinSsvLink} target="_blank">
                             <Button disable={false} type={'primary'} text={'Join SSV Network'} />
                           </Link>
-                          <Button disable={false} extendClass={classes.PraterButton} type={'secondary'}
-                            text={`${capitalize(currentNetwork)}`} />
                           <DarkModeSwitcher style={{ marginLeft: 'auto', marginRight: 0, minWidth: 'auto', width: 70 }} />
                         </div>
                       </Box>
