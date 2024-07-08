@@ -12,7 +12,7 @@ const OperatorPerformanceContainer = styled.div`
   border-radius: 16px;
   flex-direction: column;
   padding: 32px 20px 46px 32px;
-  background-color: ${props => props.theme.colors.white};
+  background-color: ${(props) => props.theme.colors.white};
   @media (max-width: 576px) {
     width: 100%;
   },
@@ -27,7 +27,7 @@ const DataHeader = styled.div`
   font-style: normal;
   margin-bottom: auto;
   font-stretch: normal;
-  color: ${props => props.theme.colors.gray40};
+  color: ${(props) => props.theme.colors.gray40};
 `;
 
 const ValueContent = styled.div`
@@ -37,43 +37,58 @@ const ValueContent = styled.div`
   font-style: normal;
   font-stretch: normal;
   letter-spacing: -0.5px;
-  color: ${props => props.theme.colors.gray100};
+  color: ${(props) => props.theme.colors.gray100};
 `;
 
-const OperatorStatus = ({ status, is_deleted }: { status: string, is_deleted?: boolean }) => {
-    const headerTooltipStyle = { fontSize: '14px', color: 'rgb(161, 172, 190)', marginBottom: '-2px' };
-    let textColor: string;
-    let statusText: JSX.Element | string;
+const OperatorStatus = ({
+  status,
+  is_deleted,
+  is_valid,
+}: {
+  status: string;
+  is_deleted?: boolean;
+  is_valid?: boolean;
+}) => {
+  const headerTooltipStyle = {
+    fontSize: '14px',
+    color: 'rgb(161, 172, 190)',
+    marginBottom: '-2px',
+  };
+  let textColor: string;
+  let statusText: JSX.Element | string;
 
-    if (is_deleted) {
-        statusText = 'Deleted';
+  if (is_deleted) {
+    statusText = 'Deleted';
+    textColor = '#ec1c26';
+  } else if (!is_valid) {
+    statusText = 'Invalid';
+    textColor = '#ec1c26';
+  } else {
+    switch (status) {
+      case 'Active':
+        textColor = '#08c858';
+        break;
+      case 'Inactive':
         textColor = '#ec1c26';
-    } else {
-        switch (status) {
-            case 'Active':
-                textColor = '#08c858';
-                break;
-            case 'Inactive':
-                textColor = '#ec1c26';
-                break;
-            default:
-                textColor = '#808080';
-        }
-        statusText = !status ? <Skeleton style={{ width: 100 }} /> : status;
+        break;
+      default:
+        textColor = '#808080';
     }
+    statusText = !status ? <Skeleton style={{ width: 100 }} /> : status;
+  }
 
-    return (
-      <OperatorPerformanceContainer>
-        <DataHeader>
-          Status
-          <InfoTooltip
-            style={headerTooltipStyle}
-            message="Is the operator performing duties for the majority of its validators in the last 2 epochs."
-          />
-        </DataHeader>
-        <ValueContent style={{ color: textColor }}>{statusText}</ValueContent>
-      </OperatorPerformanceContainer>
-    );
+  return (
+    <OperatorPerformanceContainer>
+      <DataHeader>
+        Status
+        <InfoTooltip
+          style={headerTooltipStyle}
+          message="Is the operator performing duties for the majority of its validators in the last 2 epochs."
+        />
+      </DataHeader>
+      <ValueContent style={{ color: textColor }}>{statusText}</ValueContent>
+    </OperatorPerformanceContainer>
+  );
 };
 
 export default observer(OperatorStatus);

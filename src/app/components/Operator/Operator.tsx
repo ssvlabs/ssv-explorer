@@ -56,7 +56,7 @@ const Operator = () => {
   const socialIcon = (url: string, imageSrc: string, className: string) => {
     return (url && (
     <Link href={url} target="_blank" className={className}>
-      <img src={imageSrc} className={className} />
+      <img alt="social" src={imageSrc} className={className} />
     </Link>
     ));
   };
@@ -168,7 +168,7 @@ const Operator = () => {
           <NotFoundScreen notFound={notFound}>
             <Grid container className={classes.OperatorWrapper}>
               <Grid xs={12} sm={12} md={12} lg={3} xl={3} item className={classes.OperatorInfoWrapper}>
-                <OperatorStatus status={operator.status} is_deleted={operator.is_deleted} />
+                <OperatorStatus status={operator.status} is_deleted={operator.is_deleted} is_valid={operator.is_valid} />
                 <ValidatorCount validatorCount={operator.validators_count} />
                 <OperatorPerformance operator={operator} isLoading={isLoading} />
               </Grid>
