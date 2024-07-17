@@ -1,10 +1,11 @@
 import React from 'react';
 import { observer } from 'mobx-react';
+import config from '~app/common/config';
 import { Grid } from '@material-ui/core';
 import { useStyles } from './OperatorDetails.styles';
+import chainService, { EChain } from '~lib/utils/ChainService';
 import OperatorType from '~app/common/components/OperatorType';
 import CopyToClipboardIcon from '~app/common/components/CopyToClipboardIcon';
-import config from '~app/common/config';
 
 type Props = {
     operator: any;
@@ -17,12 +18,19 @@ const OperatorDetails = (props: Props) => {
     const classes = useStyles({ large, operatorLogo: operator.logo, gray80 });
     let operatorName = operator?.name;
     if (operator?.name?.length > 14) operatorName = `${operator?.name?.slice(0, 13)}...`;
-    const isPrivateOperator = operator.address_whitelist && operator.address_whitelist !== config.GLOBAL_VARIABLE.DEFAULT_ADDRESS_WHITELIST;
+
+    const isPrivateOperator = () => {
+        const isMainnet = chainService().isChain(EChain.Ethereum);
+        if (isMainnet) {
+            return operator.address_whitelist && operator.address_whitelist !== config.GLOBAL_VARIABLE.DEFAULT_ADDRESS_WHITELIST;
+        }
+        return operator?.is_private;
+    };
 
     return (
       <Grid container className={classes.Wrapper}>
         <Grid item className={classes.OperatorLogo}>
-          {isPrivateOperator && (
+          {isPrivateOperator() && (
           <Grid className={classes.PrivateOperatorWrapper}>
             <Grid className={classes.PrivateOperatorLockIcon} />
           </Grid>
