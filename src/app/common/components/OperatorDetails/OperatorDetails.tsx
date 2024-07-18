@@ -1,9 +1,7 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import config from '~app/common/config';
 import { Grid } from '@material-ui/core';
 import { useStyles } from './OperatorDetails.styles';
-import chainService, { EChain } from '~lib/utils/ChainService';
 import OperatorType from '~app/common/components/OperatorType';
 import CopyToClipboardIcon from '~app/common/components/CopyToClipboardIcon';
 
