@@ -19,13 +19,7 @@ const OperatorDetails = (props: Props) => {
     let operatorName = operator?.name;
     if (operator?.name?.length > 14) operatorName = `${operator?.name?.slice(0, 13)}...`;
 
-    const isPrivateOperator = () => {
-        const isMainnet = chainService().isChain(EChain.Ethereum);
-        if (isMainnet) {
-            return operator.address_whitelist && operator.address_whitelist !== config.GLOBAL_VARIABLE.DEFAULT_ADDRESS_WHITELIST;
-        }
-        return operator?.is_private;
-    };
+    const isPrivateOperator = () => operator?.is_private;
 
     return (
       <Grid container className={classes.Wrapper}>
