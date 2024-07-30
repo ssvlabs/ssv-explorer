@@ -22,6 +22,14 @@ class SsvNetwork {
     return SsvNetwork.instance;
   }
 
+  async fetchActiveValidatorsCount(): Promise<void> {
+    const url = `${this.baseUrl}/validators/countActiveValidators`;
+    return new ApiRequest({
+      url,
+      method: 'GET',
+    }).sendRequest();
+  }
+
   async fetchValidators({ lastFetchedRecordId, pageDirection, perPage = ApiParams.PER_PAGE }: { lastFetchedRecordId?: number, pageDirection: PageDirection, perPage?: number }) {
     let params: any = {
       pageDirection,
