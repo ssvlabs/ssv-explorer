@@ -42,19 +42,30 @@ const Validators = (props: Props) => {
    * Load first page of validators
    */
   const loadValidators = () => {
-    setLoadingValidators(true);
-    SsvNetwork.getInstance().fetchValidators({ lastFetchedRecordId: 1, pageDirection: PageDirection.NEXT, perPage: ApiParams.PER_PAGE }).then((result: any) => {
-      overviewStore.setTotalValidators(result.data.pagination.total);
-      if (result.data.validators.length > 0) setValidatorsExist(true);
-      overviewStore.setTotalEth(result.data.pagination.total * 32);
-      setValidators(result.data.validators);
-      setLoadingValidators(false);
-    }).catch((error: any) => {
-      console.log(error.message);
-      overviewStore.setTotalEth(0);
-      setLoadingValidators(false);
-      overviewStore.setTotalValidators(0);
-    });
+      setLoadingValidators(true);
+      SsvNetwork.getInstance().fetchActiveValidatorsCount().then((response: any) => {
+          overviewStore.setTotalValidators(response.data.data);
+      }).catch((error: any) => {
+          console.log(error.message);
+          overviewStore.setTotalEth(0);
+          setLoadingValidators(false);
+          overviewStore.setTotalValidators(0);
+      });
+      SsvNetwork.getInstance().fetchValidators({
+          lastFetchedRecordId: 1,
+          pageDirection: PageDirection.NEXT,
+          perPage: ApiParams.PER_PAGE,
+      }).then((result: any) => {
+          if (result.data.validators.length > 0) setValidatorsExist(true);
+          overviewStore.setTotalEth(result.data.pagination.total * 32);
+          setValidators(result.data.validators);
+          setLoadingValidators(false);
+      }).catch((error: any) => {
+          console.log(error.message);
+          overviewStore.setTotalEth(0);
+          setLoadingValidators(false);
+          overviewStore.setTotalValidators(0);
+      });
   };
 
   return (

@@ -57,6 +57,6 @@ export const useStyles = makeStyles((theme) => ({
         backgroundSize: 'contain',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
-        backgroundImage: `url(/images/lock/active_${/* theme.darkMode ? 'dark' : */'light'}.svg)`,
+        backgroundImage: (props: any) => `url(/images/lock/active_${props.isDarkMode ? 'dark' : 'light'}.svg)`,
     },
 }));

@@ -4,6 +4,7 @@ import { Grid } from '@material-ui/core';
 import { useStyles } from './OperatorDetails.styles';
 import OperatorType from '~app/common/components/OperatorType';
 import CopyToClipboardIcon from '~app/common/components/CopyToClipboardIcon';
+import { useStores } from '~app/hooks/useStores';
 
 type Props = {
     operator: any;
@@ -13,7 +14,8 @@ type Props = {
 
 const OperatorDetails = (props: Props) => {
     const { gray80, operator, large } = props;
-    const classes = useStyles({ large, operatorLogo: operator.logo, gray80 });
+    const stores = useStores();
+    const classes = useStyles({ large, operatorLogo: operator.logo, gray80, isDarkMode: stores.Application.darkMode });
     let operatorName = operator?.name;
     if (operator?.name?.length > 14) operatorName = `${operator?.name?.slice(0, 13)}...`;
 
