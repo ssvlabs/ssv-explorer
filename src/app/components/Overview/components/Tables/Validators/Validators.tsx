@@ -45,6 +45,7 @@ const Validators = (props: Props) => {
       setLoadingValidators(true);
       SsvNetwork.getInstance().fetchActiveValidatorsCount().then((response: any) => {
           overviewStore.setTotalValidators(response.data.data);
+          overviewStore.setTotalEth(Number(response.data.data) * 32);
       }).catch((error: any) => {
           console.log(error.message);
           overviewStore.setTotalEth(0);
@@ -57,7 +58,6 @@ const Validators = (props: Props) => {
           perPage: ApiParams.PER_PAGE,
       }).then((result: any) => {
           if (result.data.validators.length > 0) setValidatorsExist(true);
-          overviewStore.setTotalEth(result.data.pagination.total * 32);
           setValidators(result.data.validators);
           setLoadingValidators(false);
       }).catch((error: any) => {
