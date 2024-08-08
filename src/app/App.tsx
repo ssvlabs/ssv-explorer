@@ -12,6 +12,7 @@ import ApplicationStore from '~app/common/stores/Application.store';
 import ErrorBoundary from '~app/components/ErrorBoundary';
 import SimpleAppBar from '~app/common/components/AppBar/SimpleAppBar';
 import { useHistory } from 'react-router-dom';
+import config from '~app/common/config';
 
 const App = () => {
   const stores = useStores();
@@ -19,7 +20,7 @@ const App = () => {
   const applicationStore: ApplicationStore = stores.Application;
 
   if (applicationStore.isMaintenancePage) {
-    history.push('/maintenance');
+    history.push(config.routes.MAINTENANCE);
   }
 
   return (

@@ -17,7 +17,7 @@ const Routes = () => {
         <PausedScreen />
       </Route>
 
-      <Route exact path={'/maintenance'}>
+      <Route exact path={config.routes.MAINTENANCE}>
         <MaintenancePage />
       </Route>
 
