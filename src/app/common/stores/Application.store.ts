@@ -13,6 +13,7 @@ class ApplicationStore extends BaseStore {
   // @ts-ignore
   @observable theme: Theme;
   @observable darkMode: boolean = false;
+  @observable isMaintenancePage: string | null = localStorage.getItem('isMaintenancePage');
 
   constructor() {
     super();

@@ -8,12 +8,17 @@ import Operator from '~app/components/Operator/Operator';
 import OperatorsList from '~app/components/OperatorsList';
 import Validator from '~app/components/Validator/Validator';
 import ValidatorsList from '~app/components/ValidatorsList';
+import MaintenancePage from '~app/components/Maintenance/MaintenancePage';
 
 const Routes = () => {
   return (
     <Switch>
       <Route exact path={config.routes.PAUSED.HOME}>
         <PausedScreen />
+      </Route>
+
+      <Route exact path={'/maintenance'}>
+        <MaintenancePage />
       </Route>
 
       <Route exact path={config.routes.HOME}>

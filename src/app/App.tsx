@@ -10,10 +10,17 @@ import DeveloperHelper from '~lib/utils/DeveloperHelper';
 import Announcement from '~app/common/components/Announcement';
 import ApplicationStore from '~app/common/stores/Application.store';
 import ErrorBoundary from '~app/components/ErrorBoundary';
+import SimpleAppBar from '~app/common/components/AppBar/SimpleAppBar';
+import { useHistory } from 'react-router-dom';
 
 const App = () => {
   const stores = useStores();
+  const history = useHistory();
   const applicationStore: ApplicationStore = stores.Application;
+
+  if (applicationStore.isMaintenancePage) {
+    history.push('/maintenance');
+  }
 
   return (
     <ErrorBoundary>
@@ -21,7 +28,7 @@ const App = () => {
         <ThemeProvider theme={applicationStore.muiTheme}>
           <DeveloperHelper />
           <Announcement />
-          <AppBar />
+          {applicationStore.isMaintenancePage ? <SimpleAppBar /> : <AppBar />}
           <Routes />
           <CssBaseline />
         </ThemeProvider>
