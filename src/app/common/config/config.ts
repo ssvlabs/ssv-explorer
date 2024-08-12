@@ -1,6 +1,7 @@
 const config = {
     routes: {
         HOME: '/',
+        MAINTENANCE: '/maintenance',
         OPERATORS: {
             HOME: '/operators',
             OPERATOR: '/operators/:address',
