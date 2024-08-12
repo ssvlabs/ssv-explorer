@@ -13,12 +13,12 @@ class ApplicationStore extends BaseStore {
   // @ts-ignore
   @observable theme: Theme;
   @observable darkMode: boolean = false;
-  @observable isMaintenancePage: string | null = null;
+  @observable isMaintenancePage: string | null | boolean = null;
 
   constructor() {
     super();
     const darkModeSaved = this.localStorage.getItem('isDarkMode');
-    this.isMaintenancePage = this.localStorage.getItem('isMaintenancePage');
+    this.isMaintenancePage = true;
     if (darkModeSaved) {
       this.darkMode = darkModeSaved === '1';
       this.switchDarkMode(this.darkMode);
