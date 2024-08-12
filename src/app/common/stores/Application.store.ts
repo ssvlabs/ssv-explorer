@@ -18,7 +18,7 @@ class ApplicationStore extends BaseStore {
   constructor() {
     super();
     const darkModeSaved = this.localStorage.getItem('isDarkMode');
-    this.isMaintenancePage = true;
+    this.isMaintenancePage = !this.localStorage.getItem('isMaintenancePage');
     if (darkModeSaved) {
       this.darkMode = darkModeSaved === '1';
       this.switchDarkMode(this.darkMode);
