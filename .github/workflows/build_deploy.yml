@@ -57,7 +57,7 @@ jobs:
 
       # <explorer.ssv.network>
       - name: Run prod beta build
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/maintenance-page'
         env:
           NODE_OPTIONS: '--openssl-legacy-provider'
           API_BASE_URL: ${{ secrets.PROD_API_BASE_URL_V4 }}
@@ -67,7 +67,7 @@ jobs:
         run: yarn build
 
       - name: Deploy prod beta
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/maintenance-page'
         uses: jakejarvis/s3-sync-action@v0.5.0
         with:
           args: --acl public-read --follow-symlinks --delete
