@@ -8,6 +8,7 @@ import { longStringShorten } from '~lib/utils/strings';
 import BeaconchaLink from '~app/common/components/BeaconchaLink';
 import DataTable from '~app/common/components/DataTable/DataTable';
 import CopyToClipboardIcon from '~app/common/components/CopyToClipboardIcon';
+import Status from '~app/common/components/Status';
 
 type ValidatorsInOperatorTableProps = {
   validators: any[],
@@ -43,10 +44,11 @@ const ValidatorsInOperatorTable = (props: ValidatorsInOperatorTableProps) => {
                 0x{longStringShorten(validator.public_key, 20)}
               </Box>
               <Box className={classes.blackLinkColor} component="div" display={{ xs: 'none', sm: 'none', md: 'none', lg: 'block' }}>
-                0x{validator.public_key}
+                0x{longStringShorten(validator.public_key, 30)}
               </Box>
             </Typography>
           </Link>,
+          <Status entry={validator} />,
           <div style={{ marginTop: 3, whiteSpace: 'nowrap' }}>
             <CopyToClipboardIcon data={validator.public_key} />
             <BeaconchaLink height={24} width={24} address={`validator/${validator.public_key}`} />
