@@ -21,6 +21,7 @@ import BeaconchaLink from '~app/common/components/BeaconchaLink/BeaconchaLink';
 import ValidatorDuties from '~app/components/Validator/components/ValidatorDuties';
 import ValidatorOperators from '~app/components/Validator/components/ValidatorOperators';
 import { BreadCrumb, BreadCrumbDivider } from '~app/common/components/Breadcrumbs';
+import chainService, { EChain } from '~lib/utils/ChainService';
 
 const StatsBlock = styled.div<({ maxWidth?: any })>`
   max-width: ${({ maxWidth }) => `${Number.isNaN(maxWidth ?? 200) ? (maxWidth) : `${(maxWidth ?? 200)}px`}`};
@@ -48,6 +49,9 @@ const Validator = () => {
   const [notFound, setNotFound] = useState(false);
   const [validator, setValidator] = useState(defaultValidator);
   const [loadingValidator, setLoadingValidator] = useState(false);
+  const currentNetwork = chainService().getNetwork();
+  const isHoleskyTestnet = currentNetwork === EChain.Holesky;
+  const isNotDepositedValidator = !validator.validatorInfo && isHoleskyTestnet;
 
   /**
    * Fetch one operator by it's address
@@ -86,7 +90,7 @@ const Validator = () => {
               </StatsBlock>
             </Grid>
             <Grid item>
-              {!_.isEmpty(validator) && <Status size="big" entry={validator} />}
+              {!_.isEmpty(validator) && <Status size="big" entry={{ ...validator, isNotDepositedValidator }} />}
             </Grid>
             <Grid item>
               {!_.isEmpty(validator) && <IsValidBadge size="big" entry={validator} />}
