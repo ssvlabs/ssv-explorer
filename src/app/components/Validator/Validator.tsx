@@ -51,7 +51,7 @@ const Validator = () => {
   const [loadingValidator, setLoadingValidator] = useState(false);
   const currentNetwork = chainService().getNetwork();
   const isHoleskyTestnet = currentNetwork === EChain.Holesky;
-  const isNotDepositedValidator = (!validator.validatorInfo || Object.keys(validator.validatorInfo).length === 0) && isHoleskyTestnet;
+  const isNotDepositedValidator = (Object.keys(validator.validator_info || {}).length === 0) && isHoleskyTestnet;
 
   /**
    * Fetch one operator by it's address
