@@ -12,6 +12,7 @@ const MEVS = {
     BLOX_ROUTE_REG: 'bloXroute Regulated',
     EDEN_NETWORK: 'Eden Network',
     FLASHBOTS: 'Flashbots',
+    TITAN: 'Titan Relay',
     MANIFOLD: 'Manifold',
     ULTRA_SOUND: 'Ultra Sound',
 };
@@ -24,6 +25,7 @@ const mevIcons: Record<string, string> = {
     [MEVS.BLOX_ROUTE_MAX]: 'bloxroute',
     [MEVS.BLOX_ROUTE_REG]: 'bloxroute',
     [MEVS.EDEN_NETWORK]: 'eden_network',
+    [MEVS.TITAN]: 'titan',
     [MEVS.FLASHBOTS]: 'flashbots',
     [MEVS.MANIFOLD]: 'manifold',
     [MEVS.ULTRA_SOUND]: 'ultra_sound',
