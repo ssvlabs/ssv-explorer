@@ -22,6 +22,8 @@ const Status = (props: StatusProps) => {
   let statusText = props.entry.status;
   if (props.entry.is_deleted) {
     statusText = 'Deleted';
+  } else if (props.entry.isNotDepositedValidator) {
+    statusText = 'Not Deposited';
   } else if (!props.entry.is_valid) {
     statusText = 'Invalid';
   }

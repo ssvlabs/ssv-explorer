@@ -5,6 +5,7 @@ interface StatusEntry {
     is_deleted?: boolean;
     is_valid?: boolean;
     status?: string;
+    isNotDepositedValidator?: boolean;
 }
 
 export interface StatusProps {
@@ -43,8 +44,8 @@ export const useStyles = makeStyles(() => ({
             color = 'rgb(236, 28, 38)';
             backgroundColor = 'rgba(236, 28, 38, 0.12)';
 
-        // Not validators (for operator status only)
-        } else if (props.entry?.is_active === -1) {
+        // Not validators or Not deposited
+        } else if (props.entry?.is_active === -1 || props.entry?.isNotDepositedValidator) {
             color = '#34455a';
             backgroundColor = '#e6eaf7';
         } else {
