@@ -155,7 +155,7 @@ const Operator = () => {
             <Grid item className={classes.itemHeader}>MEV relays supported</Grid>
             <Grid xs={12} sm={12} md={12} lg={12} xl={12} className={classes.MevRelaysListWrapper}>
               {operator?.mev_relays?.split(',').map((relay: string) => (
-                <MevRelaysBadge label={relay} darkMode={stores.Application.darkMode} />
+                <MevRelaysBadge label={relay.trim()} darkMode={stores.Application.darkMode} />
               ))}
             </Grid>
           </Grid>
