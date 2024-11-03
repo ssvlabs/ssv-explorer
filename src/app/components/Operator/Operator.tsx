@@ -168,7 +168,7 @@ const Operator = () => {
           <NotFoundScreen notFound={notFound}>
             <Grid container className={classes.OperatorWrapper}>
               <Grid xs={12} sm={12} md={12} lg={3} xl={3} item className={classes.OperatorInfoWrapper}>
-                <OperatorStatus status={operator.status} is_deleted={operator.is_deleted} is_valid={operator.is_valid} />
+                <OperatorStatus status={operator.validators_count > 0 ? operator.status : 'No validators'} is_deleted={operator.is_deleted} is_valid={operator.is_valid} />
                 <ValidatorCount validatorCount={operator.validators_count} />
                 <OperatorPerformance operator={operator} isLoading={isLoading} />
               </Grid>
