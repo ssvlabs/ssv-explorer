@@ -77,7 +77,7 @@ const OperatorsList = () => {
           <OperatorDetails operator={operator} />
         </Link>,
         <Box component="div" display={{ xs: 'block', sm: 'block', md: 'block', lg: 'block' }}>
-          <Status entry={operator} />
+          <Status entry={operator.validators_count > 0 && operator.is_valid ? operator : { ...operator, is_active: -1, status: 'No validators' }} />
         </Box>,
       ];
 

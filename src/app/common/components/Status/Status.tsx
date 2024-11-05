@@ -27,7 +27,6 @@ const Status = (props: StatusProps) => {
   } else if (!props.entry.is_valid) {
     statusText = 'Invalid';
   }
-
   return (
     <Tooltip
       className={props.extendClass}
