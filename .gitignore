@@ -30,3 +30,5 @@ cypress/plugins/ssv-network
 tmp
 tmp/*
 yarn.lock
+/.vscode/
+/.idea/
