@@ -96,7 +96,7 @@
     "dev:server": "cd dev-api/ && ts-node server",
     "start": "cross-env NODE_OPTIONS=--openssl-legacy-provider NODE_ENV=development INLINE_RUNTIME_CHUNK=false node scripts/start.js",
     "build": "cross-env NODE_OPTIONS=--openssl-legacy-provider INLINE_RUNTIME_CHUNK=false node scripts/build.js",
-    "lint": "eslint 'src/**'",
+    "lint": "eslint src/**",
     "postinstall": "link-module-alias && husky install",
     "preinstall": "command -v link-module-alias && link-module-alias clean || true",
     "security:check": "./scripts/check_security.sh",
