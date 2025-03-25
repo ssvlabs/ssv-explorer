@@ -21,7 +21,7 @@ import BeaconchaLink from '~app/common/components/BeaconchaLink/BeaconchaLink';
 import ValidatorDuties from '~app/components/Validator/components/ValidatorDuties';
 import ValidatorOperators from '~app/components/Validator/components/ValidatorOperators';
 import { BreadCrumb, BreadCrumbDivider } from '~app/common/components/Breadcrumbs';
-import chainService, { EChain } from '~lib/utils/ChainService';
+import chainService from '~lib/utils/ChainService';
 
 const StatsBlock = styled.div<({ maxWidth?: any })>`
   max-width: ${({ maxWidth }) => `${Number.isNaN(maxWidth ?? 200) ? (maxWidth) : `${(maxWidth ?? 200)}px`}`};
