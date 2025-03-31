@@ -9,7 +9,7 @@ import BeaconchaLink from '~app/common/components/BeaconchaLink';
 import DataTable from '~app/common/components/DataTable/DataTable';
 import CopyToClipboardIcon from '~app/common/components/CopyToClipboardIcon';
 import Status from '~app/common/components/Status';
-import chainService, { EChain } from '~lib/utils/ChainService';
+import chainService from '~lib/utils/ChainService';
 
 type ValidatorsInOperatorTableProps = {
     validators: any[],
@@ -28,11 +28,10 @@ const ValidatorsInOperatorTable = (props: ValidatorsInOperatorTableProps) => {
     const classes = useStyles({});
     const { validators, pagination, params, isLoading, onLoadPage, onChangeRowsPerPage, perPage } = props;
     const validatorsTitle = `${pagination?.total ? pagination?.total : ''} Validator${(pagination?.total ?? 0) > 1 || pagination?.total === 0 ? 's' : ''}`;
-    const currentNetwork = chainService().getNetwork();
-    const isHoleskyTestnet = currentNetwork === EChain.Holesky;
+    const isTestnet = chainService().isCurrentNetworkTestnet();
 
     const statusComponent = (validator: any) => {
-        return isHoleskyTestnet && <Status entry={validator} />;
+        return isTestnet && <Status entry={validator} />;
     };
 
     return (
