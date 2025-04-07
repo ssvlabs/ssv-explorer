@@ -26,6 +26,7 @@ import ApplicationStore from '~app/common/stores/Application.store';
 import DarkModeSwitcher from '~app/common/components/DarkModeSwitcher';
 import Grid from '@material-ui/core/Grid';
 import NetworkSelect from '~app/common/components/NetworkSelect';
+import { HoleskySunsetBanner } from '../Announcement/HoleskySunsetBanner';
 
 const DrawerButtonsContainers = styled.div`
   font-size: 12px;
@@ -35,7 +36,8 @@ const DrawerButtonsContainers = styled.div`
   margin: auto;
   text-align: center;
   width: 100%;
-  & > * button, & > * button[disabled]  {
+  & > * button,
+  & > * button[disabled] {
     font-weight: bold;
     color: white;
     border-color: white;
@@ -78,9 +80,9 @@ const AppBarComponent = () => {
   let isWhiteBackground = false;
 
   const whiteBackgroundRoutes = [
-        config.routes.OPERATORS.OPERATOR,
-        config.routes.VALIDATORS.VALIDATOR,
-      ];
+    config.routes.OPERATORS.OPERATOR,
+    config.routes.VALIDATORS.VALIDATOR,
+  ];
 
   // eslint-disable-next-line no-restricted-syntax
   for (const route of whiteBackgroundRoutes) {
@@ -89,7 +91,11 @@ const AppBarComponent = () => {
       break;
     }
   }
-  const isRouteActive = (routeLink: string, returnValue: any, exact: boolean = false) => {
+  const isRouteActive = (
+    routeLink: string,
+    returnValue: any,
+    exact: boolean = false,
+  ) => {
     const location = useLocation();
     if (exact) {
       return routeLink === location.pathname ? returnValue : '';
@@ -116,148 +122,243 @@ const AppBarComponent = () => {
 
   return (
     <div className={classes.root} id="back-to-top-anchor">
-      {isSearchOpened ?
-            (
-              <AppBar>
-                {paused ? <></> : (
-                  <Toolbar>
-                    <SmartSearch inAppBar supportSmallScreen closeSearch={() => { toggleSearch(false); }} />
-                  </Toolbar>
+      <HoleskySunsetBanner />
+      {isSearchOpened ? (
+        <AppBar position="static">
+          {paused ? (
+            <></>
+          ) : (
+            <Toolbar>
+              <SmartSearch
+                inAppBar
+                supportSmallScreen
+                closeSearch={() => {
+                  toggleSearch(false);
+                }}
+              />
+            </Toolbar>
+          )}
+        </AppBar>
+      ) : (
+        <AppBar position="static">
+          <Toolbar>
+            <Box>
+              <Typography variant="h6" className={classes.title}>
+                <Link
+                  href={paused ? config.routes.PAUSED.HOME : config.routes.HOME}
+                  style={{ color: 'white', textDecoration: 'none' }}
+                >
+                  <img
+                    width={133}
+                    height={40}
+                    src={`/images/website_logo_${
+                      applicationStore.isDarkMode ? 'light' : 'dark'
+                    }.svg`}
+                    alt="Copy"
+                  />
+                </Link>
+              </Typography>
+            </Box>
+            {paused ? (
+              <></>
+            ) : (
+              <Grid className={classes.AppBarWrapper}>
+                <Box
+                  className={classes.toolbarLinks}
+                  component="div"
+                  display={{ xs: 'none', sm: 'none', md: 'none', lg: 'block' }}
+                >
+                  <Link
+                    href={config.routes.HOME}
+                    className={`${classes.appBarLink} ${isRouteActive(
+                      config.routes.HOME,
+                      classes.appBarLinkActive,
+                      true,
+                    )}`}
+                  >
+                    Overview
+                  </Link>
+                  <Link
+                    href={config.routes.OPERATORS.HOME}
+                    className={`${classes.appBarLink} ${isRouteActive(
+                      config.routes.OPERATORS.HOME,
+                      classes.appBarLinkActive,
+                    )}`}
+                    onClick={() => clearPaginationMemory()}
+                  >
+                    Operators
+                  </Link>
+                  <Link
+                    href={config.routes.VALIDATORS.HOME}
+                    className={`${classes.appBarLink} ${isRouteActive(
+                      config.routes.VALIDATORS.HOME,
+                      classes.appBarLinkActive,
+                    )}`}
+                    onClick={() => clearPaginationMemory()}
+                  >
+                    Validators
+                  </Link>
+                </Box>
+
+                <Box
+                  style={{ marginLeft: 'auto' }}
+                  component="div"
+                  display={{ xs: 'none', sm: 'none', md: 'none', lg: 'block' }}
+                >
+                  <div className={classes.toolbarButtons}>
+                    {!isOverviewPage() && (
+                      <SmartSearch placeholder={'Search...'} inAppBar />
+                    )}
+                    <div className={classes.networkSwitchWrapper}>
+                      <NetworkSelect />
+                    </div>
+                    <Link href={joinSsvLink} target="_blank">
+                      <Button
+                        disable={false}
+                        type={'primary'}
+                        text={'Join SSV Network'}
+                      />
+                    </Link>
+                    <DarkModeSwitcher
+                      style={{
+                        marginLeft: 'auto',
+                        marginRight: 0,
+                        minWidth: 'auto',
+                        width: 70,
+                      }}
+                    />
+                  </div>
+                </Box>
+
+                <Box
+                  className={classes.menuButtons}
+                  component="div"
+                  display={{
+                    xs: 'inline-flex',
+                    sm: 'inline-flex',
+                    md: 'inline-flex',
+                    lg: 'none',
+                  }}
+                >
+                  {!isOverviewPage() && (
+                    <div className={classes.FirstSection}>
+                      <div className={classes.toolbarButtons}>
+                        <SmartSearch
+                          inAppBar
+                          closeSearch={() => toggleSearch(false)}
+                        />
+                      </div>
+                    </div>
                   )}
-              </AppBar>
-            ) :
-            (
-              <AppBar>
-                <Toolbar>
-                  <Box>
-                    <Typography variant="h6" className={classes.title}>
-                      <Link href={paused ? config.routes.PAUSED.HOME : config.routes.HOME} style={{ color: 'white', textDecoration: 'none' }}>
-                        <img width={133} height={40} src={`/images/website_logo_${applicationStore.isDarkMode ? 'light' : 'dark'}.svg`} alt="Copy" />
-                      </Link>
-                    </Typography>
-                  </Box>
-                  {paused ? <></> : (
-                    <Grid className={classes.AppBarWrapper}>
-                      <Box className={classes.toolbarLinks} component="div"
-                        display={{ xs: 'none', sm: 'none', md: 'none', lg: 'block' }}>
+                  <div className={classes.SecondSection}>
+                    {!isSearchOpened && !isOverviewPage() && (
+                      <IconButton
+                        edge="start"
+                        className={classes.menuButton}
+                        color="inherit"
+                        aria-label="menu"
+                        onClick={() => toggleSearch(true)}
+                      >
+                        <SearchIcon className={classes.SearchIcon} />
+                      </IconButton>
+                    )}
+                  </div>
+                  <DarkModeSwitcher
+                    style={{ marginLeft: 'auto', marginRight: 0 }}
+                  />
+                  <IconButton
+                    edge="end"
+                    className={classes.menuButton}
+                    color="inherit"
+                    aria-label="menu"
+                    onClick={() => toggleDrawer(true)}
+                  >
+                    <MenuIcon />
+                  </IconButton>
+                  <Drawer
+                    className={classes.drawer}
+                    anchor="top"
+                    open={isDrawerOpened}
+                    onClose={() => toggleDrawer(false)}
+                  >
+                    <List style={{ textAlign: 'center', paddingBottom: 50 }}>
+                      <ListItem style={{ paddingBottom: 15 }}>
+                        <CloseIcon
+                          onClick={() => {
+                            toggleDrawer(false);
+                          }}
+                          style={{ marginLeft: 'auto', marginRight: 0 }}
+                        />
+                      </ListItem>
+
+                      <MobileMenuContainer>
                         <Link
                           href={config.routes.HOME}
-                          className={`${classes.appBarLink} ${isRouteActive(config.routes.HOME, classes.appBarLinkActive, true)}`}
-                            >
-                          Overview
+                          className={appClasses.Link}
+                        >
+                          <ListItem button>
+                            <ListItemText
+                              primary="Overview"
+                              style={{ textTransform: 'uppercase' }}
+                            />
+                          </ListItem>
                         </Link>
+
                         <Link
                           href={config.routes.OPERATORS.HOME}
-                          className={`${classes.appBarLink} ${isRouteActive(config.routes.OPERATORS.HOME, classes.appBarLinkActive)}`}
+                          className={appClasses.Link}
                           onClick={() => clearPaginationMemory()}
-                            >
-                          Operators
+                        >
+                          <ListItem button>
+                            <ListItemText primary="Operators" />
+                          </ListItem>
                         </Link>
+
                         <Link
                           href={config.routes.VALIDATORS.HOME}
-                          className={`${classes.appBarLink} ${isRouteActive(config.routes.VALIDATORS.HOME, classes.appBarLinkActive)}`}
+                          className={appClasses.Link}
                           onClick={() => clearPaginationMemory()}
-                            >
-                          Validators
+                        >
+                          <ListItem button>
+                            <ListItemText primary="Validators" />
+                          </ListItem>
                         </Link>
-                      </Box>
 
-                      <Box style={{ marginLeft: 'auto' }} component="div"
-                        display={{ xs: 'none', sm: 'none', md: 'none', lg: 'block' }}>
-                        <div className={classes.toolbarButtons}>
-                          {!isOverviewPage() && <SmartSearch placeholder={'Search...'} inAppBar />}
-                          <div className={classes.networkSwitchWrapper}>
-                            <NetworkSelect />
-                          </div>
-                          <Link href={joinSsvLink} target="_blank">
-                            <Button disable={false} type={'primary'} text={'Join SSV Network'} />
-                          </Link>
-                          <DarkModeSwitcher style={{ marginLeft: 'auto', marginRight: 0, minWidth: 'auto', width: 70 }} />
-                        </div>
-                      </Box>
-
-                      <Box className={classes.menuButtons} component="div"
-                        display={{ xs: 'inline-flex', sm: 'inline-flex', md: 'inline-flex', lg: 'none' }}>
-                        {!isOverviewPage() && (
-                        <div className={classes.FirstSection}>
-                          <div className={classes.toolbarButtons}>
-                            <SmartSearch inAppBar closeSearch={() => toggleSearch(false)} />
-                          </div>
-                        </div>
-                            )}
-                        <div className={classes.SecondSection}>
-                          {!isSearchOpened && !isOverviewPage() && (
-                          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={() => toggleSearch(true)}>
-                            <SearchIcon className={classes.SearchIcon} />
-                          </IconButton>
-                              )}
-                        </div>
-                        <DarkModeSwitcher style={{ marginLeft: 'auto', marginRight: 0 }} />
-                        <IconButton edge="end" className={classes.menuButton} color="inherit" aria-label="menu" onClick={() => toggleDrawer(true)}>
-                          <MenuIcon />
-                        </IconButton>
-                        <Drawer
-                          className={classes.drawer}
-                          anchor="top"
-                          open={isDrawerOpened}
-                          onClose={() => toggleDrawer(false)}
+                        <DrawerButtonsContainers>
+                          <DrawerButton>
+                            <Link href={joinSsvLink} target="_blank">
+                              <Button
+                                disable={false}
+                                type={'primary'}
+                                text={'Join SSV Network'}
+                              />
+                            </Link>
+                          </DrawerButton>
+                          <DrawerButton>
+                            <Link
+                              href="/"
+                              onClick={(event: any) => {
+                                event.preventDefault();
+                                event.stopPropagation();
+                              }}
                             >
-                          <List style={{ textAlign: 'center', paddingBottom: 50 }}>
-                            <ListItem style={{ paddingBottom: 15 }}>
-                              <CloseIcon
-                                onClick={() => {
-                                        toggleDrawer(false);
-                                      }}
-                                style={{ marginLeft: 'auto', marginRight: 0 }}
-                                  />
-                            </ListItem>
-
-                            <MobileMenuContainer>
-                              <Link href={config.routes.HOME} className={appClasses.Link}>
-                                <ListItem button>
-                                  <ListItemText primary="Overview" style={{ textTransform: 'uppercase' }} />
-                                </ListItem>
-                              </Link>
-
-                              <Link href={config.routes.OPERATORS.HOME} className={appClasses.Link}
-                                onClick={() => clearPaginationMemory()}>
-                                <ListItem button>
-                                  <ListItemText primary="Operators" />
-                                </ListItem>
-                              </Link>
-
-                              <Link href={config.routes.VALIDATORS.HOME} className={appClasses.Link}
-                                onClick={() => clearPaginationMemory()}>
-                                <ListItem button>
-                                  <ListItemText primary="Validators" />
-                                </ListItem>
-                              </Link>
-
-                              <DrawerButtonsContainers>
-                                <DrawerButton>
-                                  <Link href={joinSsvLink} target="_blank">
-                                    <Button disable={false} type={'primary'} text={'Join SSV Network'} />
-                                  </Link>
-                                </DrawerButton>
-                                <DrawerButton>
-                                  <Link href="/" onClick={(event: any) => {
-                                    event.preventDefault();
-                                    event.stopPropagation();
-                                  }}>
-                                    <Button disable={false} type={'secondary'}
-                                      text={`${capitalize(currentNetwork)}`} />
-                                  </Link>
-                                </DrawerButton>
-                              </DrawerButtonsContainers>
-                            </MobileMenuContainer>
-                          </List>
-                        </Drawer>
-                      </Box>
-                    </Grid>
-                    )}
-                </Toolbar>
-              </AppBar>
+                              <Button
+                                disable={false}
+                                type={'secondary'}
+                                text={`${capitalize(currentNetwork)}`}
+                              />
+                            </Link>
+                          </DrawerButton>
+                        </DrawerButtonsContainers>
+                      </MobileMenuContainer>
+                    </List>
+                  </Drawer>
+                </Box>
+              </Grid>
             )}
+          </Toolbar>
+        </AppBar>
+      )}
     </div>
   );
 };
