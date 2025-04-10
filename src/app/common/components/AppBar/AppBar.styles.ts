@@ -16,8 +16,10 @@ export const useStyles = makeStyles((theme) => ({
         },
     },
     root: {
-        height: 48,
-        flexGrow: 1,
+        position: 'sticky',
+        top: 0,
+        zIndex: 1000,
+        // flexGrow: 1,
         '& > .MuiPaper-root': {
             backgroundColor: 'inherit',
         },
