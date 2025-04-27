@@ -2,13 +2,11 @@
 import config from '~app/common/config';
 
 export enum EChain {
-  Holesky = 'holesky',
   Ethereum = 'mainnet', // ethereum
   Hoodi = 'hoodi',
 }
 
 export const CHAIN = {
-  HOLESKY: EChain.Holesky,
   ETHEREUM: EChain.Ethereum,
   HOODI: EChain.Hoodi,
 };
@@ -41,7 +39,7 @@ const chainService = () => {
   const getNetwork = () => chain.toString();
   const isChain = (other: EChain): boolean => chain === other;
 
-  const isCurrentNetworkTestnet = (): boolean => chain === EChain.Holesky || chain === EChain.Hoodi;
+  const isCurrentNetworkTestnet = (): boolean => chain === EChain.Hoodi;
 
   return { getBeaconchaUrl, getNetwork, isChain, isCurrentNetworkTestnet };
 };
