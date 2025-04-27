@@ -7,18 +7,13 @@ import NetworkIcon from '~app/common/components/NetworkIcon';
 import { useStyles } from './NeworkSelect.styles';
 import { KeyboardArrowDown } from '@material-ui/icons';
 
-const availableNetworks = [EChain.Ethereum, EChain.Holesky, EChain.Hoodi];
+const availableNetworks = [EChain.Ethereum, EChain.Hoodi];
 
 const networkToConfigMap = {
   [EChain.Ethereum]: {
     url: 'https://explorer.ssv.network',
     label: 'Ethereum Mainnet',
     isTestnet: false,
-  },
-  [EChain.Holesky]: {
-    url: 'https://holesky.explorer.ssv.network',
-    label: 'Holesky Testnet',
-    isTestnet: true,
   },
   [EChain.Hoodi]: {
     url: 'https://hoodi.explorer.ssv.network',
