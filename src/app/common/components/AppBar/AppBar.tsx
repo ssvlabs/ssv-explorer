@@ -26,7 +26,6 @@ import ApplicationStore from '~app/common/stores/Application.store';
 import DarkModeSwitcher from '~app/common/components/DarkModeSwitcher';
 import Grid from '@material-ui/core/Grid';
 import NetworkSelect from '~app/common/components/NetworkSelect';
-import { HoleskySunsetBanner } from '../Announcement/HoleskySunsetBanner';
 
 const DrawerButtonsContainers = styled.div`
   font-size: 12px;
@@ -122,7 +121,6 @@ const AppBarComponent = () => {
 
   return (
     <div className={classes.root} id="back-to-top-anchor">
-      <HoleskySunsetBanner />
       {isSearchOpened ? (
         <AppBar position="static">
           {paused ? (
