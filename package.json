@@ -1,7 +1,7 @@
 {
-  "name": "ssv-explorer-v2",
-  "version": "0.1.0",
-  "private": true,
+  "name": "ssv-web",
+  "description": "Webapp to interact with SSV",
+  "version": "2.0.0",
   "type": "module",
   "scripts": {
     "clean": "rimraf --glob **/node_modules **/dist **/.next pnpm-lock.yaml **/.tsbuildinfo",
