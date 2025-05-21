@@ -23,7 +23,6 @@ interface ValidatorsTableProps {
 export const ValidatorsTablePreview = withErrorBoundary(
   ({ dataPromise: data }: ValidatorsTableProps) => {
     const response = use(data)
-    console.log("response:", response)
 
     const { table } = useDataTable({
       name: "validators-table-preview",

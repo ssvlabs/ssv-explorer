@@ -26,7 +26,6 @@ interface OperatorsTableProps {
 export const OperatorsTable = withErrorBoundary(
   ({ dataPromise: data }: OperatorsTableProps) => {
     const { operators, pagination } = use(data)
-    console.log("operators:", operators)
 
     const { table } = useDataTable({
       name: "operators-table",

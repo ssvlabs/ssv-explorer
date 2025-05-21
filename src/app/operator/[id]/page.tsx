@@ -42,7 +42,6 @@ export default async function Page(props: IndexPageProps) {
             network: networkSearch.network,
             id: +id,
           })
-          console.log("operator:", operator)
           if (!operator) return <div>Operator not found</div>
           return (
             <div className="flex flex-col gap-6">

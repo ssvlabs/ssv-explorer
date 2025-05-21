@@ -24,7 +24,6 @@ export const OperatorCard: OperatorCardFC = ({
   operator,
   ...props
 }) => {
-  console.log("operator:", operator)
   return (
     <div
       className={cn(
