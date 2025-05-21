@@ -16,21 +16,7 @@ jobs:
 
     env:
       STAGE_SSV_NETWORKS: >
-        [
-          {
-            \"networkId\": 560048,
-            \"apiVersion\": \"v4\",
-            \"apiNetwork\": \"hoodi\",  
-            \"api\": \"https://api.stage.ops.ssvlabsinternal.com/api\",
-            \"explorerUrl\": \"https://hoodi-explorer.stage.ssv.network\",
-            \"insufficientBalanceUrl\": \"https://faucet.stage.ssv.network\",
-            \"googleTagSecret\": \"${{ secrets.STAGE_GOOGLE_TAG_SECRET }}\",
-            \"tokenAddress\": \"0x746c33ccc28b1363c35c09badaf41b2ffa7e6d56\",
-            \"bAppContractAddress\": \"0x40d959B95e7c56962D6d388d87921c03734b9C2C\",
-            \"setterContractAddress\": \"${{ secrets.STAGE_HOODI_NETWORK_SETTER_CONTRACT_ADDRESS_V4 }}\",
-            \"getterContractAddress\": \"${{ secrets.STAGE_HOODI_NETWORK_GETTER_CONTRACT_ADDRESS_V4 }}\"
-           }
-        ]
+        '[{"networkId":560048,"apiVersion":"v4","apiNetwork":"hoodi","api":"https://api.stage.ops.ssvlabsinternal.com/api","explorerUrl":"https://hoodi.explorer.ssv.network","insufficientBalanceUrl":"https://faucet.ssv.network","googleTagSecret":"GTM-K3GR7M5","tokenAddress":"0x9F5d4Ec84fC4785788aB44F9de973cF34F7A038e","setterContractAddress":"0x58410Bef803ECd7E63B23664C586A6DB72DAf59c","getterContractAddress":"0x5AdDb3f1529C5ec70D77400499eE4bbF328368fe"}]'
 
     steps:
       - uses: actions/checkout@v4
