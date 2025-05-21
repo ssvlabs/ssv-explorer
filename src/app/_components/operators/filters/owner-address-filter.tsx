@@ -42,9 +42,7 @@ export function OwnerAddressFilter() {
       })
     },
     select: (data) => [
-      ...new Set(
-        data.operators.map((operator) => operator.ownerAddress as Address)
-      ),
+      ...new Set(data.operators.map((operator) => operator.owner_address)),
     ],
     enabled: open && isSearchValidAddress,
   })
@@ -123,7 +121,9 @@ export function OwnerAddressFilter() {
                   onSelect={() => {
                     setFilters((prev) => ({
                       ...prev,
-                      ownerAddress: xor(prev.ownerAddress, [owner_address]),
+                      ownerAddress: xor(prev.ownerAddress, [
+                        owner_address as Address,
+                      ]),
                     }))
                   }}
                 >

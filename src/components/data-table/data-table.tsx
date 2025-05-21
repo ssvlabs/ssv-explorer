@@ -112,6 +112,7 @@ export function DataTable<TData>({
         </Table>
         {!hidePagination && (
           <div className="flex flex-col gap-2.5 rounded-b-2xl border-t border-gray-300 bg-gray-50 px-6 py-3">
+            {/* @ts-expect-error - TODO: fix this */}
             <DataTablePagination table={table} />
             {table.getFilteredSelectedRowModel().rows.length > 0 && floatingBar}
           </div>

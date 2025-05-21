@@ -63,7 +63,7 @@ export const clustersTableColumns = [
               <OperatorAvatar
                 size="base"
                 src={operator.logo}
-                isPrivate={operator.isPrivate}
+                isPrivate={operator.is_private}
               />
             </Link>
           )
