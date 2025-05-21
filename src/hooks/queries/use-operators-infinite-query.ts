@@ -18,7 +18,7 @@ export const useOperatorsInfiniteQuery = (
         perPage: params.perPage,
         search: params.search,
       }),
-    select: (data) => data.pages.flatMap((page) => page.data),
+    select: (data) => data.pages.flatMap((page) => page.operators),
     placeholderData: keepPreviousData,
     initialPageParam: 1,
     getNextPageParam: (lastPage) => {

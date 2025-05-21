@@ -25,7 +25,8 @@ interface OperatorsTableProps {
 
 export const OperatorsTable = withErrorBoundary(
   ({ dataPromise: data }: OperatorsTableProps) => {
-    const { data: operators, pagination } = use(data)
+    const { operators, pagination } = use(data)
+    console.log("operators:", operators)
 
     const { table } = useDataTable({
       name: "operators-table",
@@ -68,7 +69,7 @@ export const OperatorsTable = withErrorBoundary(
         <ErrorCard
           className="bg-transparent"
           errorMessage={(error as Error).message}
-          title="Error Loading Operators"
+          title="Couldn't load  Operators"
         />
       )
     },

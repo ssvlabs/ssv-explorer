@@ -2,27 +2,29 @@ import type { Operator } from "./operator"
 import { type WithInfinitePagination } from "./paginations"
 
 export interface SearchValidator<T extends Operator | string = string> {
-  id: string
-  ownerAddress: string
-  network: string
-  version: string
+  block: number
   cluster: string
-  publicKey: string
-  isValid: boolean
-  isLiquidated: boolean
-  isDeleted: boolean
-  isOperatorsValid: boolean
-  isPublicKeyValid: boolean
-  isSharesValid: boolean
+  created_at: string
+  id: number
+  is_deleted: boolean
+  is_liquidated: boolean
+  is_operators_valid: boolean
+  is_public_key_valid: boolean
+  is_shares_valid: boolean
+  is_valid: boolean
+  network: string
   operators: T[]
-  createdAt: string
-  updatedAt: string
+  owner_address: string
+  public_key: string
   status: Validator["status"]
-  validatorInfo: {
+  updated_at: string
+  validator_info: {
+    activation_epoch: number
+    effective_balance: number
     index: number
     status: string
-    activation_epoch: number
   }
+  version: string
 }
 
 export interface Validator {
@@ -49,5 +51,5 @@ export interface Validator {
 export type PaginatedValidatorsResponse<
   T extends Operator | string = Operator,
 > = WithInfinitePagination<{
-  data: SearchValidator<T>[]
+  validators: SearchValidator<T>[]
 }>

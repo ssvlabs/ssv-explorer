@@ -10,28 +10,30 @@ export type SolidityCluster = {
 }
 
 export type Cluster<T extends (Operator | number)[] = Operator[]> = {
-  id: number
-  clusterId: string
+  id: string
   network: string
   version: string
-  ownerAddress: string
-  validatorCount: number
+  validatorCount: string
   networkFeeIndex: string
+  ownerAddress: string
   index: string
+  isLiquidated: boolean
+  clusterId: string
+  blockNumber: string
   balance: string
   active: boolean
-  isLiquidated: boolean
-  blockNumber: number
-  createdAt: string
-  updatedAt: string
+  updatedAt: Date
+  createdAt: Date
   operators: T
 }
 
 export type PaginatedClustersResponse<
   T extends (Operator | number)[] = number[],
 > = WithPagination<{
-  data: Cluster<T>[]
+  clusters: Cluster<T>[]
 }>
 
-export type GetClusterResponse<T extends (Operator | number)[] = number[]> =
-  Cluster<T>
+export type GetClusterResponse<T extends (Operator | number)[] = number[]> = {
+  type: string
+  cluster: Cluster<T>
+}

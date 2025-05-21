@@ -43,7 +43,7 @@ export function OwnerAddressFilter() {
     },
     select: (data) => [
       ...new Set(
-        data.data.map((validator) => validator.ownerAddress as Address)
+        data.validators.map((validator) => validator.owner_address as Address)
       ),
     ],
     enabled: open && isSearchValidAddress,

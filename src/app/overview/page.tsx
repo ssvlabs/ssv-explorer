@@ -19,7 +19,7 @@ interface IndexPageProps {
   searchParams: Promise<SearchParams>
 }
 
-export default async function IndexPage(props: IndexPageProps) {
+export default async function Page(props: IndexPageProps) {
   const searchParams = await overviewParserCache.parse(props.searchParams)
   const ssvNetworkDetails = await getSSVRates()
 

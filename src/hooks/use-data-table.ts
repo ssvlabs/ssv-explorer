@@ -31,6 +31,7 @@ import {
 } from "nuqs"
 import { useLocalStorage } from "react-use"
 
+import { type InfinitePagination } from "@/types/api"
 import { getSortingStateParser } from "@/lib/utils/parsers"
 import { useDebouncedCallback } from "@/hooks/use-debounced-callback"
 
@@ -39,6 +40,7 @@ interface UseDataTableProps<TData>
       TableOptions<TData> & {
         meta: {
           total: number
+          pagination?: InfinitePagination
           defaultColumns?: Record<string, boolean>
         }
       },
@@ -144,7 +146,7 @@ interface UseDataTableProps<TData>
   name: string
 }
 
-export function useDataTable<TData, TColumns>({
+export function useDataTable<TData>({
   name,
   pageCount = -1,
   filterFields = [],

@@ -25,12 +25,12 @@ export function ValidatorsGroup({ query, onSelect }: ValidatorsGroupProps) {
       {query.data?.map((validator) => (
         <CommandItem
           className="px-5 py-3"
-          key={validator.publicKey}
+          key={validator.public_key}
           onSelect={() => {
             onSelect("validator", validator)
           }}
         >
-          {shortenAddress(validator.publicKey)}
+          {shortenAddress(validator.public_key)}
         </CommandItem>
       ))}
       {query.hasNextPage && (

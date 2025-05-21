@@ -40,17 +40,23 @@ export const formatBigintInput = (num: bigint, decimals = 18) =>
   bigintFormatter.format(+formatUnits(num, decimals))
 
 const units = {
-  seconds: 1000,
-  minutes: 60000,
-  hours: 3600000,
-  days: 86400000,
-  weeks: 604800000,
-  months: 2629746000,
-  years: 31556952000,
+  s: 1000,
+  m: 60000,
+  h: 3600000,
+  d: 86400000,
+  w: 604800000,
+  mon: 2629746000,
+  y: 31556952000,
 } as const
 
-export const ms = (value: number, unit: keyof typeof units): number => {
-  return value * units[unit]
+type Unit = keyof typeof units
+
+const regex = /^([\d.]+)(\w+)$/
+export const ms = (value: `${number}${Unit}`): number => {
+  const match = value.match(regex)
+  if (!match) return 0
+  const [, num, unit] = match
+  return Number(num) * units[unit as keyof typeof units]
 }
 
 export const sortNumbers = <T extends bigint | number>(numbers: T[]): T[] => {

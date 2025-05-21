@@ -3,7 +3,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Shell } from "@/components/shell"
 
-export default async function IndexPage() {
+export default async function Page() {
   return (
     <Shell className="gap-2">
       <div>

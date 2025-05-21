@@ -11,6 +11,7 @@ import { shortenAddress } from "@/lib/utils/strings"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { CopyBtn } from "@/components/ui/copy-btn"
+import { ErrorCard } from "@/components/ui/error-card"
 import { Outline } from "@/components/ui/outline"
 import { Stat } from "@/components/ui/stat"
 import { Text } from "@/components/ui/text"
@@ -25,7 +26,7 @@ interface IndexPageProps {
   searchParams: Promise<{ network: string }>
 }
 
-export default async function IndexPage(props: IndexPageProps) {
+export default async function Page(props: IndexPageProps) {
   const { id } = await props.params
   const networkSearch = networkParserCache.parse(await props.searchParams)
   const validatorsSearch = validatorsSearchParamsCache.parse(
@@ -56,7 +57,7 @@ export default async function IndexPage(props: IndexPageProps) {
                     <div className="flex items-center gap-2">
                       <Text variant="headline4">{operator.name}</Text>
                       <div className="flex items-center gap-[6px]">
-                        {operator.isPrivate && (
+                        {operator.is_private && (
                           <MdOutlineLock className="size-[18px] min-w-[18px]" />
                         )}
                         {operator.type === "verified_operator" && (
@@ -90,12 +91,12 @@ export default async function IndexPage(props: IndexPageProps) {
                         <Button
                           as={Link}
                           className="font-mono text-sm font-medium"
-                          href={`/account/${operator.ownerAddress}`}
+                          href={`/account/${operator.owner_address}`}
                           variant="link"
                         >
-                          {shortenAddress(operator.ownerAddress)}
+                          {shortenAddress(operator.owner_address)}
                         </Button>
-                        <CopyBtn text={operator.ownerAddress} />
+                        <CopyBtn text={operator.owner_address} />
                       </Outline>
                       <Outline>
                         <Text
@@ -108,9 +109,9 @@ export default async function IndexPage(props: IndexPageProps) {
                           variant="body-3-medium"
                           className="max-w-28 overflow-hidden text-ellipsis font-mono"
                         >
-                          {operator.publicKey}
+                          {operator.public_key}
                         </Text>
-                        <CopyBtn text={operator.publicKey} />
+                        <CopyBtn text={operator.public_key} />
                       </Outline>
                     </div>
                   </div>
@@ -157,7 +158,7 @@ export default async function IndexPage(props: IndexPageProps) {
                     className="flex-1"
                     title="Validators"
                     tooltip="Whatsup?"
-                    content={<Text>{operator.validatorsCount}</Text>}
+                    content={<Text>{operator.validators_count}</Text>}
                   />
                 </div>
               </Card>
@@ -185,7 +186,13 @@ export default async function IndexPage(props: IndexPageProps) {
             </div>
           )
         } catch (error) {
-          return <div>{(error as Error).message}</div>
+          return (
+            <ErrorCard
+              className="bg-transparent"
+              errorMessage={(error as Error).message}
+              title="Operator not found"
+            />
+          )
         }
       })()}
     </Shell>

@@ -4,11 +4,9 @@ import Link from "next/link"
 import { type ColumnDef } from "@tanstack/react-table"
 
 import { type Operator, type SearchValidator } from "@/types/api"
-import { formatFullDate, getRelativeTime } from "@/lib/utils/date"
 import { add0x, remove0x, shortenAddress } from "@/lib/utils/strings"
 import { CopyBtn } from "@/components/ui/copy-btn"
 import { Text } from "@/components/ui/text"
-import { Tooltip } from "@/components/ui/tooltip"
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header"
 import { OperatorAvatar } from "@/components/operators/operator-avatar"
 import { ValidatorStatusBadge } from "@/components/validators/validator-status-badge"
@@ -24,11 +22,11 @@ export const validatorsTableColumns: ColumnDef<SearchValidator<Operator>>[] = [
         <Text
           className="font-mono text-primary-500"
           as={Link}
-          href={`/validator/${row.original.publicKey}`}
+          href={`/validator/${row.original.public_key}`}
         >
-          <div>{shortenAddress(add0x(row.original.publicKey))}</div>
+          <div>{shortenAddress(add0x(row.original.public_key))}</div>
         </Text>
-        <CopyBtn className="text-gray-500" text={row.original.publicKey} />
+        <CopyBtn className="text-gray-500" text={row.original.public_key} />
       </div>
     ),
     enableSorting: false,
@@ -62,11 +60,11 @@ export const validatorsTableColumns: ColumnDef<SearchValidator<Operator>>[] = [
         <Text
           className="font-mono text-primary-500"
           as={Link}
-          href={`/account/${row.original.ownerAddress}`}
+          href={`/account/${row.original.owner_address}`}
         >
-          <div>{shortenAddress(row.original.ownerAddress)}</div>
+          <div>{shortenAddress(row.original.owner_address)}</div>
         </Text>
-        <CopyBtn className="text-gray-500" text={row.original.ownerAddress} />
+        <CopyBtn className="text-gray-500" text={row.original.owner_address} />
       </div>
     ),
     enableSorting: false,
@@ -82,7 +80,7 @@ export const validatorsTableColumns: ColumnDef<SearchValidator<Operator>>[] = [
           <Link href={`/operator/${operator.id}`} key={operator.id}>
             <OperatorAvatar
               src={operator.logo}
-              isPrivate={operator.isPrivate}
+              isPrivate={operator.is_private}
             />
           </Link>
         ))}
@@ -100,21 +98,23 @@ export const validatorsTableColumns: ColumnDef<SearchValidator<Operator>>[] = [
     ),
     enableSorting: false,
   },
-  {
-    accessorKey: "createdAt",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Created At" />
-    ),
-    cell: ({ row }) => {
-      const date = new Date(row.original.createdAt)
-      return (
-        <Tooltip asChild content={formatFullDate(date)}>
-          <Text className="w-fit text-gray-600">{getRelativeTime(date)}</Text>
-        </Tooltip>
-      )
-    },
-    enableSorting: true,
-  },
+  // {
+  //   accessorKey: "created_at",
+  //   header: ({ column }) => (
+  //     <DataTableColumnHeader column={column} title="Created At" />
+  //   ),
+  //   cell: ({ row }) => {
+  //     console.log("row.original.created_at:", row.original.created_at)
+  //     const date = new Date(row.original.created_at)
+  //     if (!date) return null
+  //     return (
+  //       <Tooltip asChild content={formatFullDate(date)}>
+  //         <Text className="w-fit text-gray-600">{getRelativeTime(date)}</Text>
+  //       </Tooltip>
+  //     )
+  //   },
+  //   enableSorting: true,
+  // },
 ]
 
 export const validatorsTablePreviewColumns = validatorsTableColumns.filter(

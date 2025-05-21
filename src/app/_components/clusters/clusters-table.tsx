@@ -26,7 +26,7 @@ interface ClustersTableProps {
 
 export const ClustersTable = withErrorBoundary(
   ({ dataPromise: data }: ClustersTableProps) => {
-    const { data: clusters, pagination } = use(data)
+    const { clusters, pagination } = use(data)
 
     const { table } = useDataTable({
       name: "clusters",
@@ -69,7 +69,7 @@ export const ClustersTable = withErrorBoundary(
         <ErrorCard
           className="bg-transparent"
           errorMessage={(error as Error).message}
-          title="Error Loading Clusters"
+          title="Couldn't load  Clusters"
         />
       )
     },

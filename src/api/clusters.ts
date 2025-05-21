@@ -4,7 +4,11 @@ import { endpoint } from "@/api"
 import { api } from "@/api/api-client"
 import { omitBy } from "lodash-es"
 
-import type { Operator, PaginatedClustersResponse } from "@/types/api"
+import type {
+  GetClusterResponse,
+  Operator,
+  PaginatedClustersResponse,
+} from "@/types/api"
 import { type ClustersSearchSchema } from "@/lib/search-parsers/clusters-search-parsers"
 import { stringifyBigints } from "@/lib/utils/bigint"
 import { serializeSortingState } from "@/lib/utils/parsers"
@@ -32,7 +36,7 @@ export const searchClusters = async <
       )
 
       return await api.get<PaginatedClustersResponse<T>>(
-        endpoint(params.network, "clusters/explorer", `?${searchParams}`)
+        endpoint(params.network, "clusters", `?${searchParams}`)
       )
     },
     [JSON.stringify(stringifyBigints(params))],
@@ -47,20 +51,17 @@ export const getCluster = async (
 ) =>
   await unstable_cache(
     async () => {
-      const response = await searchClusters<Operator[]>({
-        network: params.network,
-        clusterId: [params.id],
-        perPage: 1,
-        fullOperatorData: true,
-      })
-      if (!response.data[0]) {
+      const response = await api.get<GetClusterResponse<Operator[]>>(
+        endpoint(params.network, "clusters", params.id, "?operatorDetails=true")
+      )
+      if (!response.cluster) {
         throw new Error("Cluster not found")
       }
-      return response.data[0]
+      return response.cluster
     },
     [JSON.stringify(stringifyBigints(params))],
     {
       revalidate: 30,
-      tags: ["clusters"],
+      tags: ["cluster"],
     }
   )()

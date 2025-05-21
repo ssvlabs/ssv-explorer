@@ -3,6 +3,7 @@ import {
   createSearchParamsCache,
   parseAsArrayOf,
   parseAsString,
+  parseAsStringEnum,
   type Options,
 } from "nuqs/server"
 import { isAddress } from "viem"
@@ -34,12 +35,17 @@ export const validatorsSearchFilters = {
 
 export const defaultValidatorSort: ExtendedSortingState<
   SearchValidator<Operator>
-> = [{ id: "createdAt", desc: true }]
+> = [{ id: "created_at", desc: true }]
 
 export const validatorSearchSort = {
   ordering: getSortingStateParser<SearchValidator<Operator>>()
     .withOptions(searchOptions)
     .withDefault(defaultValidatorSort),
+}
+
+export const elasticSearchParsers = {
+  lastId: parseAsString,
+  pageDirection: parseAsStringEnum<"next" | "prev">(["next", "prev"]),
 }
 
 export const validatorsSearchParamsCache = createSearchParamsCache({
@@ -48,6 +54,7 @@ export const validatorsSearchParamsCache = createSearchParamsCache({
   ...validatorsSearchFilters,
   ...enhancementParsers,
   ...validatorSearchSort,
+  ...elasticSearchParsers,
 })
 
 export type ValidatorsSearchSchema = Awaited<

@@ -104,7 +104,7 @@ export function IdFilter() {
             ) : (
               <CommandEmpty>This list is empty.</CommandEmpty>
             )}
-            {query.data?.data.map((operator) => (
+            {query.data?.operators.map((operator) => (
               <CommandItem
                 key={operator.id}
                 value={operator.id.toString()}

@@ -20,7 +20,7 @@ export const useValidatorsInfiniteQuery = (
         search: params.search,
         fullOperatorData: false,
       }) as unknown as Promise<PaginatedValidatorsResponse<string>>,
-    select: (data) => data.pages.flatMap((page) => page.data),
+    select: (data) => data.pages.flatMap((page) => page.validators),
     initialPageParam: 1,
     getNextPageParam: (lastPage) => {
       const { page, pages } = lastPage.pagination

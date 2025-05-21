@@ -69,64 +69,6 @@ export const MEV_RELAYS_LOGOS = {
   [MEV_RELAYS_MAP.MANIFOLD]: "manifold",
   [MEV_RELAYS_MAP.ULTRA_SOUND]: "ultraSound",
 }
-
-export const getMevRelaysOptions = (mevRelays: string[]) => {
-  return mevRelays.includes(MEV_RELAYS_MAP.EDEN)
-    ? Object.values(MEV_RELAYS_MAP).map((value) => ({
-        value: value,
-        label: value,
-      }))
-    : Object.values(MEV_RELAYS_MAP)
-        .filter((mevRelay: string) => mevRelay !== MEV_RELAYS_MAP.EDEN)
-        .map((value) => ({ value: value, label: value }))
-}
-
-export type OperatorMetadataKeys = Extract<
-  keyof Operator,
-  | "name"
-  | "logo"
-  | "description"
-  | "setupProvider"
-  | "mevRelays"
-  | "location"
-  | "eth1NodeClient"
-  | "eth2NodeClient"
-  | "websiteUrl"
-  | "twitterUrl"
-  | "linkedinUrl"
-  | "dkgAddress"
->
-
-export enum OperatorMetadataFields {
-  OperatorName = "name",
-  OperatorImage = "logo",
-  Description = "description",
-  SetupProvider = "setupProvider",
-  MevRelays = "mevRelays",
-  Location = "location",
-  ExecutionClient = "eth1NodeClient",
-  ConsensusClient = "eth2NodeClient",
-  WebsiteUrl = "websiteUrl",
-  TwitterUrl = "twitterUrl",
-  LinkedinUrl = "linkedinUrl",
-  DkgAddress = "dkgAddress",
-}
-
-export const SORTED_OPERATOR_METADATA_FIELDS: OperatorMetadataKeys[] = [
-  OperatorMetadataFields.OperatorName,
-  OperatorMetadataFields.Description,
-  OperatorMetadataFields.Location,
-  OperatorMetadataFields.SetupProvider,
-  OperatorMetadataFields.ExecutionClient,
-  OperatorMetadataFields.ConsensusClient,
-  OperatorMetadataFields.MevRelays,
-  OperatorMetadataFields.WebsiteUrl,
-  OperatorMetadataFields.TwitterUrl,
-  OperatorMetadataFields.LinkedinUrl,
-  OperatorMetadataFields.DkgAddress,
-  OperatorMetadataFields.OperatorImage,
-] as const
-
 export const sortOperators = <T extends { id: number }[]>(operators: T) => {
   return [...operators].sort((a, b) => a.id - b.id)
 }
@@ -140,42 +82,54 @@ export const getOperatorIds = <T extends { id: number }[]>(operators: T) => {
 
 export const createDefaultOperator = (
   operator: Partial<Operator> & { id: number }
-): Operator => ({
-  idStr: operator.id.toString(),
-  declaredFee: "0",
-  previousFee: "0",
-  fee: "0",
-  publicKey: "",
-  ownerAddress: "",
-  addressWhitelist: "",
-  isPrivate: false,
-  whitelistingContract: "",
-  location: "",
-  setupProvider: "",
-  eth1NodeClient: "",
-  eth2NodeClient: "",
-  mevRelays: "",
-  description: "",
-  websiteUrl: "",
-  twitterUrl: "",
-  linkedinUrl: "",
-  dkgAddress: "",
-  logo: "",
-  type: "operator",
-  name: `Operator ${operator.id}`,
-  performance: {
-    "24h": 0,
-    "30d": 0,
-  },
-  isValid: true,
-  isDeleted: false,
-  isActive: 0,
-  status: "No validators",
-  validatorsCount: 0,
-  version: "v4",
-  network: "holesky",
-  ...operator,
-})
+): Operator =>
+  ({
+    id_str: operator.id.toString(),
+    declared_fee: "0",
+    previous_fee: "0",
+    block: 0,
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+    whitelist_addresses: [],
+    fee: "0",
+    public_key: "",
+    owner_address: "",
+    address_whitelist: "",
+    is_private: false,
+    whitelisting_contract: "",
+    location: "",
+    setup_provider: "",
+    eth1_node_client: "",
+    eth2_node_client: "",
+    mev_relays: "",
+    description: "",
+    website_url: "",
+    twitter_url: "",
+    linkedin_url: "",
+    dkg_address: "",
+    logo: "",
+    type: "operator",
+    name: `Operator ${operator.id}`,
+    performance: {
+      "24h": 0,
+      "30d": 0,
+    },
+    is_valid: true,
+    is_deleted: false,
+    is_active: 0,
+    status: "No validators",
+    validators_count: 0,
+    version: "v4",
+    network: "holesky",
+    ...operator,
+  }) satisfies Operator
 
 export const sumOperatorsFees = (operators: Operator[]) =>
   operators.reduce((acc, operator) => acc + BigInt(operator.fee), 0n)
+
+export const addFallbackOperatorName = (operator: Operator) => {
+  return {
+    ...operator,
+    name: operator.name || `Operator ${operator.id}`,
+  }
+}

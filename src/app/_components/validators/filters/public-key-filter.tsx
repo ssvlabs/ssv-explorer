@@ -94,21 +94,21 @@ export function PublicKeyFilter() {
           ) : (
             <CommandEmpty>This list is empty.</CommandEmpty>
           )}
-          {query.data?.data?.map((validator) => (
+          {query.data?.validators?.map((validator) => (
             <CommandItem
-              key={validator.publicKey}
-              value={validator.publicKey}
+              key={validator.public_key}
+              value={validator.public_key}
               className="flex h-10 items-center space-x-2 px-2"
               onSelect={() => {
                 setFilters((prev) => ({
                   ...prev,
-                  publicKey: xor(prev.publicKey, [validator.publicKey]),
+                  publicKey: xor(prev.publicKey, [validator.public_key]),
                 }))
               }}
             >
               <Checkbox
-                id={validator.publicKey}
-                checked={filters.publicKey?.includes(validator.publicKey)}
+                id={validator.public_key}
+                checked={filters.publicKey?.includes(validator.public_key)}
                 className="mr-2"
               />
               <span
@@ -116,7 +116,7 @@ export function PublicKeyFilter() {
                   "flex-1 text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                 )}
               >
-                {shortenAddress(validator.publicKey)}
+                {shortenAddress(validator.public_key)}
               </span>
             </CommandItem>
           ))}

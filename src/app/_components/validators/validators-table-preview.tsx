@@ -23,10 +23,11 @@ interface ValidatorsTableProps {
 export const ValidatorsTablePreview = withErrorBoundary(
   ({ dataPromise: data }: ValidatorsTableProps) => {
     const response = use(data)
+    console.log("response:", response)
 
     const { table } = useDataTable({
       name: "validators-table-preview",
-      data: response.data,
+      data: response.validators,
       columns: validatorsTablePreviewColumns,
       pageCount: response.pagination.pages,
       getRowId: (originalRow, index) => `${originalRow.id}-${index}`,
@@ -67,7 +68,7 @@ export const ValidatorsTablePreview = withErrorBoundary(
         <ErrorCard
           className="flex-1"
           errorMessage={(error as Error).message}
-          title="Error Loading Validators"
+          title="Couldn't load  Validators"
         />
       )
     },

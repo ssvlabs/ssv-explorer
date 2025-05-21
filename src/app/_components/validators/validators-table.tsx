@@ -10,9 +10,9 @@ import { useValidatorsSearchParams } from "@/hooks/search/use-validators-search-
 import { useDataTable } from "@/hooks/use-data-table"
 import { ErrorCard } from "@/components/ui/error-card"
 import { Text } from "@/components/ui/text"
-import { DataTable } from "@/components/data-table/data-table"
 import { DataTableMenuButton } from "@/components/data-table/data-table-filters-button"
 import { DataTableViewOptions } from "@/components/data-table/data-table-view-options"
+import { DataTable } from "@/components/data-table/elastic-10k-table/data-table"
 import { ValidatorTableFilters } from "@/app/_components/validators/filters/validator-table-filters"
 
 import { validatorsTableColumns } from "./validators-table-columns"
@@ -27,7 +27,7 @@ export const ValidatorsTable = withErrorBoundary(
 
     const { table } = useDataTable({
       name: "validators-table",
-      data: response.data,
+      data: response.validators,
       columns: validatorsTableColumns,
       pageCount: response.pagination.pages,
       getRowId: (originalRow, index) => `${originalRow.id}-${index}`,
@@ -38,10 +38,11 @@ export const ValidatorsTable = withErrorBoundary(
       },
       meta: {
         total: response.pagination.total,
+        pagination: response.pagination,
       },
     })
 
-    const { enabledFilters, clearFilters } = useValidatorsSearchParams()
+    const { enabledFilters } = useValidatorsSearchParams()
 
     return (
       <>
@@ -64,7 +65,7 @@ export const ValidatorsTable = withErrorBoundary(
         <ErrorCard
           className="bg-transparent"
           errorMessage={(error as Error).message}
-          title="Error Loading Validators"
+          title="Couldn't load  Validators"
         />
       )
     },

@@ -12,7 +12,7 @@ interface IndexPageProps {
   searchParams: Promise<SearchParams>
 }
 
-export default async function IndexPage(props: IndexPageProps) {
+export default async function Page(props: IndexPageProps) {
   const search = accountsSearchParamsCache.parse(await props.searchParams)
   const accounts = getAccounts(search)
 

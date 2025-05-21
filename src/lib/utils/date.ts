@@ -26,9 +26,9 @@ export const humanizeDuration = (duration: number) =>
     }),
     {
       format:
-        duration > ms(1, "days")
+        duration > ms("1d")
           ? daysFormat
-          : duration > ms(1, "hours")
+          : duration > ms("1h")
             ? hoursFormat
             : minutesFormat,
     }

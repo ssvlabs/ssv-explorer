@@ -21,7 +21,7 @@ export const operatorsTableColumns = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Id" />
     ),
-    cell: ({ row }) => <div className="w-4">{row.getValue("id")}</div>,
+    cell: ({ row }) => <div className="w-4">{row.original.id}</div>,
     // enableSorting: false,
   },
   {
@@ -40,7 +40,7 @@ export const operatorsTableColumns = [
       <DataTableColumnHeader column={column} title="Owner Address" />
     ),
     cell: ({ row }) => {
-      const ownerAddress = row.original.ownerAddress
+      const ownerAddress = row.original.owner_address
       return (
         <div className="flex gap-1">
           <Button asChild variant="link">
@@ -60,7 +60,7 @@ export const operatorsTableColumns = [
       <DataTableColumnHeader column={column} title="Location" />
     ),
     cell: ({ row }) => (
-      <div className="line-clamp-1">{row.getValue("location")}</div>
+      <div className="line-clamp-1">{row.original.location}</div>
     ),
     enableSorting: false,
   },
@@ -69,7 +69,7 @@ export const operatorsTableColumns = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Eth1 Node Client" />
     ),
-    cell: ({ row }) => <div>{row.getValue("eth1NodeClient")}</div>,
+    cell: ({ row }) => <div>{row.original.eth1_node_client}</div>,
     enableSorting: false,
   },
   {
@@ -77,7 +77,7 @@ export const operatorsTableColumns = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Eth2 Node Client" />
     ),
-    cell: ({ row }) => <div>{row.getValue("eth2NodeClient")}</div>,
+    cell: ({ row }) => <div>{row.original.eth2_node_client}</div>,
     enableSorting: false,
   },
   {
@@ -86,7 +86,7 @@ export const operatorsTableColumns = [
       <DataTableColumnHeader column={column} title="Fee" />
     ),
     cell: ({ row }) => (
-      <div>{getYearlyFee(BigInt(row.getValue("fee")), { format: true })}</div>
+      <div>{getYearlyFee(BigInt(row.original.fee), { format: true })}</div>
     ),
   },
   {
@@ -94,7 +94,7 @@ export const operatorsTableColumns = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Validators Count" />
     ),
-    cell: ({ row }) => <div>{row.getValue("validatorsCount")}</div>,
+    cell: ({ row }) => <div>{row.original.validators_count}</div>,
   },
   {
     accessorKey: "performance24h",
@@ -142,7 +142,7 @@ export const operatorsTableColumns = [
       <DataTableColumnHeader column={column} title="MEV Relays" />
     ),
     cell: ({ row }) => {
-      return <MevRelaysDisplay mevRelays={row.original.mevRelays} />
+      return <MevRelaysDisplay mevRelays={row.original.mev_relays} />
     },
     enableSorting: false,
   },

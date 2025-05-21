@@ -3,16 +3,63 @@ name: Build & deploy
 on:
   push:
     branches:
-      - '**'
+      - "**"
   pull_request:
     branches:
-      - '**'
+      - "**"
 
   workflow_dispatch:
 
 jobs:
   lint:
     runs-on: ubuntu-latest
+
+    env:
+      STAGE_SSV_NETWORKS: >
+        [
+          {
+            \"networkId\": 560048,
+            \"apiVersion\": \"v4\",
+            \"apiNetwork\": \"hoodi\",  
+            \"api\": \"https://api.stage.ops.ssvlabsinternal.com/api\",
+            \"explorerUrl\": \"https://hoodi-explorer.stage.ssv.network\",
+            \"insufficientBalanceUrl\": \"https://faucet.stage.ssv.network\",
+            \"googleTagSecret\": \"${{ secrets.STAGE_GOOGLE_TAG_SECRET }}\",
+            \"tokenAddress\": \"0x746c33ccc28b1363c35c09badaf41b2ffa7e6d56\",
+            \"bAppContractAddress\": \"0x40d959B95e7c56962D6d388d87921c03734b9C2C\",
+            \"setterContractAddress\": \"${{ secrets.STAGE_HOODI_NETWORK_SETTER_CONTRACT_ADDRESS_V4 }}\",
+            \"getterContractAddress\": \"${{ secrets.STAGE_HOODI_NETWORK_GETTER_CONTRACT_ADDRESS_V4 }}\"
+           }
+        ]
+      PROD_SSV_NETWORKS: >
+        [
+          {
+            \"networkId\": 1,
+            \"apiVersion\": \"v4\",
+            \"apiNetwork\": \"mainnet\",
+            \"api\": \"https://api.ssv.network/api\",
+            \"explorerUrl\": \"https://explorer.ssv.network\",
+            \"insufficientBalanceUrl\": \"https://coinmarketcap.com/currencies/ssv-network/#Markets\",
+            \"googleTagSecret\": \"${{ secrets.PROD_GOOGLE_TAG_SECRET }}\",
+            \"distributionContract\": \"${{ secrets.PROD_DISTRIBUTION_CONTRACT_ADDRESS_MAINNET }}\",
+            \"tokenAddress\": \"0x9D65fF81a3c488d585bBfb0Bfe3c7707c7917f54\",
+            \"setterContractAddress\": \"${{ secrets.PROD_NETWORK_SETTER_CONTRACT_ADDRESS_V4_MAINNET }}\",
+            \"getterContractAddress\": \"${{ secrets.PROD_NETWORK_GETTER_CONTRACT_ADDRESS_V4_MAINNET }}\"
+          },
+          {
+            \"networkId\": 560048,
+            \"apiVersion\": \"v4\",
+            \"apiNetwork\": \"hoodi\",  
+            \"api\": \"https://api.ssv.network/api\",
+            \"explorerUrl\": \"https://hoodi.explorer.ssv.network\",
+            \"insufficientBalanceUrl\": \"https://faucet.ssv.network\",
+            \"googleTagSecret\": \"${{ secrets.STAGE_GOOGLE_TAG_SECRET }}\",
+            \"tokenAddress\": \"0x9F5d4Ec84fC4785788aB44F9de973cF34F7A038e\",
+            \"bAppContractAddress\": \"0xc7fCFeEc5FB9962bDC2234A7a25dCec739e27f9f\",
+            \"setterContractAddress\": \"${{ secrets.PROD_HOODI_NETWORK_SETTER_CONTRACT_ADDRESS_V4 }}\",
+            \"getterContractAddress\": \"${{ secrets.PROD_HOODI_NETWORK_GETTER_CONTRACT_ADDRESS_V4 }}\"
+           }
+        ]
 
     steps:
       - uses: actions/checkout@v4
@@ -44,12 +91,15 @@ jobs:
       - name: Run stage build
         if: github.ref == 'refs/heads/stage'
         env:
-          NODE_OPTIONS: '--openssl-legacy-provider'
+          NODE_OPTIONS: "--openssl-legacy-provider"
           API_BASE_URL: ${{ secrets.STAGE_API_BASE_URL }}
           LINK_SSV_WEBAPP: ${{ secrets.STAGE_LINK_SSV_WEBAPP }}
           ANNOUNCEMENT: ${{ secrets.STAGE_ANNOUNCEMENT }}
           GOOGLE_TAG_SECRET: ${{ secrets.STAGE_GOOGLE_TAG_SECRET }}
           MIXPANEL_TOKEN: ${{ secrets.MIXPANEL_TOKEN_STAGE }}
+          SSV_NETWORKS: "${{ env.STAGE_SSV_NETWORKS }}"
+          NEXT_PUBLIC_SSV_NETWORKS: "${{ env.STAGE_SSV_NETWORKS }}"
+
         run: pnpm build
 
       - name: Deploy staging
@@ -58,20 +108,20 @@ jobs:
         with:
           args: --acl public-read --follow-symlinks --delete
         env:
-          NODE_OPTIONS: '--openssl-legacy-provider'
+          NODE_OPTIONS: "--openssl-legacy-provider"
           AWS_S3_BUCKET: ${{ secrets.STAGE_AWS_S3_BUCKET }}
           AWS_ACCESS_KEY_ID: ${{ secrets.STAGE_AWS_SECRET_KEY_ID }}
           ANNOUNCEMENT: ${{ secrets.STAGE_ANNOUNCEMENT }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.STAGE_AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: 'us-west-2'
-          SOURCE_DIR: 'build/'
+          AWS_REGION: "us-west-2"
+          SOURCE_DIR: "build/"
       # </explorer.stage.ssv.network>
 
       # <explorer.ssv.network>
       - name: Run prod build
         if: github.ref == 'refs/heads/main'
         env:
-          NODE_OPTIONS: '--openssl-legacy-provider'
+          NODE_OPTIONS: "--openssl-legacy-provider"
           API_BASE_URL: ${{ secrets.PROD_API_BASE_URL_V4 }}
           ANNOUNCEMENT: ${{ secrets.PROD_ANNOUNCEMENT_V4 }}
           LINK_SSV_WEBAPP: ${{ secrets.PROD_LINK_SSV_WEBAPP_V4 }}
@@ -85,47 +135,20 @@ jobs:
         with:
           args: --acl public-read --follow-symlinks --delete
         env:
-          NODE_OPTIONS: '--openssl-legacy-provider'
+          NODE_OPTIONS: "--openssl-legacy-provider"
           AWS_S3_BUCKET: ${{ secrets.PROD_AWS_S3_BUCKET_V4 }}
           ANNOUNCEMENT: ${{ secrets.PROD_ANNOUNCEMENT_V4 }}
           AWS_ACCESS_KEY_ID: ${{ secrets.PROD_AWS_SECRET_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.PROD_AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: 'us-west-2'
-          SOURCE_DIR: 'build/'
+          AWS_REGION: "us-west-2"
+          SOURCE_DIR: "build/"
       # </explorer.ssv.network>
-
-      # <holesky.explorer.ssv.network>
-      # - name: Run prod testnet build
-      #   if: github.ref == 'refs/heads/main'
-      #   env:
-      #     NODE_OPTIONS: '--openssl-legacy-provider'
-      #     API_BASE_URL: ${{ secrets.PROD_API_BASE_URL_V4_HOLESKY }}
-      #     ANNOUNCEMENT: ${{ secrets.PROD_ANNOUNCEMENT_V4_HOLESKY }}
-      #     LINK_SSV_WEBAPP: ${{ secrets.PROD_LINK_SSV_WEBAPP_V4 }}
-      #     GOOGLE_TAG_SECRET: ${{ secrets.PROD_GOOGLE_TAG_SECRET_V4_TESTNET }}
-      #     MIXPANEL_TOKEN: ${{ secrets.MIXPANEL_TOKEN_PROD }}
-      #   run: pnpm build
-
-      # - name: Deploy prod testnet
-      #   if: github.ref == 'refs/heads/main'
-      #   uses: jakejarvis/s3-sync-action@v0.5.0
-      #   with:
-      #     args: --acl public-read --follow-symlinks --delete
-      #   env:
-      #     NODE_OPTIONS: '--openssl-legacy-provider'
-      #     AWS_S3_BUCKET: ${{ secrets.PROD_AWS_S3_BUCKET_V4_HOLESKY }}
-      #     ANNOUNCEMENT: ${{ secrets.PROD_ANNOUNCEMENT_V4_HOLESKY }}
-      #     AWS_ACCESS_KEY_ID: ${{ secrets.PROD_AWS_SECRET_KEY_ID }}
-      #     AWS_SECRET_ACCESS_KEY: ${{ secrets.PROD_AWS_SECRET_ACCESS_KEY }}
-      #     AWS_REGION: 'us-west-2'
-      #     SOURCE_DIR: 'build/'
-      # </holesky.explorer.ssv.network>
 
       # <hoodi.explorer.ssv.network>
       - name: Run prod testnet build
         if: github.ref == 'refs/heads/main'
         env:
-          NODE_OPTIONS: '--openssl-legacy-provider'
+          NODE_OPTIONS: "--openssl-legacy-provider"
           API_BASE_URL: ${{ secrets.PROD_API_BASE_URL_V4_HOODI }}
           ANNOUNCEMENT: ${{ secrets.PROD_ANNOUNCEMENT_V4_HOODI }}
           LINK_SSV_WEBAPP: ${{ secrets.PROD_LINK_SSV_WEBAPP_V4 }}
@@ -139,11 +162,11 @@ jobs:
         with:
           args: --acl public-read --follow-symlinks --delete
         env:
-          NODE_OPTIONS: '--openssl-legacy-provider'
+          NODE_OPTIONS: "--openssl-legacy-provider"
           AWS_S3_BUCKET: ${{ secrets.PROD_AWS_S3_BUCKET_V4_HOODI }}
           ANNOUNCEMENT: ${{ secrets.PROD_ANNOUNCEMENT_V4_HOODI }}
           AWS_ACCESS_KEY_ID: ${{ secrets.PROD_AWS_SECRET_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.PROD_AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: 'us-west-2'
-          SOURCE_DIR: 'build/'
+          AWS_REGION: "us-west-2"
+          SOURCE_DIR: "build/"
       # </hoodi.explorer.ssv.network>

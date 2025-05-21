@@ -59,6 +59,6 @@ export const filterOutRemovedValidators = (
     (validator) =>
       !removedOptimisticValidatorsPKs.some(
         (pk) =>
-          add0x(pk).toLowerCase() === add0x(validator.publicKey).toLowerCase()
+          add0x(pk).toLowerCase() === add0x(validator.public_key).toLowerCase()
       )
   )

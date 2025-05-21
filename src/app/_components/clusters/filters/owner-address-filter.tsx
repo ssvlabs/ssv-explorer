@@ -39,7 +39,7 @@ export function OwnerAddressFilter() {
     },
     select: (data) => [
       ...new Set(
-        data.data
+        data.clusters
           .map((cluster) => cluster.ownerAddress)
           .filter((address): address is Address => Boolean(address))
       ),

@@ -20,7 +20,7 @@ interface OperatorsTableProps {
 
 export const OperatorsTablePreview = withErrorBoundary(
   ({ dataPromise: data }: OperatorsTableProps) => {
-    const { data: operators, pagination } = use(data)
+    const { operators: operators, pagination } = use(data)
 
     const { table } = useDataTable({
       name: "operators-table-preview",
@@ -80,7 +80,7 @@ export const OperatorsTablePreview = withErrorBoundary(
         <ErrorCard
           className="flex-1"
           errorMessage={(error as Error).message}
-          title="Error Loading Operators"
+          title="Couldn't load  Operators"
         />
       )
     },

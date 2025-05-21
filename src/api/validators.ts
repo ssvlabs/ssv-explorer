@@ -4,7 +4,7 @@ import { endpoint } from "@/api"
 import { api } from "@/api/api-client"
 import { merge, omitBy } from "lodash-es"
 
-import type { PaginatedValidatorsResponse } from "@/types/api"
+import { type PaginatedValidatorsResponse, type Validator } from "@/types/api"
 import { type ValidatorsSearchSchema } from "@/lib/search-parsers/validators-search-parsers"
 import { stringifyBigints } from "@/lib/utils/bigint"
 import { serializeSortingState } from "@/lib/utils/parsers"
@@ -29,11 +29,7 @@ export const searchValidators = async (
       const searchParams = new URLSearchParams(
         filtered as unknown as Record<string, string>
       )
-      const url = endpoint(
-        params.network,
-        "validators/explorer",
-        `?${searchParams}`
-      )
+      const url = endpoint(params.network, "validators", `?${searchParams}`)
       const response = await api.get<PaginatedValidatorsResponse>(url)
       return response
     },
@@ -51,16 +47,13 @@ export const getValidator = async (
 ) =>
   await unstable_cache(
     async () => {
-      const response = await searchValidators({
-        network: params.network,
-        publicKey: [params.publicKey],
-        perPage: 1,
-        fullOperatorData: true,
-      })
-      if (!response.data[0]) {
+      const response = await api.get<Validator>(
+        endpoint(params.network, "validators", params.publicKey)
+      )
+      if (!response) {
         throw new Error("Validator not found")
       }
-      return response.data[0]
+      return response
     },
     [JSON.stringify(stringifyBigints(params))],
     {

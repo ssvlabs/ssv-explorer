@@ -62,7 +62,7 @@ export const OperatorMetaData: OperatorMetaDataFC = ({
                   ETH1 node client:
                 </Text>
                 <Text variant="body-3-medium">
-                  {operator.eth1NodeClient || "N/A"}
+                  {operator.eth1_node_client || "N/A"}
                 </Text>
               </Outline>
               <Outline className="h-6">
@@ -70,14 +70,14 @@ export const OperatorMetaData: OperatorMetaDataFC = ({
                   ETH2 node client:
                 </Text>
                 <Text variant="body-3-medium">
-                  {operator.eth2NodeClient || "N/A"}
+                  {operator.eth2_node_client || "N/A"}
                 </Text>
               </Outline>
               <Outline className="h-6 text-xl">
                 <Text variant="caption-medium" className="text-gray-500">
                   MEV Relays:
                 </Text>
-                <MevRelaysDisplay mevRelays={operator.mevRelays} />
+                <MevRelaysDisplay mevRelays={operator.mev_relays} />
               </Outline>
             </div>
             {shouldShowMore && (
@@ -87,7 +87,7 @@ export const OperatorMetaData: OperatorMetaDataFC = ({
                     Cloud provider:
                   </Text>
                   <Text variant="body-3-medium">
-                    {operator.setupProvider || "N/A"}
+                    {operator.setup_provider || "N/A"}
                   </Text>
                 </Outline>
                 <Outline className="h-6">
@@ -95,26 +95,26 @@ export const OperatorMetaData: OperatorMetaDataFC = ({
                     DKG Endpoint:
                   </Text>
                   <Text variant="body-3-medium">
-                    {operator.dkgAddress || "N/A"}
+                    {operator.dkg_address || "N/A"}
                   </Text>
                 </Outline>
-                {operator.twitterUrl && (
+                {operator.twitter_url && (
                   <Outline asChild>
-                    <a href={operator.twitterUrl} target="_blank">
+                    <a href={operator.twitter_url} target="_blank">
                       <FaXTwitter className="size-4" />
                     </a>
                   </Outline>
                 )}
-                {operator.linkedinUrl && (
+                {operator.linkedin_url && (
                   <Outline asChild>
-                    <a href={operator.linkedinUrl} target="_blank">
+                    <a href={operator.linkedin_url} target="_blank">
                       <FaLinkedin className="size-4" />
                     </a>
                   </Outline>
                 )}
-                {operator.websiteUrl && (
+                {operator.website_url && (
                   <Outline asChild>
-                    <a href={operator.websiteUrl} target="_blank">
+                    <a href={operator.website_url} target="_blank">
                       <FaGlobe className="size-4" />
                     </a>
                   </Outline>

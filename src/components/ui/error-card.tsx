@@ -17,7 +17,7 @@ type ErrorCardFC = FC<
 export const ErrorCard: ErrorCardFC = ({
   className,
   errorMessage,
-  title = "Error Loading Data",
+  title = "Couldn't load  Data",
   ...props
 }) => {
   return (
@@ -28,10 +28,10 @@ export const ErrorCard: ErrorCardFC = ({
       )}
       {...props}
     >
-      <Image src="/images/robot.svg" alt={title} width={80} height={80} />
+      <Image src="/images/robot-sad.svg" alt={title} width={70} height={70} />
       <div className="flex flex-col gap-1">
-        <Text variant="headline4">{title}</Text>
-        <Text variant="body-3-medium" className="text-red-500">
+        <Text variant="body-2-semibold">{title}</Text>
+        <Text variant="body-3-medium" className="text-gray-500">
           {errorMessage}
         </Text>
       </div>

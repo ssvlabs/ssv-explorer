@@ -4,18 +4,18 @@ const mainnet = {
   chainId: 1,
 } as const
 
-const holesky = {
-  name: "holesky",
+const hoodi = {
+  name: "hoodi",
   testnet: true,
-  chainId: 17000,
+  chainId: 560048,
 } as const
 
 export const chains = {
   mainnet,
-  holesky,
+  holesky: hoodi,
   [mainnet.chainId]: mainnet,
-  [holesky.chainId]: holesky,
+  [hoodi.chainId]: hoodi,
 } as const
 
-export type ChainTuple = [typeof mainnet.chainId, typeof holesky.chainId]
+export type ChainTuple = [typeof mainnet.chainId, typeof hoodi.chainId]
 export type SupportedChain = ChainTuple[number]

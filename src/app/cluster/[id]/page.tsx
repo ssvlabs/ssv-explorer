@@ -12,6 +12,7 @@ import { remove0x, shortenAddress } from "@/lib/utils/strings"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { CopyBtn } from "@/components/ui/copy-btn"
+import { ErrorCard } from "@/components/ui/error-card"
 import { Outline } from "@/components/ui/outline"
 import { Stat } from "@/components/ui/stat"
 import { Text } from "@/components/ui/text"
@@ -24,7 +25,7 @@ interface IndexPageProps {
   searchParams: Promise<{ network: string }>
 }
 
-export default async function IndexPage(props: IndexPageProps) {
+export default async function Page(props: IndexPageProps) {
   const { id } = await props.params
   const awaitedSearchParams = await props.searchParams
   const searchParams = validatorsSearchParamsCache.parse(
@@ -44,7 +45,13 @@ export default async function IndexPage(props: IndexPageProps) {
   )
 
   if (!cluster) {
-    return <div>Cluster not found</div>
+    return (
+      <ErrorCard
+        errorMessage="Cluster not found"
+        title="Cluster not found"
+        className="flex-1 bg-transparent"
+      />
+    )
   }
 
   return (
@@ -80,7 +87,7 @@ export default async function IndexPage(props: IndexPageProps) {
           <Stat
             className="flex-1"
             title="Validators"
-            content={numberFormatter.format(cluster.validatorCount)}
+            content={numberFormatter.format(+cluster.validatorCount)}
           />
           <div className="h-full border-r border-gray-500" />
           <Stat
@@ -93,7 +100,7 @@ export default async function IndexPage(props: IndexPageProps) {
             className="flex-1"
             title="Total ETH"
             content={
-              numberFormatter.format(cluster.validatorCount * 32) + " ETH"
+              numberFormatter.format(+cluster.validatorCount * 32) + " ETH"
             }
           />
         </div>

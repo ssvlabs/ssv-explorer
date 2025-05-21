@@ -30,8 +30,8 @@ export const OperatorCard: OperatorCardFC = ({
       className={cn(
         "flex flex-col items-center gap-3 rounded-2xl border px-5 py-6",
         {
-          "border-transparent bg-gray-50": operator.isActive === 1,
-          "border-error-200 bg-error-50": operator.isActive === 0,
+          "border-transparent bg-gray-50": operator.is_active === 1,
+          "border-error-200 bg-error-50": operator.is_active === 0,
         },
         className
       )}
@@ -41,7 +41,7 @@ export const OperatorCard: OperatorCardFC = ({
         <OperatorAvatar src={operator.logo} size="lg" variant="unstyled" />
         <StatusIndicator
           className="absolute right-0 top-0 -translate-y-1/2 translate-x-1/2"
-          status={operator.isActive === 1 ? "active" : "offline"}
+          status={operator.is_active === 1 ? "active" : "offline"}
         />
       </div>
       <div className="flex items-center gap-[6px]">
@@ -49,7 +49,7 @@ export const OperatorCard: OperatorCardFC = ({
           {operator.name}
         </Text>
         <div className="flex items-center gap-1">
-          {operator.isPrivate && (
+          {operator.is_private && (
             <MdOutlineLock className="size-[14px] min-w-[14px]" />
           )}
           {operator.type === "verified_operator" && (

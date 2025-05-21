@@ -138,7 +138,7 @@ export const GlobalSearch: React.FC<Props> = ({ size, ...props }) => {
                       onSelect={(group, validator) => {
                         close()
                         asyncRoutePush.mutate(
-                          `/validator/${validator.publicKey}`
+                          `/validator/${validator.public_key}`
                         )
                       }}
                     />

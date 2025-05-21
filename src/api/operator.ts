@@ -3,12 +3,13 @@
 import { endpoint } from "@/api"
 import { api } from "@/api/api-client"
 
-import type { Country, OperatorsSearchResponse } from "@/types/api"
+import type { Country, Operator, OperatorsSearchResponse } from "@/types/api"
 import {
   operatorSearchParamsSerializer,
   type OperatorsSearchSchema,
 } from "@/lib/search-parsers/operator-search-parsers"
 import { stringifyBigints } from "@/lib/utils/bigint"
+import { addFallbackOperatorName } from "@/lib/utils/operator"
 import { unstable_cache } from "@/lib/utils/unstable-cache"
 
 export type OrderBy =
@@ -36,9 +37,11 @@ export const searchOperators = async (
   await unstable_cache(
     async () => {
       const searchParams = operatorSearchParamsSerializer(params)
-      const url = endpoint(params.network, "operators/explorer", searchParams)
-      console.log("search:", url)
-      return api.get<OperatorsSearchResponse>(url)
+      const url = endpoint(params.network, "operators", searchParams)
+      return api.get<OperatorsSearchResponse>(url).then((response) => ({
+        operators: response.operators.map(addFallbackOperatorName),
+        pagination: response.pagination,
+      }))
     },
     [JSON.stringify(stringifyBigints(params))],
     {
@@ -66,10 +69,17 @@ export interface OperatorMetadata {
 export const getOperator = async (
   params: Pick<OperatorsSearchSchema, "network"> & { id: number }
 ) => {
-  return searchOperators({
-    network: params.network,
-    id: [params.id],
-  }).then((res) => res?.data[0])
+  return await unstable_cache(
+    async () =>
+      api
+        .get<Operator>(endpoint(params.network, "operators", params.id))
+        .then(addFallbackOperatorName),
+    [params.id.toString()],
+    {
+      revalidate: 30,
+      tags: ["operators"],
+    }
+  )()
 }
 
 export const getOperatorLocations = async (chain: number) => {
@@ -78,7 +88,7 @@ export const getOperatorLocations = async (chain: number) => {
     [chain.toString()],
     {
       revalidate: 60 * 60 * 24,
-      tags: ["operators", "locations"],
+      tags: ["operator-locations"],
     }
   )()
 }

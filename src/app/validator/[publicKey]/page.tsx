@@ -25,7 +25,7 @@ interface IndexPageProps {
   searchParams: Promise<SearchParams>
 }
 
-export default async function IndexPage(props: IndexPageProps) {
+export default async function Page(props: IndexPageProps) {
   const { publicKey } = await props.params
   const awaitedSearchParams = await props.searchParams
   const searchParams = dutiesSearchParamsCache.parse(
@@ -60,13 +60,13 @@ export default async function IndexPage(props: IndexPageProps) {
             </Text>
             <Button
               as={Link}
-              href={`/account/${validator.ownerAddress}`}
+              href={`/account/${validator.owner_address}`}
               variant="link"
               className="font-mono text-sm"
             >
-              {shortenAddress(validator.ownerAddress)}
+              {shortenAddress(validator.owner_address)}
             </Button>
-            <CopyBtn text={validator.ownerAddress} />
+            <CopyBtn text={validator.owner_address} />
           </Outline>
           <Outline>
             <Text variant="caption-medium" className="text-gray-500">
