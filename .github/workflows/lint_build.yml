@@ -11,7 +11,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-and-deploy:
+  lint-and-build:
     runs-on: ubuntu-latest
 
     env:
@@ -66,18 +66,6 @@ jobs:
           NEXT_PUBLIC_SSV_NETWORKS: "${{ env.STAGE_SSV_NETWORKS }}"
 
         run: pnpm build
-
-      - name: Deploy staging
-        if: github.ref == 'refs/heads/stage'
-        uses: jakejarvis/s3-sync-action@v0.5.0
-        with:
-          args: --acl public-read --follow-symlinks --delete
-        env:
-          AWS_S3_BUCKET: ${{ secrets.STAGE_AWS_S3_BUCKET }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.STAGE_AWS_SECRET_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.STAGE_AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: "us-west-2"
-          SOURCE_DIR: "build/"
       # </explorer.stage.ssv.network>
 
       # <explorer.ssv.network>
