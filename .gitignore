@@ -40,3 +40,4 @@
 # typescript
 *.tsbuildinfo
 /.vscode/
+/.idea/

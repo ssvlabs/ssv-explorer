@@ -12,7 +12,7 @@ COPY . .
 COPY .env.example .env
 
 # Build the Next.js app
-RUN pnpm build
+RUN pnpm docker-build
 
 FROM node:20-alpine AS runner
 

@@ -6,6 +6,7 @@
   "scripts": {
     "clean": "rimraf --glob **/node_modules **/dist **/.next **/.tsbuildinfo",
     "build": "next build",
+    "docker-build": "SKIP_ENV_VALIDATION=true next build",
     "dev": "next dev",
     "start": "next start",
     "lint": "next lint",
