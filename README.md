@@ -1,5 +1,5 @@
 # SSV Web
-asd
+
 # Development
 
 ### Running application
