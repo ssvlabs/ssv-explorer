@@ -9,12 +9,8 @@ RUN npm install -g pnpm && pnpm install
 
 # Copy rest of the app
 COPY . .
+COPY ./env.example ./.env
 
-ENV SSV_NETWORKS=[{"networkId":560048,"apiVersion":"v4","apiNetwork":"hoodi","api":"https://api.stage.ops.ssvlabsinternal.com/api","explorerUrl":"https://hoodi.explorer.ssv.network","insufficientBalanceUrl":"https://faucet.ssv.network","googleTagSecret":"GTM-K3GR7M5","tokenAddress":"0x9F5d4Ec84fC4785788aB44F9de973cF34F7A038e","setterContractAddress":"0x58410Bef803ECd7E63B23664C586A6DB72DAf59c","getterContractAddress":"0x5AdDb3f1529C5ec70D77400499eE4bbF328368fe"}]
-
-ENV NEXT_PUBLIC_SSV_NETWORKS=[{"networkId":560048,"apiVersion":"v4","apiNetwork":"hoodi","api":"https://api.stage.ops.ssvlabsinternal.com/api","explorerUrl":"https://hoodi.explorer.ssv.network","insufficientBalanceUrl":"https://faucet.ssv.network","googleTagSecret":"GTM-K3GR7M5","tokenAddress":"0x9F5d4Ec84fC4785788aB44F9de973cF34F7A038e","setterContractAddress":"0x58410Bef803ECd7E63B23664C586A6DB72DAf59c","getterContractAddress":"0x5AdDb3f1529C5ec70D77400499eE4bbF328368fe"}]
-
-RUN echo "SSV_NETWORKS=$SSV_NETWORKS" && echo "NEXT_PUBLIC_SSV_NETWORKS=$NEXT_PUBLIC_SSV_NETWORKS"
 # Build the Next.js app
 RUN pnpm build
 
