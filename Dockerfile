@@ -27,7 +27,7 @@ COPY --from=builder /app/public ./public
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/next.config.js ./
 COPY --from=builder /app/tsconfig.json ./
-COPY /app/src/env.js ./src/env.js
+COPY --from=builder /app/src/env.js ./src/env.js
 
 # Set environment variables (override in docker-compose or runtime)
 ENV NODE_ENV=production
