@@ -9,21 +9,25 @@ RUN npm install -g pnpm && pnpm install
 
 # Copy rest of the app
 COPY . .
+COPY .env.example .env
 
 # Build the Next.js app
-RUN pnpm build
+RUN pnpm docker-build
 
 FROM node:20-alpine AS runner
 
 WORKDIR /app
 
+
 # Only copy necessary files from builder
+RUN mkdir /app/src
 COPY --from=builder /app/package.json ./
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/next.config.js ./
 COPY --from=builder /app/tsconfig.json ./
+COPY --from=builder /app/src/env.js ./src/env.js
 
 # Set environment variables (override in docker-compose or runtime)
 ENV NODE_ENV=production
