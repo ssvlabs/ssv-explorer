@@ -11,7 +11,7 @@ RUN npm install -g pnpm && pnpm install
 COPY . .
 
 # Build the Next.js app
-RUN pnpm build
+RUN pnpm docker-build
 
 FROM node:20-alpine AS runner
 
