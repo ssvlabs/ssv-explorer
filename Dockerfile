@@ -9,7 +9,7 @@ RUN npm install -g pnpm && pnpm install
 
 # Copy rest of the app
 COPY . .
-COPY ./env.example ./.env
+COPY .env.example .env
 
 # Build the Next.js app
 RUN pnpm build
