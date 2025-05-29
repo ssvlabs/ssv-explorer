@@ -1,5 +1,6 @@
 import type { ComponentPropsWithRef, FC } from "react"
 import Image from "next/image"
+import { PerformanceIcon } from "@/assets/images/performance-icon"
 import { StatusIndicator } from "@/assets/images/status-indicator"
 import { MdOutlineLock } from "react-icons/md"
 
@@ -70,9 +71,7 @@ export const OperatorCard: OperatorCardFC = ({
           <Text variant="body-3-medium">{operator.id}</Text>
         </Outline>
         <Outline>
-          <Text variant="caption-medium" className="text-gray-500">
-            ID:
-          </Text>
+          <PerformanceIcon />
           <Text
             as={PerformanceText}
             performance={operator.performance["30d"]}
