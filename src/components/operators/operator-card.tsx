@@ -1,5 +1,6 @@
 import type { ComponentPropsWithRef, FC } from "react"
 import Image from "next/image"
+import Link from "next/link"
 import { PerformanceIcon } from "@/assets/images/performance-icon"
 import { StatusIndicator } from "@/assets/images/status-indicator"
 import { MdOutlineLock } from "react-icons/md"
@@ -45,7 +46,12 @@ export const OperatorCard: OperatorCardFC = ({
         />
       </div>
       <div className="flex items-center gap-[6px]">
-        <Text variant="body-3-medium" className="line-clamp-1">
+        <Text
+          as={Link}
+          href={`/operator/${operator.id}`}
+          variant="body-3-medium"
+          className="line-clamp-1 cursor-pointer"
+        >
           {operator.name}
         </Text>
         <div className="flex items-center gap-1">
