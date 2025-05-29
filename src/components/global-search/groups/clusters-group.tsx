@@ -46,7 +46,7 @@ export function ClustersGroup({ query, onSelect }: ClustersGroupProps) {
               query.fetchNextPage()
             }}
           >
-            Loadmore
+            Load more
           </Button>
         </div>
       )}
