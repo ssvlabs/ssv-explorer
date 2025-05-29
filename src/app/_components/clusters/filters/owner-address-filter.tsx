@@ -1,21 +1,19 @@
 "use client"
 
 import { useState } from "react"
-import { searchClusters } from "@/api/clusters"
-import { useQuery } from "@tanstack/react-query"
-import { CommandLoading } from "cmdk"
 import { xor } from "lodash-es"
-import { Loader2, X } from "lucide-react"
-import { isAddress, type Address } from "viem"
+import { X } from "lucide-react"
+import { MdKeyboardReturn } from "react-icons/md"
+import { isAddress } from "viem"
 
 import { cn } from "@/lib/utils"
 import { shortenAddress } from "@/lib/utils/strings"
 import { useClustersSearchParams } from "@/hooks/search/use-clusters-search-params"
 import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
 import {
   Command,
   CommandEmpty,
+  CommandGroup,
   CommandInput,
   CommandItem,
   CommandList,
@@ -26,26 +24,9 @@ import { FilterButton } from "@/components/filter/filter-button"
 export function OwnerAddressFilter() {
   const [open, setOpen] = useState(false)
   const [search, setSearch] = useState<string>("")
-  const { network, filters, setFilters } = useClustersSearchParams()
-  const query = useQuery({
-    queryKey: ["clusters", "owner-address", search, network],
-    queryFn: async () => {
-      return searchClusters({
-        search: search,
-        network,
-        page: 1,
-        perPage: 10,
-      })
-    },
-    select: (data) => [
-      ...new Set(
-        data.clusters
-          .map((cluster) => cluster.ownerAddress)
-          .filter((address): address is Address => Boolean(address))
-      ),
-    ],
-    enabled: open && isAddress(search),
-  })
+  const { filters, setFilters } = useClustersSearchParams()
+
+  const isSearchValidAddress = isAddress(search)
 
   return (
     <FilterButton
@@ -63,9 +44,13 @@ export function OwnerAddressFilter() {
       }}
     >
       <Command>
-        <div className="p-2">
+        <div
+          className={cn("p-2", {
+            "pb-0": isSearchValidAddress,
+          })}
+        >
           <CommandInput
-            placeholder="Search Owner Address"
+            placeholder="Search addresses"
             value={search}
             onValueChange={(value) => setSearch(value)}
           />
@@ -95,45 +80,38 @@ export function OwnerAddressFilter() {
             ))}
           </div>
         )}
-        <CommandList
-          className={cn("max-h-none overflow-y-auto", {
-            "pt-0": !filters.ownerAddress?.length,
-          })}
-        >
-          {query.isLoading ? (
-            <CommandLoading className="flex items-center justify-center p-4">
-              <Loader2 className="animate-spin" />
-            </CommandLoading>
-          ) : (
+        {isSearchValidAddress && (
+          <CommandList
+            className={cn("max-h-none overflow-y-auto", {
+              "pt-0": !filters.ownerAddress?.length,
+            })}
+          >
             <CommandEmpty>This list is empty.</CommandEmpty>
-          )}
-          {query.data?.map((owner_address) => (
-            <CommandItem
-              key={owner_address}
-              value={owner_address}
-              className="flex h-10 items-center space-x-2 px-2"
-              onSelect={() => {
-                setFilters((prev) => ({
-                  ...prev,
-                  ownerAddress: xor(prev.ownerAddress, [owner_address]),
-                }))
-              }}
-            >
-              <Checkbox
-                id={owner_address}
-                checked={filters.ownerAddress?.includes(owner_address)}
-                className="mr-2"
-              />
-              <span
-                className={cn(
-                  "flex-1 text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                )}
+            <CommandGroup>
+              <CommandItem
+                value={search}
+                className="flex h-10 items-center space-x-2 px-2"
+                onSelect={() => {
+                  setFilters((prev) => ({
+                    ...prev,
+                    ownerAddress: xor(prev.ownerAddress, [search]),
+                  }))
+                }}
               >
-                {owner_address}
-              </span>
-            </CommandItem>
-          ))}
-        </CommandList>
+                <span
+                  className={cn(
+                    "flex-1 text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  )}
+                >
+                  {search}
+                </span>
+                <div className="flex h-5 w-6 items-center justify-center rounded-md border border-gray-400">
+                  <MdKeyboardReturn className="size-3 text-gray-500" />
+                </div>
+              </CommandItem>
+            </CommandGroup>
+          </CommandList>
+        )}
       </Command>
     </FilterButton>
   )

@@ -46,7 +46,7 @@ export function ValidatorsGroup({ query, onSelect }: ValidatorsGroupProps) {
               query.fetchNextPage()
             }}
           >
-            Loadmore
+            Load more
           </Button>
         </div>
       )}
