@@ -10,7 +10,19 @@ import { OperatorsFilter } from "@/app/_components/clusters/filters/operators-fi
 import { OwnerAddressFilter } from "@/app/_components/validators/filters/owner-address-filter"
 import { PublicKeyFilter } from "@/app/_components/validators/filters/public-key-filter"
 
-export const ValidatorTableFilters = () => {
+export type ValidatorTableFiltersProps = {
+  hidePublicKeyFilter?: boolean
+  hideClusterIdFilter?: boolean
+  hideOwnerAddressFilter?: boolean
+  hideOperatorsFilter?: boolean
+}
+
+export const ValidatorTableFilters = ({
+  hidePublicKeyFilter,
+  hideClusterIdFilter,
+  hideOwnerAddressFilter,
+  hideOperatorsFilter,
+}: ValidatorTableFiltersProps) => {
   const { isFiltersOpen } = useTable()
   const { enabledFilters, clearFilters } = useValidatorsSearchParams()
 
@@ -26,10 +38,10 @@ export const ValidatorTableFilters = () => {
         )}
         aria-hidden={!isFiltersOpen}
       >
-        <PublicKeyFilter />
-        <ClusterIdFilter />
-        <OwnerAddressFilter />
-        <OperatorsFilter />
+        {!hidePublicKeyFilter && <PublicKeyFilter />}
+        {!hideClusterIdFilter && <ClusterIdFilter />}
+        {!hideOwnerAddressFilter && <OwnerAddressFilter />}
+        {!hideOperatorsFilter && <OperatorsFilter />}
         {enabledFilters.count > 0 && (
           <Button
             variant="ghost"

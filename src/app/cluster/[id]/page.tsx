@@ -34,7 +34,7 @@ export default async function Page(props: IndexPageProps) {
 
   const validators = searchValidators({
     ...searchParams,
-    clusterId: [id],
+    cluster: [id],
   })
 
   const cluster = await getCluster({ id, network: searchParams.network }).catch(
@@ -115,7 +115,7 @@ export default async function Page(props: IndexPageProps) {
         ))}
       </div>
       <Card>
-        <ValidatorsTable dataPromise={validators} />
+        <ValidatorsTable dataPromise={validators} hideClusterIdFilter />
       </Card>
     </Shell>
   )

@@ -65,7 +65,8 @@ const Tooltip: React.FC<TooltipProps> = ({
         </TooltipTrigger>
         <TooltipContent
           className={cn(
-            "rounded-2xl border border-gray-300 bg-gray-50 outline outline-[6px] outline-gray-200",
+            "rounded-2xl border border-gray-300 bg-gray-50 text-gray-800 outline outline-[6px] outline-gray-200",
+            "dark:border-white/10 dark:bg-gray-50 dark:outline-gray-100",
             className
           )}
           {...props}

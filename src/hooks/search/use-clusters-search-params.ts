@@ -7,7 +7,7 @@ export const useClustersSearchParams = () => {
   const [pagination, setPagination] = usePaginationQuery()
   const { filters, setFilters, enabledFilters, clearFilters } =
     useClusterFiltersQuery()
-
+    
   return {
     network: query.value,
     setNetwork: query.set,
