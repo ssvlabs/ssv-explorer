@@ -7,8 +7,10 @@ import { type Operator, type SearchValidator } from "@/types/api"
 import { add0x, remove0x, shortenAddress } from "@/lib/utils/strings"
 import { CopyBtn } from "@/components/ui/copy-btn"
 import { Text } from "@/components/ui/text"
+import { Tooltip } from "@/components/ui/tooltip"
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header"
 import { OperatorAvatar } from "@/components/operators/operator-avatar"
+import { OperatorInfo } from "@/components/tooltip/operator-info"
 import { ValidatorStatusBadge } from "@/components/validators/validator-status-badge"
 
 export const validatorsTableColumns: ColumnDef<SearchValidator<Operator>>[] = [
@@ -77,12 +79,19 @@ export const validatorsTableColumns: ColumnDef<SearchValidator<Operator>>[] = [
     cell: ({ row }) => (
       <div className="flex gap-1">
         {row.original.operators.map((operator) => (
-          <Link href={`/operator/${operator.id}`} key={operator.id}>
-            <OperatorAvatar
-              src={operator.logo}
-              isPrivate={operator.is_private}
-            />
-          </Link>
+          <Tooltip
+            asChild
+            key={operator.id}
+            className="w-[240px] p-4"
+            content={<OperatorInfo operator={operator} />}
+          >
+            <Link href={`/operator/${operator.id}`} key={operator.id}>
+              <OperatorAvatar
+                src={operator.logo}
+                isPrivate={operator.is_private}
+              />
+            </Link>
+          </Tooltip>
         ))}
       </div>
     ),
