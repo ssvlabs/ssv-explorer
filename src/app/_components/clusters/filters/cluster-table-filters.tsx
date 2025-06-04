@@ -28,7 +28,7 @@ export const ClusterTableFilters = () => {
         )}
         aria-hidden={!isFiltersOpen}
       >
-        <ClusterIdFilter />
+        <ClusterIdFilter  />
         <OwnerAddressFilter />
         <StatusFilter />
         <IsLiquidatedFilter />

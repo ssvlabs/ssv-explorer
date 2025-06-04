@@ -1,14 +1,13 @@
 import { env } from "@/env"
-
 export type SiteConfig = typeof siteConfig
 
 export const siteConfig = {
-  name: "Table",
+  name: "SSV Network Explorer",
   description:
-    "Shadcn table with server side sorting, pagination, and filtering",
+    "Explore SSV Network | View key metrics, recent activity, and search for data.",
   url:
     env.NODE_ENV === "development"
       ? "http://localhost:3000"
-      : "https://table.sadmn.com",
-  links: { github: "https://github.com/sadmann7/shadcn-table" },
+      : "https://explorer.ssv.network/",
+  links: { github: "https://github.com/ssvlabs/ssv-explorer" },
 }

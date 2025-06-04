@@ -1,3 +1,4 @@
+import { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
 import { getOperator } from "@/api/operator"
@@ -24,6 +25,12 @@ import { ValidatorsTable } from "@/app/_components/validators/validators-table"
 interface IndexPageProps {
   params: Promise<{ id: string }>
   searchParams: Promise<{ network: string }>
+}
+
+export const metadata: Metadata = {
+  title: "Operator",
+  description:
+    "View performance, status, and validator information for this Operator on the SSV Network.",
 }
 
 export default async function Page(props: IndexPageProps) {

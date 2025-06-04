@@ -21,17 +21,21 @@ interface IndexPageProps {
 
 export default async function Page(props: IndexPageProps) {
   const searchParams = await overviewParserCache.parse(props.searchParams)
-  const ssvNetworkDetails = await getSSVRates()
 
-  const operators = searchOperators({
-    ...searchParams,
-    ordering: defaultOperatorSort,
-  })
+  const [operators, validators] = await Promise.all([
+    searchOperators({
+      ...searchParams,
+      ordering: defaultOperatorSort,
+    }),
+    searchValidators({
+      ...searchParams,
+      ordering: defaultValidatorSort,
+    })
+  ])
 
-  const validators = searchValidators({
-    ...searchParams,
-    ordering: defaultValidatorSort,
-  })
+  const totalOperators = operators.pagination.total
+  const totalValidators = validators.pagination.total
+  const totalStakedEth = validators.pagination.total * 32
 
   return (
     <Shell className="gap-6">
@@ -41,20 +45,20 @@ export default async function Page(props: IndexPageProps) {
         <Stat
           className="flex-1"
           title="Validators"
-          tooltip="Ravid im sorry bro"
-          content={numberFormatter.format(ssvNetworkDetails.validators)}
+          tooltip="Total number of validators registered on the SSV Network"
+          content={numberFormatter.format(totalValidators)}
         />
         <Stat
           className="flex-1"
           title="Operators"
-          tooltip="They didnt gave me a tooltip content for this one"
-          content={numberFormatter.format(ssvNetworkDetails.operators)}
+          tooltip="Total number of node operators running validators on the SSV Network"
+          content={numberFormatter.format(totalOperators)}
         />
         <Stat
           className="flex-1"
           title="ETH Staked"
-          tooltip="Tell them to give me a tooltip content for this one"
-          content={`${numberFormatter.format(ssvNetworkDetails.staked_eth)} ETH`}
+          tooltip="Total amount of ETH staked across all validators on the network (32 ETH per validator)"
+          content={`${numberFormatter.format(totalStakedEth)} ETH`}
         />
       </Card>
       <div className="flex max-w-full gap-6 overflow-hidden">

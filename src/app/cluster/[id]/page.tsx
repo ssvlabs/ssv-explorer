@@ -1,3 +1,4 @@
+import type { Metadata } from "next"
 import Link from "next/link"
 import { getCluster } from "@/api/clusters"
 import { searchValidators } from "@/api/validators"
@@ -23,6 +24,12 @@ import { ValidatorsTable } from "@/app/_components/validators/validators-table"
 interface IndexPageProps {
   params: Promise<{ id: string }>
   searchParams: Promise<{ network: string }>
+}
+
+export const metadata: Metadata = {
+  title: "Cluster",
+  description:
+    "View details and validators for this cluster on the SSV Network.",
 }
 
 export default async function Page(props: IndexPageProps) {

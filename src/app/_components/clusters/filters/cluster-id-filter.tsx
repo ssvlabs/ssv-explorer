@@ -1,15 +1,18 @@
 "use client"
 
-import { useState } from "react"
+import { FC, useState } from "react"
 import { searchClusters } from "@/api/clusters"
 import { useQuery } from "@tanstack/react-query"
 import { CommandLoading } from "cmdk"
 import { xor } from "lodash-es"
 import { Loader2, X } from "lucide-react"
+import { useQueryState } from "nuqs"
 
+import { clustersSearchFilters } from "@/lib/search-parsers/clusters-search-parsers"
 import { cn } from "@/lib/utils"
 import { shortenAddress } from "@/lib/utils/strings"
 import { useClustersSearchParams } from "@/hooks/search/use-clusters-search-params"
+import { useNetworkQuery } from "@/hooks/search/use-network-query"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import {
@@ -22,10 +25,22 @@ import {
 import { Text } from "@/components/ui/text"
 import { FilterButton } from "@/components/filter/filter-button"
 
-export function ClusterIdFilter() {
+type ClusterIdFilterProps = {
+  searchQueryKey?: string
+}
+
+export const ClusterIdFilter: FC<ClusterIdFilterProps> = ({
+  searchQueryKey = "cluster",
+}) => {
   const [open, setOpen] = useState(false)
   const [search, setSearch] = useState<string>("")
-  const { network, filters, setFilters } = useClustersSearchParams()
+
+  const network = useNetworkQuery().query.value
+  const [clusterIds, setClusterIds] = useQueryState(
+    searchQueryKey,
+    clustersSearchFilters.clusterId
+  )
+
   const query = useQuery({
     queryKey: ["clusters", "ids", search, network],
     queryFn: async () => {
@@ -46,8 +61,8 @@ export function ClusterIdFilter() {
   return (
     <FilterButton
       name="Cluster ID"
-      activeFiltersCount={filters.clusterId?.length ?? 0}
-      onClear={() => setFilters((prev) => ({ ...prev, clusterId: [] }))}
+      activeFiltersCount={clusterIds?.length ?? 0}
+      onClear={() => setClusterIds([])}
       popover={{
         root: {
           open,
@@ -66,20 +81,15 @@ export function ClusterIdFilter() {
             onValueChange={(value) => setSearch(value)}
           />
         </div>
-        {Boolean(filters.clusterId?.length) && (
+        {Boolean(clusterIds?.length) && (
           <div className="flex flex-wrap gap-1 border-y border-gray-200 p-2">
-            {filters.clusterId?.map((id) => (
+            {clusterIds?.map((id) => (
               <Button
                 size="sm"
                 key={id}
                 className="h-6 gap-0.5 rounded-full pb-px pl-2 pr-1"
                 variant="secondary"
-                onClick={() =>
-                  setFilters((prev) => ({
-                    ...prev,
-                    clusterId: xor(prev.clusterId, [id]),
-                  }))
-                }
+                onClick={() => setClusterIds(xor(clusterIds, [id]))}
               >
                 <Text variant="caption-medium">{shortenAddress(id)}</Text>{" "}
                 <div className="flex size-4 items-center justify-center">
@@ -102,16 +112,13 @@ export function ClusterIdFilter() {
               key={cluster.clusterId}
               value={cluster.clusterId}
               className="flex h-10 items-center space-x-2 px-2"
-              onSelect={() => {
-                setFilters((prev) => ({
-                  ...prev,
-                  clusterId: xor(prev.clusterId, [cluster.clusterId]),
-                }))
-              }}
+              onSelect={() =>
+                setClusterIds(xor(clusterIds, [cluster.clusterId]))
+              }
             >
               <Checkbox
                 id={cluster.clusterId}
-                checked={filters.clusterId?.includes(cluster.clusterId)}
+                checked={clusterIds?.includes(cluster.clusterId)}
                 className="mr-2"
               />
               <span

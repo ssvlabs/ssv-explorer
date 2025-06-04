@@ -1,13 +1,15 @@
 "use client"
 
-import { useState } from "react"
+import { FC, useState } from "react"
 import { searchOperators } from "@/api/operator"
 import { useQuery } from "@tanstack/react-query"
 import { CommandLoading } from "cmdk"
 import { xor } from "lodash-es"
 import { Loader2, X } from "lucide-react"
+import { useQueryState } from "nuqs"
 
-import { useClustersSearchParams } from "@/hooks/search/use-clusters-search-params"
+import { clustersSearchFilters } from "@/lib/search-parsers/clusters-search-parsers"
+import { useNetworkQuery } from "@/hooks/search/use-network-query"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import {
@@ -21,10 +23,22 @@ import { Text } from "@/components/ui/text"
 import { FilterButton } from "@/components/filter/filter-button"
 import { OperatorInfo } from "@/components/operators/operator-info"
 
-export function OperatorsFilter() {
+type OperatorsFilterProps = {
+  searchQueryKey?: string
+}
+
+export const OperatorsFilter: FC<OperatorsFilterProps> = ({
+  searchQueryKey = "operators",
+}) => {
   const [open, setOpen] = useState(false)
   const [search, setSearch] = useState<string>("")
-  const { network, filters, setFilters } = useClustersSearchParams()
+
+  const network = useNetworkQuery().query.value
+  const [operators, setOperators] = useQueryState(
+    searchQueryKey,
+    clustersSearchFilters.operators
+  )
+
   const query = useQuery({
     queryKey: ["operators", "search", search, network],
     queryFn: async () => {
@@ -41,8 +55,8 @@ export function OperatorsFilter() {
   return (
     <FilterButton
       name="Operators"
-      activeFiltersCount={filters.operators?.length ?? 0}
-      onClear={() => setFilters((prev) => ({ ...prev, operators: [] }))}
+      activeFiltersCount={operators?.length ?? 0}
+      onClear={() => setOperators([])}
       popover={{
         root: {
           open,
@@ -61,20 +75,15 @@ export function OperatorsFilter() {
             onValueChange={(value) => setSearch(value)}
           />
         </div>
-        {Boolean(filters.operators?.length) && (
+        {Boolean(operators?.length) && (
           <div className="flex flex-wrap gap-1 border-y border-gray-200 p-2">
-            {filters.operators?.map((id) => (
+            {operators?.map((id) => (
               <Button
                 size="sm"
                 key={id}
                 className="h-6 gap-0.5 rounded-full pb-px pl-2 pr-1"
                 variant="secondary"
-                onClick={() =>
-                  setFilters((prev) => ({
-                    ...prev,
-                    operators: xor(prev.operators, [id]),
-                  }))
-                }
+                onClick={() => setOperators(xor(operators, [id]))}
               >
                 <Text variant="caption-medium">{id}</Text>{" "}
                 <div className="flex size-4 items-center justify-center">
@@ -98,15 +107,12 @@ export function OperatorsFilter() {
               value={operator.id.toString()}
               className="flex h-10 items-center space-x-2 px-2 py-1"
               onSelect={() => {
-                setFilters((prev) => ({
-                  ...prev,
-                  operators: xor(prev.operators, [operator.id]),
-                }))
+                setOperators(xor(operators, [operator.id]))
               }}
             >
               <Checkbox
                 id={operator.id.toString()}
-                checked={filters.operators?.includes(operator.id)}
+                checked={operators?.includes(operator.id)}
                 className="mr-2"
               />
               <OperatorInfo

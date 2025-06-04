@@ -33,22 +33,6 @@ export const metadata: Metadata = {
     template: `%s - ${siteConfig.name}`,
   },
   description: siteConfig.description,
-  keywords: [
-    "nextjs",
-    "react",
-    "react server components",
-    "table",
-    "react-table",
-    "tanstack-table",
-    "shadcn-table",
-  ],
-  authors: [
-    {
-      name: "sadmann7",
-      url: "https://www.sadmn.com",
-    },
-  ],
-  creator: "sadmann7",
   openGraph: {
     type: "website",
     locale: "en_US",
@@ -62,7 +46,6 @@ export const metadata: Metadata = {
     title: siteConfig.name,
     description: siteConfig.description,
     images: [`${siteConfig.url}/og.jpg`],
-    creator: "@sadmann17",
   },
   icons: {
     icon: "/icon.png",
