@@ -64,6 +64,7 @@ jobs:
         env:
           SSV_NETWORKS: "${{ env.STAGE_SSV_NETWORKS }}"
           NEXT_PUBLIC_SSV_NETWORKS: "${{ env.STAGE_SSV_NETWORKS }}"
+          SITE_URL: "https://explorer.stage.ssv.network"
 
         run: pnpm build
       # </explorer.stage.ssv.network>
