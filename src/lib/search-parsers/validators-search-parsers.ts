@@ -26,7 +26,7 @@ const searchOptions: Options = {
 export const validatorsSearchFilters = {
   search: parseAsString.withOptions(searchOptions),
   publicKey: parseAsArrayOf(z.string()).withOptions(searchOptions),
-  clusterId: parseAsArrayOf(z.string()).withOptions(searchOptions),
+  cluster: parseAsArrayOf(z.string()).withOptions(searchOptions),
   ownerAddress: parseAsArrayOf(z.string().refine(isAddress)).withDefault([]),
   operators: parseAsArrayOf(z.number({ coerce: true })).withOptions(
     searchOptions

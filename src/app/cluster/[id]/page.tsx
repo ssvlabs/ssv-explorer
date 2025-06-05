@@ -1,3 +1,4 @@
+import type { Metadata } from "next"
 import Link from "next/link"
 import { getCluster } from "@/api/clusters"
 import { searchValidators } from "@/api/validators"
@@ -25,6 +26,12 @@ interface IndexPageProps {
   searchParams: Promise<{ network: string }>
 }
 
+export const metadata: Metadata = {
+  title: "Cluster",
+  description:
+    "View details and validators for this cluster on the SSV Network.",
+}
+
 export default async function Page(props: IndexPageProps) {
   const { id } = await props.params
   const awaitedSearchParams = await props.searchParams
@@ -34,7 +41,7 @@ export default async function Page(props: IndexPageProps) {
 
   const validators = searchValidators({
     ...searchParams,
-    clusterId: [id],
+    cluster: [id],
   })
 
   const cluster = await getCluster({ id, network: searchParams.network }).catch(
@@ -115,7 +122,7 @@ export default async function Page(props: IndexPageProps) {
         ))}
       </div>
       <Card>
-        <ValidatorsTable dataPromise={validators} />
+        <ValidatorsTable dataPromise={validators} hideClusterIdFilter />
       </Card>
     </Shell>
   )

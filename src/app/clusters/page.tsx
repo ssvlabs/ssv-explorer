@@ -5,9 +5,16 @@ import { type Operator } from "@/types/api"
 import { clustersSearchParamsCache } from "@/lib/search-parsers/clusters-search-parsers"
 import { Shell } from "@/components/shell"
 import { ClustersTable } from "@/app/_components/clusters/clusters-table"
+import type { Metadata } from "next"
 
 interface IndexPageProps {
   searchParams: Promise<SearchParams>
+}
+
+export const metadata: Metadata = {
+  title: "Clusters",
+  description:
+    "Explore SSV Network Clusters | View key metrics, recent activity, and search for data.",
 }
 
 export default async function Page(props: IndexPageProps) {

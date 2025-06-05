@@ -1,4 +1,5 @@
 import React from "react"
+import type { Metadata } from "next"
 import { searchOperators } from "@/api/operator"
 import { type SearchParams } from "@/types"
 
@@ -10,6 +11,12 @@ import { OperatorsTable } from "../_components/operators/operators-table"
 
 interface IndexPageProps {
   searchParams: Promise<SearchParams>
+}
+
+export const metadata: Metadata = {
+  title: "Operators",
+  description:
+    "Explore SSV Network Operators | View key metrics, recent activity, and search for data.",
 }
 
 export default async function Page(props: IndexPageProps) {
