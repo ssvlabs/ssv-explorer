@@ -62,7 +62,7 @@ export const ClusterIdFilter: FC<ClusterIdFilterProps> = ({
     <FilterButton
       name="Cluster ID"
       activeFiltersCount={clusterIds?.length ?? 0}
-      onClear={() => setClusterIds([])}
+      onClear={() => setClusterIds(null)}
       popover={{
         root: {
           open,

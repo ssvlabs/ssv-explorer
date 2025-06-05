@@ -28,7 +28,7 @@ export function StatusFilter() {
       onClear={() =>
         setFilters((prev) => ({
           ...prev,
-          status: [],
+          status: null,
         }))
       }
     >

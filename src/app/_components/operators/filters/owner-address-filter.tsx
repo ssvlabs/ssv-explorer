@@ -35,7 +35,7 @@ export function OwnerAddressFilter() {
     <FilterButton
       name="Owner Address"
       activeFiltersCount={filters.ownerAddress?.length ?? 0}
-      onClear={() => setFilters((prev) => ({ ...prev, ownerAddress: [] }))}
+      onClear={() => setFilters((prev) => ({ ...prev, ownerAddress: null }))}
       popover={{
         root: {
           open,

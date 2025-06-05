@@ -34,7 +34,7 @@ export function LocationFilter() {
     <FilterButton
       name="Location"
       activeFiltersCount={filters.location?.length ?? 0}
-      onClear={() => setFilters((prev) => ({ ...prev, location: [] }))}
+      onClear={() => setFilters((prev) => ({ ...prev, location: null }))}
       popover={{
         root: {
           open,

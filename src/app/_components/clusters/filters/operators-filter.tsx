@@ -56,7 +56,7 @@ export const OperatorsFilter: FC<OperatorsFilterProps> = ({
     <FilterButton
       name="Operators"
       activeFiltersCount={operators?.length ?? 0}
-      onClear={() => setOperators([])}
+      onClear={() => setOperators(null)}
       popover={{
         root: {
           open,

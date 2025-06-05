@@ -23,7 +23,7 @@ export function Eth1ClientFilter() {
     <FilterButton
       name="ETH1 Client"
       activeFiltersCount={filters.eth1?.length}
-      onClear={() => setFilters((prev) => ({ ...prev, eth1: [] }))}
+      onClear={() => setFilters((prev) => ({ ...prev, eth1: null }))}
     >
       <Command>
         <CommandList className="max-h-none overflow-y-auto">
