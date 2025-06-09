@@ -1,39 +1,28 @@
-FROM node:20-alpine AS builder
+# Use an official Node.js runtime as a base image
+FROM node:20.10-alpine
 
 # Set working directory
-WORKDIR /app
+WORKDIR /usr/app
 
-# Install dependencies early to leverage Docker cache
-COPY package.json pnpm-lock.yaml* ./
-RUN npm install -g pnpm && pnpm install
+# Install PM2 globally
+RUN npm install -g pnpm
 
-# Copy rest of the app
-COPY . .
+# Copy package files for dependency installation
+# Utilise Docker cache to save re-installing dependencies if unchanged
+COPY ./package*.json ./pnpm-lock.yaml ./
+
+# Install dependencies
+RUN pnpm install
+
+# Copy all files
+COPY ./ ./
 COPY .env.example .env
 
-# Build the Next.js app
+# Build app
 RUN pnpm docker-build
 
-FROM node:20-alpine AS runner
-
-WORKDIR /app
-
-
-# Only copy necessary files from builder
-RUN mkdir /app/src
-COPY --from=builder /app/package.json ./
-COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/next.config.js ./
-COPY --from=builder /app/tsconfig.json ./
-COPY --from=builder /app/src/env.js ./src/env.js
-
-# Set environment variables (override in docker-compose or runtime)
-ENV NODE_ENV=production
-
-# Expose port (default Next.js port)
+# Expose the listening port
 EXPOSE 3000
 
-# Start the Next.js server
-CMD ["node_modules/.bin/next", "start"]
+# Launch app with PM2
+CMD [ "pnpm", "start" ]
