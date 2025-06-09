@@ -19,8 +19,6 @@ export const accountsSearchFilters = {
   ownerAddress: parseAsArrayOf(z.string().refine(isAddress)).withOptions(
     searchOptions
   ),
-  recipientAddress: parseAsArrayOf(z.string()).withOptions(searchOptions),
-  version: parseAsArrayOf(z.string()).withOptions(searchOptions),
 }
 
 export const accountsSearchParamsCache = createSearchParamsCache({

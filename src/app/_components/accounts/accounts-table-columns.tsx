@@ -10,13 +10,13 @@ import { Text } from "@/components/ui/text"
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header"
 
 export const accountsTableColumns: ColumnDef<Account>[] = [
-  {
-    accessorKey: "id",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="ID" />
-    ),
-    cell: ({ row }) => <div>{row.original.id}</div>,
-  },
+  // {
+  //   accessorKey: "id",
+  //   header: ({ column }) => (
+  //     <DataTableColumnHeader column={column} title="ID" />
+  //   ),
+  //   cell: ({ row }) => <div>{row.original.id}</div>,
+  // },
   {
     accessorKey: "ownerAddress",
     header: ({ column }) => (
@@ -42,7 +42,7 @@ export const accountsTableColumns: ColumnDef<Account>[] = [
       <DataTableColumnHeader column={column} title="Recipient Address" />
     ),
     cell: ({ row }) =>
-      row.original.recipientAddress ? (
+      row.original.recipientAddress && (
         <div className="flex items-center gap-1">
           <Text
             className="font-mono text-primary-500"
@@ -56,8 +56,6 @@ export const accountsTableColumns: ColumnDef<Account>[] = [
             text={row.original.recipientAddress}
           />
         </div>
-      ) : (
-        <div>-</div>
       ),
     enableSorting: false,
   },

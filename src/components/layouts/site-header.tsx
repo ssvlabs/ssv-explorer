@@ -88,6 +88,16 @@ export function SiteHeader() {
           >
             Accounts
           </Text> */}
+          {/* <Text
+            as={Link}
+            variant="body-3-medium"
+            href="/accounts"
+            className={cn({
+              "text-primary-500": pathname === "/accounts",
+            })}
+          >
+            Accounts
+          </Text> */}
         </div>
         {!isOverview && <GlobalSearch className="w-[600px] max-w-full" />}
       </div>

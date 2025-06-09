@@ -29,6 +29,7 @@ export const defaultColumns = {
 
 export function AccountsTable({ dataPromise: data }: AccountsTableProps) {
   const { accounts, pagination } = use(data)
+  console.log('accounts:', accounts)
   const { enabledFilters, clearFilters } = useAccountsSearchParams()
 
   const { table } = useDataTable({
