@@ -35,9 +35,9 @@ export const searchClusters = async <
         filtered as unknown as Record<string, string>
       )
 
-      return await api.get<PaginatedClustersResponse<T>>(
-        endpoint(params.network, "clusters", `?${searchParams}`)
-      )
+      const e = endpoint(params.network, "clusters", `?${searchParams}`)
+      console.log("e:", e)
+      return await api.get<PaginatedClustersResponse<T>>(e)
     },
     [JSON.stringify(stringifyBigints(params))],
     {

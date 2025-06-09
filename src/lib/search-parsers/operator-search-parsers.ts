@@ -20,7 +20,7 @@ import { type OperatorSortingKeys } from "../../types/api/operator"
 const searchOptions: Options = {
   history: "replace",
   shallow: false,
-  clearOnDefault: false,
+  clearOnDefault: true,
 }
 
 export const operatorSearchFilters = {

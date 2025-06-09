@@ -48,7 +48,7 @@ export function IdFilter() {
     <FilterButton
       name="ID"
       activeFiltersCount={filters.id?.length ?? 0}
-      onClear={() => setFilters((prev) => ({ ...prev, id: [] }))}
+      onClear={() => setFilters((prev) => ({ ...prev, id: null }))}
       popover={{
         root: {
           open,

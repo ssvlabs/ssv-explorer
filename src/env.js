@@ -15,6 +15,10 @@ export const env = createEnv({
       .default(
         '[{"networkId":560048,"apiVersion":"v4","apiNetwork":"hoodi","api":"https://api.stage.ops.ssvlabsinternal.com/api","explorerUrl":"https://hoodi.explorer.ssv.network","insufficientBalanceUrl":"https://faucet.ssv.network","googleTagSecret":"GTM-K3GR7M5","tokenAddress":"0x9F5d4Ec84fC4785788aB44F9de973cF34F7A038e","setterContractAddress":"0x58410Bef803ECd7E63B23664C586A6DB72DAf59c","getterContractAddress":"0x5AdDb3f1529C5ec70D77400499eE4bbF328368fe"}]'
       ),
+    SITE_URL: z
+      .string()
+      .url()
+      .transform((val) => val.replace(/\/$/, "")),
   },
 
   /**
@@ -39,6 +43,7 @@ export const env = createEnv({
     NODE_ENV: process.env.NODE_ENV,
     SSV_NETWORKS: process.env.SSV_NETWORKS,
     NEXT_PUBLIC_SSV_NETWORKS: process.env.NEXT_PUBLIC_SSV_NETWORKS,
+    SITE_URL: process.env.SITE_URL,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially

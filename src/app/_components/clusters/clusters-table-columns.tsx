@@ -8,8 +8,11 @@ import { formatSSV } from "@/lib/utils/number"
 import { remove0x, shortenAddress } from "@/lib/utils/strings"
 import { CopyBtn } from "@/components/ui/copy-btn"
 import { Text } from "@/components/ui/text"
+import { Tooltip } from "@/components/ui/tooltip"
+import { ClusterStatusBadge } from "@/components/clusters/cluster-status-badge"
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header"
 import { OperatorAvatar } from "@/components/operators/operator-avatar"
+import { OperatorInfo } from "@/components/tooltip/operator-info"
 
 export const clustersTableColumns = [
   {
@@ -59,13 +62,19 @@ export const clustersTableColumns = [
       <div className="flex gap-1">
         {row.original.operators.map((operator) => {
           return (
-            <Link href={`/operator/${operator.id}`} key={operator.id}>
-              <OperatorAvatar
-                size="base"
-                src={operator.logo}
-                isPrivate={operator.is_private}
-              />
-            </Link>
+            <Tooltip
+              asChild
+              key={operator.id}
+              className="w-[240px] p-4"
+              content={<OperatorInfo operator={operator} />}
+            >
+              <Link href={`/operator/${operator.id}`} key={operator.id}>
+                <OperatorAvatar
+                  src={operator.logo}
+                  isPrivate={operator.is_private}
+                />
+              </Link>
+            </Tooltip>
           )
         })}
       </div>
@@ -91,7 +100,7 @@ export const clustersTableColumns = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Active" />
     ),
-    cell: ({ row }) => <div>{row.original.active ? "Yes" : "No"}</div>,
+    cell: ({ row }) => <ClusterStatusBadge active={row.original.active} />,
   },
 ] satisfies ColumnDef<Cluster>[]
 
