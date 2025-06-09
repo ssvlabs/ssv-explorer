@@ -97,5 +97,3 @@ On every push attempt tests are running to check that changes are not break anyt
 The ssv-api is licensed under the
 [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.en.html),
 also included in our repository in the `LICENSE` file.
-
-
