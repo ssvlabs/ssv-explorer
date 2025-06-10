@@ -3,6 +3,7 @@
 import { isEqual } from "lodash-es"
 
 import { operatorSearchFilters } from "@/lib/search-parsers/operator-search-parsers"
+import { useNativeCurrency } from "@/hooks/app/use-native-currency"
 import { useOperatorsSearchParams } from "@/hooks/search/use-operators-search-params"
 import { FilterButton } from "@/components/filter/filter-button"
 import { RangeFilter } from "@/components/filter/range-filter"
@@ -16,10 +17,12 @@ export function ManagedEthFilter() {
     operatorSearchFilters.managedEth.defaultValue
   )
 
+  const nativeCurrency = useNativeCurrency()
+
   return (
     <FilterButton
       isActive={hasSelectedItems}
-      name="Managed ETH"
+      name={`Managed ${nativeCurrency.symbol}`}
       popover={{
         content: {
           className: "w-[400px] max-w-full",
@@ -33,7 +36,7 @@ export function ManagedEthFilter() {
       }
     >
       <RangeFilter
-        name="Managed ETH"
+        name={`Managed ${nativeCurrency.symbol}`}
         searchRange={filters.managedEth}
         inputs={{
           start: { step: 1 },

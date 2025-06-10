@@ -81,7 +81,7 @@
     "tailwindcss-animate": "^1.0.7",
     "url-join": "^5.0.0",
     "vaul": "^1.1.1",
-    "viem": "^2.21.51",
+    "viem": "^2.31.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {

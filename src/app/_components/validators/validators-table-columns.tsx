@@ -113,7 +113,6 @@ export const validatorsTableColumns: ColumnDef<SearchValidator<Operator>>[] = [
   //     <DataTableColumnHeader column={column} title="Created At" />
   //   ),
   //   cell: ({ row }) => {
-  //     console.log("row.original.created_at:", row.original.created_at)
   //     const date = new Date(row.original.created_at)
   //     if (!date) return null
   //     return (

@@ -6,6 +6,8 @@ export type Account = {
   recipientAddress?: string
   network: string
   version: string
+  nonce: number
+  effectiveBalance: string
 }
 
 export type PaginatedAccountsResponse = WithPagination<{
@@ -13,12 +15,13 @@ export type PaginatedAccountsResponse = WithPagination<{
   accounts: Account[]
 }>
 
-export type FilteredAccountsResponse = {
+export type AccountStatsResponse = {
   type: string
-  data: Account[]
-  filter: {
-    page: number
-    perPage: number
+  data: {
+    operators: number
+    clusters: number
+    validators: number
+    effectiveBalance: string
   }
 }
 

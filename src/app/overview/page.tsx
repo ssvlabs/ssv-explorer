@@ -1,5 +1,4 @@
 import { searchOperators } from "@/api/operator"
-import { getSSVRates } from "@/api/ssv"
 import { searchValidators } from "@/api/validators"
 import { type SearchParams } from "@/types"
 
@@ -7,6 +6,7 @@ import { overviewParserCache } from "@/lib/search-parsers"
 import { defaultOperatorSort } from "@/lib/search-parsers/operator-search-parsers"
 import { defaultValidatorSort } from "@/lib/search-parsers/validators-search-parsers"
 import { numberFormatter } from "@/lib/utils/number"
+import { getNativeCurrency } from "@/lib/utils/viem"
 import { Card } from "@/components/ui/card"
 import { Stat } from "@/components/ui/stat"
 import { Text } from "@/components/ui/text"
@@ -30,12 +30,14 @@ export default async function Page(props: IndexPageProps) {
     searchValidators({
       ...searchParams,
       ordering: defaultValidatorSort,
-    })
+    }),
   ])
 
   const totalOperators = operators.pagination.total
   const totalValidators = validators.pagination.total
   const totalStakedEth = validators.pagination.total * 32
+
+  const nativeCurrency = getNativeCurrency(searchParams.network)
 
   return (
     <Shell className="gap-6">
@@ -56,9 +58,9 @@ export default async function Page(props: IndexPageProps) {
         />
         <Stat
           className="flex-1"
-          title="ETH Staked"
-          tooltip="Total amount of ETH staked across all validators on the network (32 ETH per validator)"
-          content={`${numberFormatter.format(totalStakedEth)} ETH`}
+          title={`${nativeCurrency.symbol} Staked`}
+          tooltip={`Total amount of ${nativeCurrency.symbol} staked across all validators on the network (32 ${nativeCurrency.symbol} per validator)`}
+          content={`${numberFormatter.format(totalStakedEth)} ${nativeCurrency.symbol}`}
         />
       </Card>
       <div className="flex max-w-full gap-6 overflow-hidden">

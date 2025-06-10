@@ -1,4 +1,4 @@
-import { Metadata } from "next"
+import { type Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
 import { getOperator } from "@/api/operator"
@@ -168,24 +168,6 @@ export default async function Page(props: IndexPageProps) {
                   />
                 </div>
               </Card>
-              {/* <div className="flex gap-6 [&>*]:flex-1">
-                <Card>
-                  <Text variant="caption-medium" className="text-gray-500">
-                    Avg. Performance
-                  </Text>
-                  <div className="h-[144px] w-full rounded-xl">
-                    <PerformanceChart />
-                  </div>
-                </Card>
-                <Card>
-                  <Text variant="caption-medium" className="text-gray-500">
-                    ETH Management Table
-                  </Text>
-                  <div className="h-[144px] w-full rounded-xl">
-                    <PerformanceChart />
-                  </div>
-                </Card>
-              </div> */}
               <Card>
                 <ValidatorsTable dataPromise={validators} />
               </Card>
