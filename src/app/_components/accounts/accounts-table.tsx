@@ -10,9 +10,7 @@ import { useDataTable } from "@/hooks/use-data-table"
 import { Button } from "@/components/ui/button"
 import { Text } from "@/components/ui/text"
 import { DataTable } from "@/components/data-table/data-table"
-import { DataTableMenuButton } from "@/components/data-table/data-table-filters-button"
 import { DataTableViewOptions } from "@/components/data-table/data-table-view-options"
-import { OperatorTableFilters } from "@/app/_components/operators/filters/operator-table-filters"
 
 import { accountsTableColumns } from "./accounts-table-columns"
 
@@ -29,7 +27,6 @@ export const defaultColumns = {
 
 export function AccountsTable({ dataPromise: data }: AccountsTableProps) {
   const { accounts, pagination } = use(data)
-  console.log('accounts:', accounts)
   const { enabledFilters, clearFilters } = useAccountsSearchParams()
 
   const { table } = useDataTable({
@@ -51,7 +48,6 @@ export function AccountsTable({ dataPromise: data }: AccountsTableProps) {
         <div className="flex gap-2">
           <Text variant="headline4">Accounts</Text>
           <div className="flex-1"></div>
-          <DataTableMenuButton enabledFilters={enabledFilters} />
           {enabledFilters.count > 0 && (
             <Button
               aria-label="Toggle columns"
@@ -67,7 +63,6 @@ export function AccountsTable({ dataPromise: data }: AccountsTableProps) {
           )}
           <DataTableViewOptions table={table} />
         </div>
-        <OperatorTableFilters />
         <DataTable table={table} />
       </TableProvider>
     </>

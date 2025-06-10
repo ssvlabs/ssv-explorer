@@ -31,9 +31,10 @@ export const Stat: StatFC = ({
   ...props
 }) => {
   const ContentComponent = isString(content) || isNumber(content) ? Text : Slot
-  const SubContentComponent = isString(subContent) || isNumber(subContent) ? Text : Slot
+  const SubContentComponent =
+    isString(subContent) || isNumber(subContent) ? Text : Slot
   return (
-    <div className={cn(className, "gap-2")} {...props}>
+    <div className={cn("flex flex-col gap-2", className)} {...props}>
       <div>
         <Tooltip content={tooltip}>
           <div className="flex items-center gap-1">
@@ -58,11 +59,25 @@ export const Stat: StatFC = ({
           </ContentComponent>
         )}
       </div>
-      {subContent && (
-        <SubContentComponent variant="caption-medium" className="text-gray-500">
-          {subContent}
-        </SubContentComponent>
-      )}
+      {subContent &&
+        (isContentLoading ? (
+          <Skeleton className="w-16">
+            <Text
+              variant="caption-medium"
+              className="select-none text-transparent"
+              aria-hidden="true"
+            >
+              Placeholder
+            </Text>
+          </Skeleton>
+        ) : (
+          <SubContentComponent
+            variant="caption-medium"
+            className="text-gray-500"
+          >
+            {subContent}
+          </SubContentComponent>
+        ))}
     </div>
   )
 }

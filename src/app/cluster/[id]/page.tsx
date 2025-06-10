@@ -10,6 +10,7 @@ import {
 import { cn } from "@/lib/utils"
 import { formatSSV, numberFormatter } from "@/lib/utils/number"
 import { remove0x, shortenAddress } from "@/lib/utils/strings"
+import { getNativeCurrency } from "@/lib/utils/viem"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { CopyBtn } from "@/components/ui/copy-btn"
@@ -61,6 +62,8 @@ export default async function Page(props: IndexPageProps) {
     )
   }
 
+  const nativeCurrency = getNativeCurrency(searchParams.network)
+
   return (
     <Shell className="gap-6">
       <Card>
@@ -105,9 +108,10 @@ export default async function Page(props: IndexPageProps) {
           <div className="h-full border-r border-gray-500" />
           <Stat
             className="flex-1"
-            title="Total ETH"
+            title={`Total ${nativeCurrency.symbol}`}
             content={
-              numberFormatter.format(+cluster.validatorCount * 32) + " ETH"
+              numberFormatter.format(+cluster.validatorCount * 32) +
+              ` ${nativeCurrency.symbol}`
             }
           />
         </div>

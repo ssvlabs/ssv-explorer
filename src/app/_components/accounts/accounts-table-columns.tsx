@@ -4,7 +4,9 @@ import Link from "next/link"
 import { type ColumnDef } from "@tanstack/react-table"
 
 import { type Account } from "@/types/api/account"
+import { formatGwei } from "@/lib/utils/number"
 import { shortenAddress } from "@/lib/utils/strings"
+import { useNativeCurrency } from "@/hooks/app/use-native-currency"
 import { CopyBtn } from "@/components/ui/copy-btn"
 import { Text } from "@/components/ui/text"
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header"
@@ -60,10 +62,26 @@ export const accountsTableColumns: ColumnDef<Account>[] = [
     enableSorting: false,
   },
   {
-    accessorKey: "version",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Version" />
-    ),
-    cell: ({ row }) => <div>{row.original.version}</div>,
+    accessorKey: "effectiveBalance",
+    header: ({ column }) => {
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const nativeCurrency = useNativeCurrency()
+      return (
+        <DataTableColumnHeader
+          column={column}
+          title={`${nativeCurrency.symbol} Staked`}
+        />
+      )
+    },
+    cell: ({ row }) => {
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const nativeCurrency = useNativeCurrency()
+      return (
+        <div>
+          {formatGwei(BigInt(row.original.effectiveBalance || 0))}{" "}
+          {nativeCurrency.symbol}
+        </div>
+      )
+    },
   },
 ]

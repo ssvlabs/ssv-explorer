@@ -1,21 +1,24 @@
-import { searchValidators } from "@/api/validators"
+import { searchOperators } from "@/api/operator"
 import { type SearchParams } from "@/types"
 import { type Address } from "viem"
 
-import { validatorsSearchParamsCache } from "@/lib/search-parsers/validators-search-parsers"
-import { ValidatorsTable } from "@/app/_components/accounts/tables/validators-table"
+import { operatorsSearchParamsCache } from "@/lib/search-parsers/operator-search-parsers"
+import { OperatorsTable } from "@/app/_components/operators/operators-table"
 
 interface IndexPageProps {
   params: Promise<{ address: Address }>
   searchParams: Promise<SearchParams>
 }
 
-export default async function IndexPage({params, searchParams}: IndexPageProps) {
-  const search = validatorsSearchParamsCache.parse(await searchParams)
+export default async function IndexPage({
+  params,
+  searchParams,
+}: IndexPageProps) {
+  const search = operatorsSearchParamsCache.parse(await searchParams)
   const { address } = await params
-  const validators = searchValidators({
+  const operators = searchOperators({
     ...search,
     ownerAddress: [address],
   })
-  return <ValidatorsTable dataPromise={validators} hideOwnerAddressFilter />
+  return <OperatorsTable dataPromise={operators} />
 }

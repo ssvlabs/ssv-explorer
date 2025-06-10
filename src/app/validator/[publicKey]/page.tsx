@@ -1,3 +1,4 @@
+import type { Metadata } from "next"
 import Link from "next/link"
 import { searchDuties } from "@/api/duties"
 import { getValidator } from "@/api/validators"
@@ -9,6 +10,7 @@ import {
 } from "@/lib/search-parsers/duties-search-parsers"
 import { cn } from "@/lib/utils"
 import { shortenAddress } from "@/lib/utils/strings"
+import { getNativeCurrency } from "@/lib/utils/viem"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { CopyBtn } from "@/components/ui/copy-btn"
@@ -19,7 +21,6 @@ import { Text } from "@/components/ui/text"
 import { OperatorCard } from "@/components/operators/operator-card"
 import { Shell } from "@/components/shell"
 import { DutiesTable } from "@/app/_components/duties/duties-table"
-import type { Metadata } from "next"
 
 interface IndexPageProps {
   params: Promise<{ publicKey: string }>
@@ -28,8 +29,7 @@ interface IndexPageProps {
 
 export const metadata: Metadata = {
   title: "Validator",
-  description:
-    "View details and duties for this validator on the SSV Network.",
+  description: "View details and duties for this validator on the SSV Network.",
 }
 
 export default async function Page(props: IndexPageProps) {
@@ -47,6 +47,8 @@ export default async function Page(props: IndexPageProps) {
     publicKey,
     network: searchParams.network,
   })
+
+  const nativeCurrency = getNativeCurrency(searchParams.network)
 
   return (
     <Shell className="gap-6">
@@ -106,7 +108,11 @@ export default async function Page(props: IndexPageProps) {
             }
           />
           <div className="h-full border-r border-gray-500" />
-          <Stat className="flex-1" title="ETH Balance" content={32 + " ETH"} />
+          <Stat
+            className="flex-1"
+            title={`${nativeCurrency.symbol} Balance`}
+            content={`32 ${nativeCurrency.symbol}`}
+          />
         </div>
       </Card>
 

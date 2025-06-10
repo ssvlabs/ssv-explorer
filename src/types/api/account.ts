@@ -7,6 +7,7 @@ export type Account = {
   network: string
   version: string
   nonce: number
+  effectiveBalance: string
 }
 
 export type PaginatedAccountsResponse = WithPagination<{
@@ -19,6 +20,8 @@ export type AccountStatsResponse = {
   data: {
     operators: number
     clusters: number
+    validators: number
+    effectiveBalance: string
   }
 }
 

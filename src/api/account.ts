@@ -2,8 +2,8 @@
 
 import { endpoint } from "@/api"
 import { api } from "@/api/api-client"
-import { isUndefined, omitBy } from "lodash-es"
-import { Address } from "viem"
+import { omitBy } from "lodash-es"
+import { type Address } from "viem"
 
 import type {
   AccountStatsResponse,
@@ -27,6 +27,7 @@ export const getAccounts = async (
         filtered as unknown as Record<string, string>
       )
       const a = endpoint(params.network, "accounts", `?${searchParams}`)
+      console.log("a:", a)
 
       return api.get<PaginatedAccountsResponse>(a)
     },

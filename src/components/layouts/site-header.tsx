@@ -1,10 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 "use client"
 
-import Link from "next/link"
 import { usePathname } from "next/navigation"
 
-import { cn } from "@/lib/utils"
 import { currencyFormatter } from "@/lib/utils/number"
 import { useSSVRates } from "@/hooks/use-ssv-rates"
 import { Text } from "@/components/ui/text"
@@ -12,6 +10,7 @@ import { GlobalSearch } from "@/components/global-search/global-search"
 import { ThemeToggle } from "@/components/layouts/mode-toggle"
 import { Logo } from "@/components/logo"
 import { NetworkSwitcher } from "@/components/network-switcher"
+import { Link } from "@/components/nextjs/custom-link"
 
 export function SiteHeader() {
   const pathname = usePathname()
@@ -42,9 +41,7 @@ export function SiteHeader() {
             as={Link}
             variant="body-3-medium"
             href="/overview"
-            className={cn({
-              "text-primary-500": pathname === "/overview",
-            })}
+            className="data-[active=true]:text-primary-500"
           >
             Overview
           </Text>
@@ -52,9 +49,7 @@ export function SiteHeader() {
             as={Link}
             variant="body-3-medium"
             href="/operators"
-            className={cn({
-              "text-primary-500": pathname === "/operators",
-            })}
+            className="data-[active=true]:text-primary-500"
           >
             Operators
           </Text>
@@ -62,9 +57,7 @@ export function SiteHeader() {
             as={Link}
             variant="body-3-medium"
             href="/validators"
-            className={cn({
-              "text-primary-500": pathname === "/validators",
-            })}
+            className="data-[active=true]:text-primary-500"
           >
             Validators
           </Text>
@@ -72,32 +65,18 @@ export function SiteHeader() {
             as={Link}
             variant="body-3-medium"
             href="/clusters"
-            className={cn({
-              "text-primary-500": pathname === "/clusters",
-            })}
+            className="data-[active=true]:text-primary-500"
           >
             Clusters
           </Text>
-          {/* <Text
+          <Text
             as={Link}
             variant="body-3-medium"
             href="/accounts"
-            className={cn({
-              "text-primary-500": pathname === "/accounts",
-            })}
+            className="data-[active=true]:text-primary-500"
           >
             Accounts
-          </Text> */}
-          {/* <Text
-            as={Link}
-            variant="body-3-medium"
-            href="/accounts"
-            className={cn({
-              "text-primary-500": pathname === "/accounts",
-            })}
-          >
-            Accounts
-          </Text> */}
+          </Text>
         </div>
         {!isOverview && <GlobalSearch className="w-[600px] max-w-full" />}
       </div>
