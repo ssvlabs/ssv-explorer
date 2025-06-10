@@ -29,8 +29,9 @@ export const searchValidators = async (
       const searchParams = new URLSearchParams(
         filtered as unknown as Record<string, string>
       )
-      const url = endpoint(params.network, "validators", `?${searchParams}`)
-      const response = await api.get<PaginatedValidatorsResponse>(url)
+      const response = await api.get<PaginatedValidatorsResponse>(
+        endpoint(params.network, "validators", `?${searchParams}`)
+      )
       return response
     },
     [JSON.stringify(stringifyBigints(params))],

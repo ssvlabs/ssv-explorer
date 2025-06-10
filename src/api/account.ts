@@ -26,10 +26,10 @@ export const getAccounts = async (
       const searchParams = new URLSearchParams(
         filtered as unknown as Record<string, string>
       )
-      const a = endpoint(params.network, "accounts", `?${searchParams}`)
-      console.log("a:", a)
 
-      return api.get<PaginatedAccountsResponse>(a)
+      return api.get<PaginatedAccountsResponse>(
+        endpoint(params.network, "accounts", `?${searchParams}`)
+      )
     },
     [JSON.stringify(stringifyBigints(params))],
     {
@@ -43,9 +43,9 @@ export const getAccountStats = async (
 ) =>
   await unstable_cache(
     async () => {
-      const a = endpoint(params.network, "accounts/counts", params.address)
-
-      return api.get<AccountStatsResponse>(a)
+      return api.get<AccountStatsResponse>(
+        endpoint(params.network, "accounts/counts", params.address)
+      )
     },
     [JSON.stringify(stringifyBigints(params))],
     {
