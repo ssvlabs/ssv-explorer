@@ -22,6 +22,8 @@ import {
 } from "@/components/ui/popover"
 import { TableMenuButton } from "@/components/ui/table"
 
+import { Text } from "../ui/text"
+
 interface DataTableViewOptionsProps<TData> {
   table: Table<TData>
 }
@@ -65,12 +67,12 @@ export function DataTableViewOptions<TData>({
           isActive={open}
           icon={<FiSidebar />}
         >
-          Customize Table
+          <Text className="hidden sm:inline"> Customize Table</Text>
         </TableMenuButton>
       </PopoverTrigger>
       <PopoverContent
         align="end"
-        className="w-[400px] overflow-auto p-0"
+        className="w-screen max-w-[400px] flex-1 overflow-auto p-0"
         onCloseAutoFocus={() => triggerRef.current?.focus()}
       >
         <Command>

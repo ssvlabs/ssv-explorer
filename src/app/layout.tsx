@@ -1,6 +1,5 @@
 import { siteConfig } from "@/config/site"
 import { cn } from "@/lib/utils"
-import { SiteHeader } from "@/components/layouts/site-header"
 import { TailwindIndicator } from "@/components/tailwind-indicator"
 
 import "@/styles/globals.css"
@@ -15,6 +14,7 @@ import type { Metadata, Viewport } from "next"
 import { Slot } from "@radix-ui/react-slot"
 
 import { Toaster } from "@/components/ui/toaster"
+import { SiteHeader } from "@/components/layouts/site.header"
 
 import { Providers } from "./_providers/providers"
 

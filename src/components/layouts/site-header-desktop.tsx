@@ -12,7 +12,7 @@ import { Logo } from "@/components/logo"
 import { NetworkSwitcher } from "@/components/network-switcher"
 import { Link } from "@/components/nextjs/custom-link"
 
-export function SiteHeader() {
+export function SiteHeaderDesktop() {
   const pathname = usePathname()
   const isOverview = pathname.startsWith("/overview")
   const { data: rates } = useSSVRates()

@@ -54,7 +54,7 @@ export const Stat: StatFC = ({
             </Text>
           </Skeleton>
         ) : (
-          <ContentComponent className="text-xl font-bold">
+          <ContentComponent className="text-lg font-bold md:text-xl">
             {content}
           </ContentComponent>
         )}

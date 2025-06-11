@@ -5,6 +5,8 @@ import { Settings2 } from "lucide-react"
 
 import { TableMenuButton } from "@/components/ui/table"
 
+import { Text } from "../ui/text"
+
 interface DataTableFiltersButtonProps {
   enabledFilters: {
     count: number
@@ -25,7 +27,7 @@ export function DataTableMenuButton({
       isActive={isFiltersOpen}
       icon={<Settings2 />}
     >
-      Filters
+      <Text className="hidden sm:inline">Filters</Text>
     </TableMenuButton>
   )
 }

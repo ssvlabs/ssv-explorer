@@ -28,6 +28,8 @@ export const buttonVariants = cva(
         disabled: "cursor-not-allowed bg-gray-300 text-gray-500 opacity-50",
         subtle:
           "bg-slate-400/5 hover:bg-slate-400/20 hover:text-accent-foreground",
+        "drawer-link":
+          "justify-start rounded-none text-left hover:bg-gray-200 active:bg-gray-300",
       },
       colorScheme: {
         wallet:

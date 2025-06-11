@@ -43,7 +43,7 @@ export default async function Page(props: IndexPageProps) {
     <Shell className="gap-6">
       <Text variant="headline4">Discover the SSV Network</Text>
       <GlobalSearch size="lg" />
-      <Card className="flex flex-row">
+      <Card className="flex gap-3 sm:flex-row">
         <Stat
           className="flex-1"
           title="Validators"
@@ -63,7 +63,7 @@ export default async function Page(props: IndexPageProps) {
           content={`${numberFormatter.format(totalStakedEth)} ${nativeCurrency.symbol}`}
         />
       </Card>
-      <div className="flex max-w-full gap-6 overflow-hidden">
+      <div className="flex flex-col gap-6 overflow-hidden md:flex-row">
         <OperatorsTablePreview dataPromise={Promise.resolve(operators)} />
         <ValidatorsTablePreview dataPromise={Promise.resolve(validators)} />
       </div>
