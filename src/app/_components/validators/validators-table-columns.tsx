@@ -13,8 +13,11 @@ import { OperatorAvatar } from "@/components/operators/operator-avatar"
 import { OperatorInfo } from "@/components/tooltip/operator-info"
 import { ValidatorStatusBadge } from "@/components/validators/validator-status-badge"
 
-export const validatorsTableColumns: ColumnDef<SearchValidator<Operator>>[] = [
-  {
+export const validatorColumns: Record<
+  "publicKey" | "cluster" | "ownerAddress" | "operators" | "status",
+  ColumnDef<SearchValidator<Operator>>
+> = {
+  publicKey: {
     accessorKey: "publicKey",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Public Key" />
@@ -33,7 +36,7 @@ export const validatorsTableColumns: ColumnDef<SearchValidator<Operator>>[] = [
     ),
     enableSorting: false,
   },
-  {
+  cluster: {
     accessorKey: "cluster",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Cluster" />
@@ -52,7 +55,7 @@ export const validatorsTableColumns: ColumnDef<SearchValidator<Operator>>[] = [
     ),
     enableSorting: false,
   },
-  {
+  ownerAddress: {
     accessorKey: "ownerAddress",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Owner Address" />
@@ -71,7 +74,7 @@ export const validatorsTableColumns: ColumnDef<SearchValidator<Operator>>[] = [
     ),
     enableSorting: false,
   },
-  {
+  operators: {
     accessorKey: "operators",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Operators" />
@@ -97,7 +100,7 @@ export const validatorsTableColumns: ColumnDef<SearchValidator<Operator>>[] = [
     ),
     enableSorting: false,
   },
-  {
+  status: {
     accessorKey: "status",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Status" />
@@ -107,26 +110,20 @@ export const validatorsTableColumns: ColumnDef<SearchValidator<Operator>>[] = [
     ),
     enableSorting: false,
   },
-  // {
-  //   accessorKey: "created_at",
-  //   header: ({ column }) => (
-  //     <DataTableColumnHeader column={column} title="Created At" />
-  //   ),
-  //   cell: ({ row }) => {
-  //     const date = new Date(row.original.created_at)
-  //     if (!date) return null
-  //     return (
-  //       <Tooltip asChild content={formatFullDate(date)}>
-  //         <Text className="w-fit text-gray-600">{getRelativeTime(date)}</Text>
-  //       </Tooltip>
-  //     )
-  //   },
-  //   enableSorting: true,
-  // },
+}
+
+export const validatorsTableColumns: ColumnDef<SearchValidator<Operator>>[] = [
+  validatorColumns.publicKey,
+  validatorColumns.cluster,
+  validatorColumns.ownerAddress,
+  validatorColumns.operators,
+  validatorColumns.status,
 ]
 
-export const validatorsTablePreviewColumns = validatorsTableColumns.filter(
-  (column) =>
-    // @ts-expect-error accessorKey is not defined in the type
-    ["publicKey", "ownerAddress", "status"].includes(column.accessorKey)
-)
+export const validatorsOverviewTableColumns: ColumnDef<
+  SearchValidator<Operator>
+>[] = [
+  validatorColumns.cluster,
+  validatorColumns.operators,
+  validatorColumns.status,
+]
