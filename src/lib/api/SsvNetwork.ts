@@ -49,13 +49,11 @@ class SsvNetwork {
   async fetchOperators({
                          page = 1,
                          perPage = ApiParams.PER_PAGE,
-                         validatorsCount = 'false',
                          status = 'false',
                        }: { page?: number, perPage?: number, validatorsCount?: string, status?: string }) {
     let params: any = {
       page,
       perPage,
-      validatorsCount,
       status,
       ordering: 'validators_count:desc',
     };

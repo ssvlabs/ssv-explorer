@@ -52,7 +52,7 @@ const OperatorsList = () => {
     const perPage: number = ApiParams.getInteger('operators', 'perPage', ApiParams.PER_PAGE);
 
     setLoading(true);
-    SsvNetwork.getInstance().fetchOperators({ page, perPage, validatorsCount: 'true', status: 'true' })
+    SsvNetwork.getInstance().fetchOperators({ page, perPage, status: 'true' })
       .then((result: any) => {
         overviewStore.setTotalOperators(result.data.pagination.total);
         setOperators(result.data.operators);
