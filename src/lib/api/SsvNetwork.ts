@@ -55,7 +55,7 @@ class SsvNetwork {
       page,
       perPage,
       status,
-      ordering: 'validators_count:desc',
+      ordering: 'validatorsCount:desc',
     };
 
     params = new URLSearchParams(params);
