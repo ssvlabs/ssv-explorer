@@ -142,8 +142,8 @@ jobs:
           NODE_OPTIONS: '--openssl-legacy-provider'
           AWS_S3_BUCKET: ${{ secrets.PROD_AWS_S3_BUCKET_V4_HOODI }}
           ANNOUNCEMENT: ${{ secrets.PROD_ANNOUNCEMENT_V4_HOODI }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.PROD_AWS_SECRET_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.PROD_AWS_SECRET_ACCESS_KEY }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.SSV_EXPLORER_AWS_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.SSV_EXPLORER_AWS_SECRET }}
           AWS_REGION: 'us-west-2'
           SOURCE_DIR: 'build/'
       # </hoodi.explorer.ssv.network>
