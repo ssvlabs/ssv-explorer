@@ -55,16 +55,22 @@ export const dutiesTableColumns: ColumnDef<DutyElement>[] = [
   {
     accessorKey: "status",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Status" />
+      <DataTableColumnHeader
+        column={column}
+        title="Status"
+        className="justify-end text-end"
+      />
     ),
     cell: ({ row }) => (
-      <Badge
-        className="capitalize"
-        size="sm"
-        variant={row.original.status === Status.Success ? "success" : "error"}
-      >
-        {row.original.status}
-      </Badge>
+      <div className="flex justify-end">
+        <Badge
+          className="capitalize"
+          size="sm"
+          variant={row.original.status === Status.Success ? "success" : "error"}
+        >
+          {row.original.status}
+        </Badge>
+      </div>
     ),
     enableSorting: false,
   },
