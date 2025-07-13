@@ -1,12 +1,15 @@
 import type { WithPagination } from "./paginations"
 
 export type Account = {
-  id: number
-  ownerAddress: string
-  recipientAddress?: string
+  id: string
   network: string
   version: string
+  ownerAddress: string
+  recipientAddress?: string
   nonce: number
+  validators: number
+  operators: number
+  clusters: number
   effectiveBalance: string
 }
 

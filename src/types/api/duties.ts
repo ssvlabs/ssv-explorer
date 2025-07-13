@@ -4,10 +4,16 @@ export type DutiesResponse = WithPagination<{
   duties: DutyElement[]
 }>
 
+export type DutyOperator = {
+  id: number
+  name: string
+  status: Status
+}
+
 export interface DutyElement {
   publicKey: string
-  operators: Operator[]
-  missing_operators: Operator[]
+  operators: DutyOperator[]
+  missing_operators: DutyOperator[]
   slot: number
   epoch: number
   duty: DutyEnum

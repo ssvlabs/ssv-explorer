@@ -101,6 +101,7 @@ export const operatorSearchFilters = {
 export const defaultOperatorSort: ExtendedSortingState<OperatorSortingKeys> = [
   { id: "id", desc: true },
 ]
+
 export const operatorSearchSort = {
   ordering: getSortingStateParser<OperatorSortingKeys>()
     .withDefault(defaultOperatorSort)

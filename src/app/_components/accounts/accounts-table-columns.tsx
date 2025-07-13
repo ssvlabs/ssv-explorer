@@ -62,6 +62,39 @@ export const accountsTableColumns: ColumnDef<Account>[] = [
     enableSorting: false,
   },
   {
+    accessorKey: "operator",
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        column={column}
+        title="Operators"
+        className="w-[119px]"
+      />
+    ),
+    cell: ({ row }) => row.original.operators,
+  },
+  {
+    accessorKey: "cluster",
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        column={column}
+        title="Clusters"
+        className="w-[119px]"
+      />
+    ),
+    cell: ({ row }) => row.original.clusters,
+  },
+  {
+    accessorKey: "validator",
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        column={column}
+        title="Validators"
+        className="w-[119px]"
+      />
+    ),
+    cell: ({ row }) => row.original.validators,
+  },
+  {
     accessorKey: "effectiveBalance",
     header: ({ column }) => {
       // eslint-disable-next-line react-hooks/rules-of-hooks
