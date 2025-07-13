@@ -5,12 +5,14 @@ import { usePathname } from "next/navigation"
 
 import { currencyFormatter } from "@/lib/utils/number"
 import { useSSVRates } from "@/hooks/use-ssv-rates"
+import { Button } from "@/components/ui/button"
 import { Text } from "@/components/ui/text"
 import { GlobalSearch } from "@/components/global-search/global-search"
 import { ThemeToggle } from "@/components/layouts/mode-toggle"
 import { Logo } from "@/components/logo"
 import { NetworkSwitcher } from "@/components/network-switcher"
 import { Link } from "@/components/nextjs/custom-link"
+import { cn } from "@/lib/utils"
 
 export function SiteHeader() {
   const pathname = usePathname()
@@ -32,6 +34,16 @@ export function SiteHeader() {
             </span>
           </Text>
           <NetworkSwitcher />
+          <Button
+            as={Link}
+            href="https://app.ssv.network/join"
+            target="_blank"
+            variant="default"
+            className={cn("w-fit gap-1 px-3 font-sans text-sm capitalize")}
+            colorScheme="light"
+          >
+            Join SSV
+          </Button>
           <ThemeToggle />
         </nav>
       </div>
