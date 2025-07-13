@@ -1,4 +1,4 @@
-import type { ComponentPropsWithRef, FC } from "react"
+import type { ComponentPropsWithoutRef, ComponentPropsWithRef, FC } from "react"
 import Link from "next/link"
 import { MdOutlineLock } from "react-icons/md"
 
@@ -11,6 +11,7 @@ import { OperatorAvatar } from "@/components/operators/operator-avatar"
 export type OperatorInfoProps = {
   variant?: "minimal" | "full"
   operator: Pick<Operator, "id" | "name" | "logo" | "is_private" | "type">
+  avatarProps?: ComponentPropsWithoutRef<typeof OperatorAvatar>
 }
 
 type OperatorInfoFC = FC<
@@ -22,16 +23,17 @@ export const OperatorInfo: OperatorInfoFC = ({
   className,
   variant = "full",
   operator,
+  avatarProps,
   ...props
 }) => {
   return (
     <div className={cn("flex items-center gap-2", className)} {...props}>
-      <OperatorAvatar src={operator.logo} />
+      <OperatorAvatar src={operator.logo} {...avatarProps} />
       <div className="flex flex-col items-start">
         <div className="flex items-center gap-2">
           <Button asChild variant="link">
             <Link href={`/operator/${operator.id}`}>
-              {operator.name || "OOOO"}
+              {operator.name || `Operator ${operator.id}`}
             </Link>
           </Button>
           <div className="flex items-center gap-1">

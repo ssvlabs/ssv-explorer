@@ -1,11 +1,16 @@
 import type { WithPagination } from "./paginations"
 
 export type Account = {
-  id: number
-  ownerAddress: string
-  recipientAddress?: string
+  id: string
   network: string
   version: string
+  ownerAddress: string
+  recipientAddress?: string
+  nonce: number
+  validators: number
+  operators: number
+  clusters: number
+  effectiveBalance: string
 }
 
 export type PaginatedAccountsResponse = WithPagination<{
@@ -13,12 +18,13 @@ export type PaginatedAccountsResponse = WithPagination<{
   accounts: Account[]
 }>
 
-export type FilteredAccountsResponse = {
+export type AccountStatsResponse = {
   type: string
-  data: Account[]
-  filter: {
-    page: number
-    perPage: number
+  data: {
+    operators: number
+    clusters: number
+    validators: number
+    effectiveBalance: string
   }
 }
 

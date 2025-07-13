@@ -5,6 +5,9 @@
 /.pnp
 .pnp.js
 
+# yml
+.github/workflows/test.yml
+
 # testing
 /coverage
 
@@ -15,7 +18,6 @@
 # next.js
 /.next/
 /out/
-next-env.d.ts
 
 # production
 /build
@@ -25,9 +27,6 @@ next-env.d.ts
 *.pem
 
 # debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
 .pnpm-debug.log*
 
 # local env files
@@ -40,3 +39,5 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
+/.vscode/
+/.idea/

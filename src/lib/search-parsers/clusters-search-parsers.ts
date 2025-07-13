@@ -38,6 +38,7 @@ export const clustersSearchFilters = {
     [z.number({ coerce: true }), z.number({ coerce: true })],
     (values) => values.sort((a, b) => +a - +b)
   ).withOptions(searchOptions),
+  operatorDetails: parseAsBoolean.withOptions(searchOptions).withDefault(true),
 }
 
 export const defaultClusterSort: ExtendedSortingState<Cluster> = [

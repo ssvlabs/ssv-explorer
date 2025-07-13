@@ -14,12 +14,12 @@ import { Text, textVariants } from "@/components/ui/text"
 import { DataTable } from "@/components/data-table/data-table"
 import { operatorsTablePreviewColumns } from "@/app/_components/operators/operators-table-columns"
 
-interface OperatorsTableProps {
+interface OperatorsOverviewTableProps {
   dataPromise: Promise<OperatorsSearchResponse>
 }
 
-export const OperatorsTablePreview = withErrorBoundary(
-  ({ dataPromise: data }: OperatorsTableProps) => {
+export const OperatorsOverviewTable = withErrorBoundary(
+  ({ dataPromise: data }: OperatorsOverviewTableProps) => {
     const { operators: operators, pagination } = use(data)
 
     const { table } = useDataTable({

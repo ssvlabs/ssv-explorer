@@ -1,23 +1,21 @@
-import { Text } from "@/components/ui/text"
-import { Shell } from "@/components/shell"
+import { searchValidators } from "@/api/validators"
+import { type SearchParams } from "@/types"
+import { type Address } from "viem"
+
+import { validatorsSearchParamsCache } from "@/lib/search-parsers/validators-search-parsers"
+import { ValidatorsTable } from "@/app/_components/accounts/tables/validators-table"
 
 interface IndexPageProps {
-  params: Promise<{ address: string }>
+  params: Promise<{ address: Address }>
+  searchParams: Promise<SearchParams>
 }
 
-export default function IndexPage(props: IndexPageProps) {
-  return (
-    <Shell className="items-center justify-center gap-2 p-6 text-center">
-      <Text variant="headline3" className="font-medium text-gray-800">
-        🚧
-      </Text>
-      <Text variant="headline3" className="font-medium text-gray-800">
-        Account page is under construction
-      </Text>
-      <Text className="max-w-sm text-gray-600">
-        This page is currently under development and will be available soon.
-        Thank you for your patience.
-      </Text>
-    </Shell>
-  )
+export default async function IndexPage({params, searchParams}: IndexPageProps) {
+  const search = validatorsSearchParamsCache.parse(await searchParams)
+  const { address } = await params
+  const validators = searchValidators({
+    ...search,
+    ownerAddress: [address],
+  })
+  return <ValidatorsTable dataPromise={validators} hideOwnerAddressFilter />
 }

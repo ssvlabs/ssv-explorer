@@ -3,25 +3,12 @@
 import { type ColumnDef } from "@tanstack/react-table"
 
 import { Status, type DutyElement } from "@/types/api/duties"
+import { Badge } from "@/components/ui/badge"
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header"
 
-export const dutiesTableColumns: ColumnDef<DutyElement>[] = [
-  //   {
-  //     accessorKey: "publicKey",
-  //     header: ({ column }) => (
-  //       <DataTableColumnHeader column={column} title="Validator Public Key" />
-  //     ),
-  //     cell: ({ row }) => (
-  //       <div className="flex items-center gap-1">
-  //         <Text className="font-mono text-primary-500">
-  //           <div>{shortenAddress(remove0x(row.original.publicKey))}</div>
-  //         </Text>
-  //         <CopyBtn className="text-gray-500" text={row.original.publicKey} />
-  //       </div>
-  //     ),
-  //     enableSorting: false,
-  //   },
+import { OperatorConsensusBreakdown } from "./cells/operator-consensus-breakdown"
 
+export const dutiesTableColumns: ColumnDef<DutyElement>[] = [
   {
     accessorKey: "epoch",
     header: ({ column }) => (
@@ -47,20 +34,37 @@ export const dutiesTableColumns: ColumnDef<DutyElement>[] = [
     enableSorting: false,
   },
   {
+    accessorKey: "operators",
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        column={column}
+        className="justify-end text-end"
+        title="Operator Consensus Breakdown"
+      />
+    ),
+    cell: ({ row }) => (
+      <div className="flex justify-end">
+        <OperatorConsensusBreakdown
+          operators={row.original.operators}
+          missingOperators={row.original.missing_operators}
+        />
+      </div>
+    ),
+    enableSorting: false,
+  },
+  {
     accessorKey: "status",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Status" />
     ),
     cell: ({ row }) => (
-      <div
-        className={
-          row.original.status === Status.Success
-            ? "text-green-500"
-            : "text-red-500"
-        }
+      <Badge
+        className="capitalize"
+        size="sm"
+        variant={row.original.status === Status.Success ? "success" : "error"}
       >
         {row.original.status}
-      </div>
+      </Badge>
     ),
     enableSorting: false,
   },

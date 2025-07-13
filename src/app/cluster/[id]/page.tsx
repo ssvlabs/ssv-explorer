@@ -1,3 +1,4 @@
+import type { Metadata } from "next"
 import Link from "next/link"
 import { getCluster } from "@/api/clusters"
 import { searchValidators } from "@/api/validators"
@@ -9,6 +10,7 @@ import {
 import { cn } from "@/lib/utils"
 import { formatSSV, numberFormatter } from "@/lib/utils/number"
 import { remove0x, shortenAddress } from "@/lib/utils/strings"
+import { getNativeCurrency } from "@/lib/utils/viem"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { CopyBtn } from "@/components/ui/copy-btn"
@@ -25,6 +27,12 @@ interface IndexPageProps {
   searchParams: Promise<{ network: string }>
 }
 
+export const metadata: Metadata = {
+  title: "Cluster",
+  description:
+    "View details and validators for this cluster on the SSV Network.",
+}
+
 export default async function Page(props: IndexPageProps) {
   const { id } = await props.params
   const awaitedSearchParams = await props.searchParams
@@ -34,7 +42,7 @@ export default async function Page(props: IndexPageProps) {
 
   const validators = searchValidators({
     ...searchParams,
-    clusterId: [id],
+    cluster: [id],
   })
 
   const cluster = await getCluster({ id, network: searchParams.network }).catch(
@@ -53,6 +61,8 @@ export default async function Page(props: IndexPageProps) {
       />
     )
   }
+
+  const nativeCurrency = getNativeCurrency(searchParams.network)
 
   return (
     <Shell className="gap-6">
@@ -98,9 +108,10 @@ export default async function Page(props: IndexPageProps) {
           <div className="h-full border-r border-gray-500" />
           <Stat
             className="flex-1"
-            title="Total ETH"
+            title={`Total ${nativeCurrency.symbol}`}
             content={
-              numberFormatter.format(+cluster.validatorCount * 32) + " ETH"
+              numberFormatter.format(+cluster.validatorCount * 32) +
+              ` ${nativeCurrency.symbol}`
             }
           />
         </div>
@@ -115,7 +126,7 @@ export default async function Page(props: IndexPageProps) {
         ))}
       </div>
       <Card>
-        <ValidatorsTable dataPromise={validators} />
+        <ValidatorsTable dataPromise={validators} hideClusterIdFilter />
       </Card>
     </Shell>
   )

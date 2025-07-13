@@ -13,16 +13,19 @@ import { Text } from "@/components/ui/text"
 import { DataTableMenuButton } from "@/components/data-table/data-table-filters-button"
 import { DataTableViewOptions } from "@/components/data-table/data-table-view-options"
 import { DataTable } from "@/components/data-table/elastic-10k-table/data-table"
-import { ValidatorTableFilters } from "@/app/_components/validators/filters/validator-table-filters"
+import {
+  ValidatorTableFilters,
+  type ValidatorTableFiltersProps,
+} from "@/app/_components/validators/filters/validator-table-filters"
 
 import { validatorsTableColumns } from "./validators-table-columns"
 
-interface ValidatorsTableProps {
+type ValidatorsTableProps = {
   dataPromise: Promise<PaginatedValidatorsResponse<Operator>>
-}
+} & ValidatorTableFiltersProps
 
 export const ValidatorsTable = withErrorBoundary(
-  ({ dataPromise: data }: ValidatorsTableProps) => {
+  ({ dataPromise: data, ...filterProps }: ValidatorsTableProps) => {
     const response = use(data)
 
     const { table } = useDataTable({
@@ -53,7 +56,7 @@ export const ValidatorsTable = withErrorBoundary(
             <DataTableMenuButton enabledFilters={enabledFilters} />
             <DataTableViewOptions table={table} />
           </div>
-          <ValidatorTableFilters />
+          <ValidatorTableFilters {...filterProps} />
           <DataTable table={table} />
         </TableProvider>
       </>

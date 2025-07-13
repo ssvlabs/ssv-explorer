@@ -1,10 +1,3 @@
-import { Spinner } from "@/components/ui/spinner"
-import { Shell } from "@/components/shell"
+import Loading from "@/app/_components/loading"
 
-export default async function Page() {
-  return (
-    <Shell className="flex size-full flex-1 items-center justify-center gap-2">
-      <Spinner />
-    </Shell>
-  )
-}
+export default Loading

@@ -2,44 +2,48 @@
 
 import { endpoint } from "@/api"
 import { api } from "@/api/api-client"
-import { isUndefined, omitBy } from "lodash-es"
+import { type Address } from "viem"
 
-import type {
-  FilteredAccountsResponse,
-  PaginatedAccountsResponse,
-} from "@/types/api/account"
-import { type ClustersSearchSchema } from "@/lib/search-parsers/clusters-search-parsers"
+import {
+  accountSearchParamsSerializer,
+  type AccountsSearchSchema,
+} from "@/lib/search-parsers/accounts-search-parsers"
 import { stringifyBigints } from "@/lib/utils/bigint"
 import { unstable_cache } from "@/lib/utils/unstable-cache"
+import type {
+  AccountStatsResponse,
+  PaginatedAccountsResponse,
+} from "@/types/api/account"
 
 export const getAccounts = async (
-  params: Partial<ClustersSearchSchema> & Pick<ClustersSearchSchema, "network">
+  params: Partial<AccountsSearchSchema> & Pick<AccountsSearchSchema, "network">
 ): Promise<PaginatedAccountsResponse> =>
   await unstable_cache(
     async () => {
-      const filtered = omitBy(params, isUndefined)
-
-      const searchParams = new URLSearchParams(
-        filtered as unknown as Record<string, string>
-      )
-      const data = await api.get<FilteredAccountsResponse>(
+      const searchParams = accountSearchParamsSerializer(params)
+      return api.get<PaginatedAccountsResponse>(
         endpoint(params.network, "accounts", `?${searchParams}`)
       )
-
-      return {
-        type: "accounts",
-        accounts: data.data,
-        pagination: {
-          page: data.filter.page,
-          per_page: data.filter.perPage,
-          total: 1000,
-          pages: 100,
-        },
-      } satisfies PaginatedAccountsResponse
     },
     [JSON.stringify(stringifyBigints(params))],
     {
       revalidate: 30,
       tags: ["accounts"],
+    }
+  )()
+
+export const getAccountStats = async (
+  params: { address: Address } & Pick<AccountsSearchSchema, "network">
+) =>
+  await unstable_cache(
+    async () => {
+      return api.get<AccountStatsResponse>(
+        endpoint(params.network, "accounts/counts", params.address)
+      )
+    },
+    [JSON.stringify(stringifyBigints(params))],
+    {
+      revalidate: 30,
+      tags: ["account-stats"],
     }
   )()

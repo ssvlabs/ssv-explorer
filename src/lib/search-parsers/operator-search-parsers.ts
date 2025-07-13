@@ -20,7 +20,7 @@ import { type OperatorSortingKeys } from "../../types/api/operator"
 const searchOptions: Options = {
   history: "replace",
   shallow: false,
-  clearOnDefault: false,
+  clearOnDefault: true,
 }
 
 export const operatorSearchFilters = {
@@ -101,6 +101,7 @@ export const operatorSearchFilters = {
 export const defaultOperatorSort: ExtendedSortingState<OperatorSortingKeys> = [
   { id: "id", desc: true },
 ]
+
 export const operatorSearchSort = {
   ordering: getSortingStateParser<OperatorSortingKeys>()
     .withDefault(defaultOperatorSort)

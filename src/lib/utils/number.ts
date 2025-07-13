@@ -1,4 +1,4 @@
-import { formatUnits } from "viem"
+import { formatGwei as formatGweiViem, formatUnits } from "viem"
 
 export const currencyFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -38,6 +38,9 @@ export const formatSSV = (num: bigint, decimals = 18) =>
 
 export const formatBigintInput = (num: bigint, decimals = 18) =>
   bigintFormatter.format(+formatUnits(num, decimals))
+
+export const formatGwei = (num: bigint) =>
+  ethFormatter.format(+formatGweiViem(num))
 
 const units = {
   s: 1000,
