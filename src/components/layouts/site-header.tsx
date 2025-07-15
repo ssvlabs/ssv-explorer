@@ -25,7 +25,6 @@ export function SiteHeader() {
         <Link href="/" className="mr-2 flex items-center md:mr-6 md:space-x-2">
           <Logo width={140} height={28} />
         </Link>
-
         <nav className="flex flex-1 items-center gap-2 md:justify-end">
           <Text variant="caption-medium" className="px-3 font-sans">
             <span className="text-gray-500">SSV Price: </span>
