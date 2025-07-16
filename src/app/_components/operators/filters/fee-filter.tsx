@@ -2,15 +2,16 @@
 
 import { isEqual } from "lodash-es"
 
+import { operatorSearchFilters } from "@/lib/search-parsers/operator-search-parsers"
 import { useOperatorsSearchParams } from "@/hooks/search/use-operators-search-params"
 import { Text } from "@/components/ui/text"
 import { FilterButton } from "@/components/filter/filter-button"
 import { RangeFilter } from "@/components/filter/range-filter"
 
-const defaultRange = [0, 100] as [number, number]
-
 export function FeeFilter() {
   const { filters, setFilters } = useOperatorsSearchParams()
+
+  const defaultRange = operatorSearchFilters.fee.defaultValue
 
   const isActive = !isEqual(filters.fee, defaultRange) && Boolean(filters.fee)
 
@@ -44,6 +45,8 @@ export function FeeFilter() {
         defaultRange={defaultRange}
         apply={apply}
         remove={remove}
+        step={0.1}
+        decimals={1}
         inputs={{
           start: {
             rightSlot: (

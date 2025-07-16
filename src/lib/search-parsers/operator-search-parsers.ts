@@ -49,7 +49,7 @@ export const operatorSearchFilters = {
     ],
     (values) => values.sort((a, b) => +a - +b)
   )
-    .withDefault([0, 100])
+    .withDefault([0, 200])
     .withOptions({
       ...searchOptions,
       throttleMs: 500,
@@ -58,7 +58,7 @@ export const operatorSearchFilters = {
     [z.number({ coerce: true }), z.number({ coerce: true })],
     (values) => values.sort((a, b) => +a - +b)
   )
-    .withDefault([0, 1000])
+    .withDefault([0, 3000])
     .withOptions(searchOptions),
   managedEth: parseAsTuple(
     [z.number({ coerce: true }), z.number({ coerce: true })],
@@ -99,13 +99,16 @@ export const operatorSearchFilters = {
 }
 
 export const defaultOperatorSort: ExtendedSortingState<OperatorSortingKeys> = [
-  { id: "id", desc: true },
+  { id: "id", desc: false },
 ]
 
 export const operatorSearchSort = {
   ordering: getSortingStateParser<OperatorSortingKeys>()
     .withDefault(defaultOperatorSort)
-    .withOptions(searchOptions),
+    .withOptions({
+      ...searchOptions,
+      clearOnDefault: false,
+    }),
 }
 
 export const operatorsSearchParamsCache = createSearchParamsCache({

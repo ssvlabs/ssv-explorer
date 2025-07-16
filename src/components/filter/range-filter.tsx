@@ -9,17 +9,21 @@ import { isEqual } from "lodash-es"
 import { cn } from "@/lib/utils"
 import { useReactiveRef as useRef } from "@/hooks/use-reactive-ref"
 import { Button } from "@/components/ui/button"
-import { Input, type InputProps } from "@/components/ui/input"
 import { RangeSlider } from "@/components/ui/slider"
+
+import { NumberInput, type NumberInputProps } from "../ui/number-input"
 
 type RangeFilterProps = {
   name: string
   defaultRange: [number, number]
   searchRange: [number, number] | null
   step?: number
+  min?: number
+  max?: number
+  decimals?: number
   inputs?: Partial<{
-    start: InputProps
-    end: InputProps
+    start: Partial<NumberInputProps>
+    end: Partial<NumberInputProps>
   }>
   apply: (range: [number, number]) => void
   remove: () => void
@@ -31,7 +35,10 @@ export const RangeFilter: FC<
   name,
   defaultRange,
   inputs,
+  min,
+  max,
   step = 0.01,
+  decimals = 0,
   searchRange,
   apply,
   remove,
@@ -63,8 +70,10 @@ export const RangeFilter: FC<
     <div {...props} className={cn(props.className)}>
       <div className="flex flex-col gap-4 p-4">
         <div className="flex items-center justify-between">
-          <Input
-            min={0}
+          <NumberInput
+            min={min || defaultRange[0]}
+            max={max || defaultRange[1]}
+            decimals={decimals}
             {...inputs?.start}
             step={step}
             className={cn(
@@ -73,22 +82,20 @@ export const RangeFilter: FC<
             )}
             type="number"
             value={range[0]}
-            onChange={(e) => {
-              const newStart = +e.target.value
+            onChange={(newStart) => {
               setRange([newStart, range[1]])
             }}
           />
-          <Input
-            min={0}
+          <NumberInput
+            min={min || defaultRange[0]}
+            max={max || defaultRange[1]}
+            decimals={decimals}
             {...inputs?.end}
             step={step}
             type="number"
             className={cn("h-8 max-w-[160px] text-sm", inputs?.end?.className)}
             value={range[1]}
-            onChange={(e) => {
-              const newEnd = +e.target.value
-              setRange([range[0], newEnd])
-            }}
+            onChange={(newEnd) => setRange([range[0], newEnd])}
           />
         </div>
         <RangeSlider

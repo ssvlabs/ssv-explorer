@@ -35,7 +35,7 @@ import { type InfinitePagination } from "@/types/api"
 import { getSortingStateParser } from "@/lib/utils/parsers"
 import { useDebouncedCallback } from "@/hooks/use-debounced-callback"
 
-interface UseDataTableProps<TData>
+interface UseDataTableProps<TData, TSortingKeys = TData>
   extends Omit<
       TableOptions<TData> & {
         meta: {
@@ -140,13 +140,13 @@ interface UseDataTableProps<TData>
 
   initialState?: Omit<Partial<TableState>, "sorting"> & {
     // Extend to make the sorting id typesafe
-    sorting?: ExtendedSortingState<TData>
+    sorting?: ExtendedSortingState<TSortingKeys>
   }
 
   name: string
 }
 
-export function useDataTable<TData>({
+export function useDataTable<TData, TSortingKeys = TData>({
   name,
   pageCount = -1,
   filterFields = [],
@@ -160,7 +160,7 @@ export function useDataTable<TData>({
   startTransition,
   initialState,
   ...props
-}: UseDataTableProps<TData>) {
+}: UseDataTableProps<TData, TSortingKeys>) {
   const queryStateOptions = React.useMemo<
     Omit<UseQueryStateOptions<string>, "parse">
   >(() => {
@@ -204,7 +204,7 @@ export function useDataTable<TData>({
   )
   const [sorting, setSorting] = useQueryState(
     "ordering",
-    getSortingStateParser<TData>()
+    getSortingStateParser<TSortingKeys>()
       .withOptions(queryStateOptions)
       .withDefault(initialState?.sorting ?? [])
   )
@@ -254,7 +254,10 @@ export function useDataTable<TData>({
   // Sort
   function onSortingChange(updaterOrValue: Updater<SortingState>) {
     if (typeof updaterOrValue === "function") {
-      const newSorting = updaterOrValue(sorting) as ExtendedSortingState<TData>
+      const newSorting = updaterOrValue(
+        sorting
+      ) as ExtendedSortingState<TSortingKeys>
+      console.log("newSorting:", newSorting)
       void setSorting(newSorting)
     }
   }

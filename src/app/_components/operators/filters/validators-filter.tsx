@@ -39,9 +39,10 @@ export function ValidatorsFilter() {
       <RangeFilter
         name="Validators"
         searchRange={filters.validatorsCount}
+        decimals={0}
+        step={1}
         apply={apply}
         remove={remove}
-        step={1}
         defaultRange={defaultRange}
       />
     </FilterButton>

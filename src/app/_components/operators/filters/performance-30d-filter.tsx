@@ -43,6 +43,8 @@ export function Performance30dFilter() {
         defaultRange={defaultRange}
         apply={apply}
         remove={remove}
+        step={0.1}
+        decimals={2}
         inputs={{
           start: {
             rightSlot: (
