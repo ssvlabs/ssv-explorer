@@ -114,8 +114,8 @@ export const validatorColumns: Record<
 
 export const validatorsTableColumns: ColumnDef<SearchValidator<Operator>>[] = [
   validatorColumns.publicKey,
-  validatorColumns.cluster,
   validatorColumns.ownerAddress,
+  validatorColumns.cluster,
   validatorColumns.operators,
   validatorColumns.status,
 ]
