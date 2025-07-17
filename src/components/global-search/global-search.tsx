@@ -97,7 +97,7 @@ export const GlobalSearch: React.FC<Props> = ({ size, ...props }) => {
     setSearch("")
   }
 
-  const handleExactMatch = () => {
+  const jumpToMatch = () => {
     asyncRoutePush.mutate(`/${searchType.type}/${searchType.value}`, {
       onSuccess: close,
     })
@@ -134,7 +134,7 @@ export const GlobalSearch: React.FC<Props> = ({ size, ...props }) => {
                 return
 
               if (e.key === "Enter") {
-                handleExactMatch()
+                jumpToMatch()
 
                 e.preventDefault()
                 e.stopPropagation()
@@ -189,7 +189,7 @@ export const GlobalSearch: React.FC<Props> = ({ size, ...props }) => {
           )}
           {searchType.isExactMatch && (
             <CommandList className="flex flex-col">
-              <CommandItem onSelect={handleExactMatch}>
+              <CommandItem onSelect={jumpToMatch}>
                 <div className="flex items-center gap-2">
                   {asyncRoutePush.isPending && <Spinner size="sm" />}
                   <p className="">
