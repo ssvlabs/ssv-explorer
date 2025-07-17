@@ -5,7 +5,9 @@ import { type OperatorsSearchSchema } from "@/lib/search-parsers/operator-search
 import { useNetworkQuery } from "@/hooks/search/use-network-query"
 
 export const useOperatorsInfiniteQuery = (
-  params: Pick<OperatorsSearchSchema, "search" | "perPage">
+  params: Pick<OperatorsSearchSchema, "search" | "perPage"> & {
+    enabled?: boolean
+  }
 ) => {
   const { chain } = useNetworkQuery()
 
@@ -25,6 +27,6 @@ export const useOperatorsInfiniteQuery = (
       const { page, pages } = lastPage.pagination
       return page < pages ? page + 1 : undefined
     },
-    enabled: !!params.search,
+    enabled: !!params.search && params.enabled,
   })
 }

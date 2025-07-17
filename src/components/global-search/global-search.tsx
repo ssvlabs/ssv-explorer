@@ -4,6 +4,7 @@ import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
+import { shortenAddress } from "@/lib/utils/strings"
 import { useAsyncRoutePush } from "@/hooks/next/use-async-route-push"
 import { useClustersInfiniteQuery } from "@/hooks/queries/use-clusters-infinite-query"
 import { useOperatorsInfiniteQuery } from "@/hooks/queries/use-operators-infinite-query"
@@ -13,6 +14,7 @@ import {
   Command,
   CommandEmpty,
   CommandInput,
+  CommandItem,
   CommandList,
   CommandSeparator,
 } from "@/components/ui/command"
@@ -26,6 +28,7 @@ import { textVariants } from "@/components/ui/text"
 
 import { OperatorsGroup } from "./groups/operators-group"
 import { ValidatorsGroup } from "./groups/validators-group"
+import { parseSearchInput } from "./search-input-parser"
 
 export const globalSearchVariants = cva("rounded-xl bg-background", {
   variants: {
@@ -45,6 +48,8 @@ type Props = VariantProps<typeof globalSearchVariants> &
 export const GlobalSearch: React.FC<Props> = ({ size, ...props }) => {
   const [open, setOpen] = React.useState(false)
   const [search, setSearch] = React.useState("")
+  const searchType = parseSearchInput(search)
+
   const [isFocused, setIsFocused] = React.useState(false)
   const inputRef = React.useRef<HTMLInputElement>(null)
   const debouncedSearch = useDebounceValue(search, 500)
@@ -55,17 +60,25 @@ export const GlobalSearch: React.FC<Props> = ({ size, ...props }) => {
   const operatorsQuery = useOperatorsInfiniteQuery({
     search: debouncedSearch,
     perPage: 5,
+    enabled: !searchType.isExactMatch,
   })
 
   const validatorsQuery = useValidatorsInfiniteQuery({
     search: debouncedSearch,
     perPage: 5,
+    enabled: !searchType.isExactMatch,
   })
 
   const clustersQuery = useClustersInfiniteQuery({
     search: debouncedSearch,
     perPage: 5,
+    enabled: !searchType.isExactMatch,
   })
+
+  const hasLoadedSearchedOperators =
+    search === debouncedSearch &&
+    operatorsQuery.isSuccess &&
+    operatorsQuery.data?.length
 
   const hasAnyLoadedData = Boolean(
     operatorsQuery.data?.length ||
@@ -81,11 +94,21 @@ export const GlobalSearch: React.FC<Props> = ({ size, ...props }) => {
   const close = () => {
     inputRef.current?.blur()
     setOpen(false)
+    setSearch("")
+  }
+
+  const handleExactMatch = () => {
+    asyncRoutePush.mutate(`/${searchType.type}/${searchType.value}`, {
+      onSuccess: close,
+    })
   }
 
   return (
     <Popover
-      open={(open || isFocused) && (hasSearch || hasAnyLoadedData)}
+      open={
+        ((open || isFocused) && (hasSearch || hasAnyLoadedData)) ||
+        (Boolean(search) && (open || isFocused) && searchType.isExactMatch)
+      }
       onOpenChange={setOpen}
     >
       <Command
@@ -105,8 +128,23 @@ export const GlobalSearch: React.FC<Props> = ({ size, ...props }) => {
                 className: "border border-gray-300 bg-gray-50",
               }),
             })}
-            onValueChange={(value) => setSearch(value)}
-            onFocus={() => setIsFocused(true)}
+            onKeyDown={(e) => {
+              if (searchType.type === "free-text") return
+              if (searchType.type === "operator" && hasLoadedSearchedOperators)
+                return
+
+              if (e.key === "Enter") {
+                handleExactMatch()
+
+                e.preventDefault()
+                e.stopPropagation()
+              }
+            }}
+            onValueChange={(value) => setSearch(value.trim())}
+            onFocus={(event) => {
+              event.currentTarget.select()
+              return setIsFocused(true)
+            }}
             onBlur={() => setIsFocused(false)}
           />
         </PopoverTrigger>
@@ -114,39 +152,56 @@ export const GlobalSearch: React.FC<Props> = ({ size, ...props }) => {
           className="h-full w-[var(--radix-popover-trigger-width)] border-gray-300 p-0 shadow-none outline outline-[6px] outline-gray-200"
           onOpenAutoFocus={(e) => e.preventDefault()}
         >
-          <CommandList className="flex flex-col">
-            {!isLoading && search && <CommandEmpty>No found.</CommandEmpty>}
-            {isLoading && (
-              <div className="flex items-center justify-center p-6">
-                <Spinner />
-              </div>
-            )}
-            {!isLoading && (
-              <>
-                <OperatorsGroup
-                  query={operatorsQuery}
-                  onSelect={(group, operator) => {
-                    close()
-                    asyncRoutePush.mutate(`/operator/${operator.id}`)
-                  }}
-                />
-                {validatorsQuery.data?.length && (
-                  <>
-                    <CommandSeparator />
-                    <ValidatorsGroup
-                      query={validatorsQuery}
-                      onSelect={(group, validator) => {
-                        close()
-                        asyncRoutePush.mutate(
-                          `/validator/${validator.public_key}`
-                        )
-                      }}
-                    />
-                  </>
-                )}
-              </>
-            )}
-          </CommandList>
+          {!searchType.isExactMatch && (
+            <CommandList className="flex flex-col">
+              {!isLoading && search && <CommandEmpty>No found.</CommandEmpty>}
+              {isLoading && (
+                <div className="flex items-center justify-center p-6">
+                  <Spinner />
+                </div>
+              )}
+              {!isLoading && (
+                <>
+                  <OperatorsGroup
+                    query={operatorsQuery}
+                    onSelect={(group, operator) => {
+                      close()
+                      asyncRoutePush.mutate(`/operator/${operator.id}`)
+                    }}
+                  />
+                  {validatorsQuery.data?.length && (
+                    <>
+                      <CommandSeparator />
+                      <ValidatorsGroup
+                        query={validatorsQuery}
+                        onSelect={(group, validator) => {
+                          close()
+                          asyncRoutePush.mutate(
+                            `/validator/${validator.public_key}`
+                          )
+                        }}
+                      />
+                    </>
+                  )}
+                </>
+              )}
+            </CommandList>
+          )}
+          {searchType.isExactMatch && (
+            <CommandList className="flex flex-col">
+              <CommandItem onSelect={handleExactMatch}>
+                <div className="flex items-center gap-2">
+                  {asyncRoutePush.isPending && <Spinner size="sm" />}
+                  <p className="">
+                    Jump to {searchType.type}{" "}
+                    <span className="font-bold">
+                      {shortenAddress(searchType.value)}
+                    </span>
+                  </p>
+                </div>
+              </CommandItem>
+            </CommandList>
+          )}
         </PopoverContent>
       </Command>
     </Popover>

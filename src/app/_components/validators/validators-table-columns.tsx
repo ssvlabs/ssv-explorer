@@ -123,7 +123,7 @@ export const validatorsTableColumns: ColumnDef<SearchValidator<Operator>>[] = [
 export const validatorsOverviewTableColumns: ColumnDef<
   SearchValidator<Operator>
 >[] = [
-  validatorColumns.cluster,
+  validatorColumns.publicKey,
   validatorColumns.operators,
   validatorColumns.status,
 ]
