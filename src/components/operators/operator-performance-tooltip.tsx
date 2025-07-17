@@ -40,7 +40,8 @@ export const OperatorPerformanceTooltip: FC<{ children: ReactNode }> = ({
             <Button
               as="a"
               variant="link"
-              href="/"
+              target="_blank"
+              href="https://docs.ssv.network/learn/performance/"
               className={textVariants({ variant: "body-2-medium" })}
             >
               Learn more about the operator’s performance score.
