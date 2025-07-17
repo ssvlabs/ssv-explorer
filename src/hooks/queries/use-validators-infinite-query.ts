@@ -6,7 +6,9 @@ import { type ValidatorsSearchSchema } from "@/lib/search-parsers/validators-sea
 import { useNetworkQuery } from "@/hooks/search/use-network-query"
 
 export const useValidatorsInfiniteQuery = (
-  params: Pick<ValidatorsSearchSchema, "perPage" | "search">
+  params: Pick<ValidatorsSearchSchema, "perPage" | "search"> & {
+    enabled?: boolean
+  }
 ) => {
   const { chain } = useNetworkQuery()
 
@@ -26,6 +28,6 @@ export const useValidatorsInfiniteQuery = (
       const { page, pages } = lastPage.pagination
       return page < pages ? page + 1 : undefined
     },
-    enabled: !!params.search,
+    enabled: !!params.search && params.enabled,
   })
 }

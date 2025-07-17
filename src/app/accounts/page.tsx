@@ -1,4 +1,5 @@
 import React from "react"
+import type { Metadata } from "next"
 import { getAccounts } from "@/api/account"
 import { type SearchParams } from "@/types"
 
@@ -7,7 +8,6 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { Shell } from "@/components/shell"
 
 import { AccountsTable } from "../_components/accounts/accounts-table"
-import type { Metadata } from "next"
 
 interface IndexPageProps {
   searchParams: Promise<SearchParams>

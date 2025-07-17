@@ -4,7 +4,12 @@ import { use } from "react"
 import { TableProvider } from "@/context/table-context"
 import { withErrorBoundary } from "react-error-boundary"
 
-import { type OperatorsSearchResponse } from "@/types/api"
+import {
+  type Operator,
+  type OperatorSortingKeys,
+  type OperatorsSearchResponse,
+} from "@/types/api"
+import { operatorSearchSort } from "@/lib/search-parsers/operator-search-parsers"
 import { useOperatorsSearchParams } from "@/hooks/search/use-operators-search-params"
 import { useDataTable } from "@/hooks/use-data-table"
 import { ErrorCard } from "@/components/ui/error-card"
@@ -27,7 +32,7 @@ export const OperatorsTable = withErrorBoundary(
   ({ dataPromise: data }: OperatorsTableProps) => {
     const { operators, pagination } = use(data)
 
-    const { table } = useDataTable({
+    const { table } = useDataTable<Operator, OperatorSortingKeys>({
       name: "operators-table",
       data: operators,
       columns: operatorsTableColumns,
@@ -36,7 +41,7 @@ export const OperatorsTable = withErrorBoundary(
       shallow: false,
       clearOnDefault: true,
       initialState: {
-        sorting: [{ id: "id", desc: false }],
+        sorting: operatorSearchSort.ordering.defaultValue,
         columnVisibility: operatorsTableDefaultColumns,
       },
       meta: {

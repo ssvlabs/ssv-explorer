@@ -11,8 +11,6 @@ const hoodi = {
 } as const
 
 export const chains = {
-  mainnet,
-  holesky: hoodi,
   [mainnet.chainId]: mainnet,
   [hoodi.chainId]: hoodi,
 } as const

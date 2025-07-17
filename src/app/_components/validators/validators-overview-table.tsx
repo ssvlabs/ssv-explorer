@@ -14,20 +14,20 @@ import { ErrorCard } from "@/components/ui/error-card"
 import { Text, textVariants } from "@/components/ui/text"
 import { DataTable } from "@/components/data-table/data-table"
 
-import { validatorsTablePreviewColumns } from "./validators-table-columns"
+import { validatorsOverviewTableColumns } from "./validators-table-columns"
 
-interface ValidatorsTableProps {
+interface ValidatorsOverviewTableProps {
   dataPromise: Promise<PaginatedValidatorsResponse<Operator>>
 }
 
-export const ValidatorsTablePreview = withErrorBoundary(
-  ({ dataPromise: data }: ValidatorsTableProps) => {
+export const ValidatorsOverviewTable = withErrorBoundary(
+  ({ dataPromise: data }: ValidatorsOverviewTableProps) => {
     const response = use(data)
 
     const { table } = useDataTable({
       name: "validators-table-preview",
       data: response.validators,
-      columns: validatorsTablePreviewColumns,
+      columns: validatorsOverviewTableColumns,
       pageCount: response.pagination.pages,
       getRowId: (originalRow, index) => `${originalRow.id}-${index}`,
       shallow: false,

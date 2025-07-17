@@ -128,7 +128,7 @@ export default async function Page(props: IndexPageProps) {
                   <Stat
                     className="flex-1"
                     title="Status"
-                    tooltip="Whatsup?"
+                    tooltip="Based on whether the majority of assigned duties were performed in the last 10 epochs"
                     content={
                       <Text
                         className={cn({
@@ -147,7 +147,7 @@ export default async function Page(props: IndexPageProps) {
                   <Stat
                     className="flex-1"
                     title="Performance (1D | 1M)"
-                    tooltip="Whatsup?"
+                    tooltip="Operator performance is calculated by the percentage of attended duties within the specified time-frame."
                     content={
                       <div className="flex items-center gap-1">
                         <PerformanceText
@@ -163,7 +163,7 @@ export default async function Page(props: IndexPageProps) {
                   <Stat
                     className="flex-1"
                     title="Validators"
-                    tooltip="Whatsup?"
+                    tooltip="The number of validators serviced by this operator"
                     content={<Text>{operator.validators_count}</Text>}
                   />
                 </div>

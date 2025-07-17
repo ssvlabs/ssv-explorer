@@ -12,8 +12,8 @@ import { Stat } from "@/components/ui/stat"
 import { Text } from "@/components/ui/text"
 import { GlobalSearch } from "@/components/global-search/global-search"
 import { Shell } from "@/components/shell"
-import { OperatorsTablePreview } from "@/app/_components/operators/operators-table-peview"
-import { ValidatorsTablePreview } from "@/app/_components/validators/validators-table-preview"
+import { OperatorsOverviewTable } from "@/app/_components/operators/operators-table-peview"
+import { ValidatorsOverviewTable } from "@/app/_components/validators/validators-overview-table"
 
 interface IndexPageProps {
   searchParams: Promise<SearchParams>
@@ -64,8 +64,8 @@ export default async function Page(props: IndexPageProps) {
         />
       </Card>
       <div className="flex max-w-full gap-6 overflow-hidden">
-        <OperatorsTablePreview dataPromise={Promise.resolve(operators)} />
-        <ValidatorsTablePreview dataPromise={Promise.resolve(validators)} />
+        <OperatorsOverviewTable dataPromise={Promise.resolve(operators)} />
+        <ValidatorsOverviewTable dataPromise={Promise.resolve(validators)} />
       </div>
     </Shell>
   )

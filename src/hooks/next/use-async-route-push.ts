@@ -29,7 +29,7 @@ export const useAsyncRoutePush = () => {
   const [isPending, startTransition] = useTransition()
   const router = useRouter()
 
-  const asynPush = async (path: string) => {
+  const asyncPush = async (path: string) => {
     return new Promise<void>((resolve) => {
       startTransition(() => {
         router.push(path)
@@ -48,6 +48,6 @@ export const useAsyncRoutePush = () => {
   }, [isPending])
 
   return useMutation({
-    mutationFn: asynPush,
+    mutationFn: asyncPush,
   })
 }

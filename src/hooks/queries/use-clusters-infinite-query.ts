@@ -5,7 +5,9 @@ import { type ClustersSearchSchema } from "@/lib/search-parsers/clusters-search-
 import { useNetworkQuery } from "@/hooks/search/use-network-query"
 
 export const useClustersInfiniteQuery = (
-  params: Pick<ClustersSearchSchema, "perPage" | "search">
+  params: Pick<ClustersSearchSchema, "perPage" | "search"> & {
+    enabled?: boolean
+  }
 ) => {
   const { chain } = useNetworkQuery()
 
@@ -24,6 +26,6 @@ export const useClustersInfiniteQuery = (
       const { page, pages } = lastPage.pagination
       return page < pages ? page + 1 : undefined
     },
-    enabled: !!params.search,
+    enabled: !!params.search && params.enabled,
   })
 }
