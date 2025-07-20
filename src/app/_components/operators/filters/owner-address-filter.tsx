@@ -1,13 +1,10 @@
 "use client"
 
 import { useState } from "react"
-import { searchOperators } from "@/api/operator"
-import { useQuery } from "@tanstack/react-query"
-import { CommandLoading } from "cmdk"
 import { xor } from "lodash-es"
-import { Loader2, X } from "lucide-react"
+import { X } from "lucide-react"
 import { MdKeyboardReturn } from "react-icons/md"
-import { isAddress, type Address } from "viem"
+import { isAddress } from "viem"
 
 import { cn } from "@/lib/utils"
 import { shortenAddress } from "@/lib/utils/strings"

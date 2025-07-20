@@ -19,8 +19,6 @@ const statuses = ["active", "inactive", "no validators", "invalid"]
 export function StatusFilter() {
   const { filters, setFilters } = useOperatorsSearchParams()
 
-  const hasSelectedItems = Boolean(filters.status?.length)
-
   return (
     <FilterButton
       name="Status"

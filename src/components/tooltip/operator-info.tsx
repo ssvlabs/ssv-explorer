@@ -1,4 +1,4 @@
-import type { ComponentPropsWithoutRef, ComponentPropsWithRef, FC } from "react"
+import type { ComponentPropsWithRef, FC } from "react"
 import { MdOutlineLock } from "react-icons/md"
 
 import { type Operator } from "@/types/api"

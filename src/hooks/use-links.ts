@@ -5,7 +5,7 @@ import { useMemo } from "react"
 import { useNetworkQuery } from "@/hooks/search/use-network-query"
 
 export const useLinks = () => {
-  const isProduction = false
+  const isProduction = false // TODO: fix this
   const { chain } = useNetworkQuery()
 
   return useMemo(() => {
@@ -28,5 +28,5 @@ export const useLinks = () => {
         website: "https://ssv.network/",
       },
     }
-  }, [chain])
+  }, [chain, isProduction])
 }
