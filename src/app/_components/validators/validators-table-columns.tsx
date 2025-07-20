@@ -39,7 +39,7 @@ export const validatorColumns: Record<
   cluster: {
     accessorKey: "cluster",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Cluster" />
+      <DataTableColumnHeader column={column} title="Cluster ID" />
     ),
     cell: ({ row }) => (
       <div className="flex items-center gap-1">

@@ -19,6 +19,7 @@ export const useOperatorsInfiniteQuery = (
         page: pageParam ?? 1,
         perPage: params.perPage,
         search: params.search,
+        ordering: [{ id: "id", desc: false }],
       }),
     select: (data) => data.pages.flatMap((page) => page.operators),
     placeholderData: keepPreviousData,

@@ -26,7 +26,6 @@ type OperatorMetaDataFC = FC<
 export const OperatorMetaData: OperatorMetaDataFC = ({
   operator,
   className,
-  ...props
 }) => {
   const [shouldShowMore, setShouldShowMore] = useState(false)
   return (

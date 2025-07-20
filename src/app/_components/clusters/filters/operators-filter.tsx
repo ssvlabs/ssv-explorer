@@ -1,6 +1,6 @@
 "use client"
 
-import { FC, useState } from "react"
+import { useState, type FC } from "react"
 import { searchOperators } from "@/api/operator"
 import { useQuery } from "@tanstack/react-query"
 import { CommandLoading } from "cmdk"
@@ -47,6 +47,7 @@ export const OperatorsFilter: FC<OperatorsFilterProps> = ({
         search,
         page: 1,
         perPage: 10,
+        ordering: [{ id: "id", desc: false }],
       })
     },
     enabled: open,

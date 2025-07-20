@@ -14,10 +14,12 @@ import { getNativeCurrency } from "@/lib/utils/viem"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { CopyBtn } from "@/components/ui/copy-btn"
+import { ErrorCard } from "@/components/ui/error-card"
 import { Outline } from "@/components/ui/outline"
 import { BeaconchainBtn } from "@/components/ui/ssv-explorer-btn"
 import { Stat } from "@/components/ui/stat"
 import { Text } from "@/components/ui/text"
+import { validatorRegex } from "@/components/global-search/search-input-parser"
 import { OperatorCard } from "@/components/operators/operator-card"
 import { Shell } from "@/components/shell"
 import { DutiesTable } from "@/app/_components/duties/duties-table"
@@ -34,6 +36,17 @@ export const metadata: Metadata = {
 
 export default async function Page(props: IndexPageProps) {
   const { publicKey } = await props.params
+
+  if (!validatorRegex.test(publicKey)) {
+    return (
+      <ErrorCard
+        className="mx-auto max-w-md bg-transparent"
+        title="Invalid validator public key"
+        errorMessage="Please check the URL and try again."
+      />
+    )
+  }
+
   const awaitedSearchParams = await props.searchParams
   const searchParams = dutiesSearchParamsCache.parse(
     awaitedSearchParams
@@ -43,6 +56,7 @@ export default async function Page(props: IndexPageProps) {
     ...searchParams,
     validatorPublicKey: publicKey,
   })
+
   const validator = await getValidator({
     publicKey,
     network: searchParams.network,
@@ -57,7 +71,7 @@ export default async function Page(props: IndexPageProps) {
         <div className="flex gap-1">
           <Outline>
             <Text variant="caption-medium" className="text-gray-500">
-              ID:
+              Public Key:
             </Text>
             <Text variant="body-3-medium">{shortenAddress(publicKey)}</Text>
             <CopyBtn text={publicKey} />

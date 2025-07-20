@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { type ColumnDef } from "@tanstack/react-table"
+import { formatDistanceToNowStrict } from "date-fns"
 
 import { type Cluster } from "@/types/api"
 import { formatSSV } from "@/lib/utils/number"
@@ -101,6 +102,17 @@ export const clustersTableColumns = [
       <DataTableColumnHeader column={column} title="Active" />
     ),
     cell: ({ row }) => <ClusterStatusBadge active={row.original.active} />,
+  },
+  {
+    accessorKey: "createdAt",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Created At" />
+    ),
+    cell: ({ row }) => (
+      <Text variant="body-3-medium" className="text-gray-600">
+        {formatDistanceToNowStrict(row.original.createdAt, { addSuffix: true })}
+      </Text>
+    ),
   },
 ] satisfies ColumnDef<Cluster>[]
 

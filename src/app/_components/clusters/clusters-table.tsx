@@ -5,7 +5,6 @@ import { TableProvider } from "@/context/table-context"
 import { withErrorBoundary } from "react-error-boundary"
 
 import { type Operator, type PaginatedClustersResponse } from "@/types/api"
-import { defaultClusterSort } from "@/lib/search-parsers/clusters-search-parsers"
 import { useClustersSearchParams } from "@/hooks/search/use-clusters-search-params"
 import { useDataTable } from "@/hooks/use-data-table"
 import { ErrorCard } from "@/components/ui/error-card"
@@ -37,7 +36,6 @@ export const ClustersTable = withErrorBoundary(
       shallow: false,
       clearOnDefault: true,
       initialState: {
-        sorting: defaultClusterSort,
         columnVisibility: clustersTableDefaultColumns,
       },
       meta: {

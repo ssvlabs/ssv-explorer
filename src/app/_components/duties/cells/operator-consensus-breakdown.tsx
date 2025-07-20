@@ -1,10 +1,8 @@
 import { useMemo, type ComponentPropsWithRef, type FC } from "react"
-import { Badge } from "lucide-react"
 
 import { Status, type DutyOperator } from "@/types/api/duties"
 import { cn } from "@/lib/utils"
 import { sortOperators } from "@/lib/utils/operator"
-import { Text } from "@/components/ui/text"
 
 export type OperatorConsensusBreakdownProps = {
   operators: DutyOperator[]

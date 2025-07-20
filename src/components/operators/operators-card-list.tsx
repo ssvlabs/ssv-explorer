@@ -29,7 +29,7 @@ export const OperatorsCardList: OperatorsCardListFC = ({
       )}
       {...props}
     >
-      {operators.map((operator, index) => (
+      {operators.map((operator) => (
         <OperatorCard key={operator.id} operator={operator} />
       ))}
     </div>

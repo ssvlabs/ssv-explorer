@@ -2,12 +2,14 @@ const mainnet = {
   name: "mainnet",
   testnet: false,
   chainId: 1,
+  genesisTimestamp: 1438269973000,
 } as const
 
 const hoodi = {
   name: "hoodi",
   testnet: true,
   chainId: 560048,
+  genesisTimestamp: 1742213400000,
 } as const
 
 export const chains = {
