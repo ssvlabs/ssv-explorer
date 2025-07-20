@@ -36,6 +36,7 @@ export function IdFilter() {
         network,
         search,
         page: 1,
+        ordering: [{ id: "id", desc: false }],
         perPage: 10,
       })
     },
