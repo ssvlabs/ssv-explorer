@@ -39,7 +39,7 @@ export default async function Page(props: IndexPageProps) {
   const validatorsSearch = validatorsSearchParamsCache.parse(
     await props.searchParams
   )
-  const validators = searchValidators({ ...validatorsSearch, operators: [+id] })
+  const validators = searchValidators({ ...validatorsSearch, operator: [+id] })
 
   return (
     <Shell className="gap-2">

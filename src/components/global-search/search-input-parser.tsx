@@ -1,7 +1,7 @@
-const clusterRegex = /^(?:0x)?[a-fA-F0-9]{64}$/
-const operatorRegex = /^\d{1,4}$/
-const validatorRegex = /^(?:0x)?[a-fA-F0-9]{96}$/
-const accountRegex = /^0x[a-fA-F0-9]{40}$/
+export const clusterRegex = /^(?:0x)?[a-fA-F0-9]{64}$/
+export const operatorRegex = /^\d{1,4}$/
+export const validatorRegex = /^(?:0x)?[a-fA-F0-9]{96}$/
+export const accountRegex = /^0x[a-fA-F0-9]{40}$/
 
 export const parseSearchInput = (search: string) => {
   if (clusterRegex.test(search)) {

@@ -1,6 +1,6 @@
 "use client"
 
-import { FC, useState } from "react"
+import { useState, type FC } from "react"
 import { searchOperators } from "@/api/operator"
 import { useQuery } from "@tanstack/react-query"
 import { CommandLoading } from "cmdk"

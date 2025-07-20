@@ -41,7 +41,7 @@ export const ValidatorTableFilters = ({
         {!hidePublicKeyFilter && <PublicKeyFilter />}
         {!hideClusterIdFilter && <ClusterIdFilter />}
         {!hideOwnerAddressFilter && <OwnerAddressFilter />}
-        {!hideOperatorsFilter && <OperatorsFilter />}
+        {!hideOperatorsFilter && <OperatorsFilter searchQueryKey="operator" />}
         {enabledFilters.count > 0 && (
           <Button
             variant="ghost"

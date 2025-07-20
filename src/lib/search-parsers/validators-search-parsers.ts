@@ -1,6 +1,7 @@
 import { type ExtendedSortingState } from "@/types"
 import {
   createSearchParamsCache,
+  createSerializer,
   parseAsArrayOf,
   parseAsString,
   parseAsStringEnum,
@@ -28,7 +29,7 @@ export const validatorsSearchFilters = {
   publicKey: parseAsArrayOf(z.string()).withOptions(searchOptions),
   cluster: parseAsArrayOf(z.string()).withOptions(searchOptions),
   ownerAddress: parseAsArrayOf(z.string().refine(isAddress)).withDefault([]),
-  operators: parseAsArrayOf(z.number({ coerce: true })).withOptions(
+  operator: parseAsArrayOf(z.number({ coerce: true })).withOptions(
     searchOptions
   ),
 }
@@ -56,6 +57,20 @@ export const validatorsSearchParamsCache = createSearchParamsCache({
   ...validatorSearchSort,
   ...elasticSearchParsers,
 })
+
+export const validatorsSearchParamsSerializer = createSerializer(
+  {
+    ...networkParser,
+    ...paginationParser,
+    ...validatorsSearchFilters,
+    ...enhancementParsers,
+    ...validatorSearchSort,
+    ...elasticSearchParsers,
+  },
+  {
+    clearOnDefault: false,
+  }
+)
 
 export type ValidatorsSearchSchema = Awaited<
   ReturnType<typeof validatorsSearchParamsCache.parse>
