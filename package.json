@@ -15,14 +15,7 @@
     "format:write": "prettier --write \"**/*.{ts,tsx,mdx}\" --cache",
     "format:check": "prettier --check \"**/*.{ts,tsx,mdx}\" --cache",
     "check": "pnpm lint && pnpm typecheck && pnpm format:check",
-    "shadcn": "pnpm dlx shadcn@latest",
-    "db:generate": "dotenv drizzle-kit generate",
-    "db:introspect": "dotenv drizzle-kit introspect",
-    "db:push": "dotenv drizzle-kit push",
-    "db:migrate": "dotenv tsx src/db/migrate.ts",
-    "db:drop-migration": "drizzle-kit drop",
-    "db:seed": "dotenv tsx src/db/seed.ts",
-    "db:studio": "dotenv drizzle-kit studio"
+    "shadcn": "pnpm dlx shadcn@latest"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.2.0",
