@@ -180,7 +180,7 @@ export const operatorColumns: Record<
     ),
     cell: ({ row }) => {
       return (
-        <Text className="text-sm text-gray-500">
+        <Text variant="body-3-medium" className="text-gray-600">
           {formatDistanceToNowStrict(row.original.created_at, {
             addSuffix: true,
           })}

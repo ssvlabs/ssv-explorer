@@ -257,7 +257,6 @@ export function useDataTable<TData, TSortingKeys = TData>({
       const newSorting = updaterOrValue(
         sorting
       ) as ExtendedSortingState<TSortingKeys>
-      console.log("newSorting:", newSorting)
       void setSorting(newSorting)
     }
   }

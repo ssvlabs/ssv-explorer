@@ -1,6 +1,7 @@
 import { type ExtendedSortingState } from "@/types"
 import {
   createSearchParamsCache,
+  createSerializer,
   parseAsArrayOf,
   parseAsBoolean,
   parseAsString,
@@ -46,9 +47,10 @@ export const defaultClusterSort: ExtendedSortingState<Cluster> = [
 ]
 
 export const clusterSearchSort = {
-  ordering: getSortingStateParser<Cluster>()
-    .withOptions(searchOptions)
-    .withDefault(defaultClusterSort),
+  ordering: getSortingStateParser<Cluster>().withOptions({
+    ...searchOptions,
+    clearOnDefault: false,
+  }),
 }
 
 export const clustersSearchParamsCache = createSearchParamsCache({
@@ -58,6 +60,18 @@ export const clustersSearchParamsCache = createSearchParamsCache({
   ...clusterSearchSort,
   ...enhancementParsers,
 })
+export const clustersSearchParamsSerializer = createSerializer(
+  {
+    ...networkParser,
+    ...paginationParser,
+    ...clustersSearchFilters,
+    ...clusterSearchSort,
+    ...enhancementParsers,
+  },
+  {
+    clearOnDefault: false,
+  }
+)
 
 export type ClustersSearchSchema = Awaited<
   ReturnType<typeof clustersSearchParamsCache.parse>
