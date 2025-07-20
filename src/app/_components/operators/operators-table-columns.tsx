@@ -2,12 +2,14 @@
 
 import Link from "next/link"
 import { type ColumnDef } from "@tanstack/react-table"
+import { formatDistanceToNowStrict } from "date-fns"
 
 import { type Operator } from "@/types/api"
 import { getYearlyFee } from "@/lib/utils/operator"
 import { shortenAddress } from "@/lib/utils/strings"
 import { Button } from "@/components/ui/button"
 import { CopyBtn } from "@/components/ui/copy-btn"
+import { Text } from "@/components/ui/text"
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header"
 import { MevRelaysDisplay } from "@/components/mev-relays-display"
 import { OperatorInfo } from "@/components/operators/operator-info"
@@ -27,7 +29,8 @@ export const operatorColumns: Record<
   | "performance24h"
   | "performance30d"
   | "mevRelays"
-  | "status",
+  | "status"
+  | "created_at",
   ColumnDef<Operator>
 > = {
   id: {
@@ -170,6 +173,21 @@ export const operatorColumns: Record<
       return <OperatorStatusBadge size="sm" status={status} />
     },
   },
+  created_at: {
+    accessorKey: "created_at",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Registered" />
+    ),
+    cell: ({ row }) => {
+      return (
+        <Text className="text-sm text-gray-500">
+          {formatDistanceToNowStrict(row.original.created_at, {
+            addSuffix: true,
+          })}
+        </Text>
+      )
+    },
+  },
 }
 
 export const operatorsTableColumns = [
@@ -185,6 +203,7 @@ export const operatorsTableColumns = [
   operatorColumns.performance30d,
   operatorColumns.mevRelays,
   operatorColumns.status,
+  operatorColumns.created_at,
 ] satisfies ColumnDef<Operator>[]
 
 export type OperatorColumnsAccessorKeys = keyof typeof operatorColumns

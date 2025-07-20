@@ -18,7 +18,7 @@ import { getSortingStateParser, parseAsTuple } from "@/lib/utils/parsers"
 import { type OperatorSortingKeys } from "../../types/api/operator"
 
 const searchOptions: Options = {
-  history: "replace",
+  history: "push",
   shallow: false,
   clearOnDefault: true,
 }

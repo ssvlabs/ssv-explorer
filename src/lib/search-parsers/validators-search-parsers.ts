@@ -18,7 +18,7 @@ import {
 import { getSortingStateParser } from "@/lib/utils/parsers"
 
 const searchOptions: Options = {
-  history: "replace",
+  history: "push",
   shallow: false,
   clearOnDefault: true,
 }
