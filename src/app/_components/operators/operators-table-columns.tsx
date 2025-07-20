@@ -30,7 +30,7 @@ export const operatorColumns: Record<
   | "performance30d"
   | "mevRelays"
   | "status"
-  | "created_at",
+  | "created_at"
   ColumnDef<Operator>
 > = {
   id: {
