@@ -47,6 +47,7 @@ export const OperatorsFilter: FC<OperatorsFilterProps> = ({
         search,
         page: 1,
         perPage: 10,
+        ordering: [{ id: "id", desc: false }],
       })
     },
     enabled: open,
