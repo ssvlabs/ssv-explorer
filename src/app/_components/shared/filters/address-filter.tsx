@@ -3,12 +3,12 @@
 import { useState } from "react"
 import { xor } from "lodash-es"
 import { X } from "lucide-react"
+import { useQueryState, type ParserBuilder } from "nuqs"
 import { MdKeyboardReturn } from "react-icons/md"
-import { isAddress } from "viem"
+import { isAddress, type Address } from "viem"
 
 import { cn } from "@/lib/utils"
 import { shortenAddress } from "@/lib/utils/strings"
-import { useValidatorsSearchParams } from "@/hooks/search/use-validators-search-params"
 import { Button } from "@/components/ui/button"
 import {
   Command,
@@ -21,18 +21,28 @@ import {
 import { Text } from "@/components/ui/text"
 import { FilterButton } from "@/components/filter/filter-button"
 
-export function OwnerAddressFilter() {
+type AddressFilterProps = {
+  name: string
+  searchQueryKey: string
+  parser: ParserBuilder<Address[]>
+}
+export function AddressFilter({
+  name = "Address",
+  searchQueryKey,
+  parser,
+}: AddressFilterProps) {
   const [open, setOpen] = useState(false)
   const [search, setSearch] = useState<string>("")
-  const { filters, setFilters } = useValidatorsSearchParams()
+  const [addresses, setAddresses] = useQueryState(searchQueryKey, parser)
 
   const isSearchValidAddress = isAddress(search)
+  const isAddressSelected = addresses?.includes(search)
 
   return (
     <FilterButton
-      name="Owner Address"
-      activeFiltersCount={filters.ownerAddress?.length ?? 0}
-      onClear={() => setFilters((prev) => ({ ...prev, ownerAddress: null }))}
+      name={name}
+      activeFiltersCount={addresses?.length ?? 0}
+      onClear={() => setAddresses(null)}
       popover={{
         root: {
           open,
@@ -55,20 +65,15 @@ export function OwnerAddressFilter() {
             onValueChange={(value) => setSearch(value)}
           />
         </div>
-        {Boolean(filters.ownerAddress?.length) && (
+        {Boolean(addresses?.length) && (
           <div className="flex flex-wrap gap-1 border-y p-2">
-            {filters.ownerAddress?.map((owner_address) => (
+            {addresses?.map((owner_address) => (
               <Button
                 size="sm"
                 key={owner_address}
                 className="h-6 gap-0.5 rounded-full pb-px pl-2 pr-1"
                 variant="secondary"
-                onClick={() =>
-                  setFilters((prev) => ({
-                    ...prev,
-                    ownerAddress: xor(prev.ownerAddress, [owner_address]),
-                  }))
-                }
+                onClick={() => setAddresses(xor(addresses, [owner_address]))}
               >
                 <Text variant="caption-medium">
                   {shortenAddress(owner_address)}
@@ -83,7 +88,7 @@ export function OwnerAddressFilter() {
         {isSearchValidAddress && (
           <CommandList
             className={cn("max-h-none overflow-y-auto", {
-              "pt-0": !filters.ownerAddress?.length,
+              "pt-0": !addresses?.length,
             })}
           >
             <CommandEmpty>This list is empty.</CommandEmpty>
@@ -92,21 +97,24 @@ export function OwnerAddressFilter() {
                 value={search}
                 className="flex h-10 items-center space-x-2 px-2"
                 onSelect={() => {
-                  setFilters((prev) => ({
-                    ...prev,
-                    ownerAddress: xor(prev.ownerAddress, [search]),
-                  }))
+                  setAddresses(xor(addresses, [search]))
+                  setSearch("")
                 }}
               >
                 <span
                   className={cn(
-                    "flex-1 text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                    "flex-1 text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70",
+                    { "text-gray-600 line-through": isAddressSelected }
                   )}
                 >
                   {search}
                 </span>
                 <div className="flex h-5 w-6 items-center justify-center rounded-md border border-gray-400">
-                  <MdKeyboardReturn className="size-3 text-gray-500" />
+                  {isAddressSelected ? (
+                    <X className="size-3 text-red-400" />
+                  ) : (
+                    <MdKeyboardReturn className="size-3 text-gray-500" />
+                  )}
                 </div>
               </CommandItem>
             </CommandGroup>

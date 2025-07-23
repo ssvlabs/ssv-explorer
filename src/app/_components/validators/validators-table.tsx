@@ -16,7 +16,7 @@ import { DataTable } from "@/components/data-table/elastic-10k-table/data-table"
 import {
   ValidatorTableFilters,
   type ValidatorTableFiltersProps,
-} from "@/app/_components/validators/filters/validator-table-filters"
+} from "@/app/_components/validators/validator-table-filters"
 
 import { validatorsTableColumns } from "./validators-table-columns"
 
@@ -52,9 +52,9 @@ export const ValidatorsTable = withErrorBoundary(
         <TableProvider table={table}>
           <div className="flex items-center gap-2">
             <Text variant="headline4">Validators</Text>
-            <div className="flex-1"></div>
+            <div className="flex-1" />
             <DataTableMenuButton enabledFilters={enabledFilters} />
-            <DataTableViewOptions table={table} />
+            <DataTableViewOptions table={table} tableName="validators" />
           </div>
           <ValidatorTableFilters {...filterProps} />
           <DataTable table={table} />

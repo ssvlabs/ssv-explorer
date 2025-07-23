@@ -15,7 +15,9 @@ import { DataTableColumnHeader } from "@/components/data-table/data-table-column
 import { OperatorAvatar } from "@/components/operators/operator-avatar"
 import { OperatorInfo } from "@/components/tooltip/operator-info"
 
-export const clustersTableColumns = [
+import type { ColumnDefWithTitle } from "../utils/column-titles"
+
+export const clustersTableColumns: ColumnDefWithTitle<Cluster>[] = [
   {
     accessorKey: "clusterId",
     header: ({ column }) => (

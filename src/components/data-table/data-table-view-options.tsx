@@ -21,13 +21,19 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { TableMenuButton } from "@/components/ui/table"
+import {
+  getColumnTitle,
+  type TableName,
+} from "@/app/_components/utils/column-titles"
 
 interface DataTableViewOptionsProps<TData> {
   table: Table<TData>
+  tableName?: TableName
 }
 
 export function DataTableViewOptions<TData>({
   table,
+  tableName,
 }: DataTableViewOptionsProps<TData>) {
   const [open, setOpen] = React.useState(false)
   const triggerRef = React.useRef<HTMLButtonElement>(null)
@@ -118,7 +124,8 @@ export function DataTableViewOptions<TData>({
                           : "text-muted-foreground"
                       )}
                     >
-                      {toSentenceCase(column.id)}
+                      {(tableName && getColumnTitle(tableName, column.id)) ||
+                        toSentenceCase(column.id)}
                     </span>
                   </CommandItem>
                 )

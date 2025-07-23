@@ -5,9 +5,7 @@ import {
   parseAsArrayOf,
   parseAsString,
   parseAsStringEnum,
-  type Options,
 } from "nuqs/server"
-import { isAddress } from "viem"
 import { z } from "zod"
 
 import { type Operator, type SearchValidator } from "@/types/api"
@@ -16,21 +14,19 @@ import {
   networkParser,
   paginationParser,
 } from "@/lib/search-parsers"
+import {
+  addressesParser,
+  defaultSearchOptions,
+} from "@/lib/search-parsers/shared/parsers"
 import { getSortingStateParser } from "@/lib/utils/parsers"
 
-const searchOptions: Options = {
-  history: "push",
-  shallow: false,
-  clearOnDefault: true,
-}
-
 export const validatorsSearchFilters = {
-  search: parseAsString.withOptions(searchOptions),
-  publicKey: parseAsArrayOf(z.string()).withOptions(searchOptions),
-  cluster: parseAsArrayOf(z.string()).withOptions(searchOptions),
-  ownerAddress: parseAsArrayOf(z.string().refine(isAddress)).withDefault([]),
+  search: parseAsString.withOptions(defaultSearchOptions),
+  publicKey: parseAsArrayOf(z.string()).withOptions(defaultSearchOptions),
+  cluster: parseAsArrayOf(z.string()).withOptions(defaultSearchOptions),
+  ownerAddress: addressesParser.withDefault([]),
   operator: parseAsArrayOf(z.number({ coerce: true })).withOptions(
-    searchOptions
+    defaultSearchOptions
   ),
 }
 
@@ -40,7 +36,7 @@ export const defaultValidatorSort: ExtendedSortingState<
 
 export const validatorSearchSort = {
   ordering: getSortingStateParser<SearchValidator<Operator>>()
-    .withOptions(searchOptions)
+    .withOptions(defaultSearchOptions)
     .withDefault(defaultValidatorSort),
 }
 
@@ -49,24 +45,20 @@ export const elasticSearchParsers = {
   pageDirection: parseAsStringEnum<"next" | "prev">(["next", "prev"]),
 }
 
-export const validatorsSearchParamsCache = createSearchParamsCache({
+export const validatorsSearchParsers = {
   ...networkParser,
   ...paginationParser,
   ...validatorsSearchFilters,
   ...enhancementParsers,
   ...validatorSearchSort,
   ...elasticSearchParsers,
-})
+}
+export const validatorsSearchParamsCache = createSearchParamsCache(
+  validatorsSearchParsers
+)
 
 export const validatorsSearchParamsSerializer = createSerializer(
-  {
-    ...networkParser,
-    ...paginationParser,
-    ...validatorsSearchFilters,
-    ...enhancementParsers,
-    ...validatorSearchSort,
-    ...elasticSearchParsers,
-  },
+  validatorsSearchParsers,
   {
     clearOnDefault: false,
   }

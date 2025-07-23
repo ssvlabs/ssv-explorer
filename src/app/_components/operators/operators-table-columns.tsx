@@ -17,24 +17,12 @@ import { OperatorPerformanceTooltip } from "@/components/operators/operator-perf
 import { OperatorStatusBadge } from "@/components/operators/operator-status-badge"
 import { PerformanceText } from "@/components/operators/performance-text"
 
-export const operatorColumns: Record<
-  | "id"
-  | "name"
-  | "ownerAddress"
-  | "location"
-  | "eth1NodeClient"
-  | "eth2NodeClient"
-  | "fee"
-  | "validatorsCount"
-  | "performance24h"
-  | "performance30d"
-  | "mevRelays"
-  | "status"
-  | "created_at",
-  ColumnDef<Operator>
-> = {
+import type { ColumnDefWithTitle } from "../utils/column-titles"
+
+export const operatorColumns = {
   id: {
     accessorKey: "id",
+    title: "ID",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Id" />
     ),
@@ -173,10 +161,10 @@ export const operatorColumns: Record<
       return <OperatorStatusBadge size="sm" status={status} />
     },
   },
-  created_at: {
-    accessorKey: "created_at",
+  createdAt: {
+    accessorKey: "createdAt",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Registered" />
+      <DataTableColumnHeader column={column} title="Registration Date" />
     ),
     cell: ({ row }) => {
       return (
@@ -188,7 +176,7 @@ export const operatorColumns: Record<
       )
     },
   },
-}
+} satisfies Record<string, ColumnDefWithTitle<Operator>>
 
 export const operatorsTableColumns = [
   operatorColumns.id,
@@ -203,31 +191,22 @@ export const operatorsTableColumns = [
   operatorColumns.performance30d,
   operatorColumns.mevRelays,
   operatorColumns.status,
-  operatorColumns.created_at,
+  operatorColumns.createdAt,
 ] satisfies ColumnDef<Operator>[]
 
-export type OperatorColumnsAccessorKeys = keyof typeof operatorColumns
+export const operatorsDefaultColumnVisibility: Partial<
+  Record<keyof typeof operatorColumns, boolean>
+> = {
+  id: true,
+  name: true,
+  ownerAddress: true,
+  fee: true,
+  validatorsCount: true,
+  performance24h: true,
+  status: true,
+}
 
-export const operatorsTableDefaultColumnsKeys: OperatorColumnsAccessorKeys[] = [
-  "id",
-  "name",
-  "ownerAddress",
-  "fee",
-  "validatorsCount",
-  "performance24h",
-  "status",
-]
-
-export const operatorsTableDefaultColumns = Object.keys(operatorColumns).reduce(
-  (acc, key) => {
-    const typedKey = key as OperatorColumnsAccessorKeys
-    acc[typedKey] = operatorsTableDefaultColumnsKeys.includes(typedKey)
-    return acc
-  },
-  {} as Record<OperatorColumnsAccessorKeys, boolean>
-)
-
-export const operatorsTablePreviewColumns = [
+export const overviewOperatorTableColumns = [
   operatorColumns.name,
   operatorColumns.ownerAddress,
   operatorColumns.performance24h,

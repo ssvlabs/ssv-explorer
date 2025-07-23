@@ -5,7 +5,6 @@ import {
   parseAsArrayOf,
   parseAsBoolean,
   parseAsString,
-  type Options,
 } from "nuqs/server"
 import { isAddress } from "viem"
 import { z } from "zod"
@@ -16,30 +15,29 @@ import {
   networkParser,
   paginationParser,
 } from "@/lib/search-parsers"
+import { defaultSearchOptions } from "@/lib/search-parsers/shared/parsers"
 import { getSortingStateParser, parseAsTuple } from "@/lib/utils/parsers"
 
-const searchOptions: Options = {
-  history: "push",
-  shallow: false,
-  clearOnDefault: true,
-}
-
 export const clustersSearchFilters = {
-  search: parseAsString.withOptions(searchOptions),
-  clusterId: parseAsArrayOf(z.string()).withOptions(searchOptions),
+  search: parseAsString.withOptions(defaultSearchOptions),
+  clusterId: parseAsArrayOf(z.string()).withOptions(defaultSearchOptions),
   ownerAddress: parseAsArrayOf(z.string().refine(isAddress)).withOptions(
-    searchOptions
+    defaultSearchOptions
   ),
-  status: parseAsBoolean.withOptions(searchOptions),
-  isLiquidated: parseAsBoolean.withOptions(searchOptions),
+  status: parseAsBoolean.withOptions(defaultSearchOptions),
+  isLiquidated: parseAsBoolean.withOptions(defaultSearchOptions),
   operators: parseAsArrayOf(z.number({ coerce: true })).withOptions(
-    searchOptions
+    defaultSearchOptions
   ),
   createdAt: parseAsTuple(
-    [z.number({ coerce: true }), z.number({ coerce: true })],
-    (values) => values.sort((a, b) => +a - +b)
-  ).withOptions(searchOptions),
-  operatorDetails: parseAsBoolean.withOptions(searchOptions).withDefault(true),
+    z.tuple([z.number({ coerce: true }), z.number({ coerce: true })]),
+    {
+      postParse: (values) => values.sort((a, b) => +a - +b),
+    }
+  ).withOptions(defaultSearchOptions),
+  operatorDetails: parseAsBoolean
+    .withOptions(defaultSearchOptions)
+    .withDefault(true),
 }
 
 export const defaultClusterSort: ExtendedSortingState<Cluster> = [
@@ -48,7 +46,7 @@ export const defaultClusterSort: ExtendedSortingState<Cluster> = [
 
 export const clusterSearchSort = {
   ordering: getSortingStateParser<Cluster>().withOptions({
-    ...searchOptions,
+    ...defaultSearchOptions,
     clearOnDefault: false,
   }),
 }

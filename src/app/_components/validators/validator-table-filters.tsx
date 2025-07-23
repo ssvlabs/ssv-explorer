@@ -1,13 +1,14 @@
 import { useTable } from "@/context/table-context"
 import { Collapse } from "react-collapse"
 
+import { validatorsSearchParsers } from "@/lib/search-parsers/validators-search-parsers"
 import { cn } from "@/lib/utils"
 import { useValidatorsSearchParams } from "@/hooks/search/use-validators-search-params"
 import { Button } from "@/components/ui/button"
 import { textVariants } from "@/components/ui/text"
 import { ClusterIdFilter } from "@/app/_components/clusters/filters/cluster-id-filter"
 import { OperatorsFilter } from "@/app/_components/clusters/filters/operators-filter"
-import { OwnerAddressFilter } from "@/app/_components/validators/filters/owner-address-filter"
+import { AddressFilter } from "@/app/_components/shared/filters/address-filter"
 import { PublicKeyFilter } from "@/app/_components/validators/filters/public-key-filter"
 
 export type ValidatorTableFiltersProps = {
@@ -40,7 +41,13 @@ export const ValidatorTableFilters = ({
       >
         {!hidePublicKeyFilter && <PublicKeyFilter />}
         {!hideClusterIdFilter && <ClusterIdFilter />}
-        {!hideOwnerAddressFilter && <OwnerAddressFilter />}
+        {!hideOwnerAddressFilter && (
+          <AddressFilter
+            name="Owner Address"
+            searchQueryKey="ownerAddress"
+            parser={validatorsSearchParsers.ownerAddress}
+          />
+        )}
         {!hideOperatorsFilter && <OperatorsFilter searchQueryKey="operator" />}
         {enabledFilters.count > 0 && (
           <Button

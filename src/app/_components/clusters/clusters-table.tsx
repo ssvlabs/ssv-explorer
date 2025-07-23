@@ -51,9 +51,9 @@ export const ClustersTable = withErrorBoundary(
         <TableProvider table={table}>
           <div className="flex items-center gap-2">
             <Text variant="headline4">Clusters</Text>
-            <div className="flex-1"></div>
+            <div className="flex-1" />
             <DataTableMenuButton enabledFilters={enabledFilters} />
-            <DataTableViewOptions table={table} />
+            <DataTableViewOptions table={table} tableName="clusters" />
           </div>
           <ClusterTableFilters />
           <DataTable table={table} />

@@ -12,7 +12,10 @@ import { Text } from "@/components/ui/text"
 import { DataTable } from "@/components/data-table/data-table"
 import { DataTableViewOptions } from "@/components/data-table/data-table-view-options"
 
-import { accountsTableColumns } from "./accounts-table-columns"
+import {
+  accountsDefaultColumnVisibility,
+  accountsTableColumns,
+} from "./accounts-table-columns"
 
 interface AccountsTableProps {
   dataPromise: Promise<PaginatedAccountsResponse>
@@ -27,6 +30,7 @@ export const defaultColumns = {
 
 export function AccountsTable({ dataPromise: data }: AccountsTableProps) {
   const { accounts, pagination } = use(data)
+  console.log("accounts:", accounts)
   const { enabledFilters, clearFilters } = useAccountsSearchParams()
 
   const { table } = useDataTable({
@@ -37,8 +41,12 @@ export function AccountsTable({ dataPromise: data }: AccountsTableProps) {
     getRowId: (originalRow, index) => `${originalRow.ownerAddress}-${index}`,
     shallow: false,
     clearOnDefault: true,
+    initialState: {
+      columnVisibility: accountsDefaultColumnVisibility,
+    },
     meta: {
       total: pagination.total,
+      defaultColumns: accountsDefaultColumnVisibility,
     },
   })
 
@@ -47,7 +55,7 @@ export function AccountsTable({ dataPromise: data }: AccountsTableProps) {
       <TableProvider table={table}>
         <div className="flex gap-2">
           <Text variant="headline4">Accounts</Text>
-          <div className="flex-1"></div>
+          <div className="flex-1" />
           {enabledFilters.count > 0 && (
             <Button
               aria-label="Toggle columns"
@@ -61,7 +69,7 @@ export function AccountsTable({ dataPromise: data }: AccountsTableProps) {
               Clear
             </Button>
           )}
-          <DataTableViewOptions table={table} />
+          <DataTableViewOptions table={table} tableName="accounts" />
         </div>
         <DataTable table={table} />
       </TableProvider>

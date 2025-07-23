@@ -13,9 +13,11 @@ import { OperatorAvatar } from "@/components/operators/operator-avatar"
 import { OperatorInfo } from "@/components/tooltip/operator-info"
 import { ValidatorStatusBadge } from "@/components/validators/validator-status-badge"
 
+import type { ColumnDefWithTitle } from "../utils/column-titles"
+
 export const validatorColumns: Record<
   "publicKey" | "cluster" | "ownerAddress" | "operators" | "status",
-  ColumnDef<SearchValidator<Operator>>
+  ColumnDefWithTitle<SearchValidator<Operator>>
 > = {
   publicKey: {
     accessorKey: "publicKey",
@@ -112,7 +114,9 @@ export const validatorColumns: Record<
   },
 }
 
-export const validatorsTableColumns: ColumnDef<SearchValidator<Operator>>[] = [
+export const validatorsTableColumns: ColumnDefWithTitle<
+  SearchValidator<Operator>
+>[] = [
   validatorColumns.publicKey,
   validatorColumns.ownerAddress,
   validatorColumns.cluster,

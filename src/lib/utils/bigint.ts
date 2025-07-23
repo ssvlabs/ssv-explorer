@@ -76,3 +76,19 @@ export const bigintifyNumbers = (numbers: readonly number[] | number[]) => {
     if (typeof value === "number") return BigInt(value)
   }) as bigint[]
 }
+
+export const sortBigints = <
+  N extends bigint | string | number,
+  T extends readonly N[] | N[] | [N, N],
+>(
+  numbers: T,
+  asc = true
+): T => {
+  return [...numbers].sort((a, b) => {
+    const coercedA = typeof a === "bigint" ? a : BigInt(a)
+    const coercedB = typeof b === "bigint" ? b : BigInt(b)
+    if (coercedA < coercedB) return asc ? -1 : 1
+    if (coercedA > coercedB) return asc ? 1 : -1
+    return 0
+  }) as T
+}

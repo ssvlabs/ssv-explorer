@@ -16,7 +16,7 @@ import { DataTable } from "@/components/data-table/elastic-10k-table/data-table"
 import {
   ValidatorTableFilters,
   type ValidatorTableFiltersProps,
-} from "@/app/_components/validators/filters/validator-table-filters"
+} from "@/app/_components/validators/validator-table-filters"
 
 import { validatorsTableColumns } from "../../validators/validators-table-columns"
 

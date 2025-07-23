@@ -11,16 +11,12 @@ import { CopyBtn } from "@/components/ui/copy-btn"
 import { Text } from "@/components/ui/text"
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header"
 
-export const accountsTableColumns: ColumnDef<Account>[] = [
-  // {
-  //   accessorKey: "id",
-  //   header: ({ column }) => (
-  //     <DataTableColumnHeader column={column} title="ID" />
-  //   ),
-  //   cell: ({ row }) => <div>{row.original.id}</div>,
-  // },
-  {
+import type { ColumnDefWithTitle } from "../utils/column-titles"
+
+export const accountColumns = {
+  ownerAddress: {
     accessorKey: "ownerAddress",
+    title: "Owner Address",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Owner Address" />
     ),
@@ -38,8 +34,9 @@ export const accountsTableColumns: ColumnDef<Account>[] = [
     ),
     enableSorting: false,
   },
-  {
+  recipientAddress: {
     accessorKey: "recipientAddress",
+    title: "Recipient Address",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Recipient Address" />
     ),
@@ -61,41 +58,45 @@ export const accountsTableColumns: ColumnDef<Account>[] = [
       ),
     enableSorting: false,
   },
-  {
+  operator: {
     accessorKey: "operator",
+    title: "Operator Count",
     header: ({ column }) => (
       <DataTableColumnHeader
         column={column}
-        title="Operators"
+        title="Operator Count"
         className="w-[119px]"
       />
     ),
     cell: ({ row }) => row.original.operators,
   },
-  {
+  cluster: {
     accessorKey: "cluster",
+    title: "Cluster Count",
     header: ({ column }) => (
       <DataTableColumnHeader
         column={column}
-        title="Clusters"
+        title="Cluster Count"
         className="w-[119px]"
       />
     ),
     cell: ({ row }) => row.original.clusters,
   },
-  {
+  validator: {
     accessorKey: "validator",
+    title: "Validator Count",
     header: ({ column }) => (
       <DataTableColumnHeader
         column={column}
-        title="Validators"
+        title="Validator Count"
         className="w-[119px]"
       />
     ),
     cell: ({ row }) => row.original.validators,
   },
-  {
+  effectiveBalance: {
     accessorKey: "effectiveBalance",
+    title: `Total ETH Staked`,
     header: ({ column }) => {
       // eslint-disable-next-line react-hooks/rules-of-hooks
       const nativeCurrency = useNativeCurrency()
@@ -117,4 +118,22 @@ export const accountsTableColumns: ColumnDef<Account>[] = [
       )
     },
   },
-]
+} satisfies Record<string, ColumnDefWithTitle<Account>>
+
+export const accountsTableColumns = [
+  accountColumns.ownerAddress,
+  accountColumns.recipientAddress,
+  accountColumns.operator,
+  accountColumns.cluster,
+  accountColumns.validator,
+  accountColumns.effectiveBalance,
+] satisfies ColumnDef<Account>[]
+
+export const accountsDefaultColumnVisibility: Partial<
+  Record<keyof typeof accountColumns, boolean>
+> = {
+  ownerAddress: true,
+  operator: true,
+  cluster: true,
+  validator: true,
+}

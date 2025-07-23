@@ -62,6 +62,6 @@ export const ms = (value: `${number}${Unit}`): number => {
   return Number(num) * units[unit as keyof typeof units]
 }
 
-export const sortNumbers = <T extends bigint | number>(numbers: T[]): T[] => {
-  return [...numbers].sort((a, b) => Number(a) - Number(b))
+export const sortNumbers = <T extends bigint[] | number[]>(numbers: T): T => {
+  return [...numbers].sort((a, b) => Number(a) - Number(b)) as T
 }
