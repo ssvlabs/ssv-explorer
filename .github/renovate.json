@@ -2,7 +2,7 @@
   "extends": [
     "github>ssvlabs/shared-configs//renovate/renovate.json"
   ],
-  "baseBranches": [
+  "baseBranchPatterns": [
     "stage"
   ]
 }
