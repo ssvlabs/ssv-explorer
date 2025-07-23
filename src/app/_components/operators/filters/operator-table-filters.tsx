@@ -1,11 +1,13 @@
 import { useTable } from "@/context/table-context"
 import { Collapse } from "react-collapse"
 
+import { operatorSearchParsers } from "@/lib/search-parsers/operator-search-parsers"
 import { cn } from "@/lib/utils"
 import { useOperatorsSearchParams } from "@/hooks/search/use-operators-search-params"
 import { Button } from "@/components/ui/button"
 import { textVariants } from "@/components/ui/text"
 import { MevRelaysFilter } from "@/app/_components/operators/filters/mev-relays-filter"
+import { AddressFilter } from "@/app/_components/shared/filters/address-filter"
 
 import { Eth1ClientFilter } from "./eth1-client-filter"
 import { Eth2ClientFilter } from "./eth2-client-filter"
@@ -13,7 +15,6 @@ import { FeeFilter } from "./fee-filter"
 import { IdFilter } from "./id-filter"
 import { LocationFilter } from "./location-filter"
 import { NameFilter } from "./name-filter"
-import { OwnerAddressFilter } from "./owner-address-filter"
 import { Performance24hFilter } from "./performance-24h-filter"
 import { Performance30dFilter } from "./performance-30d-filter"
 import { ValidatorsFilter } from "./validators-filter"
@@ -38,7 +39,11 @@ export const OperatorTableFilters = () => {
       >
         <IdFilter />
         <NameFilter />
-        <OwnerAddressFilter />
+        <AddressFilter
+          name="Owner Address"
+          searchQueryKey="ownerAddress"
+          parser={operatorSearchParsers.ownerAddress}
+        />
         <LocationFilter />
         <Eth1ClientFilter />
         <Eth2ClientFilter />

@@ -21,10 +21,10 @@ export function getYearlyFee(
   return yearlyFee
 }
 
-export function getBlockFee(yearlyFee: number): string {
+export function getBlockFee(yearlyFee: number) {
   return roundOperatorFee(
     parseEther(yearlyFee.toString()) / BigInt(globals.BLOCKS_PER_YEAR)
-  ).toString()
+  )
 }
 
 export const getMevRelaysAmount = (mev?: string) =>

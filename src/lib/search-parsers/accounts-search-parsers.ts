@@ -2,46 +2,39 @@ import {
   createSearchParamsCache,
   createSerializer,
   parseAsArrayOf,
-  type Options,
 } from "nuqs/server"
-import { isAddress } from "viem"
 import { z } from "zod"
 
 import type { Account } from "@/types/api/account"
 import { networkParser, paginationParser } from "@/lib/search-parsers"
+import {
+  addressesParser,
+  defaultSearchOptions,
+} from "@/lib/search-parsers/shared/parsers"
 import { getSortingStateParser } from "@/lib/utils/parsers"
 
-const searchOptions: Options = {
-  history: "push",
-  shallow: false,
-  clearOnDefault: true,
-}
-
 export const accountsSearchFilters = {
-  id: parseAsArrayOf(z.number({ coerce: true })).withOptions(searchOptions),
-  ownerAddress: parseAsArrayOf(z.string().refine(isAddress)).withOptions(
-    searchOptions
+  id: parseAsArrayOf(z.number({ coerce: true })).withOptions(
+    defaultSearchOptions
   ),
+  ownerAddress: addressesParser,
 }
 
 export const operatorSearchSort = {
-  ordering: getSortingStateParser<Account>().withOptions(searchOptions),
+  ordering: getSortingStateParser<Account>().withOptions(defaultSearchOptions),
 }
 
-export const accountsSearchParamsCache = createSearchParamsCache({
+export const accountSearchParsers = {
   ...networkParser,
   ...paginationParser,
   ...operatorSearchSort,
   ...accountsSearchFilters,
-})
+}
+export const accountsSearchParamsCache =
+  createSearchParamsCache(accountSearchParsers)
 
 export const accountSearchParamsSerializer = createSerializer(
-  {
-    ...networkParser,
-    ...paginationParser,
-    ...operatorSearchSort,
-    ...accountsSearchFilters,
-  },
+  accountSearchParsers,
   {
     clearOnDefault: false,
   }

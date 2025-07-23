@@ -6,96 +6,97 @@ import {
   parseAsBoolean,
   parseAsString,
   parseAsStringEnum,
-  type Options,
 } from "nuqs/server"
-import { isAddress } from "viem"
 import { z } from "zod"
 
 import { networkParser, paginationParser } from "@/lib/search-parsers"
-import { getBlockFee, MEV_RELAYS_VALUES } from "@/lib/utils/operator"
+import {
+  addressesParser,
+  defaultSearchOptions,
+} from "@/lib/search-parsers/shared/parsers"
+import { MEV_RELAYS_VALUES } from "@/lib/utils/operator"
 import { getSortingStateParser, parseAsTuple } from "@/lib/utils/parsers"
 
 import { type OperatorSortingKeys } from "../../types/api/operator"
-
-const searchOptions: Options = {
-  history: "push",
-  shallow: false,
-  clearOnDefault: true,
-}
+import { sortNumbers } from "../utils/number"
 
 export const operatorSearchFilters = {
-  search: parseAsString.withDefault("").withOptions(searchOptions),
+  search: parseAsString.withDefault("").withOptions(defaultSearchOptions),
   id: parseAsArrayOf(z.number({ coerce: true }))
     .withDefault([])
-    .withOptions(searchOptions),
-  name: parseAsArrayOf(z.string()).withDefault([]).withOptions(searchOptions),
-  ownerAddress: parseAsArrayOf(z.string().refine(isAddress))
+    .withOptions(defaultSearchOptions),
+  name: parseAsArrayOf(z.string())
     .withDefault([])
-    .withOptions(searchOptions),
-  location: parseAsArrayOf(z.string()).withOptions(searchOptions),
-  eth1: parseAsArrayOf(z.string()).withDefault([]).withOptions(searchOptions),
-  eth2: parseAsArrayOf(z.string()).withDefault([]).withOptions(searchOptions),
+    .withOptions(defaultSearchOptions),
+  ownerAddress: addressesParser,
+  location: parseAsArrayOf(z.string()).withOptions(defaultSearchOptions),
+  eth1: parseAsArrayOf(z.string())
+    .withDefault([])
+    .withOptions(defaultSearchOptions),
+  eth2: parseAsArrayOf(z.string())
+    .withDefault([])
+    .withOptions(defaultSearchOptions),
   mev: parseAsArrayOf(z.enum(MEV_RELAYS_VALUES))
     .withDefault([])
-    .withOptions(searchOptions),
+    .withOptions(defaultSearchOptions),
   fee: parseAsTuple(
-    [
-      z
-        .number({ coerce: true })
-        .transform((v) => getBlockFee(v)) as unknown as z.ZodNumber,
-      z
-        .number({ coerce: true })
-        .transform((v) => getBlockFee(v)) as unknown as z.ZodNumber,
-    ],
-    (values) => values.sort((a, b) => +a - +b)
+    z.tuple([z.number({ coerce: true }), z.number({ coerce: true })]),
+    {
+      postParse: sortNumbers,
+    }
   )
     .withDefault([0, 200])
     .withOptions({
-      ...searchOptions,
+      ...defaultSearchOptions,
       throttleMs: 500,
     }),
   validatorsCount: parseAsTuple(
-    [z.number({ coerce: true }), z.number({ coerce: true })],
-    (values) => values.sort((a, b) => +a - +b)
+    z.tuple([z.number({ coerce: true }), z.number({ coerce: true })]),
+    {
+      postParse: sortNumbers,
+    }
   )
     .withDefault([0, 3000])
-    .withOptions(searchOptions),
+    .withOptions(defaultSearchOptions),
   managedEth: parseAsTuple(
-    [z.number({ coerce: true }), z.number({ coerce: true })],
-    (values) => values.sort((a, b) => +a - +b)
+    z.tuple([z.number({ coerce: true }), z.number({ coerce: true })]),
+    {
+      postParse: sortNumbers,
+    }
   )
     .withDefault([0, 0])
-    .withOptions(searchOptions),
+    .withOptions(defaultSearchOptions),
   status: parseAsArrayOf(
     z.enum(["active", "inactive", "no validators", "invalid"])
   )
     .withDefault([])
-    .withOptions(searchOptions),
-  isPrivate: parseAsBoolean.withOptions(searchOptions),
+    .withOptions(defaultSearchOptions),
+  isPrivate: parseAsBoolean.withOptions(defaultSearchOptions),
   type: parseAsStringEnum([
     "verified_operator",
     "dapp_node",
     "operator",
-  ]).withOptions(searchOptions),
+  ]).withOptions(defaultSearchOptions),
 
   performance24h: parseAsTuple(
-    [
+    z.tuple([
       z.number({ coerce: true }).transform((v) => Math.round(v)),
       z.number({ coerce: true }).transform((v) => Math.round(v)),
-    ],
-    (values) => values.sort((a, b) => +a - +b)
+    ]),
+    {
+      postParse: sortNumbers,
+    }
   )
     .withDefault([0, 100])
-    .withOptions(searchOptions),
+    .withOptions(defaultSearchOptions),
   performance30d: parseAsTuple(
-    [
+    z.tuple([
       z.number({ coerce: true }).transform((v) => Math.round(v)),
       z.number({ coerce: true }).transform((v) => Math.round(v)),
-    ],
-    (values) => values.sort((a, b) => +a - +b)
+    ])
   )
     .withDefault([0, 100])
-    .withOptions(searchOptions),
+    .withOptions(defaultSearchOptions),
 }
 
 export const defaultOperatorSort: ExtendedSortingState<OperatorSortingKeys> = [
@@ -106,25 +107,23 @@ export const operatorSearchSort = {
   ordering: getSortingStateParser<OperatorSortingKeys>()
     .withDefault(defaultOperatorSort)
     .withOptions({
-      ...searchOptions,
+      ...defaultSearchOptions,
       clearOnDefault: false,
     }),
 }
 
-export const operatorsSearchParamsCache = createSearchParamsCache({
+export const operatorSearchParsers = {
   ...networkParser,
   ...paginationParser,
   ...operatorSearchFilters,
   ...operatorSearchSort,
-})
+}
+export const operatorsSearchParamsCache = createSearchParamsCache(
+  operatorSearchParsers
+)
 
 export const operatorSearchParamsSerializer = createSerializer(
-  {
-    ...networkParser,
-    ...paginationParser,
-    ...operatorSearchFilters,
-    ...operatorSearchSort,
-  },
+  operatorSearchParsers,
   {
     clearOnDefault: false,
   }

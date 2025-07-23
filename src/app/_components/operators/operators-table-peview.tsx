@@ -12,7 +12,7 @@ import { Card } from "@/components/ui/card"
 import { ErrorCard } from "@/components/ui/error-card"
 import { Text, textVariants } from "@/components/ui/text"
 import { DataTable } from "@/components/data-table/data-table"
-import { operatorsTablePreviewColumns } from "@/app/_components/operators/operators-table-columns"
+import { overviewOperatorTableColumns } from "@/app/_components/operators/operators-table-columns"
 
 interface OperatorsOverviewTableProps {
   dataPromise: Promise<OperatorsSearchResponse>
@@ -25,7 +25,7 @@ export const OperatorsOverviewTable = withErrorBoundary(
     const { table } = useDataTable({
       name: "operators-table-preview",
       data: operators,
-      columns: operatorsTablePreviewColumns,
+      columns: overviewOperatorTableColumns,
       pageCount: pagination.pages,
       getRowId: (originalRow, index) => `${originalRow.id}-${index}`,
       shallow: false,

@@ -20,8 +20,8 @@ import { DataTableViewOptions } from "@/components/data-table/data-table-view-op
 import { OperatorTableFilters } from "@/app/_components/operators/filters/operator-table-filters"
 
 import {
+  operatorsDefaultColumnVisibility,
   operatorsTableColumns,
-  operatorsTableDefaultColumns,
 } from "./operators-table-columns"
 
 interface OperatorsTableProps {
@@ -42,11 +42,11 @@ export const OperatorsTable = withErrorBoundary(
       clearOnDefault: true,
       initialState: {
         sorting: operatorSearchSort.ordering.defaultValue,
-        columnVisibility: operatorsTableDefaultColumns,
+        columnVisibility: operatorsDefaultColumnVisibility,
       },
       meta: {
         total: pagination.total,
-        defaultColumns: operatorsTableDefaultColumns,
+        defaultColumns: operatorsDefaultColumnVisibility,
       },
     })
 
@@ -57,9 +57,9 @@ export const OperatorsTable = withErrorBoundary(
         <TableProvider table={table}>
           <div className="flex items-center gap-2">
             <Text variant="headline4">Operators</Text>
-            <div className="flex-1"></div>
+            <div className="flex-1" />
             <DataTableMenuButton enabledFilters={enabledFilters} />
-            <DataTableViewOptions table={table} />
+            <DataTableViewOptions table={table} tableName="operators" />
           </div>
           <OperatorTableFilters />
           <DataTable table={table} />

@@ -140,7 +140,7 @@ export const GlobalSearch: React.FC<Props> = ({ size, ...props }) => {
                 e.stopPropagation()
               }
             }}
-            onValueChange={(value) => setSearch(value.trim())}
+            onValueChange={(value) => setSearch(value)}
             onFocus={(event) => {
               event.currentTarget.select()
               return setIsFocused(true)

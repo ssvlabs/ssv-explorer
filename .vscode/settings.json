@@ -1,0 +1,33 @@
+{
+  "files.associations": {
+    ".eslintrc": "jsonc",
+    ".stylelintrc": "json",
+    ".dockerignore": "ignore",
+    ".eslintignore": "ignore"
+  },
+  "tailwindCSS.experimental.classRegex": [
+    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+    ["cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
+  ],
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "javascript.validate.enable": false,
+  "javascript.format.enable": false,
+  "typescript.format.enable": false,
+
+  "search.exclude": {
+    ".eslintcache": true,
+    ".git": true,
+    "*.{css,sass,scss}.d.ts": true,
+    "node_modules": true,
+    "npm-debug.log.*": true,
+    "test/**/__snapshots__": true,
+    "yarn.lock": true
+  },
+
+  // Enable ESLint fix on save, organize imports, and fix TypeScript issues
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "explicit",
+    "source.fixAll.eslint": "explicit",
+    "source.fixAll.ts": "explicit"
+  }
+}
