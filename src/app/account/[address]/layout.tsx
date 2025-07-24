@@ -5,6 +5,7 @@ import { Card } from "@/components/ui/card"
 import { CopyBtn } from "@/components/ui/copy-btn"
 import { ErrorCard } from "@/components/ui/error-card"
 import { Outline } from "@/components/ui/outline"
+import { EtherscanBtn } from "@/components/ui/ssv-explorer-btn"
 import { Text } from "@/components/ui/text"
 import { Shell } from "@/components/shell"
 
@@ -38,19 +39,25 @@ export default async function AccountLayout({
         <Card>
           <div className="flex flex-col gap-5">
             <Text variant="headline4">Account</Text>
-            <Outline>
+            <Outline className="pr-1">
               <Text variant="caption-medium" className="text-gray-500">
                 Owner:
               </Text>
               <Text className="font-mono text-sm font-medium">
                 {shortenAddress(address)}
               </Text>
-              <CopyBtn text={address} />
+              <div className="ml-2 flex items-center">
+                <CopyBtn text={address} />
+                <EtherscanBtn
+                  address={address}
+                  className="size-6 text-gray-500"
+                />
+              </div>
             </Outline>
           </div>
           <AccountStats ownerAddress={address} />
         </Card>
-        <Card>
+        <Card className="container">
           <TableNavigation ownerAddress={address} />
           {children}
         </Card>
