@@ -245,10 +245,8 @@ export const NumberInput: NumberInputFC = forwardRef<
 
       if (hasMax && parsed > max) {
         setShowMaxSet(true)
-        console.log("max:", max)
         onChange(max)
         const formatted = formatNumber(max, decimals)
-        console.log("formatted:", formatted)
         return setDisplayValue(formatted)
       }
 
