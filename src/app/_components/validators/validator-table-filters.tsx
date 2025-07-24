@@ -1,0 +1,68 @@
+import { useTable } from "@/context/table-context"
+import { Collapse } from "react-collapse"
+
+import { validatorsSearchParsers } from "@/lib/search-parsers/validators-search-parsers"
+import { cn } from "@/lib/utils"
+import { useValidatorsSearchParams } from "@/hooks/search/use-custom-search-params"
+import { Button } from "@/components/ui/button"
+import { textVariants } from "@/components/ui/text"
+import { ClusterIdFilter } from "@/app/_components/clusters/filters/cluster-id-filter"
+import { OperatorsFilter } from "@/app/_components/clusters/filters/operators-filter"
+import { AddressFilter } from "@/app/_components/shared/filters/address-filter"
+import { PublicKeyFilter } from "@/app/_components/validators/filters/public-key-filter"
+
+export type ValidatorTableFiltersProps = {
+  hidePublicKeyFilter?: boolean
+  hideClusterIdFilter?: boolean
+  hideOwnerAddressFilter?: boolean
+  hideOperatorsFilter?: boolean
+}
+
+export const ValidatorTableFilters = ({
+  hidePublicKeyFilter,
+  hideClusterIdFilter,
+  hideOwnerAddressFilter,
+  hideOperatorsFilter,
+}: ValidatorTableFiltersProps) => {
+  const { isFiltersOpen } = useTable()
+  const { enabledFilters, clearFilters } = useValidatorsSearchParams()
+
+  return (
+    <Collapse isOpened={isFiltersOpen}>
+      <div
+        className={cn(
+          "flex flex-wrap items-center gap-2 overflow-hidden border-t border-gray-300 py-2 transition-opacity duration-300",
+          {
+            "opacity-100": isFiltersOpen,
+            "invisible opacity-0": !isFiltersOpen,
+          }
+        )}
+        aria-hidden={!isFiltersOpen}
+      >
+        {!hidePublicKeyFilter && <PublicKeyFilter />}
+        {!hideClusterIdFilter && <ClusterIdFilter />}
+        {!hideOwnerAddressFilter && (
+          <AddressFilter
+            name="Owner Address"
+            searchQueryKey="ownerAddress"
+            parser={validatorsSearchParsers.ownerAddress}
+          />
+        )}
+        {!hideOperatorsFilter && <OperatorsFilter searchQueryKey="operator" />}
+        {enabledFilters.count > 0 && (
+          <Button
+            variant="ghost"
+            name="Clear"
+            className={textVariants({
+              variant: "body-3-medium",
+              className: "text-primary-500",
+            })}
+            onClick={clearFilters}
+          >
+            Clear All
+          </Button>
+        )}
+      </div>
+    </Collapse>
+  )
+}

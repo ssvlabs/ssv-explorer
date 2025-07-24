@@ -1,26 +1,15 @@
-/**
- * Shorten the string that way so start and end of the string would be visible
- * @param key
- * @param len
- */
-export const longStringShorten = (key: string, len: number = 6) => {
-  if (key.length <= len + 3) {
-    return key;
-  }
-  return `${key.substr(0, len)}...${key.substr(key.length - len, len)}`;
-};
+import type { Address } from "viem"
 
-/**
- * Capitalize string
- * @param s
- */
-export const capitalize = (s: string): string => {
-  return s.charAt(0).toUpperCase() + s.slice(1);
-};
+export const add0x = (publicKey: string): Address =>
+  (publicKey.startsWith("0x") ? publicKey : `0x${publicKey}`) as Address
 
-export const truncateText = (text: string, maxCharacters: number): string => {
-  if (text.length <= maxCharacters) {
-    return text;
-  }
-  return `${text.slice(0, maxCharacters - 3)}...`;
-};
+export const remove0x = (address: string): Address =>
+  address.replace(/^0x/, "") as Address
+
+export const shortenClusterId = (clusterId: string) => {
+  const clusterIdWithout0x = remove0x(clusterId)
+  return `${clusterIdWithout0x.slice(0, 4)}...${clusterIdWithout0x.slice(-4)}`
+}
+
+export const shortenAddress = (address: string, length = 6) =>
+  `${address.slice(0, length)}...${address.slice(-(length - 2))}`
