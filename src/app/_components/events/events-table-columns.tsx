@@ -29,14 +29,18 @@ export const eventsColumns = {
     accessorKey: "createdAt",
     title: "Age",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} className="text-end" title="Age" />
+      <DataTableColumnHeader
+        column={column}
+        className="justify-end text-end"
+        title="Age"
+      />
     ),
     cell: ({ row }) => (
       <Text variant="body-3-medium" className="text-end text-gray-600">
         {formatDistanceToNowStrict(row.original.createdAt, { addSuffix: true })}
       </Text>
     ),
-    enableSorting: false,
+    enableSorting: true,
   },
 } satisfies Record<string, ColumnDefWithTitle<AccountEvent>>
 

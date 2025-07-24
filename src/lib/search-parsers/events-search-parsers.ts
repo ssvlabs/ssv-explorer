@@ -6,16 +6,14 @@ import {
 } from "nuqs/server"
 
 import { type AccountEvent } from "@/types/api/events"
-import {
-  enhancementParsers,
-  networkParser,
-  paginationParser,
-} from "@/lib/search-parsers"
+import { networkParser, paginationParser } from "@/lib/search-parsers"
 import { defaultSearchOptions } from "@/lib/search-parsers/shared/parsers"
 import { getSortingStateParser } from "@/lib/utils/parsers"
 
 export const eventsSearchFilters = {
-  entity: parseAsStringEnum(["operator", "cluster", "validator"]),
+  entity: parseAsStringEnum(["operator", "cluster", "validator"]).withOptions(
+    defaultSearchOptions
+  ),
 }
 
 export const defaultEventSort: ExtendedSortingState<AccountEvent> = [
@@ -32,7 +30,6 @@ export const eventsSearchParsers = {
   ...networkParser,
   ...paginationParser,
   ...eventsSearchFilters,
-  ...enhancementParsers,
   ...eventSearchSort,
 }
 export const eventsSearchParamsCache =

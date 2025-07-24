@@ -8,7 +8,7 @@ import { xor } from "lodash-es"
 import { Loader2 } from "lucide-react"
 
 import { cn } from "@/lib/utils"
-import { useOperatorsSearchParams } from "@/hooks/search/use-operators-search-params"
+import { useOperatorsSearchParams } from "@/hooks/search/use-custom-search-params"
 import { Checkbox } from "@/components/ui/checkbox"
 import {
   Command,

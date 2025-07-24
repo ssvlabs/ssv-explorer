@@ -8,7 +8,7 @@ import { isAddress } from "viem"
 
 import { cn } from "@/lib/utils"
 import { shortenAddress } from "@/lib/utils/strings"
-import { useOperatorsSearchParams } from "@/hooks/search/use-operators-search-params"
+import { useOperatorsSearchParams } from "@/hooks/search/use-custom-search-params"
 import { Button } from "@/components/ui/button"
 import {
   Command,

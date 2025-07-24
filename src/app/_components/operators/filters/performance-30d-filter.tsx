@@ -3,7 +3,7 @@
 import { isEqual } from "lodash-es"
 
 import { operatorSearchFilters } from "@/lib/search-parsers/operator-search-parsers"
-import { useOperatorsSearchParams } from "@/hooks/search/use-operators-search-params"
+import { useOperatorsSearchParams } from "@/hooks/search/use-custom-search-params"
 import { Text } from "@/components/ui/text"
 import { FilterButton } from "@/components/filter/filter-button"
 import { Range } from "@/components/filter/range-filter"

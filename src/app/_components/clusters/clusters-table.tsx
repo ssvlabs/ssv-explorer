@@ -5,7 +5,7 @@ import { TableProvider } from "@/context/table-context"
 import { withErrorBoundary } from "react-error-boundary"
 
 import { type Operator, type PaginatedClustersResponse } from "@/types/api"
-import { useClustersSearchParams } from "@/hooks/search/use-clusters-search-params"
+import { useClustersSearchParams } from "@/hooks/search/use-custom-search-params"
 import { useDataTable } from "@/hooks/use-data-table"
 import { ErrorCard } from "@/components/ui/error-card"
 import { Text } from "@/components/ui/text"

@@ -3,7 +3,7 @@ import { Collapse } from "react-collapse"
 
 import { operatorSearchParsers } from "@/lib/search-parsers/operator-search-parsers"
 import { cn } from "@/lib/utils"
-import { useOperatorsSearchParams } from "@/hooks/search/use-operators-search-params"
+import { useOperatorsSearchParams } from "@/hooks/search/use-custom-search-params"
 import { Button } from "@/components/ui/button"
 import { textVariants } from "@/components/ui/text"
 import { MevRelaysFilter } from "@/app/_components/operators/filters/mev-relays-filter"

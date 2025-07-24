@@ -19,6 +19,7 @@ export const getAccountEvents = async (
   await unstable_cache(
     async () => {
       const searchParams = eventsSearchParamsSerializer(params)
+      console.log("searchParams:", searchParams)
       const response = await api.get<PaginatedEventsResponse>(
         endpoint(
           params.network,

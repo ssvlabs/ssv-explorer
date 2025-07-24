@@ -3,7 +3,7 @@ import { Collapse } from "react-collapse"
 
 import { validatorsSearchParsers } from "@/lib/search-parsers/validators-search-parsers"
 import { cn } from "@/lib/utils"
-import { useValidatorsSearchParams } from "@/hooks/search/use-validators-search-params"
+import { useValidatorsSearchParams } from "@/hooks/search/use-custom-search-params"
 import { Button } from "@/components/ui/button"
 import { textVariants } from "@/components/ui/text"
 import { ClusterIdFilter } from "@/app/_components/clusters/filters/cluster-id-filter"

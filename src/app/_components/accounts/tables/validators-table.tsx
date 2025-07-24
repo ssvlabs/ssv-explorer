@@ -6,7 +6,7 @@ import { withErrorBoundary } from "react-error-boundary"
 
 import { type Operator, type PaginatedValidatorsResponse } from "@/types/api"
 import { defaultValidatorSort } from "@/lib/search-parsers/validators-search-parsers"
-import { useValidatorsSearchParams } from "@/hooks/search/use-validators-search-params"
+import { useValidatorsSearchParams } from "@/hooks/search/use-custom-search-params"
 import { useDataTable } from "@/hooks/use-data-table"
 import { ErrorCard } from "@/components/ui/error-card"
 import { Text } from "@/components/ui/text"

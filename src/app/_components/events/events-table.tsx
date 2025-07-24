@@ -8,11 +8,14 @@ import {
   type AccountEvent,
   type PaginatedEventsResponse,
 } from "@/types/api/events"
+import { useEventsSearchParams } from "@/hooks/search/use-custom-search-params"
 import { useDataTable } from "@/hooks/use-data-table"
 import { ErrorCard } from "@/components/ui/error-card"
 import { Text } from "@/components/ui/text"
 import { DataTable } from "@/components/data-table/data-table"
+import { DataTableMenuButton } from "@/components/data-table/data-table-filters-button"
 import { DataTableViewOptions } from "@/components/data-table/data-table-view-options"
+import { EventsTableFilters } from "@/app/_components/events/events-table-filters"
 
 import {
   eventsDefaultColumnVisibility,
@@ -44,7 +47,7 @@ export const AccountEventsTable = withErrorBoundary(
       },
     })
 
-    // const { enabledFilters } = useOperatorsSearchParams()
+    const { enabledFilters } = useEventsSearchParams()
 
     return (
       <>
@@ -52,10 +55,10 @@ export const AccountEventsTable = withErrorBoundary(
           <div className="flex items-center gap-2">
             <Text variant="headline4">Account History</Text>
             <div className="flex-1" />
-            {/* <DataTableMenuButton enabledFilters={enabledFilters} /> */}
+            <DataTableMenuButton enabledFilters={enabledFilters} />
             <DataTableViewOptions table={table} tableName="events" />
           </div>
-          {/* <OperatorTableFilters /> */}
+          <EventsTableFilters />
           <DataTable table={table} />
         </TableProvider>
       </>

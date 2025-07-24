@@ -1,6 +1,6 @@
 "use client"
 
-import { useClustersSearchParams } from "@/hooks/search/use-clusters-search-params"
+import { useClustersSearchParams } from "@/hooks/search/use-custom-search-params"
 import {
   Command,
   CommandEmpty,

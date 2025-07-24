@@ -9,7 +9,7 @@ import { Loader2, X } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { shortenAddress } from "@/lib/utils/strings"
-import { useValidatorsSearchParams } from "@/hooks/search/use-validators-search-params"
+import { useValidatorsSearchParams } from "@/hooks/search/use-custom-search-params"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import {

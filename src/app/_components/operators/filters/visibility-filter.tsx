@@ -1,6 +1,6 @@
 "use client"
 
-import { useOperatorsSearchParams } from "@/hooks/search/use-operators-search-params"
+import { useOperatorsSearchParams } from "@/hooks/search/use-custom-search-params"
 import {
   Command,
   CommandEmpty,

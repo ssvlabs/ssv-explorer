@@ -5,7 +5,7 @@ import { TableProvider } from "@/context/table-context"
 import { withErrorBoundary } from "react-error-boundary"
 
 import { type PaginatedAccountsResponse } from "@/types/api/account"
-import { useAccountsSearchParams } from "@/hooks/search/use-accounts-search-params"
+import { useAccountsSearchParams } from "@/hooks/search/use-custom-search-params"
 import { useDataTable } from "@/hooks/use-data-table"
 import { ErrorCard } from "@/components/ui/error-card"
 import { Text } from "@/components/ui/text"

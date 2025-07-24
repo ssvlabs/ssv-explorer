@@ -37,6 +37,7 @@ export const FilterButton: FC<
   popover,
   onClear,
   children,
+  className,
   ...props
 }) => {
   return (
@@ -50,7 +51,8 @@ export const FilterButton: FC<
               "bg-gray-100 pl-[16px] pr-2": !activeFiltersCount,
               "bg-primary-100 px-2": activeFiltersCount,
               "bg-primary-100": isActive,
-            }
+            },
+            className
           )}
         >
           {Boolean(activeFiltersCount) && (

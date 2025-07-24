@@ -3,7 +3,7 @@
 import { xor } from "lodash-es"
 
 import { toSentenceCase } from "@/lib/utils"
-import { useOperatorsSearchParams } from "@/hooks/search/use-operators-search-params"
+import { useOperatorsSearchParams } from "@/hooks/search/use-custom-search-params"
 import { Checkbox } from "@/components/ui/checkbox"
 import {
   Command,

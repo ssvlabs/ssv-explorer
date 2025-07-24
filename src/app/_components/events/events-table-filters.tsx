@@ -1,20 +1,15 @@
 import { useTable } from "@/context/table-context"
 import { Collapse } from "react-collapse"
 
-import { addressesParser } from "@/lib/search-parsers/shared/parsers"
 import { cn } from "@/lib/utils"
-import { useClustersSearchParams } from "@/hooks/search/use-custom-search-params"
+import { useEventsSearchParams } from "@/hooks/search/use-custom-search-params"
 import { Button } from "@/components/ui/button"
 import { textVariants } from "@/components/ui/text"
-import { ClusterIdFilter } from "@/app/_components/clusters/filters/cluster-id-filter"
-import { IsLiquidatedFilter } from "@/app/_components/clusters/filters/is-liquidated-filter"
-import { OperatorsFilter } from "@/app/_components/clusters/filters/operators-filter"
-import { StatusFilter } from "@/app/_components/clusters/filters/status-filter"
-import { AddressFilter } from "@/app/_components/shared/filters/address-filter"
+import { EntityFilter } from "@/app/_components/events/filters/entity"
 
-export const ClusterTableFilters = () => {
+export const EventsTableFilters = () => {
   const { isFiltersOpen } = useTable()
-  const { enabledFilters, clearFilters } = useClustersSearchParams()
+  const { enabledFilters, clearFilters } = useEventsSearchParams()
 
   return (
     <Collapse isOpened={isFiltersOpen}>
@@ -28,15 +23,7 @@ export const ClusterTableFilters = () => {
         )}
         aria-hidden={!isFiltersOpen}
       >
-        <ClusterIdFilter />
-        <AddressFilter
-          name="Owner Address"
-          searchQueryKey="ownerAddress"
-          parser={addressesParser}
-        />
-        <StatusFilter />
-        <IsLiquidatedFilter />
-        <OperatorsFilter />
+        <EntityFilter />
         {enabledFilters.count > 0 && (
           <Button
             variant="ghost"
