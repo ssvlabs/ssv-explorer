@@ -13,7 +13,7 @@ import { RangeSlider } from "@/components/ui/slider"
 
 import { NumberInput, type NumberInputProps } from "../ui/number-input"
 
-type RangeFilterProps = {
+export type RangeProps = {
   name: string
   defaultRange: [number, number]
   searchRange: [number, number] | null
@@ -29,9 +29,7 @@ type RangeFilterProps = {
   remove: () => void
 }
 
-export const RangeFilter: FC<
-  ComponentPropsWithoutRef<"div"> & RangeFilterProps
-> = ({
+export const Range: FC<ComponentPropsWithoutRef<"div"> & RangeProps> = ({
   name,
   defaultRange,
   inputs,

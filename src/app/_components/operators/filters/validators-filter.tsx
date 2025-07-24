@@ -5,7 +5,7 @@ import { isEqual } from "lodash-es"
 import { operatorSearchFilters } from "@/lib/search-parsers/operator-search-parsers"
 import { useOperatorsSearchParams } from "@/hooks/search/use-operators-search-params"
 import { FilterButton } from "@/components/filter/filter-button"
-import { RangeFilter } from "@/components/filter/range-filter"
+import { Range } from "@/components/filter/range-filter"
 
 export function ValidatorsFilter() {
   const { filters, setFilters } = useOperatorsSearchParams()
@@ -36,7 +36,7 @@ export function ValidatorsFilter() {
       }}
       onClear={remove}
     >
-      <RangeFilter
+      <Range
         name="Validators"
         searchRange={filters.validatorsCount}
         decimals={0}

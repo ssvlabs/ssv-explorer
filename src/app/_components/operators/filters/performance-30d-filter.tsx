@@ -6,7 +6,7 @@ import { operatorSearchFilters } from "@/lib/search-parsers/operator-search-pars
 import { useOperatorsSearchParams } from "@/hooks/search/use-operators-search-params"
 import { Text } from "@/components/ui/text"
 import { FilterButton } from "@/components/filter/filter-button"
-import { RangeFilter } from "@/components/filter/range-filter"
+import { Range } from "@/components/filter/range-filter"
 
 export function Performance30dFilter() {
   const { filters, setFilters } = useOperatorsSearchParams()
@@ -36,7 +36,7 @@ export function Performance30dFilter() {
         },
       }}
     >
-      <RangeFilter
+      <Range
         className="w-[400px] max-w-full"
         name="Performance 30d"
         searchRange={filters.performance30d}

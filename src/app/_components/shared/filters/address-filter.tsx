@@ -21,16 +21,16 @@ import {
 import { Text } from "@/components/ui/text"
 import { FilterButton } from "@/components/filter/filter-button"
 
-type AddressFilterProps = {
+type AddressFilterProps<TSearchKey extends string = string> = {
   name: string
-  searchQueryKey: string
+  searchQueryKey: TSearchKey
   parser: ParserBuilder<Address[]>
 }
-export function AddressFilter({
+export function AddressFilter<TSearchKey extends string = string>({
   name = "Address",
   searchQueryKey,
   parser,
-}: AddressFilterProps) {
+}: AddressFilterProps<TSearchKey>) {
   const [open, setOpen] = useState(false)
   const [search, setSearch] = useState<string>("")
   const [addresses, setAddresses] = useQueryState(searchQueryKey, parser)
@@ -110,11 +110,7 @@ export function AddressFilter({
                   {search}
                 </span>
                 <div className="flex h-5 w-6 items-center justify-center rounded-md border border-gray-400">
-                  {isAddressSelected ? (
-                    <X className="size-3 text-red-400" />
-                  ) : (
-                    <MdKeyboardReturn className="size-3 text-gray-500" />
-                  )}
+                  <MdKeyboardReturn className="size-3 text-gray-500" />
                 </div>
               </CommandItem>
             </CommandGroup>

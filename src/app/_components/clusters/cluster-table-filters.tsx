@@ -1,16 +1,16 @@
 import { useTable } from "@/context/table-context"
 import { Collapse } from "react-collapse"
 
+import { addressesParser } from "@/lib/search-parsers/shared/parsers"
 import { cn } from "@/lib/utils"
 import { useClustersSearchParams } from "@/hooks/search/use-clusters-search-params"
 import { Button } from "@/components/ui/button"
 import { textVariants } from "@/components/ui/text"
 import { ClusterIdFilter } from "@/app/_components/clusters/filters/cluster-id-filter"
 import { IsLiquidatedFilter } from "@/app/_components/clusters/filters/is-liquidated-filter"
-
-import { OperatorsFilter } from "./operators-filter"
-import { OwnerAddressFilter } from "./owner-address-filter"
-import { StatusFilter } from "./status-filter"
+import { OperatorsFilter } from "@/app/_components/clusters/filters/operators-filter"
+import { StatusFilter } from "@/app/_components/clusters/filters/status-filter"
+import { AddressFilter } from "@/app/_components/shared/filters/address-filter"
 
 export const ClusterTableFilters = () => {
   const { isFiltersOpen } = useTable()
@@ -28,8 +28,12 @@ export const ClusterTableFilters = () => {
         )}
         aria-hidden={!isFiltersOpen}
       >
-        <ClusterIdFilter  />
-        <OwnerAddressFilter />
+        <ClusterIdFilter />
+        <AddressFilter
+          name="Owner Address"
+          searchQueryKey="ownerAddress"
+          parser={addressesParser}
+        />
         <StatusFilter />
         <IsLiquidatedFilter />
         <OperatorsFilter />

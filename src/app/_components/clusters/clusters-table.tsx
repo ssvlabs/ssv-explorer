@@ -12,7 +12,7 @@ import { Text } from "@/components/ui/text"
 import { DataTable } from "@/components/data-table/data-table"
 import { DataTableMenuButton } from "@/components/data-table/data-table-filters-button"
 import { DataTableViewOptions } from "@/components/data-table/data-table-view-options"
-import { ClusterTableFilters } from "@/app/_components/clusters/filters/cluster-table-filters"
+import { ClusterTableFilters } from "@/app/_components/clusters/cluster-table-filters"
 
 import {
   clustersTableColumns,

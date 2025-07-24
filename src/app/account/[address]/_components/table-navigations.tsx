@@ -31,6 +31,9 @@ export function TableNavigation({ ownerAddress }: TableNavigationProps) {
       >
         Operators
       </RouteTabLink>
+      <RouteTabLink href={`/account/${ownerAddress}/history`}>
+        History
+      </RouteTabLink>
     </div>
   )
 }

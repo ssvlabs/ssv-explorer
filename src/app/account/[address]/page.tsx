@@ -10,7 +10,10 @@ interface IndexPageProps {
   searchParams: Promise<SearchParams>
 }
 
-export default async function IndexPage({params, searchParams}: IndexPageProps) {
+export default async function IndexPage({
+  params,
+  searchParams,
+}: IndexPageProps) {
   const search = validatorsSearchParamsCache.parse(await searchParams)
   const { address } = await params
   const validators = searchValidators({

@@ -10,6 +10,7 @@ import { networkParser, paginationParser } from "@/lib/search-parsers"
 import {
   addressesParser,
   defaultSearchOptions,
+  numberRangeParser,
 } from "@/lib/search-parsers/shared/parsers"
 import { getSortingStateParser } from "@/lib/utils/parsers"
 
@@ -18,7 +19,13 @@ export const accountsSearchFilters = {
     defaultSearchOptions
   ),
   ownerAddress: addressesParser,
+  recipientAddress: addressesParser,
+  operators: numberRangeParser.withDefault([0, 5000]),
+  clusters: numberRangeParser.withDefault([0, 5000]),
+  validators: numberRangeParser.withDefault([0, 200000]),
 }
+
+export type AccountSearchFilterKeys = keyof typeof accountsSearchFilters
 
 export const operatorSearchSort = {
   ordering: getSortingStateParser<Account>().withOptions(defaultSearchOptions),

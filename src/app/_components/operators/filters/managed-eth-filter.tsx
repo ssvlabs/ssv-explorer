@@ -6,7 +6,7 @@ import { operatorSearchFilters } from "@/lib/search-parsers/operator-search-pars
 import { useNativeCurrency } from "@/hooks/app/use-native-currency"
 import { useOperatorsSearchParams } from "@/hooks/search/use-operators-search-params"
 import { FilterButton } from "@/components/filter/filter-button"
-import { RangeFilter } from "@/components/filter/range-filter"
+import { Range } from "@/components/filter/range-filter"
 
 const defaultRange: [number, number] = [0, 25000]
 export function ManagedEthFilter() {
@@ -35,7 +35,7 @@ export function ManagedEthFilter() {
         })
       }
     >
-      <RangeFilter
+      <Range
         name={`Managed ${nativeCurrency.symbol}`}
         searchRange={filters.managedEth}
         inputs={{

@@ -4,16 +4,16 @@ import { endpoint } from "@/api"
 import { api } from "@/api/api-client"
 import { type Address } from "viem"
 
+import type {
+  AccountStatsResponse,
+  PaginatedAccountsResponse,
+} from "@/types/api/account"
 import {
   accountSearchParamsSerializer,
   type AccountsSearchSchema,
 } from "@/lib/search-parsers/accounts-search-parsers"
 import { stringifyBigints } from "@/lib/utils/bigint"
 import { unstable_cache } from "@/lib/utils/unstable-cache"
-import type {
-  AccountStatsResponse,
-  PaginatedAccountsResponse,
-} from "@/types/api/account"
 
 export const getAccounts = async (
   params: Partial<AccountsSearchSchema> & Pick<AccountsSearchSchema, "network">
@@ -21,9 +21,8 @@ export const getAccounts = async (
   await unstable_cache(
     async () => {
       const searchParams = accountSearchParamsSerializer(params)
-      return api.get<PaginatedAccountsResponse>(
-        endpoint(params.network, "accounts", `?${searchParams}`)
-      )
+      const url = endpoint(params.network, "accounts", `?${searchParams}`)
+      return api.get<PaginatedAccountsResponse>(url)
     },
     [JSON.stringify(stringifyBigints(params))],
     {

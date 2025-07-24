@@ -19,6 +19,17 @@ export const metadata: Metadata = {
     "Explore SSV Network Accounts | View key metrics, recent activity, and search for data.",
 }
 
+// const accountsMockData = Promise.resolve({
+//   type: "accounts",
+//   accounts: [],
+//   pagination: {
+//     total: 0,
+//     page: 1,
+//     per_page: 10,
+//     pages: 1,
+//   },
+// })
+
 export default async function Page(props: IndexPageProps) {
   const search = accountsSearchParamsCache.parse(await props.searchParams)
   const accounts = getAccounts(search)
