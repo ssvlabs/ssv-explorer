@@ -12,7 +12,7 @@ export const hoodi = {
   network: "hoodi",
   nativeCurrency: {
     name: "Ethereum",
-    symbol: "STEH",
+    symbol: "ETH",
     decimals: 18,
   },
   rpcUrls: {
