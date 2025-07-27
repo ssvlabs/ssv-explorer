@@ -51,25 +51,19 @@ export const MevRelayLogo: FC<MevRelayLogoProps> = ({
   const { theme } = useTheme()
   const dark = theme === "dark"
 
+  const src = `/images/mevs/${MEV_RELAYS_LOGOS[mev]}${dark ? "-dark" : ""}.svg`
+
   return (
     <Tooltip
       content={
         <div className="flex items-center gap-3">
-          <img
-            src={`/images/mevs/${MEV_RELAYS_LOGOS[mev]}${"-dark"}.svg`}
-            className={cn("size-10")}
-            alt={mev}
-          />
+          <img src={src} className={cn("size-10 min-w-10")} alt={mev} />
           {mev}
         </div>
       }
     >
       <div className={mevVariants({ variant, active, className })}>
-        <img
-          src={`/images/mevs/${MEV_RELAYS_LOGOS[mev]}${dark ? "-dark" : ""}.svg`}
-          className={cn("size-[0.5em]")}
-          alt={mev}
-        />
+        <img src={src} className={cn("size-[0.5em]")} alt={mev} />
       </div>
     </Tooltip>
   )

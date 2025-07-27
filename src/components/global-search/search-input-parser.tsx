@@ -1,3 +1,5 @@
+import { type Address, type Hex } from "viem"
+
 export const clusterRegex = /^(?:0x)?[a-fA-F0-9]{64}$/
 export const operatorRegex = /^\d{1,4}$/
 export const validatorRegex = /^(?:0x)?[a-fA-F0-9]{96}$/
@@ -18,3 +20,11 @@ export const parseSearchInput = (search: string) => {
   }
   return { type: "free-text", value: search, isExactMatch: false } as const
 }
+
+export const isClusterId = (search: string): search is Hex =>
+  clusterRegex.test(search)
+export const isOperatorId = (search: string) => operatorRegex.test(search)
+export const isValidatorPublicKey = (search: string): search is Hex =>
+  validatorRegex.test(search)
+export const isAccountAddress = (search: string): search is Address =>
+  accountRegex.test(search)

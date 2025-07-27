@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import Link from "next/link"
 import { getCluster } from "@/api/clusters"
 import { searchValidators } from "@/api/validators"
+import { type Hex } from "viem"
 
 import {
   validatorsSearchParamsCache,
@@ -23,7 +24,7 @@ import { Shell } from "@/components/shell"
 import { ValidatorsTable } from "@/app/_components/validators/validators-table"
 
 interface IndexPageProps {
-  params: Promise<{ id: string }>
+  params: Promise<{ id: Hex }>
   searchParams: Promise<{ network: string }>
 }
 

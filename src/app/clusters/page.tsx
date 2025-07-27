@@ -1,3 +1,4 @@
+import type { Metadata } from "next"
 import { searchClusters } from "@/api/clusters"
 import { type SearchParams } from "@/types"
 
@@ -5,7 +6,6 @@ import { type Operator } from "@/types/api"
 import { clustersSearchParamsCache } from "@/lib/search-parsers/clusters-search-parsers"
 import { Shell } from "@/components/shell"
 import { ClustersTable } from "@/app/_components/clusters/clusters-table"
-import type { Metadata } from "next"
 
 interface IndexPageProps {
   searchParams: Promise<SearchParams>
@@ -19,6 +19,7 @@ export const metadata: Metadata = {
 
 export default async function Page(props: IndexPageProps) {
   const search = clustersSearchParamsCache.parse(await props.searchParams)
+  console.log("search:", search)
   const clusters = searchClusters<Operator[]>(search)
 
   return (

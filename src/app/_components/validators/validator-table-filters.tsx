@@ -1,15 +1,16 @@
 import { useTable } from "@/context/table-context"
 import { Collapse } from "react-collapse"
 
-import { validatorsSearchParsers } from "@/lib/search-parsers/validators-search-parsers"
+import {
+  validatorsSearchParsers,
+  type ValidatorSearchFilterKeys,
+} from "@/lib/search-parsers/validators-search-parsers"
 import { cn } from "@/lib/utils"
 import { useValidatorsSearchParams } from "@/hooks/search/use-custom-search-params"
 import { Button } from "@/components/ui/button"
 import { textVariants } from "@/components/ui/text"
-import { ClusterIdFilter } from "@/app/_components/clusters/filters/cluster-id-filter"
 import { OperatorsFilter } from "@/app/_components/clusters/filters/operators-filter"
-import { AddressFilter } from "@/app/_components/shared/filters/address-filter"
-import { PublicKeyFilter } from "@/app/_components/validators/filters/public-key-filter"
+import { HexFilter } from "@/app/_components/shared/filters/address-filter"
 
 export type ValidatorTableFiltersProps = {
   hidePublicKeyFilter?: boolean
@@ -39,13 +40,31 @@ export const ValidatorTableFilters = ({
         )}
         aria-hidden={!isFiltersOpen}
       >
-        {!hidePublicKeyFilter && <PublicKeyFilter />}
-        {!hideClusterIdFilter && <ClusterIdFilter />}
+        {!hidePublicKeyFilter && (
+          <HexFilter<ValidatorSearchFilterKeys>
+            name="Public Key"
+            searchQueryKey="publicKey"
+            placeholder="Enter or paste public key"
+            invalidMessage="Invalid public key"
+            parser={validatorsSearchParsers.publicKey}
+          />
+        )}
+        {!hideClusterIdFilter && (
+          <HexFilter<ValidatorSearchFilterKeys>
+            name="Cluster ID"
+            searchQueryKey="cluster"
+            placeholder="Enter or paste cluster ID"
+            invalidMessage="Invalid cluster ID"
+            parser={validatorsSearchParsers.cluster}
+          />
+        )}
         {!hideOwnerAddressFilter && (
-          <AddressFilter
+          <HexFilter<ValidatorSearchFilterKeys>
             name="Owner Address"
             searchQueryKey="ownerAddress"
+            placeholder="Enter or paste owner address"
             parser={validatorsSearchParsers.ownerAddress}
+            invalidMessage="Invalid owner address"
           />
         )}
         {!hideOperatorsFilter && <OperatorsFilter searchQueryKey="operator" />}

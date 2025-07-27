@@ -1,16 +1,18 @@
 import { useTable } from "@/context/table-context"
 import { Collapse } from "react-collapse"
 
-import { addressesParser } from "@/lib/search-parsers/shared/parsers"
+import {
+  clustersSearchFilters,
+  type ClusterSearchFilterKeys,
+} from "@/lib/search-parsers/clusters-search-parsers"
 import { cn } from "@/lib/utils"
 import { useClustersSearchParams } from "@/hooks/search/use-custom-search-params"
 import { Button } from "@/components/ui/button"
 import { textVariants } from "@/components/ui/text"
-import { ClusterIdFilter } from "@/app/_components/clusters/filters/cluster-id-filter"
 import { IsLiquidatedFilter } from "@/app/_components/clusters/filters/is-liquidated-filter"
 import { OperatorsFilter } from "@/app/_components/clusters/filters/operators-filter"
 import { StatusFilter } from "@/app/_components/clusters/filters/status-filter"
-import { AddressFilter } from "@/app/_components/shared/filters/address-filter"
+import { HexFilter } from "@/app/_components/shared/filters/address-filter"
 
 export const ClusterTableFilters = () => {
   const { isFiltersOpen } = useTable()
@@ -28,11 +30,17 @@ export const ClusterTableFilters = () => {
         )}
         aria-hidden={!isFiltersOpen}
       >
-        <ClusterIdFilter />
-        <AddressFilter
+        <HexFilter<ClusterSearchFilterKeys>
+          name="Cluster ID"
+          searchQueryKey="clusterId"
+          invalidMessage="Invalid cluster ID"
+          parser={clustersSearchFilters.clusterId}
+        />
+        <HexFilter<ClusterSearchFilterKeys>
           name="Owner Address"
           searchQueryKey="ownerAddress"
-          parser={addressesParser}
+          invalidMessage="Invalid owner address"
+          parser={clustersSearchFilters.ownerAddress}
         />
         <StatusFilter />
         <IsLiquidatedFilter />

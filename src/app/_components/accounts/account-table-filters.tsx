@@ -5,12 +5,11 @@ import {
   accountsSearchFilters,
   type AccountSearchFilterKeys,
 } from "@/lib/search-parsers/accounts-search-parsers"
-import { addressesParser } from "@/lib/search-parsers/shared/parsers"
 import { cn } from "@/lib/utils"
 import { useAccountsSearchParams } from "@/hooks/search/use-custom-search-params"
 import { Button } from "@/components/ui/button"
 import { textVariants } from "@/components/ui/text"
-import { AddressFilter } from "@/app/_components/shared/filters/address-filter"
+import { HexFilter } from "@/app/_components/shared/filters/address-filter"
 import { RangeFilter } from "@/app/_components/shared/filters/range-filter"
 
 export const AccountTableFilters = () => {
@@ -29,15 +28,17 @@ export const AccountTableFilters = () => {
         )}
         aria-hidden={!isFiltersOpen}
       >
-        <AddressFilter<AccountSearchFilterKeys>
+        <HexFilter<AccountSearchFilterKeys>
           name="Owner Address"
           searchQueryKey="ownerAddress"
-          parser={addressesParser}
+          invalidMessage="Invalid owner address"
+          parser={accountsSearchFilters.ownerAddress}
         />
-        <AddressFilter<AccountSearchFilterKeys>
+        <HexFilter<AccountSearchFilterKeys>
           name="Fee Recipient Address"
           searchQueryKey="recipientAddress"
-          parser={addressesParser}
+          invalidMessage="Invalid recipient address"
+          parser={accountsSearchFilters.recipientAddress}
         />
         <RangeFilter<AccountSearchFilterKeys>
           name="Operators"

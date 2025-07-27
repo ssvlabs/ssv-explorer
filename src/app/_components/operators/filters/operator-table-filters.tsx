@@ -1,13 +1,16 @@
 import { useTable } from "@/context/table-context"
 import { Collapse } from "react-collapse"
 
-import { operatorSearchParsers } from "@/lib/search-parsers/operator-search-parsers"
+import {
+  operatorSearchParsers,
+  type OperatorSearchFilterKeys,
+} from "@/lib/search-parsers/operator-search-parsers"
 import { cn } from "@/lib/utils"
 import { useOperatorsSearchParams } from "@/hooks/search/use-custom-search-params"
 import { Button } from "@/components/ui/button"
 import { textVariants } from "@/components/ui/text"
 import { MevRelaysFilter } from "@/app/_components/operators/filters/mev-relays-filter"
-import { AddressFilter } from "@/app/_components/shared/filters/address-filter"
+import { HexFilter } from "@/app/_components/shared/filters/address-filter"
 
 import { Eth1ClientFilter } from "./eth1-client-filter"
 import { Eth2ClientFilter } from "./eth2-client-filter"
@@ -39,9 +42,10 @@ export const OperatorTableFilters = () => {
       >
         <IdFilter />
         <NameFilter />
-        <AddressFilter
+        <HexFilter<OperatorSearchFilterKeys>
           name="Owner Address"
           searchQueryKey="ownerAddress"
+          invalidMessage="Invalid owner address"
           parser={operatorSearchParsers.ownerAddress}
         />
         <LocationFilter />

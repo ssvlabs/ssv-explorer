@@ -4,6 +4,10 @@ import { z } from "zod"
 
 import { sortNumbers } from "@/lib/utils/number"
 import { parseAsTuple } from "@/lib/utils/parsers"
+import {
+  isClusterId,
+  isValidatorPublicKey,
+} from "@/components/global-search/search-input-parser"
 
 export const defaultSearchOptions: Options = {
   history: "push",
@@ -13,6 +17,14 @@ export const defaultSearchOptions: Options = {
 
 export const addressesParser = parseAsArrayOf(
   z.string().refine(isAddress)
+).withOptions(defaultSearchOptions)
+
+export const clustersParser = parseAsArrayOf(
+  z.string().refine(isClusterId)
+).withOptions(defaultSearchOptions)
+
+export const publicKeysParser = parseAsArrayOf(
+  z.string().refine(isValidatorPublicKey)
 ).withOptions(defaultSearchOptions)
 
 export const numberRangeParser = parseAsTuple(

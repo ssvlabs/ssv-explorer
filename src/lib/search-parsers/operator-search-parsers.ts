@@ -99,6 +99,8 @@ export const operatorSearchFilters = {
     .withOptions(defaultSearchOptions),
 }
 
+export type OperatorSearchFilterKeys = keyof typeof operatorSearchFilters
+
 export const defaultOperatorSort: ExtendedSortingState<OperatorSortingKeys> = [
   { id: "id", desc: false },
 ]

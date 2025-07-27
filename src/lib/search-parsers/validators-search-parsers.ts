@@ -16,19 +16,23 @@ import {
 } from "@/lib/search-parsers"
 import {
   addressesParser,
+  clustersParser,
   defaultSearchOptions,
+  publicKeysParser,
 } from "@/lib/search-parsers/shared/parsers"
 import { getSortingStateParser } from "@/lib/utils/parsers"
 
 export const validatorsSearchFilters = {
   search: parseAsString.withOptions(defaultSearchOptions),
-  publicKey: parseAsArrayOf(z.string()).withOptions(defaultSearchOptions),
-  cluster: parseAsArrayOf(z.string()).withOptions(defaultSearchOptions),
-  ownerAddress: addressesParser.withDefault([]),
+  publicKey: publicKeysParser,
+  cluster: clustersParser,
+  ownerAddress: addressesParser,
   operator: parseAsArrayOf(z.number({ coerce: true })).withOptions(
     defaultSearchOptions
   ),
 }
+
+export type ValidatorSearchFilterKeys = keyof typeof validatorsSearchFilters
 
 export const defaultValidatorSort: ExtendedSortingState<
   SearchValidator<Operator>

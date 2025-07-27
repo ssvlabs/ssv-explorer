@@ -6,24 +6,21 @@ import {
   parseAsBoolean,
   parseAsString,
 } from "nuqs/server"
-import { isAddress } from "viem"
 import { z } from "zod"
 
 import { type Cluster } from "@/types/api"
+import { networkParser, paginationParser } from "@/lib/search-parsers"
 import {
-  enhancementParsers,
-  networkParser,
-  paginationParser,
-} from "@/lib/search-parsers"
-import { defaultSearchOptions } from "@/lib/search-parsers/shared/parsers"
+  addressesParser,
+  clustersParser,
+  defaultSearchOptions,
+} from "@/lib/search-parsers/shared/parsers"
 import { getSortingStateParser, parseAsTuple } from "@/lib/utils/parsers"
 
 export const clustersSearchFilters = {
   search: parseAsString.withOptions(defaultSearchOptions),
-  clusterId: parseAsArrayOf(z.string()).withOptions(defaultSearchOptions),
-  ownerAddress: parseAsArrayOf(z.string().refine(isAddress)).withOptions(
-    defaultSearchOptions
-  ),
+  clusterId: clustersParser,
+  ownerAddress: addressesParser,
   status: parseAsBoolean.withOptions(defaultSearchOptions),
   isLiquidated: parseAsBoolean.withOptions(defaultSearchOptions),
   operators: parseAsArrayOf(z.number({ coerce: true })).withOptions(
@@ -40,6 +37,8 @@ export const clustersSearchFilters = {
     .withDefault(true),
 }
 
+export type ClusterSearchFilterKeys = keyof typeof clustersSearchFilters
+
 export const defaultClusterSort: ExtendedSortingState<Cluster> = [
   { id: "validatorCount", desc: true },
 ]
@@ -51,12 +50,16 @@ export const clusterSearchSort = {
   }),
 }
 
+export const operatorDetailsFilter = {
+  operatorDetails: parseAsBoolean.withDefault(true),
+}
+
 export const clustersSearchParamsCache = createSearchParamsCache({
   ...networkParser,
   ...paginationParser,
   ...clustersSearchFilters,
   ...clusterSearchSort,
-  ...enhancementParsers,
+  ...operatorDetailsFilter,
 })
 export const clustersSearchParamsSerializer = createSerializer(
   {
@@ -64,7 +67,7 @@ export const clustersSearchParamsSerializer = createSerializer(
     ...paginationParser,
     ...clustersSearchFilters,
     ...clusterSearchSort,
-    ...enhancementParsers,
+    ...operatorDetailsFilter,
   },
   {
     clearOnDefault: false,

@@ -67,7 +67,7 @@ export const clustersTableColumns: ColumnDefWithTitle<Cluster>[] = [
           return (
             <Tooltip
               asChild
-              key={operator.id}
+              key={operator.public_key}
               className="w-[240px] p-4"
               content={<OperatorInfo operator={operator} />}
             >
