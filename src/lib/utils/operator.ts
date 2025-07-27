@@ -59,15 +59,15 @@ export const MEV_RELAYS_MAP = {
 export const MEV_RELAY_QUERY_VALUES = Object.values(MEV_RELAYS_MAP)
 
 export const MEV_RELAYS_LOGOS = {
-  [MEV_RELAYS_MAP.AESTUS]: "Aestus",
+  [MEV_RELAYS_MAP.AESTUS]: "aestus",
   [MEV_RELAYS_MAP.AGNOSTIC]: "agnostic",
   [MEV_RELAYS_MAP.BLOXROUTE_MAX_PROFIT]: "blox-route",
   [MEV_RELAYS_MAP.BLOXROUTE_REGULATED]: "blox-route",
   [MEV_RELAYS_MAP.EDEN]: "eden",
   [MEV_RELAYS_MAP.TITAN]: "titan",
-  [MEV_RELAYS_MAP.FLASHBOTS]: "Flashbots",
+  [MEV_RELAYS_MAP.FLASHBOTS]: "flashbots",
   [MEV_RELAYS_MAP.MANIFOLD]: "manifold",
-  [MEV_RELAYS_MAP.ULTRA_SOUND]: "ultraSound",
+  [MEV_RELAYS_MAP.ULTRA_SOUND]: "ultra-sound",
 }
 export const sortOperators = <T extends { id: number }[]>(operators: T) => {
   return [...operators].sort((a, b) => a.id - b.id)
