@@ -9,6 +9,7 @@ import {
   type DutiesSearchSchema,
 } from "@/lib/search-parsers/duties-search-parsers"
 import { cn } from "@/lib/utils"
+import { formatGwei } from "@/lib/utils/number"
 import { shortenAddress } from "@/lib/utils/strings"
 import { getNativeCurrency } from "@/lib/utils/viem"
 import { Button } from "@/components/ui/button"
@@ -125,7 +126,7 @@ export default async function Page(props: IndexPageProps) {
           <Stat
             className="flex-1"
             title={`${nativeCurrency.symbol} Balance`}
-            content={`32 ${nativeCurrency.symbol}`}
+            content={`${formatGwei(BigInt(validator.validator_info.effective_balance || 0n))} ${nativeCurrency.symbol}`}
           />
         </div>
       </Card>

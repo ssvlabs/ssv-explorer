@@ -26,7 +26,6 @@ interface ClustersTableProps {
 export const ClustersTable = withErrorBoundary(
   ({ dataPromise: data }: ClustersTableProps) => {
     const { clusters, pagination } = use(data)
-    console.log("clusters:", clusters)
 
     const { table } = useDataTable({
       name: "clusters",

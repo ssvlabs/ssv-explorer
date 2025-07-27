@@ -30,7 +30,7 @@ export const bigintFormatter = new Intl.NumberFormat("en-US", {
 
 export const ethFormatter = new Intl.NumberFormat("en-US", {
   useGrouping: true,
-  maximumFractionDigits: 4,
+  maximumFractionDigits: 5,
 })
 
 export const formatSSV = (num: bigint, decimals = 18) =>

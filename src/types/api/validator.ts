@@ -41,13 +41,15 @@ export interface Validator {
   version: string
   network: string
   updated_at?: string
-  validator_info: {
-    index: number
-    status: string
-    activation_epoch: number
-  }
+  validator_info: ValidatorInfo
 }
 
+interface ValidatorInfo {
+  index: number
+  effective_balance: number
+  status: string
+  activation_epoch: number
+}
 export type PaginatedValidatorsResponse<
   T extends Operator | string = Operator,
 > = WithInfinitePagination<{
