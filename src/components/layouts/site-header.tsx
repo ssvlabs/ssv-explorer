@@ -3,6 +3,7 @@
 
 import { usePathname } from "next/navigation"
 
+import { cn } from "@/lib/utils"
 import { currencyFormatter } from "@/lib/utils/number"
 import { useSSVRates } from "@/hooks/use-ssv-rates"
 import { Button } from "@/components/ui/button"
@@ -12,7 +13,6 @@ import { ThemeToggle } from "@/components/layouts/mode-toggle"
 import { Logo } from "@/components/logo"
 import { NetworkSwitcher } from "@/components/network-switcher"
 import { Link } from "@/components/nextjs/custom-link"
-import { cn } from "@/lib/utils"
 
 export function SiteHeader() {
   const pathname = usePathname()
@@ -37,9 +37,10 @@ export function SiteHeader() {
             as={Link}
             href="https://app.ssv.network/join"
             target="_blank"
-            variant="default"
-            className={cn("w-fit gap-1 px-3 font-sans text-sm capitalize")}
-            colorScheme="light"
+            variant="secondary"
+            className={cn(
+              "w-fit gap-1 border border-primary-200 bg-primary-100 px-3 font-sans text-sm capitalize text-primary-500 hover:bg-primary-200"
+            )}
           >
             Join SSV
           </Button>
