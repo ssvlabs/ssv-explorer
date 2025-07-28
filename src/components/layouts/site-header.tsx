@@ -9,7 +9,7 @@ import { useSSVRates } from "@/hooks/use-ssv-rates"
 import { Button } from "@/components/ui/button"
 import { Text } from "@/components/ui/text"
 import { GlobalSearch } from "@/components/global-search/global-search"
-import { ThemeToggle } from "@/components/layouts/mode-toggle"
+import { ThemeSwitcher } from "@/components/layouts/theme-switcher"
 import { Logo } from "@/components/logo"
 import { NetworkSwitcher } from "@/components/network-switcher"
 import { Link } from "@/components/nextjs/custom-link"
@@ -44,7 +44,7 @@ export function SiteHeader() {
           >
             Join SSV
           </Button>
-          <ThemeToggle />
+          <ThemeSwitcher />
         </nav>
       </div>
       <div className="flex h-[60px] items-center justify-between gap-6">
