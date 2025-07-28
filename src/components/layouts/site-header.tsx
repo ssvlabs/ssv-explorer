@@ -44,7 +44,7 @@ export function SiteHeader() {
           >
             Join SSV
           </Button>
-          <ThemeSwitcher />
+          <ThemeSwitcher className="ml-1" />
         </nav>
       </div>
       <div className="flex h-[60px] items-center justify-between gap-6">
