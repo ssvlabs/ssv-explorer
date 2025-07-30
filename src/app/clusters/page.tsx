@@ -31,7 +31,6 @@ export const metadata: Metadata = {
 
 export default async function Page(props: IndexPageProps) {
   const search = clustersSearchParamsCache.parse(await props.searchParams)
-  console.log("search:", search)
   const clusters = searchClusters<Operator[]>(search)
 
   return (

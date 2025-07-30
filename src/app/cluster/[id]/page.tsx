@@ -60,7 +60,6 @@ export default async function Page(props: IndexPageProps) {
 
   const cluster = await getCluster({ id, network: searchParams.network }).catch(
     (error) => {
-      console.error(error)
       return null
     }
   )
