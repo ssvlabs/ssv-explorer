@@ -1,5 +1,4 @@
 import type { ComponentPropsWithRef, FC } from "react"
-import Image from "next/image"
 import Link from "next/link"
 import { PerformanceIcon } from "@/assets/images/performance-icon"
 import { StatusIndicator } from "@/assets/images/status-indicator"
@@ -11,6 +10,7 @@ import { Outline } from "@/components/ui/outline"
 import { Text } from "@/components/ui/text"
 import { OperatorAvatar } from "@/components/operators/operator-avatar"
 import { PerformanceText } from "@/components/operators/performance-text"
+import { VerifiedOperatorBadge } from "@/components/operators/verified-operator-badge"
 
 export type OperatorCardProps = {
   operator: Operator
@@ -59,13 +59,7 @@ export const OperatorCard: OperatorCardFC = ({
             <MdOutlineLock className="size-[14px] min-w-[14px]" />
           )}
           {operator.type === "verified_operator" && (
-            <Image
-              width={14}
-              height={14}
-              className="size-[14px]"
-              src="/images/verified.svg"
-              alt="Verified"
-            />
+            <VerifiedOperatorBadge size={14} />
           )}
         </div>
       </div>

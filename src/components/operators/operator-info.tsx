@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Text } from "@/components/ui/text"
 import { OperatorAvatar } from "@/components/operators/operator-avatar"
+import { VerifiedOperatorBadge } from "@/components/operators/verified-operator-badge"
 
 export type OperatorInfoProps = {
   variant?: "minimal" | "full"
@@ -39,12 +40,7 @@ export const OperatorInfo: OperatorInfoFC = ({
           <div className="flex items-center gap-1">
             {operator.is_private && <MdOutlineLock className="size-[14px]" />}
             {operator.type === "verified_operator" && (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                className="size-[14px]"
-                src="/images/verified.svg"
-                alt="Verified"
-              />
+              <VerifiedOperatorBadge size={14} />
             )}
           </div>
         </div>

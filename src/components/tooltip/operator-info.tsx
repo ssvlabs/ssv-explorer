@@ -5,6 +5,7 @@ import { type Operator } from "@/types/api"
 import { cn } from "@/lib/utils"
 import { Text } from "@/components/ui/text"
 import { OperatorAvatar } from "@/components/operators/operator-avatar"
+import { VerifiedOperatorBadge } from "@/components/operators/verified-operator-badge"
 
 export type OperatorInfoProps = {
   operator: Pick<Operator, "id" | "name" | "logo" | "is_private" | "type">
@@ -31,12 +32,7 @@ export const OperatorInfo: OperatorInfoFC = ({
           <div className="flex items-center gap-1">
             {operator.is_private && <MdOutlineLock className="size-[14px]" />}
             {operator.type === "verified_operator" && (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                className="size-[14px]"
-                src="/images/verified.svg"
-                alt="Verified"
-              />
+              <VerifiedOperatorBadge size={14} />
             )}
           </div>
         </div>

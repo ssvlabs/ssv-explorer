@@ -1,5 +1,4 @@
 import { type Metadata } from "next"
-import Image from "next/image"
 import Link from "next/link"
 import { getOperator } from "@/api/operator"
 import { searchValidators } from "@/api/validators"
@@ -19,6 +18,7 @@ import { Text } from "@/components/ui/text"
 import { OperatorAvatar } from "@/components/operators/operator-avatar"
 import { OperatorMetaData } from "@/components/operators/operator-meta-data"
 import { PerformanceText } from "@/components/operators/performance-text"
+import { VerifiedOperatorBadge } from "@/components/operators/verified-operator-badge"
 import { Shell } from "@/components/shell"
 import { ValidatorsTable } from "@/app/_components/validators/validators-table"
 
@@ -67,13 +67,7 @@ export default async function Page(props: IndexPageProps) {
                           <MdOutlineLock className="size-[18px] min-w-[18px]" />
                         )}
                         {operator.type === "verified_operator" && (
-                          <Image
-                            width={18}
-                            height={18}
-                            className="size-[18px]"
-                            src="/images/verified.svg"
-                            alt="Verified"
-                          />
+                          <VerifiedOperatorBadge size={18} />
                         )}
                       </div>
                     </div>
