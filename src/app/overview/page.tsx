@@ -59,7 +59,7 @@ export default async function Page(props: IndexPageProps) {
         <Stat
           className="flex-1"
           title={`${nativeCurrency.symbol} Staked`}
-          tooltip={`Total amount of ${nativeCurrency.symbol} staked across all validators on the network (32 ${nativeCurrency.symbol} per validator)`}
+          tooltip={`Total amount of ${nativeCurrency.symbol} staked across all validators on the network`}
           content={`${numberFormatter.format(totalStakedEth)} ${nativeCurrency.symbol}`}
         />
       </Card>
