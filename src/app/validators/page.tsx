@@ -14,6 +14,16 @@ export const metadata: Metadata = {
   title: "Validators",
   description:
     "Explore SSV Network Validators | View key metrics, recent activity, and search for data.",
+  openGraph: {
+    title: "Validators",
+    description:
+      "Explore SSV Network Validators | View key metrics, recent activity, and search for data.",
+  },
+  twitter: {
+    title: "Validators",
+    description:
+      "Explore SSV Network Validators | View key metrics, recent activity, and search for data.",
+  },
 }
 
 export default async function Page(props: IndexPageProps) {

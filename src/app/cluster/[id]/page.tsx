@@ -32,6 +32,16 @@ export const metadata: Metadata = {
   title: "Cluster",
   description:
     "View details and validators for this cluster on the SSV Network.",
+  openGraph: {
+    title: "Cluster",
+    description:
+      "View details and validators for this cluster on the SSV Network.",
+  },
+  twitter: {
+    title: "Cluster",
+    description:
+      "View details and validators for this cluster on the SSV Network.",
+  },
 }
 
 export default async function Page(props: IndexPageProps) {

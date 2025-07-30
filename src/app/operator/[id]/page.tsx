@@ -60,9 +60,15 @@ export async function generateMetadata(
     description:
       "View performance, status, and validator information for this Operator on the SSV Network.",
     openGraph: {
+      title: `${operator.name}`,
+      description:
+        "View performance, status, and validator information for this Operator on the SSV Network.",
       images: [ogUrl],
     },
     twitter: {
+      title: `${operator.name}`,
+      description:
+        "View performance, status, and validator information for this Operator on the SSV Network.",
       images: [ogUrl],
     },
   }

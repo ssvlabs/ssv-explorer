@@ -17,6 +17,16 @@ export const metadata: Metadata = {
   title: "Operators",
   description:
     "Explore SSV Network Operators | View key metrics, recent activity, and search for data.",
+  openGraph: {
+    title: "Operators",
+    description:
+      "Explore SSV Network Operators | View key metrics, recent activity, and search for data.",
+  },
+  twitter: {
+    title: "Operators",
+    description:
+      "Explore SSV Network Operators | View key metrics, recent activity, and search for data.",
+  },
 }
 
 export default async function Page(props: IndexPageProps) {

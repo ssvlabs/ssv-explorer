@@ -15,6 +15,16 @@ export const metadata: Metadata = {
   title: "Clusters",
   description:
     "Explore SSV Network Clusters | View key metrics, recent activity, and search for data.",
+  openGraph: {
+    title: "Clusters",
+    description:
+      "Explore SSV Network Clusters | View key metrics, recent activity, and search for data.",
+  },
+  twitter: {
+    title: "Clusters",
+    description:
+      "Explore SSV Network Clusters | View key metrics, recent activity, and search for data.",
+  },
 }
 
 export default async function Page(props: IndexPageProps) {

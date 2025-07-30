@@ -17,6 +17,16 @@ export const metadata: Metadata = {
   title: "Accounts",
   description:
     "Explore SSV Network Accounts | View key metrics, recent activity, and search for data.",
+  openGraph: {
+    title: "Accounts",
+    description:
+      "Explore SSV Network Accounts | View key metrics, recent activity, and search for data.",
+  },
+  twitter: {
+    title: "Accounts",
+    description:
+      "Explore SSV Network Accounts | View key metrics, recent activity, and search for data.",
+  },
 }
 
 // const accountsMockData = Promise.resolve({

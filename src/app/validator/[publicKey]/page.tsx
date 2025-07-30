@@ -33,6 +33,16 @@ interface IndexPageProps {
 export const metadata: Metadata = {
   title: "Validator",
   description: "View details and duties for this validator on the SSV Network.",
+  openGraph: {
+    title: "Validator",
+    description:
+      "View details and duties for this validator on the SSV Network.",
+  },
+  twitter: {
+    title: "Validator",
+    description:
+      "View details and duties for this validator on the SSV Network.",
+  },
 }
 
 export default async function Page(props: IndexPageProps) {
