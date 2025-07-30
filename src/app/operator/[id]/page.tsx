@@ -27,10 +27,45 @@ interface IndexPageProps {
   searchParams: Promise<{ network: string }>
 }
 
-export const metadata: Metadata = {
-  title: "Operator",
-  description:
-    "View performance, status, and validator information for this Operator on the SSV Network.",
+export async function generateMetadata(
+  props: IndexPageProps
+): Promise<Metadata> {
+  const [{ id }, searchParams] = await Promise.all([
+    props.params,
+    props.searchParams,
+  ])
+
+  const parsed = networkParserCache.parse(searchParams)
+  const operator = await getOperator({
+    network: parsed.network,
+    id: +id,
+  })
+
+  const params = {
+    id,
+    network: parsed.network.toString(),
+    name: operator.name,
+    "24h": operator.performance["24h"].toString(),
+    "30d": operator.performance["30d"].toString(),
+    validators_count: operator.validators_count.toString(),
+    is_private: operator.is_private.toString(),
+    is_verified: operator.type === "verified_operator" ? "true" : "false",
+    logo: operator.logo,
+  }
+
+  const ogUrl = `/api/og/operator/?${new URLSearchParams(params).toString()}`
+
+  return {
+    title: `${operator.name}`,
+    description:
+      "View performance, status, and validator information for this Operator on the SSV Network.",
+    openGraph: {
+      images: [ogUrl],
+    },
+    twitter: {
+      images: [ogUrl],
+    },
+  }
 }
 
 export default async function Page(props: IndexPageProps) {

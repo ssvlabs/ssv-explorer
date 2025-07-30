@@ -11,7 +11,7 @@ export const ThemeSwitcher: FC<ButtonProps> = ({ className, ...props }) => {
   const { resolvedTheme, setTheme } = useTheme()
 
   // resolvedTheme is undefined on first render for some reason thats why we use initial
-  const initial = document.documentElement.classList.contains("dark")
+  const initial = document?.documentElement.classList.contains("dark")
     ? "dark"
     : "light"
 

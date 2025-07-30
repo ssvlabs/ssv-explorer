@@ -1,5 +1,6 @@
 import {
   createSearchParamsCache,
+  createSerializer,
   parseAsBoolean,
   parseAsInteger,
 } from "nuqs/server"
@@ -13,8 +14,14 @@ export const networkParser = {
     networks.map((n) => n.networkId) as ChainTuple
   ).withDefault(networks[0]!.networkId as ChainTuple[number]),
 }
-
 export const networkParserCache = createSearchParamsCache(networkParser)
+export const networkParserSerializer = createSerializer(networkParser, {
+  clearOnDefault: false,
+})
+
+export type NetworkSearchSchema = Awaited<
+  ReturnType<typeof networkParserCache.parse>
+>
 
 export const paginationParser = {
   page: parseAsInteger.withDefault(1),
