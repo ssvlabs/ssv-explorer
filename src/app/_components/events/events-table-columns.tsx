@@ -1,12 +1,16 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 "use client"
 
+import Link from "next/link"
 import { type ColumnDef } from "@tanstack/react-table"
 import { formatDistanceToNowStrict } from "date-fns"
 
 import { type AccountEvent } from "@/types/api/events"
 import { toSentenceCase } from "@/lib/utils"
+import { useLinks } from "@/hooks/use-links"
 import { AccountEventIcon } from "@/components/ui/account-event-icon"
 import { Text } from "@/components/ui/text"
+import { Tooltip } from "@/components/ui/tooltip"
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header"
 
 import type { ColumnDefWithTitle } from "../utils/column-titles"
@@ -17,12 +21,23 @@ export const eventsColumns = {
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Event" />
     ),
-    cell: ({ row }) => (
-      <div className="flex w-4 items-center gap-2">
-        <AccountEventIcon event={row.original.event} />
-        <Text>{toSentenceCase(row.original.event)}</Text>
-      </div>
-    ),
+    cell: ({ row }) => {
+      const { etherscanTx } = useLinks()
+      return (
+        <Tooltip content="Click to view on Etherscan" asChild>
+          <Link
+            href={etherscanTx(row.original.transactionHash)}
+            target="_blank"
+            className="group flex w-fit cursor-pointer items-center gap-2 rounded-lg p-2"
+          >
+            <AccountEventIcon event={row.original.event} />
+            <Text className="group-hover:text-primary-500 group-hover:underline">
+              {toSentenceCase(row.original.event)}
+            </Text>
+          </Link>
+        </Tooltip>
+      )
+    },
     enableSorting: false,
   },
   createdAt: {

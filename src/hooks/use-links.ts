@@ -11,7 +11,8 @@ export const useLinks = () => {
   return useMemo(() => {
     const prefix = chain?.testnet ? `${chain.name.toLowerCase()}.` : ""
     const ssvPrefix = isProduction ? "" : `.stage`
-    return {
+
+    const links = {
       beaconcha: `https://${prefix}beaconcha.in`,
       launchpad: `https://${prefix}launchpad.ethereum.org`,
       etherscan: `https://${prefix}etherscan.io`,
@@ -27,6 +28,16 @@ export const useLinks = () => {
         x: "https://x.com/ssv_network",
         website: "https://ssv.network/",
       },
+    }
+
+    const etherscanTx = (txHash: string) => `${links.etherscan}/tx/${txHash}`
+    const etherscanAddress = (address: string) =>
+      `${links.etherscan}/address/${address}`
+
+    return {
+      ...links,
+      etherscanTx,
+      etherscanAddress,
     }
   }, [chain, isProduction])
 }
