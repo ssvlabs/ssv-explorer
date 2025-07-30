@@ -21,11 +21,13 @@ export const metadata: Metadata = {
     title: "Operators",
     description:
       "Explore SSV Network Operators | View key metrics, recent activity, and search for data.",
+    images: ["/og.png"],
   },
   twitter: {
     title: "Operators",
     description:
       "Explore SSV Network Operators | View key metrics, recent activity, and search for data.",
+    images: ["/og.png"],
   },
 }
 

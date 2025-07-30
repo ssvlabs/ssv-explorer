@@ -18,11 +18,13 @@ export const metadata: Metadata = {
     title: "Validators",
     description:
       "Explore SSV Network Validators | View key metrics, recent activity, and search for data.",
+    images: ["/og.png"],
   },
   twitter: {
     title: "Validators",
     description:
       "Explore SSV Network Validators | View key metrics, recent activity, and search for data.",
+    images: ["/og.png"],
   },
 }
 

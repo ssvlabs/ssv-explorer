@@ -19,11 +19,13 @@ export const metadata: Metadata = {
     title: "Clusters",
     description:
       "Explore SSV Network Clusters | View key metrics, recent activity, and search for data.",
+    images: ["/og.png"],
   },
   twitter: {
     title: "Clusters",
     description:
       "Explore SSV Network Clusters | View key metrics, recent activity, and search for data.",
+    images: ["/og.png"],
   },
 }
 

@@ -36,11 +36,13 @@ export const metadata: Metadata = {
     title: "Cluster",
     description:
       "View details and validators for this cluster on the SSV Network.",
+    images: ["/og.png"],
   },
   twitter: {
     title: "Cluster",
     description:
       "View details and validators for this cluster on the SSV Network.",
+    images: ["/og.png"],
   },
 }
 

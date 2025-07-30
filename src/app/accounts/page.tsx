@@ -21,11 +21,13 @@ export const metadata: Metadata = {
     title: "Accounts",
     description:
       "Explore SSV Network Accounts | View key metrics, recent activity, and search for data.",
+    images: ["/og.png"],
   },
   twitter: {
     title: "Accounts",
     description:
       "Explore SSV Network Accounts | View key metrics, recent activity, and search for data.",
+    images: ["/og.png"],
   },
 }
 

@@ -37,11 +37,13 @@ export const metadata: Metadata = {
     title: "Validator",
     description:
       "View details and duties for this validator on the SSV Network.",
+    images: ["/og.png"],
   },
   twitter: {
     title: "Validator",
     description:
       "View details and duties for this validator on the SSV Network.",
+    images: ["/og.png"],
   },
 }
 
