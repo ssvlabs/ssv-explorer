@@ -74,7 +74,7 @@ export const OperatorCard: OperatorCardFC = ({
           <PerformanceIcon />
           <Text
             as={PerformanceText}
-            performance={operator.performance["30d"]}
+            performance={operator.performance["24h"]}
             variant="body-3-medium"
           />
         </Outline>
