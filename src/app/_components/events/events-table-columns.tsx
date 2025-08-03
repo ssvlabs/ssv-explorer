@@ -56,7 +56,7 @@ export const eventsColumns = {
         </Text>
       )
     },
-    enableSorting: true,
+    enableSorting: false,
   },
 } satisfies Record<string, ColumnDefWithTitle<AccountEvent>>
 
