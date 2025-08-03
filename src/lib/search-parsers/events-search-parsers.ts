@@ -17,7 +17,7 @@ export const eventsSearchFilters = {
 }
 
 export const defaultEventSort: ExtendedSortingState<AccountEvent> = [
-  { id: "createdAt", desc: true },
+  { id: "blockNumber", desc: true },
 ]
 
 export const eventSearchSort = {
