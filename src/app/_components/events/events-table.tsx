@@ -48,7 +48,6 @@ export const AccountEventsTable = withErrorBoundary(
     })
 
     const { enabledFilters } = useEventsSearchParams()
-
     return (
       <>
         <TableProvider table={table}>

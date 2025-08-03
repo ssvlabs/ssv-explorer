@@ -3,7 +3,6 @@
 
 import Link from "next/link"
 import { type ColumnDef } from "@tanstack/react-table"
-import { formatDistanceToNowStrict } from "date-fns"
 
 import { type AccountEvent } from "@/types/api/events"
 import { toSentenceCase } from "@/lib/utils"
@@ -40,33 +39,35 @@ export const eventsColumns = {
     },
     enableSorting: false,
   },
-  createdAt: {
-    accessorKey: "createdAt",
-    title: "Age",
+  blockNumber: {
+    accessorKey: "blockNumber",
+    title: "Block",
     header: ({ column }) => (
       <DataTableColumnHeader
         column={column}
         className="justify-end text-end"
-        title="Age"
+        title="Block"
       />
     ),
-    cell: ({ row }) => (
-      <Text variant="body-3-medium" className="text-end text-gray-600">
-        {formatDistanceToNowStrict(row.original.createdAt, { addSuffix: true })}
-      </Text>
-    ),
+    cell: ({ row }) => {
+      return (
+        <Text variant="body-3-medium" className="text-end text-gray-600">
+          {row.original.blockNumber}
+        </Text>
+      )
+    },
     enableSorting: true,
   },
 } satisfies Record<string, ColumnDefWithTitle<AccountEvent>>
 
 export const eventsTableColumns = [
   eventsColumns.event,
-  eventsColumns.createdAt,
+  eventsColumns.blockNumber,
 ] satisfies ColumnDef<AccountEvent>[]
 
 export const eventsDefaultColumnVisibility: Partial<
   Record<keyof typeof eventsColumns, boolean>
 > = {
   event: true,
-  createdAt: true,
+  blockNumber: true,
 }
