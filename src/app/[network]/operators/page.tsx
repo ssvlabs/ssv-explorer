@@ -7,7 +7,7 @@ import { operatorsSearchParamsCache } from "@/lib/search-parsers/operator-search
 import { Skeleton } from "@/components/ui/skeleton"
 import { Shell } from "@/components/shell"
 
-import { OperatorsTable } from "../_components/operators/operators-table"
+import { OperatorsTable } from "../../_components/operators/operators-table"
 
 interface IndexPageProps {
   searchParams: Promise<SearchParams>

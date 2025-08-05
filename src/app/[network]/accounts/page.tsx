@@ -7,7 +7,7 @@ import { accountsSearchParamsCache } from "@/lib/search-parsers/accounts-search-
 import { Skeleton } from "@/components/ui/skeleton"
 import { Shell } from "@/components/shell"
 
-import { AccountsTable } from "../_components/accounts/accounts-table"
+import { AccountsTable } from "../../_components/accounts/accounts-table"
 
 interface IndexPageProps {
   searchParams: Promise<SearchParams>

@@ -4,7 +4,7 @@ import type { ComponentPropsWithRef, FC } from "react"
 import { Check } from "lucide-react"
 import { FaChevronDown, FaEthereum } from "react-icons/fa"
 
-import { type SupportedChain } from "@/config/chains"
+import { type ChainID } from "@/config/chains"
 import { cn } from "@/lib/utils"
 import { networks } from "@/lib/utils/ssv-network-details"
 import { useNetworkQuery } from "@/hooks/search/use-network-query"
@@ -57,7 +57,7 @@ export const NetworkSwitcher: FC<ComponentPropsWithRef<"button">> = ({
                 defaultChecked
                 key={network.networkId}
                 onSelect={() => {
-                  query.set(network.networkId as SupportedChain)
+                  query.set(network.networkId as ChainID)
                 }}
                 className="flex items-center gap-2"
               >

@@ -4,6 +4,7 @@ import Link from "next/link"
 import { type ColumnDef } from "@tanstack/react-table"
 
 import { type Operator, type SearchValidator } from "@/types/api"
+import { withNetwork } from "@/lib/utils/link"
 import { add0x, remove0x, shortenAddress } from "@/lib/utils/strings"
 import { CopyBtn } from "@/components/ui/copy-btn"
 import { Text } from "@/components/ui/text"
@@ -31,7 +32,10 @@ export const validatorColumns: Record<
           as={Link}
           href={`/validator/${row.original.public_key}`}
         >
-          <div>{shortenAddress(add0x(row.original.public_key))}</div>
+          <div>
+            {shortenAddress(add0x(row.original.public_key))}{" "}
+            {withNetwork(`/validator/${row.original.public_key}`)}
+          </div>
         </Text>
         <CopyBtn className="text-gray-500" text={row.original.public_key} />
       </div>

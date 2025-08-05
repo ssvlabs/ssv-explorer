@@ -4,15 +4,12 @@ import {
   formatDistanceToNowStrict,
 } from "date-fns"
 
-import { chains, type SupportedChain } from "@/config/chains"
+import { chains, type ChainID } from "@/config/chains"
 import { globals } from "@/config/globals"
 
 // Genesis timestamps for supported networks
 
-export function getBlockDate(
-  blockNumber: number,
-  chainId: SupportedChain = 1
-): Date {
+export function getBlockDate(blockNumber: number, chainId: ChainID = 1): Date {
   const genesisTimestamp = chains[chainId].genesisTimestamp || 0
 
   const secondsPerBlock = 86400 / Number(globals.BLOCKS_PER_DAY)
@@ -26,10 +23,7 @@ export function getBlockDate(
   return new Date(blockTimestamp)
 }
 
-export function formatBlockDate(
-  blockNumber: number,
-  chainId: SupportedChain = 1
-) {
+export function formatBlockDate(blockNumber: number, chainId: ChainID = 1) {
   const date = getBlockDate(blockNumber, chainId)
 
   return {
@@ -43,10 +37,7 @@ export function formatBlockDate(
 }
 
 // Utility to get the age of a block
-export function getBlockAge(
-  blockNumber: number,
-  chainId: SupportedChain = 1
-): string {
+export function getBlockAge(blockNumber: number, chainId: ChainID = 1): string {
   const date = getBlockDate(blockNumber, chainId)
   return formatDistanceToNow(date, { addSuffix: true })
 }
@@ -54,7 +45,7 @@ export function getBlockAge(
 // Utility to check if a block is recent (within last 24 hours)
 export function isRecentBlock(
   blockNumber: number,
-  chainId: SupportedChain = 1
+  chainId: ChainID = 1
 ): boolean {
   const date = getBlockDate(blockNumber, chainId)
   const now = new Date()

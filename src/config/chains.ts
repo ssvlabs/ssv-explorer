@@ -17,5 +17,9 @@ export const chains = {
   [hoodi.chainId]: hoodi,
 } as const
 
+export const chainIds = Object.values(chains).map((chain) => chain.chainId)
+export const chainNames = Object.values(chains).map((chain) => chain.name)
+
 export type ChainTuple = [typeof mainnet.chainId, typeof hoodi.chainId]
-export type SupportedChain = ChainTuple[number]
+export type ChainID = ChainTuple[number]
+export type ChainName = typeof mainnet.name | typeof hoodi.name
