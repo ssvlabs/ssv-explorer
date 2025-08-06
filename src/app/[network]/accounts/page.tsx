@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 import { getAccounts } from "@/api/account"
 import { type SearchParams } from "@/types"
 
+import { type ChainName } from "@/config/chains"
 import { accountsSearchParamsCache } from "@/lib/search-parsers/accounts-search-parsers"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Shell } from "@/components/shell"
@@ -10,6 +11,7 @@ import { Shell } from "@/components/shell"
 import { AccountsTable } from "../../_components/accounts/accounts-table"
 
 interface IndexPageProps {
+  params: Promise<{ network: ChainName }>
   searchParams: Promise<SearchParams>
 }
 
@@ -44,7 +46,8 @@ export const metadata: Metadata = {
 
 export default async function Page(props: IndexPageProps) {
   const search = accountsSearchParamsCache.parse(await props.searchParams)
-  const accounts = getAccounts(search)
+  const { network } = await props.params
+  const accounts = getAccounts({ ...search, network: network })
 
   return (
     <Shell className="gap-2">

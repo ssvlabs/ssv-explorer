@@ -6,11 +6,8 @@ import {
   parseAsString,
 } from "nuqs/server"
 
-import { networkParser } from "@/lib/search-parsers"
-
 export const ogSearchParser = {
   id: parseAsInteger,
-  network: networkParser.network,
   name: parseAsString,
   "24h": parseAsFloat,
   "30d": parseAsFloat,

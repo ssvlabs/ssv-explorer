@@ -1,5 +1,7 @@
 import { mainnet } from "viem/chains"
 
+import { type ChainName } from "@/config/chains"
+
 export const defaultNativeCurrency = {
   name: "Ethereum",
   symbol: "ETH",
@@ -42,10 +44,15 @@ export const chains = {
   [hoodi.id]: hoodi,
 } as const
 
+export const chainByName = {
+  mainnet: mainnet,
+  hoodi: hoodi,
+} as const
+
 export type ChainId = keyof typeof chains
 
-export const getNativeCurrency = (network: ChainId) => {
-  return chains[network]?.nativeCurrency ?? defaultNativeCurrency
+export const getNativeCurrency = (network: ChainName) => {
+  return chainByName[network]?.nativeCurrency ?? defaultNativeCurrency
 }
 
 export const getNativeCurrencySymbol = (network: ChainId) => {

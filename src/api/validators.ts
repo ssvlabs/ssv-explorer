@@ -4,6 +4,7 @@ import { endpoint } from "@/api"
 import { api } from "@/api/api-client"
 
 import { type PaginatedValidatorsResponse, type Validator } from "@/types/api"
+import { type ChainName } from "@/config/chains"
 import {
   validatorsSearchParamsSerializer,
   type ValidatorsSearchSchema,
@@ -12,8 +13,7 @@ import { stringifyBigints } from "@/lib/utils/bigint"
 import { unstable_cache } from "@/lib/utils/unstable-cache"
 
 export const searchValidators = async (
-  params: Partial<ValidatorsSearchSchema> &
-    Pick<ValidatorsSearchSchema, "network">
+  params: Partial<ValidatorsSearchSchema> & { network: ChainName }
 ) =>
   await unstable_cache(
     async () => {
@@ -31,7 +31,7 @@ export const searchValidators = async (
   )()
 
 export const getValidator = async (
-  params: Pick<ValidatorsSearchSchema, "network"> & {
+  params: { network: ChainName } & {
     publicKey: string
   }
 ) =>

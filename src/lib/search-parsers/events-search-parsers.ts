@@ -6,7 +6,7 @@ import {
 } from "nuqs/server"
 
 import { type AccountEvent } from "@/types/api/events"
-import { networkParser, paginationParser } from "@/lib/search-parsers"
+import { paginationParser } from "@/lib/search-parsers"
 import { defaultSearchOptions } from "@/lib/search-parsers/shared/parsers"
 import { getSortingStateParser } from "@/lib/utils/parsers"
 
@@ -27,7 +27,6 @@ export const eventSearchSort = {
 }
 
 export const eventsSearchParsers = {
-  ...networkParser,
   ...paginationParser,
   ...eventsSearchFilters,
   ...eventSearchSort,

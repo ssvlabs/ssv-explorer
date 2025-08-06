@@ -4,6 +4,7 @@ import { endpoint } from "@/api"
 import { api } from "@/api/api-client"
 
 import type { Country, Operator, OperatorsSearchResponse } from "@/types/api"
+import { type ChainName } from "@/config/chains"
 import {
   operatorSearchParamsSerializer,
   type OperatorsSearchSchema,
@@ -31,8 +32,7 @@ export type SearchOperatorsParams = {
 }
 
 export const searchOperators = async (
-  params: Partial<OperatorsSearchSchema> &
-    Pick<OperatorsSearchSchema, "network">
+  params: Partial<OperatorsSearchSchema> & { network: ChainName }
 ) =>
   await unstable_cache(
     async () => {
@@ -67,7 +67,7 @@ export interface OperatorMetadata {
 }
 
 export const getOperator = async (
-  params: Pick<OperatorsSearchSchema, "network"> & { id: number }
+  params: { network: ChainName } & { id: number }
 ) => {
   return await unstable_cache(
     async () =>
@@ -82,7 +82,7 @@ export const getOperator = async (
   )()
 }
 
-export const getOperatorLocations = async (chain: number) => {
+export const getOperatorLocations = async (chain: ChainName) => {
   return await unstable_cache(
     async () => api.get<Country[]>(endpoint(chain, "operators/locations")),
     [chain.toString()],

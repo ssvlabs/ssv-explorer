@@ -4,7 +4,7 @@ import type { ComponentPropsWithRef, FC } from "react"
 import { Check } from "lucide-react"
 import { FaChevronDown, FaEthereum } from "react-icons/fa"
 
-import { type ChainID } from "@/config/chains"
+import { type ChainName } from "@/config/chains"
 import { cn } from "@/lib/utils"
 import { networks } from "@/lib/utils/ssv-network-details"
 import { useNetworkQuery } from "@/hooks/search/use-network-query"
@@ -27,6 +27,7 @@ export const NetworkSwitcher: FC<ComponentPropsWithRef<"button">> = ({
   ...props
 }) => {
   const { chain, query } = useNetworkQuery()
+  console.log("chain:", chain)
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -41,7 +42,7 @@ export const NetworkSwitcher: FC<ComponentPropsWithRef<"button">> = ({
         >
           <div className="flex items-center gap-3">
             <FaEthereum className="size-4" />
-            <Text variant="body-3-medium">{chain.name}</Text>
+            <Text variant="body-3-medium">{chain?.name}</Text>
           </div>
           <div className="flex size-5 items-center justify-center">
             <FaChevronDown className="size-[10px]" />
@@ -57,7 +58,7 @@ export const NetworkSwitcher: FC<ComponentPropsWithRef<"button">> = ({
                 defaultChecked
                 key={network.networkId}
                 onSelect={() => {
-                  query.set(network.networkId as ChainID)
+                  query.set(network.apiNetwork as ChainName)
                 }}
                 className="flex items-center gap-2"
               >
@@ -68,7 +69,7 @@ export const NetworkSwitcher: FC<ComponentPropsWithRef<"button">> = ({
                 <Check
                   className={cn(
                     "ml-auto mr-2 size-3",
-                    chain.chainId === network.networkId
+                    chain?.id === network.networkId
                       ? "opacity-100"
                       : "opacity-0"
                   )}

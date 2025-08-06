@@ -8,6 +8,7 @@ import type {
   AccountStatsResponse,
   PaginatedAccountsResponse,
 } from "@/types/api/account"
+import { type ChainName } from "@/config/chains"
 import {
   accountSearchParamsSerializer,
   type AccountsSearchSchema,
@@ -16,7 +17,7 @@ import { stringifyBigints } from "@/lib/utils/bigint"
 import { unstable_cache } from "@/lib/utils/unstable-cache"
 
 export const getAccounts = async (
-  params: Partial<AccountsSearchSchema> & Pick<AccountsSearchSchema, "network">
+  params: Partial<AccountsSearchSchema> & { network: ChainName }
 ): Promise<PaginatedAccountsResponse> =>
   await unstable_cache(
     async () => {
@@ -32,7 +33,7 @@ export const getAccounts = async (
   )()
 
 export const getAccountStats = async (
-  params: { address: Address } & Pick<AccountsSearchSchema, "network">
+  params: { address: Address } & { network: ChainName }
 ) =>
   await unstable_cache(
     async () => {

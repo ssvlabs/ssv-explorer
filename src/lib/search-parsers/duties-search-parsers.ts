@@ -9,7 +9,7 @@ import {
 import { z } from "zod"
 
 import { DutyEnum, Status, type DutyElement } from "@/types/api/duties"
-import { networkParser, paginationParser } from "@/lib/search-parsers"
+import { paginationParser } from "@/lib/search-parsers"
 import { getSortingStateParser } from "@/lib/utils/parsers"
 
 const searchOptions: Options = {
@@ -35,7 +35,6 @@ export const dutiesSearchSort = {
 }
 
 export const dutiesSearchParamsCache = createSearchParamsCache({
-  ...networkParser,
   ...paginationParser,
   ...dutiesSearchFilters,
   ...dutiesSearchSort,

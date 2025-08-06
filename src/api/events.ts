@@ -5,6 +5,7 @@ import { api } from "@/api/api-client"
 import { type Address } from "abitype"
 
 import { type PaginatedEventsResponse } from "@/types/api/events"
+import { type ChainName } from "@/config/chains"
 import {
   eventsSearchParamsSerializer,
   type EventsSearchSchema,
@@ -13,8 +14,9 @@ import { stringifyBigints } from "@/lib/utils/bigint"
 import { unstable_cache } from "@/lib/utils/unstable-cache"
 
 export const getAccountEvents = async (
-  params: Partial<EventsSearchSchema> &
-    Pick<EventsSearchSchema, "network"> & { ownerAddress: Address }
+  params: Partial<EventsSearchSchema> & { network: ChainName } & {
+    ownerAddress: Address
+  }
 ) =>
   await unstable_cache(
     async () => {

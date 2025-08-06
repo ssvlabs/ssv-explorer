@@ -2,16 +2,16 @@ import { getAccountStats } from "@/api/account"
 import { useQuery } from "@tanstack/react-query"
 import { isAddress, type Address } from "viem"
 
-import { useNetworkQuery } from "../search/use-network-query"
+import { useNetworkParam } from "@/hooks/app/useNetworkParam"
 
 export const useAccountStats = (address: Address) => {
-  const network = useNetworkQuery()
+  const { network } = useNetworkParam()
   return useQuery({
-    queryKey: ["account-stats", address, network.query.value],
+    queryKey: ["account-stats", address, network],
     queryFn: async () => {
       const stats = await getAccountStats({
         address,
-        network: network.query.value,
+        network,
       })
       return stats.data
     },

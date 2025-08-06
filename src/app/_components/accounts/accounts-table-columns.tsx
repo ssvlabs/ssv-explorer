@@ -4,6 +4,7 @@ import Link from "next/link"
 import { type ColumnDef } from "@tanstack/react-table"
 
 import { type Account } from "@/types/api/account"
+import { withNetwork } from "@/lib/utils/link"
 import { formatGwei } from "@/lib/utils/number"
 import { shortenAddress } from "@/lib/utils/strings"
 import { useNativeCurrency } from "@/hooks/app/use-native-currency"
@@ -25,7 +26,7 @@ export const accountColumns = {
         <Text
           className="font-mono text-primary-500"
           as={Link}
-          href={`/account/${row.original.ownerAddress}`}
+          href={withNetwork(`/account/${row.original.ownerAddress}`)}
         >
           <div>{shortenAddress(row.original.ownerAddress)}</div>
         </Text>
@@ -46,7 +47,7 @@ export const accountColumns = {
           <Text
             className="font-mono text-primary-500"
             as={Link}
-            href={`/account/${row.original.recipientAddress}`}
+            href={withNetwork(`/account/${row.original.recipientAddress}`)}
           >
             <div>{shortenAddress(row.original.recipientAddress)}</div>
           </Text>

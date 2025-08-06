@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 import { searchOperators } from "@/api/operator"
 import { type SearchParams } from "@/types"
 
+import { type ChainName } from "@/config/chains"
 import { operatorsSearchParamsCache } from "@/lib/search-parsers/operator-search-parsers"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Shell } from "@/components/shell"
@@ -10,6 +11,7 @@ import { Shell } from "@/components/shell"
 import { OperatorsTable } from "../../_components/operators/operators-table"
 
 interface IndexPageProps {
+  params: Promise<{ network: ChainName }>
   searchParams: Promise<SearchParams>
 }
 
@@ -32,8 +34,9 @@ export const metadata: Metadata = {
 }
 
 export default async function Page(props: IndexPageProps) {
+  const { network } = await props.params
   const search = operatorsSearchParamsCache.parse(await props.searchParams)
-  const operators = searchOperators(search)
+  const operators = searchOperators({ ...search, network })
   return (
     <Shell className="gap-2">
       <React.Suspense fallback={<Skeleton className="h-7 w-52" />}>

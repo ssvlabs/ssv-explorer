@@ -1,27 +1,8 @@
 import {
   createSearchParamsCache,
-  createSerializer,
   parseAsBoolean,
   parseAsInteger,
 } from "nuqs/server"
-
-import { type ChainTuple } from "@/config/chains"
-import { parseAsNumberEnum } from "@/lib/utils/parsers"
-import { networks } from "@/lib/utils/ssv-network-details"
-
-export const networkParser = {
-  network: parseAsNumberEnum(
-    networks.map((n) => n.networkId) as ChainTuple
-  ).withDefault(networks[0]!.networkId as ChainTuple[number]),
-}
-export const networkParserCache = createSearchParamsCache(networkParser)
-export const networkParserSerializer = createSerializer(networkParser, {
-  clearOnDefault: false,
-})
-
-export type NetworkSearchSchema = Awaited<
-  ReturnType<typeof networkParserCache.parse>
->
 
 export const paginationParser = {
   page: parseAsInteger.withDefault(1),
@@ -29,7 +10,6 @@ export const paginationParser = {
 }
 
 export const overviewParserCache = createSearchParamsCache({
-  ...networkParser,
   ...paginationParser,
 })
 

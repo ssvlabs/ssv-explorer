@@ -4,7 +4,7 @@ import { type UrlObject } from "url"
 
 import { chainNames, type ChainName } from "@/config/chains"
 
-const networkRegex = new RegExp(`(${chainNames.join("|")})`)
+export const networkRegex = new RegExp(`(${chainNames.join("|")})`)
 export const getNetworkName = (): ChainName => {
   const result = networkRegex.exec(location.pathname)
   return (result?.[0] as ChainName) ?? "mainnet"

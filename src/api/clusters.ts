@@ -8,6 +8,7 @@ import type {
   Operator,
   PaginatedClustersResponse,
 } from "@/types/api"
+import { type ChainName } from "@/config/chains"
 import {
   clustersSearchParamsSerializer,
   type ClustersSearchSchema,
@@ -18,7 +19,7 @@ import { unstable_cache } from "@/lib/utils/unstable-cache"
 export const searchClusters = async <
   T extends (Operator | number)[] = number[],
 >(
-  params: Partial<ClustersSearchSchema> & Pick<ClustersSearchSchema, "network">
+  params: Partial<ClustersSearchSchema> & { network: ChainName }
 ) =>
   await unstable_cache(
     async () => {
@@ -35,7 +36,7 @@ export const searchClusters = async <
   )()
 
 export const getCluster = async (
-  params: Pick<ClustersSearchSchema, "network"> & { id: string }
+  params: { network: ChainName } & { id: string }
 ) =>
   await unstable_cache(
     async () => {

@@ -3,11 +3,12 @@ import { searchValidators } from "@/api/validators"
 import { type SearchParams } from "@/types"
 import { type Address } from "viem"
 
+import { type ChainName } from "@/config/chains"
 import { validatorsSearchParamsCache } from "@/lib/search-parsers/validators-search-parsers"
 import { ValidatorsTable } from "@/app/_components/accounts/tables/validators-table"
 
 interface IndexPageProps {
-  params: Promise<{ address: Address }>
+  params: Promise<{ address: Address; network: ChainName }>
   searchParams: Promise<SearchParams>
 }
 
@@ -31,10 +32,11 @@ export default async function IndexPage({
   searchParams,
 }: IndexPageProps) {
   const search = validatorsSearchParamsCache.parse(await searchParams)
-  const { address } = await params
+  const { address, network } = await params
   const validators = searchValidators({
     ...search,
     ownerAddress: [address],
+    network: network,
   })
   return <ValidatorsTable dataPromise={validators} hideOwnerAddressFilter />
 }

@@ -30,12 +30,9 @@ export const validatorColumns: Record<
         <Text
           className="font-mono text-primary-500"
           as={Link}
-          href={`/validator/${row.original.public_key}`}
+          href={withNetwork(`/validator/${row.original.public_key}`)}
         >
-          <div>
-            {shortenAddress(add0x(row.original.public_key))}{" "}
-            {withNetwork(`/validator/${row.original.public_key}`)}
-          </div>
+          <div>{shortenAddress(add0x(row.original.public_key))}</div>
         </Text>
         <CopyBtn className="text-gray-500" text={row.original.public_key} />
       </div>
@@ -52,7 +49,7 @@ export const validatorColumns: Record<
         <Text
           className="font-mono text-primary-500"
           as={Link}
-          href={`/cluster/${row.original.cluster}`}
+          href={withNetwork(`/cluster/${row.original.cluster}`)}
         >
           <div>{shortenAddress(remove0x(row.original.cluster))}</div>
         </Text>
@@ -71,7 +68,7 @@ export const validatorColumns: Record<
         <Text
           className="font-mono text-primary-500"
           as={Link}
-          href={`/account/${row.original.owner_address}`}
+          href={withNetwork(`/account/${row.original.owner_address}`)}
         >
           <div>{shortenAddress(row.original.owner_address)}</div>
         </Text>
@@ -94,7 +91,10 @@ export const validatorColumns: Record<
             className="w-[240px] p-4"
             content={<OperatorInfo operator={operator} />}
           >
-            <Link href={`/operator/${operator.id}`} key={operator.id}>
+            <Link
+              href={withNetwork(`/operator/${operator.id}`)}
+              key={operator.id}
+            >
               <OperatorAvatar
                 src={operator.logo}
                 isPrivate={operator.is_private}
