@@ -9,7 +9,7 @@ import { Loader2, X } from "lucide-react"
 import { useQueryState } from "nuqs"
 
 import { clustersSearchFilters } from "@/lib/search-parsers/clusters-search-parsers"
-import { useNetworkQuery } from "@/hooks/search/use-network-query"
+import { useNetworkParam } from "@/hooks/app/useNetworkParam"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import {
@@ -33,7 +33,7 @@ export const OperatorsFilter: FC<OperatorsFilterProps> = ({
   const [open, setOpen] = useState(false)
   const [search, setSearch] = useState<string>("")
 
-  const network = useNetworkQuery().query.value
+  const { network } = useNetworkParam()
   const [operators, setOperators] = useQueryState(
     searchQueryKey,
     clustersSearchFilters.operators

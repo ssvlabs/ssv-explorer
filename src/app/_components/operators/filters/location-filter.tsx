@@ -8,6 +8,7 @@ import { xor } from "lodash-es"
 import { Loader2 } from "lucide-react"
 
 import { cn } from "@/lib/utils"
+import { useNetworkParam } from "@/hooks/app/useNetworkParam"
 import { useOperatorsSearchParams } from "@/hooks/search/use-custom-search-params"
 import { Checkbox } from "@/components/ui/checkbox"
 import {
@@ -23,7 +24,8 @@ import { FilterButton } from "@/components/filter/filter-button"
 export function LocationFilter() {
   const [open, setOpen] = useState(false)
   const [search, setSearch] = useState("")
-  const { network, filters, setFilters } = useOperatorsSearchParams()
+  const { filters, setFilters } = useOperatorsSearchParams()
+  const { network } = useNetworkParam()
   const query = useQuery({
     queryKey: ["operators", "locations", network],
     queryFn: async () => getOperatorLocations(network),

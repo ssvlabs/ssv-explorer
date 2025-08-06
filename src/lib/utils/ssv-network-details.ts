@@ -1,6 +1,8 @@
 import { isAddress } from "viem"
 import { z } from "zod"
 
+import { type ChainName } from "@/config/chains"
+
 const networksString =
   process.env.SSV_NETWORKS || process.env.NEXT_PUBLIC_SSV_NETWORKS
 
@@ -39,6 +41,6 @@ Invalid network schema in SSV_NETWORKS environment variable:
   )
 }
 
-export const getSSVNetworkDetails = (chainId?: number) => {
-  return parsed.data.find((network) => network.networkId === chainId)
+export const getSSVNetworkDetails = (chainName?: ChainName) => {
+  return parsed.data.find((network) => network.apiNetwork === chainName)
 }

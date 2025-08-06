@@ -2,6 +2,7 @@ import { searchOperators } from "@/api/operator"
 import { searchValidators } from "@/api/validators"
 import { type SearchParams } from "@/types"
 
+import { type ChainName } from "@/config/chains"
 import { overviewParserCache } from "@/lib/search-parsers"
 import { defaultOperatorSort } from "@/lib/search-parsers/operator-search-parsers"
 import { defaultValidatorSort } from "@/lib/search-parsers/validators-search-parsers"
@@ -16,20 +17,24 @@ import { OperatorsOverviewTable } from "@/app/_components/operators/operators-ta
 import { ValidatorsOverviewTable } from "@/app/_components/validators/validators-overview-table"
 
 interface IndexPageProps {
+  params: Promise<{ network: ChainName }>
   searchParams: Promise<SearchParams>
 }
 
 export default async function Page(props: IndexPageProps) {
+  const { network } = await props.params
   const searchParams = await overviewParserCache.parse(props.searchParams)
 
   const [operators, validators] = await Promise.all([
     searchOperators({
       ...searchParams,
       ordering: defaultOperatorSort,
+      network,
     }),
     searchValidators({
       ...searchParams,
       ordering: defaultValidatorSort,
+      network,
     }),
   ])
 
@@ -37,7 +42,7 @@ export default async function Page(props: IndexPageProps) {
   const totalValidators = validators.pagination.total
   const totalStakedEth = validators.pagination.total * 32
 
-  const nativeCurrency = getNativeCurrency(searchParams.network)
+  const nativeCurrency = getNativeCurrency(network)
 
   return (
     <Shell className="gap-6">

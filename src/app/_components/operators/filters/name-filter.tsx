@@ -8,6 +8,7 @@ import { xor } from "lodash-es"
 import { Loader2, X } from "lucide-react"
 
 import { cn } from "@/lib/utils"
+import { useNetworkParam } from "@/hooks/app/useNetworkParam"
 import { useOperatorsSearchParams } from "@/hooks/search/use-custom-search-params"
 import { useDebounceValue } from "@/hooks/use-debounce"
 import { Button } from "@/components/ui/button"
@@ -27,7 +28,8 @@ export function NameFilter() {
   const [open, setOpen] = useState(false)
   const [search, setSearch] = useState<string>("")
   const debouncedSearch = useDebounceValue(search, 500)
-  const { network, filters, setFilters } = useOperatorsSearchParams()
+  const { filters, setFilters } = useOperatorsSearchParams()
+  const { network } = useNetworkParam()
 
   const query = useQuery({
     queryKey: ["operators", "names", search, network],

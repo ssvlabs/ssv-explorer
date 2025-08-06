@@ -50,7 +50,7 @@ const nextConfig = {
     return [
       {
         source: "/",
-        destination: "/overview",
+        destination: "/mainnet/overview",
         permanent: true,
       },
     ]

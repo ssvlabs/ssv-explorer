@@ -9,7 +9,7 @@ import {
 import { z } from "zod"
 
 import { type Cluster } from "@/types/api"
-import { networkParser, paginationParser } from "@/lib/search-parsers"
+import { paginationParser } from "@/lib/search-parsers"
 import {
   addressesParser,
   clustersParser,
@@ -55,7 +55,6 @@ export const operatorDetailsFilter = {
 }
 
 export const clustersSearchParamsCache = createSearchParamsCache({
-  ...networkParser,
   ...paginationParser,
   ...clustersSearchFilters,
   ...clusterSearchSort,
@@ -63,7 +62,6 @@ export const clustersSearchParamsCache = createSearchParamsCache({
 })
 export const clustersSearchParamsSerializer = createSerializer(
   {
-    ...networkParser,
     ...paginationParser,
     ...clustersSearchFilters,
     ...clusterSearchSort,

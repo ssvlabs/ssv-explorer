@@ -1,9 +1,10 @@
-/* eslint-disable @next/next/no-img-element */
 "use client"
 
+/* eslint-disable @next/next/no-img-element */
 import { usePathname } from "next/navigation"
 
 import { cn } from "@/lib/utils"
+import { withNetwork } from "@/lib/utils/link"
 import { currencyFormatter } from "@/lib/utils/number"
 import { useSSVRates } from "@/hooks/use-ssv-rates"
 import { Button } from "@/components/ui/button"
@@ -22,7 +23,10 @@ export function SiteHeader() {
   return (
     <header className="container w-full backdrop-blur">
       <div className="flex h-[60px] items-center border-b border-gray-300 font-mono">
-        <Link href="/" className="mr-2 flex items-center md:mr-6 md:space-x-2">
+        <Link
+          href={withNetwork("/")}
+          className="mr-2 flex items-center md:mr-6 md:space-x-2"
+        >
           <Logo width={140} height={28} />
         </Link>
         <nav className="flex flex-1 items-center gap-2 md:justify-end">
@@ -52,7 +56,7 @@ export function SiteHeader() {
           <Text
             as={Link}
             variant="body-3-medium"
-            href="/overview"
+            href={withNetwork("/overview")}
             className="data-[active=true]:text-primary-500"
           >
             Overview
@@ -60,7 +64,7 @@ export function SiteHeader() {
           <Text
             as={Link}
             variant="body-3-medium"
-            href="/operators"
+            href={withNetwork("/operators")}
             className="data-[active=true]:text-primary-500"
           >
             Operators
@@ -68,7 +72,7 @@ export function SiteHeader() {
           <Text
             as={Link}
             variant="body-3-medium"
-            href="/validators"
+            href={withNetwork("/validators")}
             className="data-[active=true]:text-primary-500"
           >
             Validators
@@ -76,7 +80,7 @@ export function SiteHeader() {
           <Text
             as={Link}
             variant="body-3-medium"
-            href="/clusters"
+            href={withNetwork("/clusters")}
             className="data-[active=true]:text-primary-500"
           >
             Clusters
@@ -84,7 +88,7 @@ export function SiteHeader() {
           <Text
             as={Link}
             variant="body-3-medium"
-            href="/accounts"
+            href={withNetwork("/accounts")}
             className="data-[active=true]:text-primary-500"
           >
             Accounts

@@ -9,11 +9,7 @@ import {
 import { z } from "zod"
 
 import { type Operator, type SearchValidator } from "@/types/api"
-import {
-  enhancementParsers,
-  networkParser,
-  paginationParser,
-} from "@/lib/search-parsers"
+import { enhancementParsers, paginationParser } from "@/lib/search-parsers"
 import {
   addressesParser,
   clustersParser,
@@ -50,7 +46,6 @@ export const elasticSearchParsers = {
 }
 
 export const validatorsSearchParsers = {
-  ...networkParser,
   ...paginationParser,
   ...validatorsSearchFilters,
   ...enhancementParsers,

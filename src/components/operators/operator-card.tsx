@@ -1,3 +1,5 @@
+"use client"
+
 import type { ComponentPropsWithRef, FC } from "react"
 import Link from "next/link"
 import { PerformanceIcon } from "@/assets/images/performance-icon"
@@ -6,6 +8,7 @@ import { MdOutlineLock } from "react-icons/md"
 
 import { type Operator } from "@/types/api"
 import { cn } from "@/lib/utils"
+import { withNetwork } from "@/lib/utils/link"
 import { Outline } from "@/components/ui/outline"
 import { Text } from "@/components/ui/text"
 import { OperatorAvatar } from "@/components/operators/operator-avatar"
@@ -48,7 +51,7 @@ export const OperatorCard: OperatorCardFC = ({
       <div className="flex items-center gap-[6px]">
         <Text
           as={Link}
-          href={`/operator/${operator.id}`}
+          href={withNetwork(`/operator/${operator.id}`)}
           variant="body-3-medium"
           className="line-clamp-1 cursor-pointer"
         >

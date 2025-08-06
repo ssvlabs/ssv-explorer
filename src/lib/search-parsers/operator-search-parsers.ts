@@ -9,7 +9,7 @@ import {
 } from "nuqs/server"
 import { z } from "zod"
 
-import { networkParser, paginationParser } from "@/lib/search-parsers"
+import { paginationParser } from "@/lib/search-parsers"
 import {
   addressesParser,
   defaultSearchOptions,
@@ -115,7 +115,6 @@ export const operatorSearchSort = {
 }
 
 export const operatorSearchParsers = {
-  ...networkParser,
   ...paginationParser,
   ...operatorSearchFilters,
   ...operatorSearchSort,

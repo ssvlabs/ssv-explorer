@@ -1,14 +1,22 @@
 "use client"
 
-import { useQueryState } from "nuqs"
+import { useRouter } from "next/navigation"
 
-import { chains } from "@/config/chains"
-import { networkParser } from "@/lib/search-parsers"
+import { type ChainName } from "@/config/chains"
+import { networkRegex } from "@/lib/utils/link"
+import { chainByName } from "@/lib/utils/viem"
+import { useNetworkParam } from "@/hooks/app/useNetworkParam"
 
 export const useNetworkQuery = () => {
-  const [network, setNetwork] = useQueryState("network", networkParser.network)
+  const router = useRouter()
+  const { network } = useNetworkParam()
+  console.log("network:", network)
+  const setNetwork = (network: ChainName) => {
+    router.push(location.pathname.replace(networkRegex, network))
+  }
+
   return {
     query: { value: network, set: setNetwork },
-    chain: chains[network],
+    chain: chainByName[network],
   }
 }

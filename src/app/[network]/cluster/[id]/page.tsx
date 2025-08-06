@@ -4,6 +4,7 @@ import { getCluster } from "@/api/clusters"
 import { searchValidators } from "@/api/validators"
 import { type Hex } from "viem"
 
+import { type ChainName } from "@/config/chains"
 import {
   validatorsSearchParamsCache,
   type ValidatorsSearchSchema,
@@ -24,8 +25,8 @@ import { Shell } from "@/components/shell"
 import { ValidatorsTable } from "@/app/_components/validators/validators-table"
 
 interface IndexPageProps {
-  params: Promise<{ id: Hex }>
-  searchParams: Promise<{ network: string }>
+  params: Promise<{ id: Hex; network: ChainName }>
+  searchParams: Promise<{}>
 }
 
 export const metadata: Metadata = {
@@ -47,7 +48,7 @@ export const metadata: Metadata = {
 }
 
 export default async function Page(props: IndexPageProps) {
-  const { id } = await props.params
+  const { id, network } = await props.params
   const awaitedSearchParams = await props.searchParams
   const searchParams = validatorsSearchParamsCache.parse(
     awaitedSearchParams
@@ -56,13 +57,12 @@ export default async function Page(props: IndexPageProps) {
   const validators = searchValidators({
     ...searchParams,
     cluster: [id],
+    network: network,
   })
 
-  const cluster = await getCluster({ id, network: searchParams.network }).catch(
-    (error) => {
-      return null
-    }
-  )
+  const cluster = await getCluster({ id, network: network }).catch((error) => {
+    return null
+  })
 
   if (!cluster) {
     return (
@@ -74,7 +74,7 @@ export default async function Page(props: IndexPageProps) {
     )
   }
 
-  const nativeCurrency = getNativeCurrency(searchParams.network)
+  const nativeCurrency = getNativeCurrency(network)
 
   return (
     <Shell className="gap-6">
@@ -96,7 +96,7 @@ export default async function Page(props: IndexPageProps) {
             </Text>
             <Button
               as={Link}
-              href={`/account/${cluster.ownerAddress}`}
+              href={`/${network}/account/${cluster.ownerAddress}`}
               variant="link"
               className="font-mono text-sm"
             >

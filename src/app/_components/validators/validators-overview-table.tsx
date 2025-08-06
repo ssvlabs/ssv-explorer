@@ -7,6 +7,7 @@ import { withErrorBoundary } from "react-error-boundary"
 
 import { type Operator, type PaginatedValidatorsResponse } from "@/types/api"
 import { defaultValidatorSort } from "@/lib/search-parsers/validators-search-parsers"
+import { withNetwork } from "@/lib/utils/link"
 import { useDataTable } from "@/hooks/use-data-table"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
@@ -49,7 +50,7 @@ export const ValidatorsOverviewTable = withErrorBoundary(
             </Text>
             <Button
               as={Link}
-              href="/validators"
+              href={withNetwork("/validators")}
               variant="link"
               className={textVariants({ variant: "body-3-medium" })}
             >

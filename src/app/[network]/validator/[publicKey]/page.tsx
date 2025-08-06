@@ -4,6 +4,7 @@ import { searchDuties } from "@/api/duties"
 import { getValidator } from "@/api/validators"
 import { type SearchParams } from "nuqs"
 
+import { type ChainName } from "@/config/chains"
 import {
   dutiesSearchParamsCache,
   type DutiesSearchSchema,
@@ -26,7 +27,7 @@ import { Shell } from "@/components/shell"
 import { DutiesTable } from "@/app/_components/duties/duties-table"
 
 interface IndexPageProps {
-  params: Promise<{ publicKey: string }>
+  params: Promise<{ publicKey: string; network: ChainName }>
   searchParams: Promise<SearchParams>
 }
 
@@ -48,7 +49,7 @@ export const metadata: Metadata = {
 }
 
 export default async function Page(props: IndexPageProps) {
-  const { publicKey } = await props.params
+  const { publicKey, network } = await props.params
 
   if (!validatorRegex.test(publicKey)) {
     return (
@@ -68,14 +69,15 @@ export default async function Page(props: IndexPageProps) {
   const duties = searchDuties({
     ...searchParams,
     validatorPublicKey: publicKey,
+    network,
   })
 
   const validator = await getValidator({
     publicKey,
-    network: searchParams.network,
+    network,
   })
 
-  const nativeCurrency = getNativeCurrency(searchParams.network)
+  const nativeCurrency = getNativeCurrency(network)
 
   return (
     <Shell className="gap-6">
@@ -96,7 +98,7 @@ export default async function Page(props: IndexPageProps) {
             </Text>
             <Button
               as={Link}
-              href={`/account/${validator.owner_address}`}
+              href={`/${network}/account/${validator.owner_address}`}
               variant="link"
               className="font-mono text-sm"
             >
@@ -110,7 +112,7 @@ export default async function Page(props: IndexPageProps) {
             </Text>
             <Button
               as={Link}
-              href={`/cluster/${validator.cluster}`}
+              href={`/${network}/cluster/${validator.cluster}`}
               variant="link"
               className="font-mono text-sm"
             >

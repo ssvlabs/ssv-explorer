@@ -4,7 +4,7 @@ import { getOperator } from "@/api/operator"
 import { searchValidators } from "@/api/validators"
 import { MdOutlineLock } from "react-icons/md"
 
-import { networkParserCache } from "@/lib/search-parsers"
+import { type ChainName } from "@/config/chains"
 import { validatorsSearchParamsCache } from "@/lib/search-parsers/validators-search-parsers"
 import { cn } from "@/lib/utils"
 import { shortenAddress } from "@/lib/utils/strings"
@@ -23,27 +23,26 @@ import { Shell } from "@/components/shell"
 import { ValidatorsTable } from "@/app/_components/validators/validators-table"
 
 interface IndexPageProps {
-  params: Promise<{ id: string }>
+  params: Promise<{ id: string; network: ChainName }>
   searchParams: Promise<{ network: string }>
 }
 
 export async function generateMetadata(
   props: IndexPageProps
 ): Promise<Metadata> {
-  const [{ id }, searchParams] = await Promise.all([
+  const [{ id, network }, searchParams] = await Promise.all([
     props.params,
     props.searchParams,
   ])
 
-  const parsed = networkParserCache.parse(searchParams)
   const operator = await getOperator({
-    network: parsed.network,
+    network,
     id: +id,
   })
 
   const params = {
     id,
-    network: parsed.network.toString(),
+    network,
     name: operator.name,
     "24h": operator.performance["24h"].toString(),
     "30d": operator.performance["30d"].toString(),
@@ -75,19 +74,22 @@ export async function generateMetadata(
 }
 
 export default async function Page(props: IndexPageProps) {
-  const { id } = await props.params
-  const networkSearch = networkParserCache.parse(await props.searchParams)
+  const { id, network } = await props.params
   const validatorsSearch = validatorsSearchParamsCache.parse(
     await props.searchParams
   )
-  const validators = searchValidators({ ...validatorsSearch, operator: [+id] })
+  const validators = searchValidators({
+    ...validatorsSearch,
+    operator: [+id],
+    network,
+  })
 
   return (
     <Shell className="gap-2">
       {(async () => {
         try {
           const operator = await getOperator({
-            network: networkSearch.network,
+            network,
             id: +id,
           })
           if (!operator) return <div>Operator not found</div>
@@ -132,7 +134,7 @@ export default async function Page(props: IndexPageProps) {
                         <Button
                           as={Link}
                           className="font-mono text-sm font-medium"
-                          href={`/account/${operator.owner_address}`}
+                          href={`/${network}/account/${operator.owner_address}`}
                           variant="link"
                         >
                           {shortenAddress(operator.owner_address)}

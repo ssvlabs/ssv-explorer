@@ -5,6 +5,7 @@ import { type ColumnDef } from "@tanstack/react-table"
 import { formatDistanceToNowStrict } from "date-fns"
 
 import { type Operator } from "@/types/api"
+import { withNetwork } from "@/lib/utils/link"
 import { getYearlyFee } from "@/lib/utils/operator"
 import { shortenAddress } from "@/lib/utils/strings"
 import { Button } from "@/components/ui/button"
@@ -49,7 +50,10 @@ export const operatorColumns = {
       return (
         <div className="flex gap-1">
           <Button asChild variant="link">
-            <Link href={`/account/${ownerAddress}`} className="font-mono">
+            <Link
+              href={withNetwork(`/account/${ownerAddress}`)}
+              className="font-mono"
+            >
               {shortenAddress(ownerAddress)}
             </Link>
           </Button>

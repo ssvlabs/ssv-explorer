@@ -2,6 +2,7 @@
 
 import { type Address } from "viem"
 
+import { withNetwork } from "@/lib/utils/link"
 import { useAccountStats } from "@/hooks/account/use-account-stats"
 import { RouteTabLink } from "@/components/ui/route-tab-link"
 
@@ -14,24 +15,24 @@ export function TableNavigation({ ownerAddress }: TableNavigationProps) {
   return (
     <div className="flex items-center gap-2">
       <RouteTabLink
-        href={`/account/${ownerAddress}/`}
+        href={withNetwork(`/account/${ownerAddress}/`)}
         count={stats.data?.validators}
       >
         Validators
       </RouteTabLink>
       <RouteTabLink
-        href={`/account/${ownerAddress}/clusters`}
+        href={withNetwork(`/account/${ownerAddress}/clusters`)}
         count={stats.data?.clusters}
       >
         Clusters
       </RouteTabLink>
       <RouteTabLink
-        href={`/account/${ownerAddress}/operators`}
+        href={withNetwork(`/account/${ownerAddress}/operators`)}
         count={stats.data?.operators}
       >
         Operators
       </RouteTabLink>
-      <RouteTabLink href={`/account/${ownerAddress}/history`}>
+      <RouteTabLink href={withNetwork(`/account/${ownerAddress}/history`)}>
         History
       </RouteTabLink>
     </div>

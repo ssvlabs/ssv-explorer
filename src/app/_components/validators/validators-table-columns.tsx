@@ -4,6 +4,7 @@ import Link from "next/link"
 import { type ColumnDef } from "@tanstack/react-table"
 
 import { type Operator, type SearchValidator } from "@/types/api"
+import { withNetwork } from "@/lib/utils/link"
 import { add0x, remove0x, shortenAddress } from "@/lib/utils/strings"
 import { CopyBtn } from "@/components/ui/copy-btn"
 import { Text } from "@/components/ui/text"
@@ -29,7 +30,7 @@ export const validatorColumns: Record<
         <Text
           className="font-mono text-primary-500"
           as={Link}
-          href={`/validator/${row.original.public_key}`}
+          href={withNetwork(`/validator/${row.original.public_key}`)}
         >
           <div>{shortenAddress(add0x(row.original.public_key))}</div>
         </Text>
@@ -48,7 +49,7 @@ export const validatorColumns: Record<
         <Text
           className="font-mono text-primary-500"
           as={Link}
-          href={`/cluster/${row.original.cluster}`}
+          href={withNetwork(`/cluster/${row.original.cluster}`)}
         >
           <div>{shortenAddress(remove0x(row.original.cluster))}</div>
         </Text>
@@ -67,7 +68,7 @@ export const validatorColumns: Record<
         <Text
           className="font-mono text-primary-500"
           as={Link}
-          href={`/account/${row.original.owner_address}`}
+          href={withNetwork(`/account/${row.original.owner_address}`)}
         >
           <div>{shortenAddress(row.original.owner_address)}</div>
         </Text>
@@ -90,7 +91,10 @@ export const validatorColumns: Record<
             className="w-[240px] p-4"
             content={<OperatorInfo operator={operator} />}
           >
-            <Link href={`/operator/${operator.id}`} key={operator.id}>
+            <Link
+              href={withNetwork(`/operator/${operator.id}`)}
+              key={operator.id}
+            >
               <OperatorAvatar
                 src={operator.logo}
                 isPrivate={operator.is_private}
