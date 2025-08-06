@@ -26,6 +26,7 @@ export const NetworkSwitcher: FC<ComponentPropsWithRef<"button">> = ({
   ...props
 }) => {
   const { chain, query } = useNetworkQuery()
+  console.log("chain:", chain)
   return (
     <Popover>
       <PopoverTrigger asChild>
