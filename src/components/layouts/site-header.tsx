@@ -4,8 +4,8 @@
 import { usePathname } from "next/navigation"
 
 import { cn } from "@/lib/utils"
-import { withNetwork } from "@/lib/utils/link"
 import { currencyFormatter } from "@/lib/utils/number"
+import { useNetworkParam } from "@/hooks/app/useNetworkParam"
 import { useSSVRates } from "@/hooks/use-ssv-rates"
 import { Button } from "@/components/ui/button"
 import { Text } from "@/components/ui/text"
@@ -16,6 +16,7 @@ import { NetworkSwitcher } from "@/components/network-switcher"
 import { Link } from "@/components/nextjs/custom-link"
 
 export function SiteHeader() {
+  const network = useNetworkParam()
   const pathname = usePathname()
   const isOverview = pathname.startsWith("/overview")
   const { data: rates } = useSSVRates()
@@ -24,7 +25,7 @@ export function SiteHeader() {
     <header className="container w-full backdrop-blur">
       <div className="flex h-[60px] items-center border-b border-gray-300 font-mono">
         <Link
-          href={withNetwork("/")}
+          href={`/${network}/overview`}
           className="mr-2 flex items-center md:mr-6 md:space-x-2"
         >
           <Logo width={140} height={28} />
@@ -56,7 +57,7 @@ export function SiteHeader() {
           <Text
             as={Link}
             variant="body-3-medium"
-            href={withNetwork("/overview")}
+            href={`/${network}/overview`}
             className="data-[active=true]:text-primary-500"
           >
             Overview
@@ -64,7 +65,7 @@ export function SiteHeader() {
           <Text
             as={Link}
             variant="body-3-medium"
-            href={withNetwork("/operators")}
+            href={`/${network}/operators`}
             className="data-[active=true]:text-primary-500"
           >
             Operators
@@ -72,7 +73,7 @@ export function SiteHeader() {
           <Text
             as={Link}
             variant="body-3-medium"
-            href={withNetwork("/validators")}
+            href={`/${network}/validators`}
             className="data-[active=true]:text-primary-500"
           >
             Validators
@@ -80,7 +81,7 @@ export function SiteHeader() {
           <Text
             as={Link}
             variant="body-3-medium"
-            href={withNetwork("/clusters")}
+            href={`/${network}/clusters`}
             className="data-[active=true]:text-primary-500"
           >
             Clusters
@@ -88,7 +89,7 @@ export function SiteHeader() {
           <Text
             as={Link}
             variant="body-3-medium"
-            href={withNetwork("/accounts")}
+            href={`/${network}/accounts`}
             className="data-[active=true]:text-primary-500"
           >
             Accounts

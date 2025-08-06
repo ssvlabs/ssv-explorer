@@ -30,10 +30,7 @@ interface IndexPageProps {
 export async function generateMetadata(
   props: IndexPageProps
 ): Promise<Metadata> {
-  const [{ id, network }, searchParams] = await Promise.all([
-    props.params,
-    props.searchParams,
-  ])
+  const { id, network } = await props.params
 
   const operator = await getOperator({
     network,

@@ -6,7 +6,7 @@ import { TableProvider } from "@/context/table-context"
 import { withErrorBoundary } from "react-error-boundary"
 
 import { type OperatorsSearchResponse } from "@/types/api"
-import { withNetwork } from "@/lib/utils/link"
+import { useNetworkParam } from "@/hooks/app/useNetworkParam"
 import { useDataTable } from "@/hooks/use-data-table"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
@@ -62,7 +62,8 @@ export const OperatorsOverviewTable = withErrorBoundary(
             </Text>
             <Button
               as={Link}
-              href={withNetwork("/operators")}
+              // eslint-disable-next-line react-hooks/rules-of-hooks
+              href={`/${useNetworkParam()}/operators`}
               variant="link"
               className={textVariants({ variant: "body-3-medium" })}
             >

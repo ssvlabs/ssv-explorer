@@ -4,10 +4,10 @@ import Link from "next/link"
 import { type ColumnDef } from "@tanstack/react-table"
 
 import { type Account } from "@/types/api/account"
-import { withNetwork } from "@/lib/utils/link"
 import { formatGwei } from "@/lib/utils/number"
 import { shortenAddress } from "@/lib/utils/strings"
 import { useNativeCurrency } from "@/hooks/app/use-native-currency"
+import { useNetworkParam } from "@/hooks/app/useNetworkParam"
 import { CopyBtn } from "@/components/ui/copy-btn"
 import { Text } from "@/components/ui/text"
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header"
@@ -26,7 +26,8 @@ export const accountColumns = {
         <Text
           className="font-mono text-primary-500"
           as={Link}
-          href={withNetwork(`/account/${row.original.ownerAddress}`)}
+          // eslint-disable-next-line react-hooks/rules-of-hooks
+          href={`/${useNetworkParam()}/account/${row.original.ownerAddress}`}
         >
           <div>{shortenAddress(row.original.ownerAddress)}</div>
         </Text>
@@ -47,7 +48,8 @@ export const accountColumns = {
           <Text
             className="font-mono text-primary-500"
             as={Link}
-            href={withNetwork(`/account/${row.original.recipientAddress}`)}
+            // eslint-disable-next-line react-hooks/rules-of-hooks
+            href={`/${useNetworkParam()}/account/${row.original.recipientAddress}`}
           >
             <div>{shortenAddress(row.original.recipientAddress)}</div>
           </Text>

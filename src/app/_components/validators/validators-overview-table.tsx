@@ -7,7 +7,7 @@ import { withErrorBoundary } from "react-error-boundary"
 
 import { type Operator, type PaginatedValidatorsResponse } from "@/types/api"
 import { defaultValidatorSort } from "@/lib/search-parsers/validators-search-parsers"
-import { withNetwork } from "@/lib/utils/link"
+import { useNetworkParam } from "@/hooks/app/useNetworkParam"
 import { useDataTable } from "@/hooks/use-data-table"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
@@ -50,7 +50,8 @@ export const ValidatorsOverviewTable = withErrorBoundary(
             </Text>
             <Button
               as={Link}
-              href={withNetwork("/validators")}
+              // eslint-disable-next-line react-hooks/rules-of-hooks
+              href={`/${useNetworkParam()}/validators`}
               variant="link"
               className={textVariants({ variant: "body-3-medium" })}
             >

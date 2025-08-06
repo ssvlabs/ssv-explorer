@@ -5,9 +5,9 @@ import { type ColumnDef } from "@tanstack/react-table"
 import { formatDistanceToNowStrict } from "date-fns"
 
 import { type Cluster } from "@/types/api"
-import { withNetwork } from "@/lib/utils/link"
 import { formatSSV } from "@/lib/utils/number"
 import { remove0x, shortenAddress } from "@/lib/utils/strings"
+import { useNetworkParam } from "@/hooks/app/useNetworkParam"
 import { CopyBtn } from "@/components/ui/copy-btn"
 import { Text } from "@/components/ui/text"
 import { Tooltip } from "@/components/ui/tooltip"
@@ -29,7 +29,8 @@ export const clustersTableColumns: ColumnDefWithTitle<Cluster>[] = [
         <Text
           className="font-mono text-primary-500"
           as={Link}
-          href={withNetwork(`/cluster/${row.original.clusterId}`)}
+          // eslint-disable-next-line react-hooks/rules-of-hooks
+          href={`/${useNetworkParam()}/cluster/${row.original.clusterId}`}
         >
           <div>{shortenAddress(remove0x(row.original.clusterId))}</div>
         </Text>
@@ -48,7 +49,8 @@ export const clustersTableColumns: ColumnDefWithTitle<Cluster>[] = [
         <Text
           className="font-mono text-primary-500"
           as={Link}
-          href={withNetwork(`/account/${row.original.ownerAddress}`)}
+          // eslint-disable-next-line react-hooks/rules-of-hooks
+          href={`/${useNetworkParam()}/account/${row.original.ownerAddress}`}
         >
           <div>{shortenAddress(row.original.ownerAddress)}</div>
         </Text>
@@ -73,7 +75,8 @@ export const clustersTableColumns: ColumnDefWithTitle<Cluster>[] = [
               content={<OperatorInfo operator={operator} />}
             >
               <Link
-                href={withNetwork(`/operator/${operator.id}`)}
+                // eslint-disable-next-line react-hooks/rules-of-hooks
+                href={`/${useNetworkParam()}/operator/${operator.id}`}
                 key={operator.id}
               >
                 <OperatorAvatar

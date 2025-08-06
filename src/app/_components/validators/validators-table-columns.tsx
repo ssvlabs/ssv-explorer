@@ -4,8 +4,8 @@ import Link from "next/link"
 import { type ColumnDef } from "@tanstack/react-table"
 
 import { type Operator, type SearchValidator } from "@/types/api"
-import { withNetwork } from "@/lib/utils/link"
 import { add0x, remove0x, shortenAddress } from "@/lib/utils/strings"
+import { useNetworkParam } from "@/hooks/app/useNetworkParam"
 import { CopyBtn } from "@/components/ui/copy-btn"
 import { Text } from "@/components/ui/text"
 import { Tooltip } from "@/components/ui/tooltip"
@@ -30,7 +30,8 @@ export const validatorColumns: Record<
         <Text
           className="font-mono text-primary-500"
           as={Link}
-          href={withNetwork(`/validator/${row.original.public_key}`)}
+          // eslint-disable-next-line react-hooks/rules-of-hooks
+          href={`/${useNetworkParam()}/validator/${row.original.public_key}`}
         >
           <div>{shortenAddress(add0x(row.original.public_key))}</div>
         </Text>
@@ -49,7 +50,8 @@ export const validatorColumns: Record<
         <Text
           className="font-mono text-primary-500"
           as={Link}
-          href={withNetwork(`/cluster/${row.original.cluster}`)}
+          // eslint-disable-next-line react-hooks/rules-of-hooks
+          href={`/${useNetworkParam()}/cluster/${row.original.cluster}`}
         >
           <div>{shortenAddress(remove0x(row.original.cluster))}</div>
         </Text>
@@ -68,7 +70,8 @@ export const validatorColumns: Record<
         <Text
           className="font-mono text-primary-500"
           as={Link}
-          href={withNetwork(`/account/${row.original.owner_address}`)}
+          // eslint-disable-next-line react-hooks/rules-of-hooks
+          href={`/${useNetworkParam()}/account/${row.original.owner_address}`}
         >
           <div>{shortenAddress(row.original.owner_address)}</div>
         </Text>
@@ -92,7 +95,8 @@ export const validatorColumns: Record<
             content={<OperatorInfo operator={operator} />}
           >
             <Link
-              href={withNetwork(`/operator/${operator.id}`)}
+              // eslint-disable-next-line react-hooks/rules-of-hooks
+              href={`/${useNetworkParam()}/operator/${operator.id}`}
               key={operator.id}
             >
               <OperatorAvatar

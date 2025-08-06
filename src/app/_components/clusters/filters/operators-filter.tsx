@@ -33,7 +33,7 @@ export const OperatorsFilter: FC<OperatorsFilterProps> = ({
   const [open, setOpen] = useState(false)
   const [search, setSearch] = useState<string>("")
 
-  const { network } = useNetworkParam()
+  const network = useNetworkParam()
   const [operators, setOperators] = useQueryState(
     searchQueryKey,
     clustersSearchFilters.operators

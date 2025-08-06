@@ -29,7 +29,7 @@ export function NameFilter() {
   const [search, setSearch] = useState<string>("")
   const debouncedSearch = useDebounceValue(search, 500)
   const { filters, setFilters } = useOperatorsSearchParams()
-  const { network } = useNetworkParam()
+  const network = useNetworkParam()
 
   const query = useQuery({
     queryKey: ["operators", "names", search, network],

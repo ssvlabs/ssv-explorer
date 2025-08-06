@@ -8,7 +8,7 @@ import { MdOutlineLock } from "react-icons/md"
 
 import { type Operator } from "@/types/api"
 import { cn } from "@/lib/utils"
-import { withNetwork } from "@/lib/utils/link"
+import { useNetworkParam } from "@/hooks/app/useNetworkParam"
 import { Outline } from "@/components/ui/outline"
 import { Text } from "@/components/ui/text"
 import { OperatorAvatar } from "@/components/operators/operator-avatar"
@@ -51,7 +51,8 @@ export const OperatorCard: OperatorCardFC = ({
       <div className="flex items-center gap-[6px]">
         <Text
           as={Link}
-          href={withNetwork(`/operator/${operator.id}`)}
+          // eslint-disable-next-line react-hooks/rules-of-hooks
+          href={`/${useNetworkParam()}/operator/${operator.id}`}
           variant="body-3-medium"
           className="line-clamp-1 cursor-pointer"
         >
