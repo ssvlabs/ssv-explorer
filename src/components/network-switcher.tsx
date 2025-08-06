@@ -4,9 +4,8 @@ import type { ComponentPropsWithRef, FC } from "react"
 import { Check } from "lucide-react"
 import { FaChevronDown, FaEthereum } from "react-icons/fa"
 
-import { type ChainName } from "@/config/chains"
+import { chains, type ChainName } from "@/config/chains"
 import { cn } from "@/lib/utils"
-import { networks } from "@/lib/utils/ssv-network-details"
 import { useNetworkQuery } from "@/hooks/search/use-network-query"
 import { Button } from "@/components/ui/button"
 import {
@@ -27,7 +26,6 @@ export const NetworkSwitcher: FC<ComponentPropsWithRef<"button">> = ({
   ...props
 }) => {
   const { chain, query } = useNetworkQuery()
-  console.log("chain:", chain)
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -53,25 +51,23 @@ export const NetworkSwitcher: FC<ComponentPropsWithRef<"button">> = ({
         <Command tabIndex={1} className="outline-none">
           <CommandList id="network-switcher-command">
             <CommandEmpty>No results found</CommandEmpty>
-            {Object.values(networks).map((network) => (
+            {Object.values(chains).map((c) => (
               <CommandItem
                 defaultChecked
-                key={network.networkId}
+                key={c.chainId}
                 onSelect={() => {
-                  query.set(network.apiNetwork as ChainName)
+                  query.set(c.name as ChainName)
                 }}
                 className="flex items-center gap-2"
               >
                 <FaEthereum />
                 <Text variant="body-3-medium" className="capitalize">
-                  {network.apiNetwork}
+                  {c.name}
                 </Text>
                 <Check
                   className={cn(
                     "ml-auto mr-2 size-3",
-                    chain?.id === network.networkId
-                      ? "opacity-100"
-                      : "opacity-0"
+                    chain?.id === c.chainId ? "opacity-100" : "opacity-0"
                   )}
                 />
               </CommandItem>

@@ -5,9 +5,9 @@ import { type ColumnDef } from "@tanstack/react-table"
 import { formatDistanceToNowStrict } from "date-fns"
 
 import { type Operator } from "@/types/api"
-import { withNetwork } from "@/lib/utils/link"
 import { getYearlyFee } from "@/lib/utils/operator"
 import { shortenAddress } from "@/lib/utils/strings"
+import { useNetworkParam } from "@/hooks/app/useNetworkParam"
 import { Button } from "@/components/ui/button"
 import { CopyBtn } from "@/components/ui/copy-btn"
 import { Text } from "@/components/ui/text"
@@ -51,7 +51,8 @@ export const operatorColumns = {
         <div className="flex gap-1">
           <Button asChild variant="link">
             <Link
-              href={withNetwork(`/account/${ownerAddress}`)}
+              // eslint-disable-next-line react-hooks/rules-of-hooks
+              href={`/${useNetworkParam()}/account/${ownerAddress}`}
               className="font-mono"
             >
               {shortenAddress(ownerAddress)}

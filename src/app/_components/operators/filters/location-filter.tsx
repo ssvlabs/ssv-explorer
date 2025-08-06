@@ -25,7 +25,7 @@ export function LocationFilter() {
   const [open, setOpen] = useState(false)
   const [search, setSearch] = useState("")
   const { filters, setFilters } = useOperatorsSearchParams()
-  const { network } = useNetworkParam()
+  const network = useNetworkParam()
   const query = useQuery({
     queryKey: ["operators", "locations", network],
     queryFn: async () => getOperatorLocations(network),

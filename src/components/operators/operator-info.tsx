@@ -1,10 +1,12 @@
+"use client"
+
 import type { ComponentPropsWithoutRef, ComponentPropsWithRef, FC } from "react"
 import Link from "next/link"
 import { MdOutlineLock } from "react-icons/md"
 
 import { type Operator } from "@/types/api"
 import { cn } from "@/lib/utils"
-import { withNetwork } from "@/lib/utils/link"
+import { useNetworkParam } from "@/hooks/app/useNetworkParam"
 import { Button } from "@/components/ui/button"
 import { Text } from "@/components/ui/text"
 import { OperatorAvatar } from "@/components/operators/operator-avatar"
@@ -34,7 +36,10 @@ export const OperatorInfo: OperatorInfoFC = ({
       <div className="flex flex-col items-start">
         <div className="flex items-center gap-2">
           <Button asChild variant="link">
-            <Link href={withNetwork(`/operator/${operator.id}`)}>
+            <Link
+              // eslint-disable-next-line react-hooks/rules-of-hooks
+              href={`/${useNetworkParam()}/operator/${operator.id}`}
+            >
               {operator.name || `Operator ${operator.id}`}
             </Link>
           </Button>
