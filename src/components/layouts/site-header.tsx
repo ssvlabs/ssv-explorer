@@ -18,7 +18,7 @@ import { Link } from "@/components/nextjs/custom-link"
 export function SiteHeader() {
   const network = useNetworkParam()
   const pathname = usePathname()
-  const isOverview = pathname.startsWith("/overview")
+  const isOverview = pathname.includes(`/${network}/overview`)
   const { data: rates } = useSSVRates()
 
   return (
