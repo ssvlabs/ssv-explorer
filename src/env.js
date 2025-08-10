@@ -13,7 +13,7 @@ export const env = createEnv({
     SSV_NETWORKS: z
       .string()
       .default(
-        '[{"networkId":560048,"apiVersion":"v4","apiNetwork":"hoodi","api":"https://api.stage.ops.ssvlabsinternal.com/api","explorerUrl":"https://hoodi.explorer.ssv.network","insufficientBalanceUrl":"https://faucet.ssv.network","googleTagSecret":"GTM-K3GR7M5","tokenAddress":"0x9F5d4Ec84fC4785788aB44F9de973cF34F7A038e","setterContractAddress":"0x58410Bef803ECd7E63B23664C586A6DB72DAf59c","getterContractAddress":"0x5AdDb3f1529C5ec70D77400499eE4bbF328368fe"}]'
+        '[{"networkId":1,"apiVersion":"v4","apiNetwork":"mainnet","api":"https://api.ssv.network/api","explorerUrl":"https://explorer.ssv.network","insufficientBalanceUrl":"https://coinmarketcap.com/currencies/ssv-network/#Markets"},{"networkId":560048,"apiVersion":"v4","apiNetwork":"hoodi","api":"https://api.ssv.network/api","explorerUrl":"https://hoodi.explorer.ssv.network","insufficientBalanceUrl":"https://faucet.ssv.network"}]'
       ),
     SITE_URL: z
       .string()
@@ -31,7 +31,7 @@ export const env = createEnv({
     NEXT_PUBLIC_SSV_NETWORKS: z
       .string()
       .default(
-        '[{"networkId":560048,"apiVersion":"v4","apiNetwork":"hoodi","api":"https://api.stage.ops.ssvlabsinternal.com/api","explorerUrl":"https://hoodi.explorer.ssv.network","insufficientBalanceUrl":"https://faucet.ssv.network","googleTagSecret":"GTM-K3GR7M5","tokenAddress":"0x9F5d4Ec84fC4785788aB44F9de973cF34F7A038e","setterContractAddress":"0x58410Bef803ECd7E63B23664C586A6DB72DAf59c","getterContractAddress":"0x5AdDb3f1529C5ec70D77400499eE4bbF328368fe"}]'
+        '[{"networkId":1,"apiVersion":"v4","apiNetwork":"mainnet","api":"https://api.ssv.network/api","explorerUrl":"https://explorer.ssv.network","insufficientBalanceUrl":"https://coinmarketcap.com/currencies/ssv-network/#Markets"},{"networkId":560048,"apiVersion":"v4","apiNetwork":"hoodi","api":"https://api.ssv.network/api","explorerUrl":"https://hoodi.explorer.ssv.network","insufficientBalanceUrl":"https://faucet.ssv.network"}]'
       ),
   },
 
