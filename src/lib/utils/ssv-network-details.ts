@@ -42,5 +42,7 @@ Invalid network schema in SSV_NETWORKS environment variable:
 }
 
 export const getSSVNetworkDetails = (chainName?: ChainName) => {
-  return parsed.data.find((network) => network.apiNetwork === chainName)
+  return parsed.data.find(
+    (network) => network.apiNetwork === chainName?.toLowerCase()
+  )
 }

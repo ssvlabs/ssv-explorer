@@ -39,11 +39,11 @@ export const AccountEventsTable = withErrorBoundary(
       shallow: false,
       clearOnDefault: true,
       initialState: {
-        columnVisibility: eventsDefaultColumnVisibility,
+        columnVisibility: { ...eventsDefaultColumnVisibility },
       },
       meta: {
         total: pagination.total,
-        defaultColumns: eventsDefaultColumnVisibility,
+        defaultColumns: { ...eventsDefaultColumnVisibility },
       },
     })
 

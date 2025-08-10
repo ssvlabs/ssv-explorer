@@ -69,11 +69,9 @@ export interface OperatorMetadata {
 export const getOperator = async (
   params: { network: ChainName } & { id: number }
 ) => {
+  const url = endpoint(params.network, "operators", params.id)
   return await unstable_cache(
-    async () =>
-      api
-        .get<Operator>(endpoint(params.network, "operators", params.id))
-        .then(addFallbackOperatorName),
+    async () => api.get<Operator>(url).then(addFallbackOperatorName),
     [params.id.toString()],
     {
       revalidate: 30,

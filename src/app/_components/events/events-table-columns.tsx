@@ -71,3 +71,7 @@ export const eventsDefaultColumnVisibility: Partial<
   event: true,
   blockNumber: true,
 }
+
+export const createEventColumnVisibility = () => ({
+  ...eventsDefaultColumnVisibility,
+})

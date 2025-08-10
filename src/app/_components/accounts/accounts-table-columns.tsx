@@ -120,6 +120,7 @@ export const accountColumns = {
         </div>
       )
     },
+    enableSorting: false,
   },
 } satisfies Record<string, ColumnDefWithTitle<Account>>
 
@@ -139,4 +140,6 @@ export const accountsDefaultColumnVisibility: Partial<
   operator: true,
   cluster: true,
   validator: true,
+  effectiveBalance: false,
+  recipientAddress: false,
 }

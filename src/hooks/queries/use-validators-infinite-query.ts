@@ -2,7 +2,6 @@ import { searchValidators } from "@/api/validators"
 import { useInfiniteQuery } from "@tanstack/react-query"
 
 import { type PaginatedValidatorsResponse } from "@/types/api"
-import { type ChainName } from "@/config/chains"
 import { type ValidatorsSearchSchema } from "@/lib/search-parsers/validators-search-parsers"
 import { useNetworkQuery } from "@/hooks/search/use-network-query"
 
@@ -14,10 +13,10 @@ export const useValidatorsInfiniteQuery = (
   const { chain } = useNetworkQuery()
 
   return useInfiniteQuery({
-    queryKey: ["validators", params.search],
+    queryKey: ["validators", params.search, chain.chainId],
     queryFn: ({ pageParam = 1 }) =>
       searchValidators({
-        network: chain.name as ChainName,
+        network: chain.name,
         page: pageParam ?? 1,
         perPage: params.perPage,
         search: params.search,

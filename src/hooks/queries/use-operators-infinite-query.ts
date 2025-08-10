@@ -1,7 +1,6 @@
 import { searchOperators } from "@/api/operator"
 import { keepPreviousData, useInfiniteQuery } from "@tanstack/react-query"
 
-import { type ChainName } from "@/config/chains"
 import { type OperatorsSearchSchema } from "@/lib/search-parsers/operator-search-parsers"
 import { useNetworkQuery } from "@/hooks/search/use-network-query"
 
@@ -13,10 +12,10 @@ export const useOperatorsInfiniteQuery = (
   const { chain } = useNetworkQuery()
 
   return useInfiniteQuery({
-    queryKey: ["operators", params.search],
+    queryKey: ["operators", params.search, chain.chainId],
     queryFn: ({ pageParam = 1 }) =>
       searchOperators({
-        network: chain.name as ChainName,
+        network: chain.name,
         page: pageParam ?? 1,
         perPage: params.perPage,
         search: params.search,

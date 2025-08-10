@@ -199,17 +199,28 @@ export const operatorsTableColumns = [
   operatorColumns.createdAt,
 ] satisfies ColumnDef<Operator>[]
 
-export const operatorsDefaultColumnVisibility: Partial<
-  Record<keyof typeof operatorColumns, boolean>
-> = {
-  id: true,
-  name: true,
-  ownerAddress: true,
-  fee: true,
-  validatorsCount: true,
-  performance24h: true,
-  status: true,
-}
+export type OperatorColumnsAccessorKeys = keyof typeof operatorColumns
+
+export const operatorsTableDefaultColumnsKeys: OperatorColumnsAccessorKeys[] = [
+  "id",
+  "name",
+  "ownerAddress",
+  "fee",
+  "validatorsCount",
+  "performance24h",
+  "status",
+]
+
+export const operatorsDefaultColumnVisibility = Object.keys(
+  operatorColumns
+).reduce(
+  (acc, _key) => {
+    const key = _key as OperatorColumnsAccessorKeys
+    acc[key] = operatorsTableDefaultColumnsKeys.includes(key)
+    return acc
+  },
+  {} as Record<OperatorColumnsAccessorKeys, boolean>
+)
 
 export const overviewOperatorTableColumns = [
   operatorColumns.name,

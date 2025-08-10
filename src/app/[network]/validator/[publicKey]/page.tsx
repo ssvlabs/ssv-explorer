@@ -4,7 +4,7 @@ import { searchDuties } from "@/api/duties"
 import { getValidator } from "@/api/validators"
 import { type SearchParams } from "nuqs"
 
-import { type ChainName } from "@/config/chains"
+import { getNativeCurrency, type ChainName } from "@/config/chains"
 import {
   dutiesSearchParamsCache,
   type DutiesSearchSchema,
@@ -12,7 +12,6 @@ import {
 import { cn } from "@/lib/utils"
 import { formatGwei } from "@/lib/utils/number"
 import { shortenAddress } from "@/lib/utils/strings"
-import { getNativeCurrency } from "@/lib/utils/viem"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { CopyBtn } from "@/components/ui/copy-btn"

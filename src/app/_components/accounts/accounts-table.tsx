@@ -37,7 +37,7 @@ export const AccountsTable = withErrorBoundary(
       shallow: false,
       clearOnDefault: true,
       initialState: {
-        columnVisibility: accountsDefaultColumnVisibility,
+        columnVisibility: { ...accountsDefaultColumnVisibility },
       },
       meta: {
         total: pagination.total,

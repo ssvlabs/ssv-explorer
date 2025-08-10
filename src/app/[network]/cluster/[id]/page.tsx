@@ -4,7 +4,7 @@ import { getCluster } from "@/api/clusters"
 import { searchValidators } from "@/api/validators"
 import { type Hex } from "viem"
 
-import { type ChainName } from "@/config/chains"
+import { getNativeCurrency, type ChainName } from "@/config/chains"
 import {
   validatorsSearchParamsCache,
   type ValidatorsSearchSchema,
@@ -12,7 +12,6 @@ import {
 import { cn } from "@/lib/utils"
 import { formatSSV, numberFormatter } from "@/lib/utils/number"
 import { remove0x, shortenAddress } from "@/lib/utils/strings"
-import { getNativeCurrency } from "@/lib/utils/viem"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { CopyBtn } from "@/components/ui/copy-btn"

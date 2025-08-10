@@ -1,7 +1,9 @@
 import { useParams } from "next/navigation"
 
-import { type ChainName } from "@/config/chains"
+import { chainByName, supportedChains, type ChainName } from "@/config/chains"
 
 export const useNetworkParam = () => {
-  return useParams<{ network: ChainName }>().network ?? "mainnet"
+  const params = useParams<{ network: ChainName }>()
+  const chain = chainByName[params.network] ?? supportedChains[0]
+  return chain.name
 }

@@ -1,4 +1,4 @@
-import { getNativeCurrency } from "@/lib/utils/viem"
+import { getNativeCurrency } from "@/config/chains"
 
 import { useNetworkQuery } from "../search/use-network-query"
 

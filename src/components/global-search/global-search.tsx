@@ -5,6 +5,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
 import { shortenAddress } from "@/lib/utils/strings"
+import { useNetworkParam } from "@/hooks/app/useNetworkParam"
 import { useAsyncRoutePush } from "@/hooks/next/use-async-route-push"
 import { useClustersInfiniteQuery } from "@/hooks/queries/use-clusters-infinite-query"
 import { useOperatorsInfiniteQuery } from "@/hooks/queries/use-operators-infinite-query"
@@ -55,6 +56,7 @@ export const GlobalSearch: React.FC<Props> = ({ size, ...props }) => {
   const debouncedSearch = useDebounceValue(search, 500)
   const hasSearch = Boolean(search) && Boolean(debouncedSearch)
 
+  const network = useNetworkParam()
   const asyncRoutePush = useAsyncRoutePush()
 
   const operatorsQuery = useOperatorsInfiniteQuery({
@@ -98,9 +100,12 @@ export const GlobalSearch: React.FC<Props> = ({ size, ...props }) => {
   }
 
   const jumpToMatch = () => {
-    asyncRoutePush.mutate(`/${searchType.type}/${searchType.value}`, {
-      onSuccess: close,
-    })
+    asyncRoutePush.mutate(
+      `/${network}/${searchType.type}/${searchType.value}`,
+      {
+        onSuccess: close,
+      }
+    )
   }
 
   return (
@@ -166,7 +171,9 @@ export const GlobalSearch: React.FC<Props> = ({ size, ...props }) => {
                     query={operatorsQuery}
                     onSelect={(group, operator) => {
                       close()
-                      asyncRoutePush.mutate(`/operator/${operator.id}`)
+                      asyncRoutePush.mutate(
+                        `/${network}/operator/${operator.id}`
+                      )
                     }}
                   />
                   {validatorsQuery.data?.length && (
@@ -177,7 +184,7 @@ export const GlobalSearch: React.FC<Props> = ({ size, ...props }) => {
                         onSelect={(group, validator) => {
                           close()
                           asyncRoutePush.mutate(
-                            `/validator/${validator.public_key}`
+                            `/${network}/validator/${validator.public_key}`
                           )
                         }}
                       />

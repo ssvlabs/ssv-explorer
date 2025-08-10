@@ -14,7 +14,15 @@ import { OperatorsFilter } from "@/app/_components/clusters/filters/operators-fi
 import { StatusFilter } from "@/app/_components/clusters/filters/status-filter"
 import { HexFilter } from "@/app/_components/shared/filters/address-filter"
 
-export const ClusterTableFilters = () => {
+export type ClusterTableFiltersProps = {
+  hideClusterIdFilter?: boolean
+  hideOwnerAddressFilter?: boolean
+}
+
+export const ClusterTableFilters = ({
+  hideClusterIdFilter,
+  hideOwnerAddressFilter,
+}: ClusterTableFiltersProps) => {
   const { isFiltersOpen } = useTable()
   const { enabledFilters, clearFilters } = useClustersSearchParams()
 
@@ -30,18 +38,22 @@ export const ClusterTableFilters = () => {
         )}
         aria-hidden={!isFiltersOpen}
       >
-        <HexFilter<ClusterSearchFilterKeys>
-          name="Cluster ID"
-          searchQueryKey="clusterId"
-          invalidMessage="Invalid cluster ID"
-          parser={clustersSearchFilters.clusterId}
-        />
-        <HexFilter<ClusterSearchFilterKeys>
-          name="Owner Address"
-          searchQueryKey="ownerAddress"
-          invalidMessage="Invalid owner address"
-          parser={clustersSearchFilters.ownerAddress}
-        />
+        {!hideClusterIdFilter && (
+          <HexFilter<ClusterSearchFilterKeys>
+            name="Cluster ID"
+            searchQueryKey="cluster"
+            invalidMessage="Invalid cluster ID"
+            parser={clustersSearchFilters.cluster}
+          />
+        )}
+        {!hideOwnerAddressFilter && (
+          <HexFilter<ClusterSearchFilterKeys>
+            name="Owner Address"
+            searchQueryKey="ownerAddress"
+            invalidMessage="Invalid owner address"
+            parser={clustersSearchFilters.ownerAddress}
+          />
+        )}
         <StatusFilter />
         <IsLiquidatedFilter />
         <OperatorsFilter />

@@ -12,19 +12,22 @@ import { Text } from "@/components/ui/text"
 import { DataTable } from "@/components/data-table/data-table"
 import { DataTableMenuButton } from "@/components/data-table/data-table-filters-button"
 import { DataTableViewOptions } from "@/components/data-table/data-table-view-options"
-import { ClusterTableFilters } from "@/app/_components/clusters/cluster-table-filters"
+import {
+  ClusterTableFilters,
+  type ClusterTableFiltersProps,
+} from "@/app/_components/clusters/cluster-table-filters"
 
 import {
   clustersTableColumns,
   clustersTableDefaultColumns,
 } from "./clusters-table-columns"
 
-interface ClustersTableProps {
+interface ClustersTableProps extends ClusterTableFiltersProps {
   dataPromise: Promise<PaginatedClustersResponse<Operator[]>>
 }
 
 export const ClustersTable = withErrorBoundary(
-  ({ dataPromise: data }: ClustersTableProps) => {
+  ({ dataPromise: data, ...filters }: ClustersTableProps) => {
     const { clusters, pagination } = use(data)
 
     const { table } = useDataTable({
@@ -36,11 +39,11 @@ export const ClustersTable = withErrorBoundary(
       shallow: false,
       clearOnDefault: true,
       initialState: {
-        columnVisibility: clustersTableDefaultColumns,
+        columnVisibility: { ...clustersTableDefaultColumns },
       },
       meta: {
         total: pagination.total,
-        defaultColumns: clustersTableDefaultColumns,
+        defaultColumns: { ...clustersTableDefaultColumns },
       },
     })
 
@@ -55,7 +58,7 @@ export const ClustersTable = withErrorBoundary(
             <DataTableMenuButton enabledFilters={enabledFilters} />
             <DataTableViewOptions table={table} tableName="clusters" />
           </div>
-          <ClusterTableFilters />
+          <ClusterTableFilters {...filters} />
           <DataTable table={table} />
         </TableProvider>
       </>

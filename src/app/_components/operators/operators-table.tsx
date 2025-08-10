@@ -17,19 +17,22 @@ import { Text } from "@/components/ui/text"
 import { DataTable } from "@/components/data-table/data-table"
 import { DataTableMenuButton } from "@/components/data-table/data-table-filters-button"
 import { DataTableViewOptions } from "@/components/data-table/data-table-view-options"
-import { OperatorTableFilters } from "@/app/_components/operators/filters/operator-table-filters"
+import {
+  OperatorTableFilters,
+  type OperatorTableFiltersProps,
+} from "@/app/_components/operators/filters/operator-table-filters"
 
 import {
   operatorsDefaultColumnVisibility,
   operatorsTableColumns,
 } from "./operators-table-columns"
 
-interface OperatorsTableProps {
+interface OperatorsTableProps extends OperatorTableFiltersProps {
   dataPromise: Promise<OperatorsSearchResponse>
 }
 
 export const OperatorsTable = withErrorBoundary(
-  ({ dataPromise: data }: OperatorsTableProps) => {
+  ({ dataPromise: data, ...filters }: OperatorsTableProps) => {
     const { operators, pagination } = use(data)
 
     const { table } = useDataTable<Operator, OperatorSortingKeys>({
@@ -42,11 +45,11 @@ export const OperatorsTable = withErrorBoundary(
       clearOnDefault: true,
       initialState: {
         sorting: operatorSearchSort.ordering.defaultValue,
-        columnVisibility: operatorsDefaultColumnVisibility,
+        columnVisibility: { ...operatorsDefaultColumnVisibility },
       },
       meta: {
         total: pagination.total,
-        defaultColumns: operatorsDefaultColumnVisibility,
+        defaultColumns: { ...operatorsDefaultColumnVisibility },
       },
     })
 
@@ -61,7 +64,7 @@ export const OperatorsTable = withErrorBoundary(
             <DataTableMenuButton enabledFilters={enabledFilters} />
             <DataTableViewOptions table={table} tableName="operators" />
           </div>
-          <OperatorTableFilters />
+          <OperatorTableFilters {...filters} />
           <DataTable table={table} />
         </TableProvider>
       </>

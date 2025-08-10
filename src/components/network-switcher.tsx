@@ -4,7 +4,7 @@ import type { ComponentPropsWithRef, FC } from "react"
 import { Check } from "lucide-react"
 import { FaChevronDown, FaEthereum } from "react-icons/fa"
 
-import { chains, type ChainName } from "@/config/chains"
+import { supportedChains } from "@/config/chains"
 import { cn } from "@/lib/utils"
 import { useNetworkQuery } from "@/hooks/search/use-network-query"
 import { Button } from "@/components/ui/button"
@@ -25,8 +25,7 @@ export const NetworkSwitcher: FC<ComponentPropsWithRef<"button">> = ({
   className,
   ...props
 }) => {
-  const { chain, query } = useNetworkQuery()
-  console.log("chain:", chain)
+  const { chain: selectedChain, query } = useNetworkQuery()
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -41,7 +40,7 @@ export const NetworkSwitcher: FC<ComponentPropsWithRef<"button">> = ({
         >
           <div className="flex items-center gap-3">
             <FaEthereum className="size-4" />
-            <Text variant="body-3-medium">{chain?.name}</Text>
+            <Text variant="body-3-medium">{selectedChain?.name}</Text>
           </div>
           <div className="flex size-5 items-center justify-center">
             <FaChevronDown className="size-[10px]" />
@@ -52,23 +51,25 @@ export const NetworkSwitcher: FC<ComponentPropsWithRef<"button">> = ({
         <Command tabIndex={1} className="outline-none">
           <CommandList id="network-switcher-command">
             <CommandEmpty>No results found</CommandEmpty>
-            {Object.values(chains).map((c) => (
+            {supportedChains.map((supportedChain) => (
               <CommandItem
                 defaultChecked
-                key={c.chainId}
+                key={supportedChain.chainId}
                 onSelect={() => {
-                  query.set(c.name as ChainName)
+                  query.set(supportedChain.name)
                 }}
                 className="flex items-center gap-2"
               >
                 <FaEthereum />
                 <Text variant="body-3-medium" className="capitalize">
-                  {c.name}
+                  {supportedChain.name}
                 </Text>
                 <Check
                   className={cn(
                     "ml-auto mr-2 size-3",
-                    chain?.id === c.chainId ? "opacity-100" : "opacity-0"
+                    selectedChain?.chainId === supportedChain.chainId
+                      ? "opacity-100"
+                      : "opacity-0"
                   )}
                 />
               </CommandItem>

@@ -33,15 +33,17 @@ export const OperatorInfo: OperatorInfoFC = ({
   return (
     <div className={cn("flex items-center gap-2", className)} {...props}>
       <OperatorAvatar src={operator.logo} {...avatarProps} />
-      <div className="flex flex-col items-start">
-        <div className="flex items-center gap-2">
-          <Button asChild variant="link">
-            <Link
-              // eslint-disable-next-line react-hooks/rules-of-hooks
-              href={`/${useNetworkParam()}/operator/${operator.id}`}
-            >
+      <div className="flex min-w-0 flex-1 flex-col items-start">
+        <div className="flex min-w-0 flex-1 items-center gap-2">
+          <Button
+            as={Link}
+            variant="link"
+            href={`/${useNetworkParam()}/operator/${operator.id}`}
+            className="min-w-0 flex-1 text-left"
+          >
+            <Text className="block w-full truncate">
               {operator.name || `Operator ${operator.id}`}
-            </Link>
+            </Text>
           </Button>
           <div className="flex items-center gap-1">
             {operator.is_private && <MdOutlineLock className="size-[14px]" />}

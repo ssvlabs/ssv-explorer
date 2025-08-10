@@ -24,7 +24,13 @@ import { ValidatorsFilter } from "./validators-filter"
 import { VerifiedFilter } from "./verified-filter"
 import { IsPrivateFilter } from "./visibility-filter"
 
-export const OperatorTableFilters = () => {
+export type OperatorTableFiltersProps = {
+  hideOwnerAddressFilter?: boolean
+}
+
+export const OperatorTableFilters = ({
+  hideOwnerAddressFilter,
+}: OperatorTableFiltersProps) => {
   const { isFiltersOpen } = useTable()
   const { enabledFilters, clearFilters } = useOperatorsSearchParams()
 
@@ -42,12 +48,14 @@ export const OperatorTableFilters = () => {
       >
         <IdFilter />
         <NameFilter />
-        <HexFilter<OperatorSearchFilterKeys>
-          name="Owner Address"
-          searchQueryKey="ownerAddress"
-          invalidMessage="Invalid owner address"
-          parser={operatorSearchParsers.ownerAddress}
-        />
+        {!hideOwnerAddressFilter && (
+          <HexFilter<OperatorSearchFilterKeys>
+            name="Owner Address"
+            searchQueryKey="ownerAddress"
+            invalidMessage="Invalid owner address"
+            parser={operatorSearchParsers.ownerAddress}
+          />
+        )}
         <LocationFilter />
         <Eth1ClientFilter />
         <Eth2ClientFilter />

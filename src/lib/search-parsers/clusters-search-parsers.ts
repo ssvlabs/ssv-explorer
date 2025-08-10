@@ -19,7 +19,7 @@ import { getSortingStateParser, parseAsTuple } from "@/lib/utils/parsers"
 
 export const clustersSearchFilters = {
   search: parseAsString.withOptions(defaultSearchOptions),
-  clusterId: clustersParser,
+  cluster: clustersParser,
   ownerAddress: addressesParser,
   status: parseAsBoolean.withOptions(defaultSearchOptions),
   isLiquidated: parseAsBoolean.withOptions(defaultSearchOptions),

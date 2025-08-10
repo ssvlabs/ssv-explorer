@@ -4,13 +4,13 @@ import {
   formatDistanceToNowStrict,
 } from "date-fns"
 
-import { chains, type ChainID } from "@/config/chains"
+import { chainsById, type ChainID } from "@/config/chains"
 import { globals } from "@/config/globals"
 
 // Genesis timestamps for supported networks
 
 export function getBlockDate(blockNumber: number, chainId: ChainID = 1): Date {
-  const genesisTimestamp = chains[chainId].genesisTimestamp || 0
+  const genesisTimestamp = chainsById[chainId].genesisTimestamp || 0
 
   const secondsPerBlock = 86400 / Number(globals.BLOCKS_PER_DAY)
 

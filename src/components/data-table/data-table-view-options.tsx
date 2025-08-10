@@ -44,8 +44,9 @@ export function DataTableViewOptions<TData>({
   })
 
   const resetColumns = () => {
-    if (!table.options.meta || !("defaultColumns" in table.options.meta))
+    if (!table.options.meta || !("defaultColumns" in table.options.meta)) {
       return columns.forEach((column) => column.toggleVisibility(true))
+    }
 
     const defaultColumns = table.options.meta.defaultColumns as Record<
       string,

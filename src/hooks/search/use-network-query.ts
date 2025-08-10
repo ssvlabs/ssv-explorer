@@ -2,9 +2,8 @@
 
 import { usePathname, useRouter } from "next/navigation"
 
-import { type ChainName } from "@/config/chains"
+import { chainByName, type ChainName } from "@/config/chains"
 import { networkRegex } from "@/lib/utils/link"
-import { chainByName } from "@/lib/utils/viem"
 import { useNetworkParam } from "@/hooks/app/useNetworkParam"
 
 const whitelistedRoutesRegex = new RegExp(
