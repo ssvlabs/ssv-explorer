@@ -8,6 +8,7 @@ export const defaultNativeCurrency = {
 
 const mainnet = {
   name: "mainnet",
+  displayName: "Ethereum",
   testnet: false,
   chainId: 1,
   genesisTimestamp: 1438269973000,
@@ -16,6 +17,7 @@ const mainnet = {
 
 const hoodi = {
   name: "hoodi",
+  displayName: "Hoodi",
   testnet: true,
   chainId: 560048,
   genesisTimestamp: 1742213400000,

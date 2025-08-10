@@ -40,7 +40,7 @@ export const NetworkSwitcher: FC<ComponentPropsWithRef<"button">> = ({
         >
           <div className="flex items-center gap-3">
             <FaEthereum className="size-4" />
-            <Text variant="body-3-medium">{selectedChain?.name}</Text>
+            <Text variant="body-3-medium">{selectedChain?.displayName}</Text>
           </div>
           <div className="flex size-5 items-center justify-center">
             <FaChevronDown className="size-[10px]" />
@@ -62,7 +62,7 @@ export const NetworkSwitcher: FC<ComponentPropsWithRef<"button">> = ({
               >
                 <FaEthereum />
                 <Text variant="body-3-medium" className="capitalize">
-                  {supportedChain.name}
+                  {supportedChain.displayName}
                 </Text>
                 <Check
                   className={cn(

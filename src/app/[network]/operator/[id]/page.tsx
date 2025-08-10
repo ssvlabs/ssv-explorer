@@ -35,7 +35,9 @@ export async function generateMetadata(
   const operator = await getOperator({
     network,
     id: +id,
-  })
+  }).catch(() => null)
+
+  if (!operator) return {}
 
   const params = {
     id,
