@@ -8,6 +8,8 @@
     "build": "next build",
     "docker-build": "SKIP_ENV_VALIDATION=true next build",
     "dev": "next dev --turbopack",
+    "dev:stage": "dotenv -e .env.stage -- next dev --turbopack",
+    "dev:prod": "dotenv -e .env.production -- next dev --turbopack",
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "next lint --fix",

@@ -13,7 +13,7 @@ export const env = createEnv({
     SSV_NETWORKS: z
       .string()
       .default(
-        '[{"networkId":1,"apiVersion":"v4","apiNetwork":"mainnet","api":"https://api.ssv.network/api","explorerUrl":"https://explorer.ssv.network","insufficientBalanceUrl":"https://coinmarketcap.com/currencies/ssv-network/#Markets"},{"networkId":560048,"apiVersion":"v4","apiNetwork":"hoodi","api":"https://api.ssv.network/api","explorerUrl":"https://hoodi.explorer.ssv.network","insufficientBalanceUrl":"https://faucet.ssv.network"}]'
+        '[{"networkId":560048,"apiVersion":"v4","apiNetwork":"hoodi","api":"https://api.stage.ops.ssvlabsinternal.com/api","explorerUrl":"https://hoodi.explorer.ssv.network","insufficientBalanceUrl":"https://faucet.ssv.network"}]'
       ),
     SITE_URL: z
       .string()
@@ -31,7 +31,7 @@ export const env = createEnv({
     NEXT_PUBLIC_SSV_NETWORKS: z
       .string()
       .default(
-        '[{"networkId":1,"apiVersion":"v4","apiNetwork":"mainnet","api":"https://api.ssv.network/api","explorerUrl":"https://explorer.ssv.network","insufficientBalanceUrl":"https://coinmarketcap.com/currencies/ssv-network/#Markets"},{"networkId":560048,"apiVersion":"v4","apiNetwork":"hoodi","api":"https://api.ssv.network/api","explorerUrl":"https://hoodi.explorer.ssv.network","insufficientBalanceUrl":"https://faucet.ssv.network"}]'
+        '[{"networkId":560048,"apiVersion":"v4","apiNetwork":"hoodi","api":"https://api.stage.ops.ssvlabsinternal.com/api","explorerUrl":"https://hoodi.explorer.ssv.network","insufficientBalanceUrl":"https://faucet.ssv.network"}]'
       ),
   },
 

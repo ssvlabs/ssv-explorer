@@ -41,7 +41,7 @@ export const OperatorInfo: OperatorInfoFC = ({
             href={`/${useNetworkParam()}/operator/${operator.id}`}
             className="min-w-0 flex-1 text-left"
           >
-            <Text className="block w-full truncate">
+            <Text className="block w-full max-w-[110px] truncate">
               {operator.name || `Operator ${operator.id}`}
             </Text>
           </Button>
