@@ -137,7 +137,13 @@ export default async function Page(props: IndexPageProps) {
         ))}
       </div>
       <Card>
-        <ValidatorsTable dataPromise={validators} hideClusterIdFilter />
+        <ValidatorsTable
+          dataPromise={validators}
+          columns={["publicKey", "status"]}
+          hideOperatorsFilter
+          hideOwnerAddressFilter
+          hideClusterIdFilter
+        />
       </Card>
     </Shell>
   )

@@ -16,8 +16,15 @@ import { ValidatorStatusBadge } from "@/components/validators/validator-status-b
 
 import type { ColumnDefWithTitle } from "../utils/column-titles"
 
+export type ValidatorTableColumnAccessorKey =
+  | "publicKey"
+  | "cluster"
+  | "ownerAddress"
+  | "operators"
+  | "status"
+
 export const validatorColumns: Record<
-  "publicKey" | "cluster" | "ownerAddress" | "operators" | "status",
+  ValidatorTableColumnAccessorKey,
   ColumnDefWithTitle<SearchValidator<Operator>>
 > = {
   publicKey: {
@@ -113,10 +120,16 @@ export const validatorColumns: Record<
   status: {
     accessorKey: "status",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Status" />
+      <DataTableColumnHeader
+        column={column}
+        title="Status"
+        className="justify-end text-right"
+      />
     ),
     cell: ({ row }) => (
-      <ValidatorStatusBadge size="sm" status={row.original.status} />
+      <div className="flex justify-end">
+        <ValidatorStatusBadge size="sm" status={row.original.status} />
+      </div>
     ),
     enableSorting: false,
   },
