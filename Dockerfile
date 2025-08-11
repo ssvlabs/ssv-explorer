@@ -1,5 +1,11 @@
 # Use an official Node.js runtime as a base image
-FROM node:20.10-alpine
+FROM node:24-alpine
+
+# Define build argument with a default value
+ARG MODE=stage
+
+# Optional: Set an ENV if you want it at runtime too
+ENV MODE=${MODE}
 
 # Set working directory
 WORKDIR /usr/app
@@ -14,9 +20,11 @@ COPY ./package*.json ./pnpm-lock.yaml ./
 # Install dependencies
 RUN pnpm install
 
+
+
 # Copy all files
 COPY ./ ./
-COPY .env.example .env
+COPY .env.${MODE} .env
 
 # Build app
 RUN pnpm docker-build

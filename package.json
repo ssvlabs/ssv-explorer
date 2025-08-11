@@ -6,11 +6,13 @@
   "scripts": {
     "clean": "rimraf --glob **/node_modules **/dist **/.next **/.tsbuildinfo",
     "build": "next build",
+    "build:stage": "dotenv -e .env.stage -- next build",
     "docker-build": "SKIP_ENV_VALIDATION=true next build",
     "dev": "next dev --turbopack",
     "dev:stage": "dotenv -e .env.stage -- next dev --turbopack",
     "dev:prod": "dotenv -e .env.production -- next dev --turbopack",
     "start": "next start",
+    "start:stage": "dotenv -e .env.production -- next start",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "typecheck": "tsc --noEmit",

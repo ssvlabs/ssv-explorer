@@ -1,9 +1,11 @@
+"use client"
+
 import { useParams } from "next/navigation"
 
-import { chainByName, supportedChains, type ChainName } from "@/config/chains"
+import { type ChainName } from "@/config/chains"
+import { extractNetworkParam } from "@/lib/server-utils/network-param"
 
 export const useNetworkParam = () => {
   const params = useParams<{ network: ChainName }>()
-  const chain = chainByName[params.network] ?? supportedChains[0]
-  return chain.name
+  return extractNetworkParam(params)
 }
