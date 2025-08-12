@@ -25,20 +25,28 @@ import {
 import {
   operatorsDefaultColumnVisibility,
   operatorsTableColumns,
+  type OperatorColumnsAccessorKeys,
 } from "./operators-table-columns"
 
 interface OperatorsTableProps extends OperatorTableFiltersProps {
   dataPromise: Promise<OperatorsSearchResponse>
+  hideColumns?: OperatorColumnsAccessorKeys[]
 }
 
 export const OperatorsTable = withErrorBoundary(
-  ({ dataPromise: data, ...filters }: OperatorsTableProps) => {
+  ({ dataPromise: data, hideColumns, ...filters }: OperatorsTableProps) => {
     const { operators, pagination } = use(data)
+
+    const visibleColumns = hideColumns
+      ? operatorsTableColumns.filter(
+          (column) => !hideColumns.includes(column.accessorKey)
+        )
+      : operatorsTableColumns
 
     const { table } = useDataTable<Operator, OperatorSortingKeys>({
       name: "operators-table",
       data: operators,
-      columns: operatorsTableColumns,
+      columns: visibleColumns,
       pageCount: pagination.pages,
       getRowId: (originalRow, index) => `${originalRow.id}-${index}`,
       shallow: false,
