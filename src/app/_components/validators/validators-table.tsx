@@ -1,6 +1,6 @@
 "use client"
 
-import { use } from "react"
+import { use, useMemo } from "react"
 import { TableProvider } from "@/context/table-context"
 import { withErrorBoundary } from "react-error-boundary"
 
@@ -18,20 +18,34 @@ import {
   type ValidatorTableFiltersProps,
 } from "@/app/_components/validators/validator-table-filters"
 
-import { validatorsTableColumns } from "./validators-table-columns"
+import {
+  validatorsTableColumns,
+  type ValidatorTableColumnAccessorKey,
+} from "./validators-table-columns"
 
 type ValidatorsTableProps = {
   dataPromise: Promise<PaginatedValidatorsResponse<Operator>>
+  columns?: ValidatorTableColumnAccessorKey[]
 } & ValidatorTableFiltersProps
 
 export const ValidatorsTable = withErrorBoundary(
-  ({ dataPromise: data, ...filterProps }: ValidatorsTableProps) => {
+  ({ dataPromise: data, columns, ...filterProps }: ValidatorsTableProps) => {
     const response = use(data)
+    // TODO: fix this
+    const cols = useMemo(
+      () =>
+        (columns
+          ? columns.map((column) =>
+              validatorsTableColumns.find((c) => c.accessorKey === column)
+            )
+          : validatorsTableColumns) as typeof validatorsTableColumns,
+      [columns]
+    )
 
     const { table } = useDataTable({
       name: "validators-table",
       data: response.validators,
-      columns: validatorsTableColumns,
+      columns: cols,
       pageCount: response.pagination.pages,
       getRowId: (originalRow, index) => `${originalRow.id}-${index}`,
       shallow: false,

@@ -159,11 +159,19 @@ export const operatorColumns = {
   status: {
     accessorKey: "status",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Status" />
+      <DataTableColumnHeader
+        column={column}
+        title="Status"
+        className="justify-end text-right"
+      />
     ),
     cell: ({ row }) => {
       const status = row.original.status
-      return <OperatorStatusBadge size="sm" status={status} />
+      return (
+        <div className="flex justify-end">
+          <OperatorStatusBadge size="sm" status={status} />
+        </div>
+      )
     },
   },
   createdAt: {
