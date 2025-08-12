@@ -57,7 +57,7 @@ export default async function AccountLayout({
           </div>
           <AccountStats ownerAddress={address} />
         </Card>
-        <Card className="container">
+        <Card className="">
           <TableNavigation ownerAddress={address} />
           {children}
         </Card>
