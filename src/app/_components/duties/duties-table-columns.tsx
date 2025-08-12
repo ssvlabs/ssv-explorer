@@ -74,12 +74,12 @@ export const dutiesTableColumns: ColumnDef<DutyElement>[] = [
     ),
     enableSorting: false,
   },
-  {
-    accessorKey: "sequence",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Sequence" />
-    ),
-    cell: ({ row }) => <div>{row.original.sequence}</div>,
-    enableSorting: false,
-  },
+  // {
+  //   accessorKey: "sequence",
+  //   header: ({ column }) => (
+  //     <DataTableColumnHeader column={column} title="Sequence" />
+  //   ),
+  //   cell: ({ row }) => <div>{row.original.sequence}</div>,
+  //   enableSorting: false,
+  // },
 ]
