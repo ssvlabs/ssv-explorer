@@ -20,20 +20,28 @@ import {
 import {
   clustersTableColumns,
   clustersTableDefaultColumns,
+  type ClusterColumnsAccessorKeys,
 } from "./clusters-table-columns"
 
 interface ClustersTableProps extends ClusterTableFiltersProps {
   dataPromise: Promise<PaginatedClustersResponse<Operator[]>>
+  hideColumns?: ClusterColumnsAccessorKeys[]
 }
 
 export const ClustersTable = withErrorBoundary(
-  ({ dataPromise: data, ...filters }: ClustersTableProps) => {
+  ({ dataPromise: data, hideColumns, ...filters }: ClustersTableProps) => {
     const { clusters, pagination } = use(data)
+
+    const visibleColumns = hideColumns
+      ? clustersTableColumns.filter(
+          (column) => !hideColumns.includes(column.accessorKey)
+        )
+      : clustersTableColumns
 
     const { table } = useDataTable({
       name: "clusters",
       data: clusters,
-      columns: clustersTableColumns,
+      columns: visibleColumns,
       pageCount: pagination.pages,
       getRowId: (originalRow, index) => `${originalRow.clusterId}-${index}`,
       shallow: false,

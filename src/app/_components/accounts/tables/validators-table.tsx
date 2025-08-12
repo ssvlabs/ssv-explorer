@@ -18,20 +18,33 @@ import {
   type ValidatorTableFiltersProps,
 } from "@/app/_components/validators/validator-table-filters"
 
-import { validatorsTableColumns } from "../../validators/validators-table-columns"
+import {
+  validatorsTableColumns,
+  type ValidatorTableColumnAccessorKey,
+} from "../../validators/validators-table-columns"
 
 type ValidatorsTableProps = {
   dataPromise: Promise<PaginatedValidatorsResponse<Operator>>
+  hideColumns?: ValidatorTableColumnAccessorKey[]
 } & ValidatorTableFiltersProps
 
 export const ValidatorsTable = withErrorBoundary(
-  ({ dataPromise: data, ...filterProps }: ValidatorsTableProps) => {
+  ({
+    dataPromise: data,
+    hideColumns,
+    ...filterProps
+  }: ValidatorsTableProps) => {
     const response = use(data)
 
+    const visibleColumns = hideColumns
+      ? validatorsTableColumns.filter(
+          (column) => !hideColumns.includes(column.accessorKey)
+        )
+      : validatorsTableColumns
     const { table } = useDataTable({
       name: "validators-table",
       data: response.validators,
-      columns: validatorsTableColumns,
+      columns: visibleColumns,
       pageCount: response.pagination.pages,
       getRowId: (originalRow, index) => `${originalRow.id}-${index}`,
       shallow: false,

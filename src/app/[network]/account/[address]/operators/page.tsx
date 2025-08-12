@@ -22,5 +22,11 @@ export default async function IndexPage({
     ownerAddress: [address],
     network: network,
   })
-  return <OperatorsTable dataPromise={operators} hideOwnerAddressFilter />
+  return (
+    <OperatorsTable
+      dataPromise={operators}
+      hideOwnerAddressFilter
+      hideColumns={["ownerAddress"]}
+    />
+  )
 }

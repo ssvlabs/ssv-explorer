@@ -23,5 +23,11 @@ export default async function IndexPage({
     ownerAddress: [address],
     network: network,
   })
-  return <ClustersTable dataPromise={clusters} hideOwnerAddressFilter />
+  return (
+    <ClustersTable
+      dataPromise={clusters}
+      hideOwnerAddressFilter
+      hideColumns={["ownerAddress"]}
+    />
+  )
 }

@@ -38,5 +38,11 @@ export default async function IndexPage({
     ownerAddress: [address],
     network: network,
   })
-  return <ValidatorsTable dataPromise={validators} hideOwnerAddressFilter />
+  return (
+    <ValidatorsTable
+      dataPromise={validators}
+      hideOwnerAddressFilter
+      hideColumns={["ownerAddress"]}
+    />
+  )
 }
