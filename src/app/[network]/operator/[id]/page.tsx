@@ -7,6 +7,7 @@ import { MdOutlineLock } from "react-icons/md"
 import { type ChainName } from "@/config/chains"
 import { validatorsSearchParamsCache } from "@/lib/search-parsers/validators-search-parsers"
 import { cn } from "@/lib/utils"
+import { sortNumbers } from "@/lib/utils/number"
 import { shortenAddress } from "@/lib/utils/strings"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
@@ -74,12 +75,18 @@ export async function generateMetadata(
 
 export default async function Page(props: IndexPageProps) {
   const { id, network } = await props.params
+
   const validatorsSearch = validatorsSearchParamsCache.parse(
     await props.searchParams
   )
+
+  const operatorIds = sortNumbers([
+    ...new Set([+id, ...(validatorsSearch.operator || [])]),
+  ])
+
   const validators = searchValidators({
     ...validatorsSearch,
-    operator: [+id],
+    operator: operatorIds,
     network,
   })
 
