@@ -7,7 +7,6 @@ import { MdOutlineLock } from "react-icons/md"
 import { type ChainName } from "@/config/chains"
 import { validatorsSearchParamsCache } from "@/lib/search-parsers/validators-search-parsers"
 import { cn } from "@/lib/utils"
-import { sortNumbers } from "@/lib/utils/number"
 import { shortenAddress } from "@/lib/utils/strings"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
@@ -80,13 +79,9 @@ export default async function Page(props: IndexPageProps) {
     await props.searchParams
   )
 
-  const operatorIds = sortNumbers([
-    ...new Set([+id, ...(validatorsSearch.operator || [])]),
-  ])
-
   const validators = searchValidators({
     ...validatorsSearch,
-    operator: operatorIds,
+    operator: [+id],
     network,
   })
 
@@ -212,7 +207,7 @@ export default async function Page(props: IndexPageProps) {
                 </div>
               </Card>
               <Card>
-                <ValidatorsTable dataPromise={validators} />
+                <ValidatorsTable dataPromise={validators} hideOperatorsFilter />
               </Card>
             </div>
           )
