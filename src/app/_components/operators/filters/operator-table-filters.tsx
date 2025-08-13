@@ -1,0 +1,87 @@
+import { useTable } from "@/context/table-context"
+import { Collapse } from "react-collapse"
+
+import {
+  operatorSearchParsers,
+  type OperatorSearchFilterKeys,
+} from "@/lib/search-parsers/operator-search-parsers"
+import { cn } from "@/lib/utils"
+import { useOperatorsSearchParams } from "@/hooks/search/use-custom-search-params"
+import { Button } from "@/components/ui/button"
+import { textVariants } from "@/components/ui/text"
+import { MevRelaysFilter } from "@/app/_components/operators/filters/mev-relays-filter"
+import { HexFilter } from "@/app/_components/shared/filters/address-filter"
+
+import { Eth1ClientFilter } from "./eth1-client-filter"
+import { Eth2ClientFilter } from "./eth2-client-filter"
+import { FeeFilter } from "./fee-filter"
+import { IdFilter } from "./id-filter"
+import { LocationFilter } from "./location-filter"
+import { NameFilter } from "./name-filter"
+import { Performance24hFilter } from "./performance-24h-filter"
+import { Performance30dFilter } from "./performance-30d-filter"
+import { ValidatorsFilter } from "./validators-filter"
+import { VerifiedFilter } from "./verified-filter"
+import { IsPrivateFilter } from "./visibility-filter"
+
+export type OperatorTableFiltersProps = {
+  hideOwnerAddressFilter?: boolean
+}
+
+export const OperatorTableFilters = ({
+  hideOwnerAddressFilter,
+}: OperatorTableFiltersProps) => {
+  const { isFiltersOpen } = useTable()
+  const { enabledFilters, clearFilters } = useOperatorsSearchParams()
+
+  return (
+    <Collapse isOpened={isFiltersOpen}>
+      <div
+        className={cn(
+          "flex flex-wrap items-center gap-2 overflow-hidden border-t border-gray-300 py-2 transition-opacity duration-300",
+          {
+            "opacity-100": isFiltersOpen,
+            "invisible opacity-0": !isFiltersOpen,
+          }
+        )}
+        aria-hidden={!isFiltersOpen}
+      >
+        <IdFilter />
+        <NameFilter />
+        {!hideOwnerAddressFilter && (
+          <HexFilter<OperatorSearchFilterKeys>
+            name="Owner Address"
+            searchQueryKey="ownerAddress"
+            invalidMessage="Invalid owner address"
+            parser={operatorSearchParsers.ownerAddress}
+          />
+        )}
+        <LocationFilter />
+        <Eth1ClientFilter />
+        <Eth2ClientFilter />
+        <FeeFilter />
+        <MevRelaysFilter />
+        <ValidatorsFilter />
+        {/* <ManagedEthFilter /> */}
+        <Performance24hFilter />
+        <Performance30dFilter />
+        {/* <StatusFilter /> */}
+        <VerifiedFilter />
+        <IsPrivateFilter />
+        {enabledFilters.count > 0 && (
+          <Button
+            variant="ghost"
+            name="Clear"
+            className={textVariants({
+              variant: "body-3-medium",
+              className: "text-primary-500",
+            })}
+            onClick={clearFilters}
+          >
+            Clear All
+          </Button>
+        )}
+      </div>
+    </Collapse>
+  )
+}
