@@ -36,7 +36,7 @@ export const OperatorMetaData: OperatorMetaDataFC = ({
         width: "100%",
       }}
     >
-      <div className="flex w-full items-start justify-between rounded-xl bg-gray-200 p-2">
+      <div className="flex w-full flex-col items-start justify-between rounded-xl bg-gray-200 p-2 md:flex-row">
         <div className="flex flex-col gap-5">
           <div className="flex flex-col gap-2">
             <div className="flex flex-wrap gap-2">
@@ -129,7 +129,7 @@ export const OperatorMetaData: OperatorMetaDataFC = ({
         </div>
         <Button
           variant="ghost"
-          className="h-6 min-h-0 text-primary-500 hover:bg-transparent"
+          className="mx-auto h-10 min-h-0 text-primary-500 hover:bg-transparent md:mx-0 md:h-6"
           onClick={() => setShouldShowMore(!shouldShowMore)}
         >
           <Text variant="body-3-medium">

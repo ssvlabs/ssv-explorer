@@ -97,72 +97,64 @@ export default async function Page(props: IndexPageProps) {
           return (
             <div className="flex flex-col gap-6">
               <Card>
-                <div className="flex gap-[14px]">
+                <div className="grid max-w-full grid-cols-[auto_1fr] gap-[14px] gap-y-3">
                   <OperatorAvatar
                     size="xl"
+                    className="md:row-start-1 md:row-end-3"
                     variant="unstyled"
                     src={operator.logo}
                   />
-                  <div className="flex w-full flex-col gap-[12px]">
-                    <div className="flex items-center gap-2">
-                      <Text variant="headline4">{operator.name}</Text>
-                      <div className="flex items-center gap-[6px]">
-                        {operator.is_private && (
-                          <MdOutlineLock className="size-[18px] min-w-[18px]" />
-                        )}
-                        {operator.type === "verified_operator" && (
-                          <VerifiedOperatorBadge size={18} />
-                        )}
-                      </div>
+                  <div className="col-start-2 flex items-center gap-2">
+                    <Text variant="headline4" className="whitespace-normal">
+                      {operator.name}
+                    </Text>
+                    <div className="flex items-center gap-[6px]">
+                      {operator.is_private && (
+                        <MdOutlineLock className="size-[18px] min-w-[18px]" />
+                      )}
+                      {operator.type === "verified_operator" && (
+                        <VerifiedOperatorBadge size={18} />
+                      )}
                     </div>
-                    <div className="flex gap-1">
-                      <Outline>
-                        <Text
-                          variant="caption-medium"
-                          className="text-gray-500"
-                        >
-                          ID:
-                        </Text>
-                        <Text variant="body-3-medium">{operator.id}</Text>
-                      </Outline>
-                      <Outline>
-                        <Text
-                          variant="caption-medium"
-                          className="text-gray-500"
-                        >
-                          Owner:
-                        </Text>
-                        <Button
-                          as={Link}
-                          className="font-mono text-sm font-medium"
-                          href={`/${network}/account/${operator.owner_address}`}
-                          variant="link"
-                        >
-                          {shortenAddress(operator.owner_address)}
-                        </Button>
-                        <CopyBtn text={operator.owner_address} />
-                      </Outline>
-                      <Outline>
-                        <Text
-                          variant="caption-medium"
-                          className="text-gray-500"
-                        >
-                          Public Key:
-                        </Text>
-                        <Text
-                          variant="body-3-medium"
-                          className="max-w-28 overflow-hidden text-ellipsis font-mono"
-                        >
-                          {operator.public_key}
-                        </Text>
-                        <CopyBtn text={operator.public_key} />
-                      </Outline>
-                    </div>
+                  </div>
+                  <div className="col-start-1 col-end-3 flex flex-wrap gap-1 md:col-start-2">
+                    <Outline>
+                      <Text variant="caption-medium" className="text-gray-500">
+                        ID:
+                      </Text>
+                      <Text variant="body-3-medium">{operator.id}</Text>
+                    </Outline>
+                    <Outline>
+                      <Text variant="caption-medium" className="text-gray-500">
+                        Owner:
+                      </Text>
+                      <Button
+                        as={Link}
+                        className="font-mono text-sm font-medium"
+                        href={`/${network}/account/${operator.owner_address}`}
+                        variant="link"
+                      >
+                        {shortenAddress(operator.owner_address)}
+                      </Button>
+                      <CopyBtn text={operator.owner_address} />
+                    </Outline>
+                    <Outline>
+                      <Text variant="caption-medium" className="text-gray-500">
+                        Public Key:
+                      </Text>
+                      <Text
+                        variant="body-3-medium"
+                        className="max-w-28 overflow-hidden text-ellipsis font-mono"
+                      >
+                        {operator.public_key}
+                      </Text>
+                      <CopyBtn text={operator.public_key} />
+                    </Outline>
                   </div>
                 </div>
                 <OperatorMetaData operator={operator} />
 
-                <div className="flex items-center gap-6 align-sub">
+                <div className="flex flex-col gap-2 align-sub md:flex-row md:items-center md:gap-6">
                   <Stat
                     className="flex-1"
                     title="Status"

@@ -21,7 +21,7 @@ import { BeaconchainBtn } from "@/components/ui/ssv-explorer-btn"
 import { Stat } from "@/components/ui/stat"
 import { Text } from "@/components/ui/text"
 import { validatorRegex } from "@/components/global-search/search-input-parser"
-import { OperatorCard } from "@/components/operators/operator-card"
+import { OperatorsList } from "@/components/operators/operators-list"
 import { Shell } from "@/components/shell"
 import { DutiesTable } from "@/app/_components/duties/duties-table"
 
@@ -82,7 +82,7 @@ export default async function Page(props: IndexPageProps) {
     <Shell className="gap-6">
       <Card>
         <Text variant="headline4">Validator</Text>
-        <div className="flex gap-1">
+        <div className="flex flex-wrap gap-1">
           <Outline>
             <Text variant="caption-medium" className="text-gray-500">
               Public Key:
@@ -144,15 +144,8 @@ export default async function Page(props: IndexPageProps) {
         </div>
       </Card>
 
-      <div
-        className={cn("flex flex-wrap justify-center gap-6 [&>*]:min-w-32", {
-          "[&>*]:flex-1": validator.operators.length < 8,
-        })}
-      >
-        {validator.operators.map((operator) => (
-          <OperatorCard key={operator.id} operator={operator} />
-        ))}
-      </div>
+      <OperatorsList operators={validator.operators} />
+
       <Card>
         <DutiesTable dataPromise={duties} />
       </Card>

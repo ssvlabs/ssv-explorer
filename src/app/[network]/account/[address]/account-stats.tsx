@@ -28,7 +28,10 @@ export const AccountStats: AccountStatsFC = ({
   const nativeCurrency = useNativeCurrency()
   return (
     <div
-      className={cn("flex items-center gap-6 align-sub", className)}
+      className={cn(
+        "flex flex-col gap-2 align-sub md:flex-row md:items-center md:gap-6",
+        className
+      )}
       {...props}
     >
       <Stat

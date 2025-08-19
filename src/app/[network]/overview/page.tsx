@@ -47,7 +47,7 @@ export default async function Page(props: IndexPageProps) {
     <Shell className="gap-6">
       <Text variant="headline4">Discover the SSV Network</Text>
       <GlobalSearch size="lg" />
-      <Card className="flex flex-row">
+      <Card className="hidden flex-row sm:flex">
         <Stat
           className="flex-1"
           title="Validators"
@@ -67,7 +67,33 @@ export default async function Page(props: IndexPageProps) {
           content={`${numberFormatter.format(totalStakedEth)} ${nativeCurrency.symbol}`}
         />
       </Card>
-      <div className="flex max-w-full gap-6 overflow-hidden">
+      <div className="flex flex-col gap-3 sm:hidden">
+        <Card>
+          <Stat
+            className="flex-1"
+            title="Validators"
+            tooltip="Total number of validators registered on the SSV Network"
+            content={numberFormatter.format(totalValidators)}
+          />
+        </Card>
+        <Card>
+          <Stat
+            className="flex-1"
+            title="Operators"
+            tooltip="Total number of node operators running validators on the SSV Network"
+            content={numberFormatter.format(totalOperators)}
+          />
+        </Card>
+        <Card>
+          <Stat
+            className="flex-1"
+            title={`${nativeCurrency.symbol} Staked`}
+            tooltip={`Total amount of ${nativeCurrency.symbol} staked across all validators on the network`}
+            content={`${numberFormatter.format(totalStakedEth)} ${nativeCurrency.symbol}`}
+          />
+        </Card>
+      </div>
+      <div className="flex max-w-full flex-col gap-6 overflow-hidden md:flex-row">
         <OperatorsOverviewTable dataPromise={Promise.resolve(operators)} />
         <ValidatorsOverviewTable dataPromise={Promise.resolve(validators)} />
       </div>

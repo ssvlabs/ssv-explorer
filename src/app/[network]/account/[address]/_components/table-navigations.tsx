@@ -14,7 +14,7 @@ export function TableNavigation({ ownerAddress }: TableNavigationProps) {
   const stats = useAccountStats(ownerAddress)
   const network = useNetworkParam()
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-2 overflow-auto">
       <RouteTabLink
         href={`/${network}/account/${ownerAddress}/`}
         count={stats.data?.validators}

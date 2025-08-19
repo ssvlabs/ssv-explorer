@@ -24,6 +24,8 @@ const hoodi = {
   nativeCurrency: defaultNativeCurrency,
 } as const
 
+export type CustomChain = typeof mainnet | typeof hoodi
+
 const chains = [mainnet, hoodi]
 
 export const supportedChains = networks.reduce(

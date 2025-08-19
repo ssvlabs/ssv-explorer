@@ -72,12 +72,12 @@ export function DataTableViewOptions<TData>({
           isActive={open}
           icon={<FiSidebar />}
         >
-          Customize Table
+          <span className="hidden md:block">Customize Table</span>
         </TableMenuButton>
       </PopoverTrigger>
       <PopoverContent
         align="end"
-        className="w-[400px] overflow-auto p-0"
+        className="max-w-full overflow-auto p-0 md:w-[400px]"
         onCloseAutoFocus={() => triggerRef.current?.focus()}
       >
         <Command>

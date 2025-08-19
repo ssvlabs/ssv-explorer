@@ -4,7 +4,7 @@ import type { ComponentPropsWithRef, FC } from "react"
 import { Check } from "lucide-react"
 import { FaChevronDown, FaEthereum } from "react-icons/fa"
 
-import { supportedChains } from "@/config/chains"
+import { supportedChains, type CustomChain } from "@/config/chains"
 import { cn } from "@/lib/utils"
 import { useNetworkQuery } from "@/hooks/search/use-network-query"
 import { Button } from "@/components/ui/button"
@@ -21,8 +21,12 @@ import {
 } from "@/components/ui/popover"
 import { Text } from "@/components/ui/text"
 
-export const NetworkSwitcher: FC<ComponentPropsWithRef<"button">> = ({
+type Props = ComponentPropsWithRef<"button"> & {
+  onSelect?: (chain: CustomChain) => void
+}
+export const NetworkSwitcher: FC<Props> = ({
   className,
+  onSelect,
   ...props
 }) => {
   const { chain: selectedChain, query } = useNetworkQuery()
@@ -32,8 +36,8 @@ export const NetworkSwitcher: FC<ComponentPropsWithRef<"button">> = ({
         <Button
           variant="default"
           className={cn(
-            className,
-            "w-fit gap-1 pl-3 pr-2 font-sans capitalize"
+            "w-fit gap-1 pl-3 pr-2 font-sans capitalize",
+            className
           )}
           colorScheme="light"
           {...props}
@@ -57,6 +61,7 @@ export const NetworkSwitcher: FC<ComponentPropsWithRef<"button">> = ({
                 key={supportedChain.chainId}
                 onSelect={() => {
                   query.set(supportedChain.name)
+                  onSelect?.(supportedChain)
                 }}
                 className="flex items-center gap-2"
               >
