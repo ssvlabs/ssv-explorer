@@ -2,7 +2,7 @@
 FROM node:24-alpine
 
 # Define build argument with a default value can be stage or prod
-ARG MODE=prod 
+ARG MODE=stage 
 
 # Optional: Set an ENV if you want it at runtime too
 ENV MODE=${MODE}
