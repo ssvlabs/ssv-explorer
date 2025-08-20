@@ -46,7 +46,7 @@ export const ValidatorsOverviewTable = withErrorBoundary(
         <Card className="flex-1 gap-0 overflow-hidden p-0 pb-2">
           <div className="flex justify-between p-6 pb-2">
             <Text variant="body-2-bold" className="text-gray-500">
-              Validators
+              Latest Validators
             </Text>
             <Button
               as={Link}

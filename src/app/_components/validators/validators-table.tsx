@@ -42,9 +42,14 @@ export const ValidatorsTable = withErrorBoundary(
       [columns]
     )
 
+    const validators = useMemo(
+      () => response.validators.sort((a, b) => b.id - a.id),
+      [response.validators]
+    )
+
     const { table } = useDataTable({
       name: "validators-table",
-      data: response.validators,
+      data: validators,
       columns: cols,
       pageCount: response.pagination.pages,
       getRowId: (originalRow, index) => `${originalRow.id}-${index}`,

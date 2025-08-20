@@ -3,9 +3,8 @@ import { searchValidators } from "@/api/validators"
 import { type SearchParams } from "@/types"
 
 import { getNativeCurrency, type ChainName } from "@/config/chains"
-import { overviewParserCache } from "@/lib/search-parsers"
-import { defaultOperatorSort } from "@/lib/search-parsers/operator-search-parsers"
-import { defaultValidatorSort } from "@/lib/search-parsers/validators-search-parsers"
+import { operatorsSearchParamsCache } from "@/lib/search-parsers/operator-search-parsers"
+import { validatorsSearchParamsCache } from "@/lib/search-parsers/validators-search-parsers"
 import { numberFormatter } from "@/lib/utils/number"
 import { Card } from "@/components/ui/card"
 import { Stat } from "@/components/ui/stat"
@@ -22,17 +21,15 @@ interface IndexPageProps {
 
 export default async function Page(props: IndexPageProps) {
   const { network } = await props.params
-  const searchParams = await overviewParserCache.parse(props.searchParams)
 
   const [operators, validators] = await Promise.all([
     searchOperators({
-      ...searchParams,
-      ordering: defaultOperatorSort,
+      ...operatorsSearchParamsCache.parse({}), // add default search params
       network,
     }),
+
     searchValidators({
-      ...searchParams,
-      ordering: defaultValidatorSort,
+      ...validatorsSearchParamsCache.parse({}), // add default search params
       network,
     }),
   ])
