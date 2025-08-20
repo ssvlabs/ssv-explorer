@@ -42,7 +42,10 @@ export const validatorSearchSort = {
 
 export const elasticSearchParsers = {
   lastId: parseAsString,
-  pageDirection: parseAsStringEnum<"next" | "prev">(["next", "prev"]),
+  pageDirection: parseAsStringEnum<"next" | "prev">([
+    "next",
+    "prev",
+  ]).withDefault("prev"),
 }
 
 export const validatorsSearchParsers = {

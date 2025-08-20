@@ -44,7 +44,7 @@ export function DataTablePagination({
 
   const handleNext = () => {
     setLastId(table.options.meta.pagination?.current_last.toString() ?? "")
-    setSearchDirection("next")
+    setSearchDirection("prev")
     table.nextPage()
   }
 
@@ -53,8 +53,8 @@ export function DataTablePagination({
       setLastId(null)
       setSearchDirection(null)
     } else {
-      setLastId(table.options.meta.pagination?.current_last.toString() ?? "")
-      setSearchDirection("prev")
+      setLastId(table.options.meta.pagination?.current_first.toString() ?? "")
+      setSearchDirection("next")
     }
     table.previousPage()
   }

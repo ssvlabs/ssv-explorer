@@ -9,7 +9,6 @@ import {
   validatorsSearchParamsCache,
   type ValidatorsSearchSchema,
 } from "@/lib/search-parsers/validators-search-parsers"
-import { cn } from "@/lib/utils"
 import { formatSSV, numberFormatter } from "@/lib/utils/number"
 import { remove0x, shortenAddress } from "@/lib/utils/strings"
 import { Button } from "@/components/ui/button"
@@ -19,7 +18,7 @@ import { ErrorCard } from "@/components/ui/error-card"
 import { Outline } from "@/components/ui/outline"
 import { Stat } from "@/components/ui/stat"
 import { Text } from "@/components/ui/text"
-import { OperatorCard } from "@/components/operators/operator-card"
+import { OperatorsList } from "@/components/operators/operators-list"
 import { Shell } from "@/components/shell"
 import { ValidatorsTable } from "@/app/_components/validators/validators-table"
 
@@ -79,7 +78,7 @@ export default async function Page(props: IndexPageProps) {
     <Shell className="gap-6">
       <Card>
         <Text variant="headline4">Cluster</Text>
-        <div className="flex gap-1">
+        <div className="flex flex-wrap gap-1">
           <Outline>
             <Text variant="caption-medium" className="text-gray-500">
               ID:
@@ -104,7 +103,7 @@ export default async function Page(props: IndexPageProps) {
             <CopyBtn text={cluster.ownerAddress} />
           </Outline>
         </div>
-        <div className="flex items-center gap-6 align-sub">
+        <div className="flex flex-col gap-2 align-sub md:flex-row md:items-center md:gap-6">
           <Stat
             className="flex-1"
             title="Validators"
@@ -127,15 +126,7 @@ export default async function Page(props: IndexPageProps) {
           />
         </div>
       </Card>
-      <div
-        className={cn("flex flex-wrap justify-center gap-6 [&>*]:min-w-32", {
-          "[&>*]:flex-1": cluster.operators.length < 8,
-        })}
-      >
-        {cluster.operators.map((operator) => (
-          <OperatorCard key={operator.id} operator={operator} />
-        ))}
-      </div>
+      <OperatorsList operators={cluster.operators} />
       <Card>
         <ValidatorsTable
           dataPromise={validators}

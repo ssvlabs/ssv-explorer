@@ -3,7 +3,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
 
-const shellVariants = cva("flex flex-col gap-8 pb-8 pt-6 md:py-8", {
+const shellVariants = cva("flex flex-col gap-8 p-6 md:py-8", {
   variants: {
     variant: {
       default: "container",

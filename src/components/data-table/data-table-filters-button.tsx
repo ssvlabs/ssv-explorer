@@ -25,7 +25,7 @@ export function DataTableMenuButton({
       isActive={isFiltersOpen}
       icon={<Settings2 />}
     >
-      Filters
+      <span className="hidden md:block">Filters</span>
     </TableMenuButton>
   )
 }
