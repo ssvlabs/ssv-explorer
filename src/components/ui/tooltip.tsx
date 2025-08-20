@@ -1,8 +1,11 @@
+"use client"
+
 import * as React from "react"
 import * as TooltipPrimitive from "@radix-ui/react-tooltip"
-import { useEffectOnce } from "react-use"
+import { useClickAway, useEffectOnce } from "react-use"
 
 import { cn } from "@/lib/utils"
+import { isMobile } from "@/lib/utils/ismobile"
 
 const TooltipProvider = TooltipPrimitive.Provider
 
@@ -56,11 +59,25 @@ const Tooltip: React.FC<TooltipProps> = ({
   className,
   ...props
 }) => {
+  const [isOpen, setIsOpen] = React.useState(false)
+  const ref = React.useRef(null)
+  useClickAway(ref, () => setIsOpen(false))
+  const mobile = React.useMemo(() => isMobile(), [])
+
   if (!content) return children
+
   return (
     <TooltipProvider>
-      <TooltipRoot delayDuration={delayDuration || 300} open={open}>
-        <TooltipTrigger asChild={asChild} type="button">
+      <TooltipRoot
+        delayDuration={delayDuration || 300}
+        open={open || (mobile ? isOpen : undefined)}
+      >
+        <TooltipTrigger
+          asChild={asChild}
+          type="button"
+          ref={ref}
+          onClick={() => setIsOpen((prev) => !prev)}
+        >
           {children}
         </TooltipTrigger>
         <TooltipContent
@@ -70,6 +87,10 @@ const Tooltip: React.FC<TooltipProps> = ({
             className
           )}
           {...props}
+          style={{
+            ...props.style,
+            maxWidth: "var(--radix-popper-available-width)",
+          }}
         >
           {hasArrow && <TooltipArrow className="fill-gray-700" />}
           {content}
@@ -102,9 +123,9 @@ export const useIsInsideTooltip = () => {
 
 export {
   Tooltip,
-  TooltipRoot,
   TooltipArrow,
-  TooltipTrigger,
   TooltipContent,
   TooltipProvider,
+  TooltipRoot,
+  TooltipTrigger,
 }
