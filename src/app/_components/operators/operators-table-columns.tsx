@@ -93,18 +93,30 @@ export const operatorColumns = {
   fee: {
     accessorKey: "fee",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Fee" />
+      <DataTableColumnHeader
+        column={column}
+        title="Fee"
+        className="justify-end text-right"
+      />
     ),
     cell: ({ row }) => (
-      <div>{getYearlyFee(BigInt(row.original.fee), { format: true })}</div>
+      <div className="text-right">
+        {getYearlyFee(BigInt(row.original.fee), { format: true })}
+      </div>
     ),
   },
   validatorsCount: {
     accessorKey: "validatorsCount",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Validators Count" />
+      <DataTableColumnHeader
+        column={column}
+        title="Validators Count"
+        className="justify-end text-right"
+      />
     ),
-    cell: ({ row }) => <div>{row.original.validators_count}</div>,
+    cell: ({ row }) => (
+      <div className="text-right">{row.original.validators_count}</div>
+    ),
   },
   performance24h: {
     accessorKey: "performance24h",

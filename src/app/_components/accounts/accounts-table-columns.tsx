@@ -68,10 +68,12 @@ export const accountColumns = {
       <DataTableColumnHeader
         column={column}
         title="Operator Count"
-        className="w-[119px]"
+        className="justify-end text-right"
       />
     ),
-    cell: ({ row }) => row.original.operators,
+    cell: ({ row }) => (
+      <div className="text-right">{row.original.operators}</div>
+    ),
   },
   cluster: {
     accessorKey: "cluster",
@@ -80,10 +82,12 @@ export const accountColumns = {
       <DataTableColumnHeader
         column={column}
         title="Cluster Count"
-        className="w-[119px]"
+        className="justify-end text-right"
       />
     ),
-    cell: ({ row }) => row.original.clusters,
+    cell: ({ row }) => (
+      <div className="text-right">{row.original.clusters}</div>
+    ),
   },
   validator: {
     accessorKey: "validator",
@@ -92,10 +96,12 @@ export const accountColumns = {
       <DataTableColumnHeader
         column={column}
         title="Validator Count"
-        className="w-[119px]"
+        className="flex justify-end text-right"
       />
     ),
-    cell: ({ row }) => row.original.validators,
+    cell: ({ row }) => (
+      <div className="text-right">{row.original.validators}</div>
+    ),
   },
   effectiveBalance: {
     accessorKey: "effectiveBalance",
@@ -107,6 +113,7 @@ export const accountColumns = {
         <DataTableColumnHeader
           column={column}
           title={`${nativeCurrency.symbol} Staked`}
+          className="flex justify-end text-right"
         />
       )
     },
@@ -114,7 +121,7 @@ export const accountColumns = {
       // eslint-disable-next-line react-hooks/rules-of-hooks
       const nativeCurrency = useNativeCurrency()
       return (
-        <div>
+        <div className="text-right">
           {formatGwei(BigInt(row.original.effectiveBalance || 0))}{" "}
           {nativeCurrency.symbol}
         </div>
