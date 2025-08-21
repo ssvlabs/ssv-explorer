@@ -35,13 +35,21 @@ async function runMondayAutomation() {
     console.log("Starting Monday automation workflow...")
 
     // Fetch commits from GitHub API
-    const commits = await fetch(process.env.COMMITS_URL)
+    const response = await fetch(process.env.COMMITS_URL)
       .then((res) => res.json())
       .catch((error) => {
         console.error("Failed to fetch commits:", error)
-        return []
+        return null
       })
 
+    if (!response) {
+      console.log("No response from GitHub API")
+      return
+    }
+
+    // Handle different API response formats
+    const commits = response.commits || response
+    
     if (!commits || commits.length === 0) {
       console.log("No commits found to process")
       return
