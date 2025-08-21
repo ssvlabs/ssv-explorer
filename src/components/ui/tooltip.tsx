@@ -59,24 +59,24 @@ const Tooltip: React.FC<TooltipProps> = ({
   className,
   ...props
 }) => {
-  const [isOpen, setIsOpen] = React.useState(false)
+  const [isClicked, setIsClicked] = React.useState(false)
   const ref = React.useRef(null)
-  useClickAway(ref, () => setIsOpen(false))
+  useClickAway(ref, () => setIsClicked(false))
   const mobile = React.useMemo(() => isMobile(), [])
 
-  if (!content) return children
+  const forceClosed = content ? undefined : false
 
   return (
     <TooltipProvider>
       <TooltipRoot
         delayDuration={delayDuration || 300}
-        open={open || (mobile ? isOpen : undefined)}
+        open={forceClosed ?? (open || (mobile ? isClicked : undefined))}
       >
         <TooltipTrigger
           asChild={asChild}
           type="button"
           ref={ref}
-          onClick={() => setIsOpen((prev) => !prev)}
+          onClick={() => setIsClicked((prev) => !prev)}
         >
           {children}
         </TooltipTrigger>

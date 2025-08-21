@@ -46,7 +46,7 @@ export function FeeFilter() {
         apply={apply}
         remove={remove}
         step={0.1}
-        decimals={1}
+        decimals={2}
         inputs={{
           start: {
             rightSlot: (

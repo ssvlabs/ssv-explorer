@@ -11,6 +11,8 @@
     "tw=[\"'`]([^\"'`]*)[\"'`]"
   ],
   "typescript.preferences.importModuleSpecifier": "non-relative",
+  // Disable TypeScript's organize imports to prevent conflicts with Prettier
+  "typescript.preferences.organizeImports": false,
   "javascript.validate.enable": false,
   "javascript.format.enable": false,
   "typescript.format.enable": false,
@@ -25,11 +27,29 @@
     "yarn.lock": true
   },
 
-  // Enable ESLint fix on save, organize imports, and fix TypeScript issues
+  // Disable organize imports on save to prevent conflicts with Prettier, keep ESLint fixes
   "editor.codeActionsOnSave": {
-    "source.organizeImports": "explicit",
+    "source.organizeImports": "never",
     "source.fixAll.eslint": "explicit",
     "source.fixAll.ts": "explicit"
+  },
+
+  // Use Prettier as the default formatter for consistent import ordering
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+
+  // Language-specific settings
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "cSpell.words": ["beaconcha", "Beaconchain"]
 }
