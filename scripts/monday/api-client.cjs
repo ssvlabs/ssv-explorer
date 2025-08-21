@@ -96,7 +96,7 @@ async function updateMonday(ticketsMap) {
 
   for (const [ticketId, commits] of ticketsMap.entries()) {
     if (!boardIds.has(ticketId)) {
-      console.log(`Ticket ${ticketId} not found in Monday.com`)
+      console.log(`Ticket ${ticketId} not found in monday.com`)
       continue
     }
 
