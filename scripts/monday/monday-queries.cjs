@@ -17,7 +17,7 @@ function createUpdateStatusMutation(itemId, boardId, columnId) {
   change_simple_column_value (item_id:${itemId}, board_id:${boardId}, column_id:"${columnId}", value: "Ready for QA") {
     id
   }
-}`;
+}`
 }
 
 /**
@@ -30,29 +30,29 @@ function createStageDeploymentComment(itemId, commits) {
   // Create commit links using Monday-compatible HTML formatting
   const commitLinks = commits
     .map((commit) => {
-      return `<li><a href="${commit.html_url}">${commit.commit.message.split("#")[0].trim()}</a> <span style="font-size:12px; color:gray"> by ${commit.commit.author.name}</span></li>`;
+      return `<li><a href="${commit.html_url}">${commit.commit.message.split("#")[0].trim()}</a> <span style="font-size:12px; color:gray"> by ${commit.commit.author.name}</span></li>`
     })
-    .join("");
+    .join("")
 
   const bodyContent = `
   <p style="font-size:18px">
     <strong>⤴️ Merged to Stage Environment</strong>
   </p>
   <ul>${commitLinks}</ul>
-  <p style="font-size:12px; margin-top:10px; color:gray">Will be live in 3 minutes on <a href="https://app.stage.ssv.network/">app.stage.ssv.network</a></p>
+  <p style="font-size:12px; margin-top:10px; color:gray">Will be live in 3 minutes on <a href="https://explorer.stage.ssv.network/">explorer.stage.ssv.network</a></p>
   `
     .replace(/>\s+</g, "><")
-    .trim();
+    .trim()
 
   // Create the message body with proper Monday HTML formatting
   // Properly escape the body content for GraphQL
-  const escapedBody = JSON.stringify(bodyContent).slice(1, -1);
+  const escapedBody = JSON.stringify(bodyContent).slice(1, -1)
 
   return `mutation {
     create_update(item_id: ${itemId}, body: "${escapedBody}") {
       id
     }
-  }`;
+  }`
 }
 
 /**
@@ -74,11 +74,11 @@ function getFindTicketsQuery(ticketIds) {
       }
     }
   }
-}`;
+}`
 }
 
 module.exports = {
   createUpdateStatusMutation,
   createStageDeploymentComment,
   getFindTicketsQuery,
-};
+}
