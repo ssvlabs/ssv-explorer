@@ -6,8 +6,12 @@ import { type ColumnDef } from "@tanstack/react-table"
 
 import { type AccountEvent } from "@/types/api/events"
 import { toSentenceCase } from "@/lib/utils"
+import { shortenAddress } from "@/lib/utils/strings"
+import { useNetworkParam } from "@/hooks/app/useNetworkParam"
 import { useLinks } from "@/hooks/use-links"
 import { AccountEventIcon } from "@/components/ui/account-event-icon"
+import { Button } from "@/components/ui/button"
+import { CopyBtn } from "@/components/ui/copy-btn"
 import { Text } from "@/components/ui/text"
 import { Tooltip } from "@/components/ui/tooltip"
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header"
@@ -39,6 +43,30 @@ export const eventsColumns = {
     },
     enableSorting: false,
   },
+  ownerAddress: {
+    accessorKey: "ownerAddress",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Owner Address" />
+    ),
+    cell: ({ row }) => {
+      const ownerAddress = row.original.ownerAddress
+      return (
+        <div className="flex gap-1">
+          <Button asChild variant="link">
+            <Link
+              // eslint-disable-next-line react-hooks/rules-of-hooks
+              href={`/${useNetworkParam()}/account/${ownerAddress}`}
+              className="font-mono"
+            >
+              {shortenAddress(ownerAddress)}
+            </Link>
+          </Button>
+          <CopyBtn className="text-gray-500" text={ownerAddress} />
+        </div>
+      )
+    },
+    enableSorting: false,
+  },
   blockNumber: {
     accessorKey: "blockNumber",
     title: "Block",
@@ -64,6 +92,12 @@ export const eventsTableColumns = [
   eventsColumns.event,
   eventsColumns.blockNumber,
 ] satisfies ColumnDef<AccountEvent>[]
+
+export const overviewEventsTableColumns = [
+  eventsColumns.event,
+  eventsColumns.ownerAddress,
+  eventsColumns.blockNumber,
+].map((c) => ({ ...c, enableSorting: false }))
 
 export const eventsDefaultColumnVisibility: Partial<
   Record<keyof typeof eventsColumns, boolean>

@@ -11451,7 +11451,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "name": "USA" },
+      "properties": { "name": "United States of America" },
       "geometry": {
         "type": "MultiPolygon",
         "coordinates": [

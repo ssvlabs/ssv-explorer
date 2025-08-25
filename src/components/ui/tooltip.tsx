@@ -135,4 +135,5 @@ export {
   TooltipProvider,
   TooltipRoot,
   TooltipTrigger,
+  TooltipPrimitive,
 }

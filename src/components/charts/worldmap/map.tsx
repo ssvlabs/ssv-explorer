@@ -1,12 +1,20 @@
+/* eslint-disable tailwindcss/no-contradicting-classname */
 "use client"
 
 import React, { useEffect, useMemo, useRef, useState } from "react"
 import * as d3 from "d3"
 
+import { type OperatorStatisticItem } from "@/types/api/statistics"
+import { cn } from "@/lib/utils"
+import { percentageFormatter } from "@/lib/utils/number"
+import { Spinner } from "@/components/ui/spinner"
+import { getCountryColor } from "@/components/charts/worldmap/colors"
+import { getFlagEmojiByCountryName } from "@/components/charts/worldmap/country-flag-emojies"
+
 import worldGeoJson from "./world.json"
 
 interface MapProps {
-  data?: Record<string, number>
+  data?: OperatorStatisticItem[]
   width?: number
   height?: number
   className?: string
@@ -68,7 +76,7 @@ const generateHexagonalGrid = (
   const hexagons: HexagonData[] = []
 
   // Calculate hexagon dimensions for true honeycomb tessellation
-  const hexWidth = hexRadius * 2
+  // const hexWidth = hexRadius * 2
   const hexHeight = hexRadius * Math.sqrt(3)
 
   // In a true honeycomb pattern:
@@ -168,64 +176,17 @@ const WorldMap: React.FC<MapProps> = ({
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  // Mock data for countries with random values (fallback if no data provided)
-  const mockCountryData = useMemo(
-    () =>
-      data || {
-        USA: 100,
-        China: 5,
-        Japan: 22,
-        Germany: 65,
-        // "United Kingdom": 72,
-        // France: 68,
-        // India: 45,
-        // Italy: 58,
-        // Brazil: 42,
-        // Canada: 75,
-        // Russia: 55,
-        // "South Korea": 82,
-        // Australia: 70,
-        // Spain: 61,
-        // Mexico: 38,
-        // Indonesia: 35,
-        // Netherlands: 77,
-        // "Saudi Arabia": 48,
-        // Switzerland: 88,
-        // Taiwan: 79,
-        // Belgium: 69,
-        // Argentina: 41,
-        // Ireland: 74,
-        // Israel: 73,
-        // Austria: 66,
-        // Nigeria: 28,
-        // Norway: 81,
-        // "South Africa": 33,
-        // Egypt: 31,
-        // Bangladesh: 22,
-        // Thailand: 46,
-        // Chile: 52,
-        // Finland: 76,
-        // Malaysia: 49,
-        // Philippines: 36,
-        // Vietnam: 39,
-        // Denmark: 80,
-        // Singapore: 89,
-        // "New Zealand": 71,
-        // Sweden: 83,
-        // Portugal: 59,
-        // Greece: 47,
-        // "Czech Republic": 63,
-        // Romania: 44,
-        // Peru: 37,
-        // Poland: 56,
-        // Ukraine: 29,
-        // Morocco: 34,
-        // Kenya: 25,
-        // "Sri Lanka": 32,
-        // Croatia: 62,
-      },
-    [data]
-  )
+  const countryData = useMemo(() => {
+    return (
+      data?.reduce(
+        (acc, item) => {
+          acc[item.name] = item
+          return acc
+        },
+        {} as Record<string, OperatorStatisticItem>
+      ) || {}
+    )
+  }, [data])
 
   const loadWorldData = async (): Promise<CountryFeature[]> => {
     try {
@@ -265,23 +226,17 @@ const WorldMap: React.FC<MapProps> = ({
       .attr("transform", `translate(${margin.left},${margin.top})`)
 
     // Set up responsive projection with proper centering to avoid country splitting
-    const scale = Math.min(innerWidth, innerHeight) / 4.2
+    const scale = Math.min(innerWidth, innerHeight) / 4.4
     const projection = d3
       .geoMercator()
       .center([0, 0]) // Center on prime meridian to avoid splitting countries
       .scale(scale)
-      .translate([innerWidth / 2, innerHeight / 1.4])
-
-    // const path = d3.geoPath().projection(projection) // Not needed for hexagon rendering
-
-    // Color scale - using CSS variables
-    const colors = [
-      "var(--primary-200)",
-      "var(--primary-300)",
-      "var(--primary-400)",
-      "var(--primary-500)",
-    ]
-    const colorScale = d3.scaleQuantize<string>().domain([0, 100]).range(colors)
+      .translate([285, innerHeight / 1.5])
+      // Clip to viewport to avoid antimeridian wrapping slivers
+      .clipExtent([
+        [0, 0],
+        [innerWidth, innerHeight],
+      ])
 
     loadWorldData()
       .then((features) => {
@@ -302,7 +257,9 @@ const WorldMap: React.FC<MapProps> = ({
           return {
             ...hex,
             country: result.country,
-            value: result.country ? mockCountryData[result.country] : undefined,
+            value: result.country
+              ? countryData[result.country]?.count
+              : undefined,
           }
         })
 
@@ -311,6 +268,21 @@ const WorldMap: React.FC<MapProps> = ({
 
         // Draw hexagons with slight spacing
         const visualHexRadius = hexRadius * 0.7 // Make hexagons 90% of grid size for spacing
+
+        // Clip a small padding on left/right to hide antimeridian slivers
+        const clipId = `map-clip-${Math.floor(Math.random() * 1e9)}`
+        const clipPadding = Math.max(visualHexRadius, 12)
+        const defs = svg.append("defs")
+        defs
+          .append("clipPath")
+          .attr("id", clipId)
+          .append("rect")
+          .attr("x", clipPadding)
+          .attr("y", 0)
+          .attr("width", Math.max(0, innerWidth - clipPadding * 2))
+          .attr("height", innerHeight)
+
+        g.attr("clip-path", `url(#${clipId})`)
         g.selectAll(".hexagon")
           .data(landHexagons)
           .enter()
@@ -319,11 +291,7 @@ const WorldMap: React.FC<MapProps> = ({
           .attr("d", (d: HexagonData) =>
             generateHexagonPath(d.x, d.y, visualHexRadius)
           )
-          .attr("fill", (d: HexagonData) => {
-            return d.value !== undefined
-              ? colorScale(d.value)
-              : "var(--empty-100)"
-          })
+          .attr("fill", (d: HexagonData) => getCountryColor(d.value))
           .style("cursor", "pointer")
           .style("stroke", "none")
           .style("transition", "all 0.3s")
@@ -335,11 +303,13 @@ const WorldMap: React.FC<MapProps> = ({
             tooltip
               .html(
                 `
-                <strong>${d.country || "Unknown"}</strong><br/>
-                ${d.value !== undefined ? `Operators: ${d.value}` : "No Operators"}
+                <strong>${getFlagEmojiByCountryName(d.country || "Unknown")} ${
+                  d.country || "Unknown"
+                }</strong>
+                ${d.country ? percentageFormatter.format(countryData[d.country]?.percentage || 0) : "0%"}
               `
               )
-              .style("left", event.clientX + 10 + "px")
+              .style("left", event.clientX + 28 + "px")
               .style("top", event.clientY - 28 + "px")
           })
           .on("mousemove", function (event: MouseEvent) {
@@ -355,8 +325,8 @@ const WorldMap: React.FC<MapProps> = ({
 
         setLoading(false)
       })
-      .catch((error) => {
-        console.error("Error loading world data:", error)
+      .catch((loadErr) => {
+        console.error("Error loading world data:", loadErr)
         setError(
           "Unable to load map data. Please check your internet connection."
         )
@@ -373,7 +343,7 @@ const WorldMap: React.FC<MapProps> = ({
             "Unable to load map data. Please check your internet connection."
           )
       })
-  }, [width, height, data, mockCountryData])
+  }, [width, height, data, countryData])
 
   return (
     <div
@@ -386,20 +356,19 @@ const WorldMap: React.FC<MapProps> = ({
       }}
     >
       <svg ref={svgRef} />
+
       <div
         ref={tooltipRef}
-        className="tooltip"
+        className={cn(
+          "z-50 max-w-md overflow-hidden rounded-md bg-gray-700 px-4 py-2.5 text-sm font-medium text-gray-50 shadow-md animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 dark:bg-gray-300 dark:text-gray-800",
+          "rounded-2xl border border-gray-300 bg-gray-700 text-gray-50 outline outline-[6px] outline-gray-200",
+          "dark:border-white/10 dark:bg-gray-50 dark:outline-gray-100"
+        )}
         style={{
           position: "fixed",
-          backgroundColor: "rgba(0, 0, 0, 0.8)",
-          color: "white",
-          padding: "8px 12px",
-          borderRadius: "4px",
-          fontSize: "12px",
-          pointerEvents: "none",
-          opacity: 0,
           transition: "all 0.3s",
           zIndex: 1000,
+          opacity: 0,
         }}
       />
       {loading && (
@@ -413,7 +382,7 @@ const WorldMap: React.FC<MapProps> = ({
             color: "#666",
           }}
         >
-          Loading map data...
+          <Spinner />
         </div>
       )}
       {error && (

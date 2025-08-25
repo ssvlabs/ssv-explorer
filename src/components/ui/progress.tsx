@@ -2,23 +2,49 @@
 
 import * as React from "react"
 import * as ProgressPrimitive from "@radix-ui/react-progress"
+import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@/lib/utils/index"
 
+export const progressVariants = cva(
+  "bg-gray-50 [&>.progress-bar]:bg-primary-500",
+  {
+    variants: {
+      colorScheme: {
+        primary: "bg-primary-50 [&>.progress-bar]:bg-primary-500",
+        success: "bg-success-100 [&>.progress-bar]:bg-success-500",
+      },
+    },
+
+    defaultVariants: {
+      colorScheme: "primary",
+    },
+  }
+)
+
+export interface ProgressProps
+  extends React.ComponentPropsWithoutRef<typeof ProgressPrimitive.Root>,
+    VariantProps<typeof progressVariants> {}
+
 const Progress = React.forwardRef<
   React.ElementRef<typeof ProgressPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof ProgressPrimitive.Root>
->(({ className, value, ...props }, ref) => (
+  ProgressProps
+>(({ className, value, colorScheme, ...props }, ref) => (
   <ProgressPrimitive.Root
     ref={ref}
-    className={cn(
-      "relative h-2 w-full overflow-hidden rounded-full bg-gray-50",
-      className
-    )}
+    className={progressVariants({
+      colorScheme,
+      className: cn(
+        "relative h-2.5 w-full overflow-hidden rounded-[2px]",
+        className
+      ),
+    })}
     {...props}
   >
     <ProgressPrimitive.Indicator
-      className="size-full flex-1 bg-primary-500 transition-all"
+      className={cn(
+        "progress-bar size-full flex-1 rounded-[2px] transition-all"
+      )}
       style={{ transform: `translateX(-${100 - (value || 0)}%)` }}
     />
   </ProgressPrimitive.Root>

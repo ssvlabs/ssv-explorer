@@ -37,3 +37,21 @@ export const getAccountEvents = async (
       tags: ["events"],
     }
   )()
+
+export const getRecentSSVEvents = async (
+  params: Partial<EventsSearchSchema> & { network: ChainName }
+) =>
+  await unstable_cache(
+    async () => {
+      const searchParams = eventsSearchParamsSerializer(params)
+      const response = await api.get<PaginatedEventsResponse>(
+        endpoint(params.network, "events", `?${searchParams}`)
+      )
+      return response
+    },
+    [JSON.stringify(stringifyBigints(params))],
+    {
+      revalidate: 30,
+      tags: ["recent-ssv-events"],
+    }
+  )()
