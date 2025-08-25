@@ -18,23 +18,30 @@ const TooltipArrow = TooltipPrimitive.Arrow
 const TooltipContent = React.forwardRef<
   React.ElementRef<typeof TooltipPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>
->(({ className, sideOffset = 4, ...props }, ref) => (
-  <TooltipPrimitive.Portal>
-    <TooltipPrimitive.Content
-      ref={ref}
-      sideOffset={sideOffset}
-      // eslint-disable-next-line tailwindcss/no-custom-classname
-      className={cn(
-        "shadcn-tooltip z-50 max-w-md overflow-hidden rounded-md bg-gray-700 px-4 py-2.5 text-sm font-medium text-gray-50 shadow-md animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 dark:bg-gray-300 dark:text-gray-800",
-        className
-      )}
-      style={{
-        fontWeight: 400,
-      }}
-      {...props}
-    />
-  </TooltipPrimitive.Portal>
-))
+>(
+  (
+    { className, sideOffset = 2, side = "top", align = "center", ...props },
+    ref
+  ) => (
+    <TooltipPrimitive.Portal>
+      <TooltipPrimitive.Content
+        ref={ref}
+        sideOffset={sideOffset}
+        side={side}
+        align={align}
+        // eslint-disable-next-line tailwindcss/no-custom-classname
+        className={cn(
+          "shadcn-tooltip z-50 max-w-md overflow-hidden rounded-md bg-gray-700 px-4 py-2.5 text-sm font-medium text-gray-50 shadow-md animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 dark:bg-gray-300 dark:text-gray-800",
+          className
+        )}
+        style={{
+          fontWeight: 400,
+        }}
+        {...props}
+      />
+    </TooltipPrimitive.Portal>
+  )
+)
 TooltipContent.displayName = TooltipPrimitive.Content.displayName
 
 interface TooltipProps

@@ -9,6 +9,7 @@ import { numberFormatter } from "@/lib/utils/number"
 import { Card } from "@/components/ui/card"
 import { Stat } from "@/components/ui/stat"
 import { Text } from "@/components/ui/text"
+import WorldMap from "@/components/charts/map"
 import { GlobalSearch } from "@/components/global-search/global-search"
 import { Shell } from "@/components/shell"
 import { OperatorsOverviewTable } from "@/app/_components/operators/operators-table-peview"
@@ -64,6 +65,7 @@ export default async function Page(props: IndexPageProps) {
           content={`${numberFormatter.format(totalStakedEth)} ${nativeCurrency.symbol}`}
         />
       </Card>
+
       <div className="flex flex-col gap-3 sm:hidden">
         <Card>
           <Stat
@@ -90,6 +92,65 @@ export default async function Page(props: IndexPageProps) {
           />
         </Card>
       </div>
+      <Card className="flex flex-col gap-6">
+        <Text variant="body-2-bold" className="text-gray-500">
+          Geographical Distribution
+        </Text>
+        <div className="flex flex-col lg:flex-row">
+          <WorldMap className="flex-1 px-10" />
+          <div className="flex flex-1 flex-col gap-3 [&>*]:border-b [&>*]:border-gray-100 [&>*]:pb-3">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className="size-3 rounded-full bg-primary-500"></div>
+                <span className="text-sm font-medium">Germany</span>
+              </div>
+              <span className="text-sm text-gray-500">21.06%</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className="size-3 rounded-full bg-primary-400"></div>
+                <span className="text-sm font-medium">France</span>
+              </div>
+              <span className="text-sm text-gray-500">11.85%</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className="size-3 rounded-full bg-primary-300"></div>
+                <span className="text-sm font-medium">Singapore</span>
+              </div>
+              <span className="text-sm text-gray-500">9.21%</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className="size-3 rounded-full bg-primary-200"></div>
+                <span className="text-sm font-medium">Netherlands</span>
+              </div>
+              <span className="text-sm text-gray-500">9.11%</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className="size-3 rounded-full bg-primary-200"></div>
+                <span className="text-sm font-medium">United States</span>
+              </div>
+              <span className="text-sm text-gray-500">9.01%</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className="size-3 rounded-full bg-primary-200"></div>
+                <span className="text-sm font-medium">Luxembourg</span>
+              </div>
+              <span className="text-sm text-gray-500">5.19%</span>
+            </div>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className="size-3 rounded-full bg-primary-500"></div>
+                <span className="text-sm font-medium">Other</span>
+              </div>
+              <span className="text-sm text-gray-500">34.57%</span>
+            </div>
+          </div>
+        </div>
+      </Card>
       <div className="flex max-w-full flex-col gap-6 overflow-hidden md:flex-row">
         <OperatorsOverviewTable dataPromise={Promise.resolve(operators)} />
         <ValidatorsOverviewTable dataPromise={Promise.resolve(validators)} />
