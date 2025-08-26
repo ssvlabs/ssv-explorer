@@ -25,11 +25,11 @@ export function SiteHeader() {
   return (
     <>
       <MobileSiteHeader />
-      <header className="container hidden w-full backdrop-blur md:block">
+      <header className="container hidden w-full px-6 backdrop-blur md:block">
         <div className="flex h-[60px] items-center border-b border-gray-300 font-mono">
           <Link
             href={`/${network}/overview`}
-            className="mr-2 flex items-center md:mr-6 md:space-x-2"
+            className="mr-2 flex items-center md:mr-6"
           >
             <Logo width={140} height={28} />
           </Link>

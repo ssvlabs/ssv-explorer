@@ -31,7 +31,7 @@ export const eventsColumns = {
           <Link
             href={etherscanTx(row.original.transactionHash)}
             target="_blank"
-            className="group flex w-fit cursor-pointer items-center gap-2 rounded-lg p-2"
+            className="group flex w-fit cursor-pointer items-center gap-2 rounded-lg"
           >
             <AccountEventIcon event={row.original.event} />
             <Text className="group-hover:text-primary-500 group-hover:underline">

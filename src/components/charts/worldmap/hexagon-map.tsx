@@ -1,14 +1,15 @@
 /* eslint-disable tailwindcss/no-contradicting-classname */
 "use client"
 
-import React, { useEffect, useMemo, useRef, useState } from "react"
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import * as d3 from "d3"
+import { useTheme } from "next-themes"
 
 import { type OperatorStatisticItem } from "@/types/api/statistics"
 import { cn } from "@/lib/utils"
 import { percentageFormatter } from "@/lib/utils/number"
 import { Spinner } from "@/components/ui/spinner"
-import { getCountryColor } from "@/components/charts/worldmap/colors"
+import { getCountryColorCanvas } from "@/components/charts/worldmap/colors"
 import { getFlagEmojiByCountryName } from "@/components/charts/worldmap/country-flag-emojies"
 
 import worldGeoJson from "./world.json"
@@ -49,21 +50,43 @@ interface CountryFeature {
   }
 }
 
-// Function to generate hexagon path with flat-top orientation (better for honeycomb)
-const generateHexagonPath = (
+// Function to draw hexagon on canvas with flat-top orientation (better for honeycomb)
+const drawHexagon = (
+  ctx: CanvasRenderingContext2D,
   centerX: number,
   centerY: number,
-  radius: number
-): string => {
-  const points: [number, number][] = []
+  radius: number,
+  fillColor: string
+): void => {
+  ctx.beginPath()
   for (let i = 0; i < 6; i++) {
     // Start from flat top (add π/2 offset) for proper honeycomb orientation
     const angle = (Math.PI / 3) * i + Math.PI / 2
     const x = centerX + radius * Math.cos(angle)
     const y = centerY + radius * Math.sin(angle)
-    points.push([x, y])
+    if (i === 0) {
+      ctx.moveTo(x, y)
+    } else {
+      ctx.lineTo(x, y)
+    }
   }
-  return `M${points.map((p) => p.join(",")).join("L")}Z`
+  ctx.closePath()
+  ctx.fillStyle = fillColor
+  ctx.fill()
+}
+
+// Function to check if a point is inside a hexagon
+const isPointInHexagon = (
+  pointX: number,
+  pointY: number,
+  centerX: number,
+  centerY: number,
+  radius: number
+): boolean => {
+  const dx = pointX - centerX
+  const dy = pointY - centerY
+  const distance = Math.sqrt(dx * dx + dy * dy)
+  return distance <= radius
 }
 
 // Function to generate hexagonal grid
@@ -171,10 +194,14 @@ const WorldMap: React.FC<MapProps> = ({
   height = 400,
   className = "",
 }) => {
-  const svgRef = useRef<SVGSVGElement>(null)
+  const { theme } = useTheme() as { theme: "dark" | "light" }
+
+  const canvasRef = useRef<HTMLCanvasElement>(null)
   const tooltipRef = useRef<HTMLDivElement>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const hexagonDataRef = useRef<HexagonData[]>([])
+  const visualHexRadiusRef = useRef<number>(0)
 
   const countryData = useMemo(() => {
     return (
@@ -188,6 +215,66 @@ const WorldMap: React.FC<MapProps> = ({
     )
   }, [data])
 
+  // Mouse interaction handlers for Canvas
+  const handleMouseMove = useCallback(
+    (event: MouseEvent) => {
+      if (!canvasRef.current || !tooltipRef.current) return
+
+      const canvas = canvasRef.current
+      const rect = canvas.getBoundingClientRect()
+      const scaleX = canvas.width / rect.width
+      const scaleY = canvas.height / rect.height
+
+      const mouseX = (event.clientX - rect.left) * scaleX
+      const mouseY = (event.clientY - rect.top) * scaleY
+
+      // Find hexagon under mouse
+      const hoveredHex = hexagonDataRef.current.find((hex) =>
+        isPointInHexagon(
+          mouseX,
+          mouseY,
+          hex.x,
+          hex.y,
+          visualHexRadiusRef.current
+        )
+      )
+
+      const tooltip = d3.select(tooltipRef.current)
+
+      if (hoveredHex && hoveredHex.country) {
+        // Show tooltip
+        tooltip.transition().duration(200).style("opacity", "1")
+        tooltip
+          .html(
+            `
+          <strong>${getFlagEmojiByCountryName(hoveredHex.country || "Unknown")} ${
+            hoveredHex.country || "Unknown"
+          }</strong>
+          ${hoveredHex.country ? percentageFormatter.format(countryData[hoveredHex.country]?.percentage || 0) : "0%"}
+        `
+          )
+          .style("left", event.clientX + 28 + "px")
+          .style("top", event.clientY - 28 + "px")
+
+        // Change cursor
+        canvas.style.cursor = "pointer"
+      } else {
+        // Hide tooltip
+        tooltip.transition().duration(500).style("opacity", "0")
+        canvas.style.cursor = "default"
+      }
+    },
+    [countryData]
+  )
+
+  const handleMouseLeave = useCallback(() => {
+    if (!tooltipRef.current || !canvasRef.current) return
+
+    const tooltip = d3.select(tooltipRef.current)
+    tooltip.transition().duration(500).style("opacity", "0")
+    canvasRef.current.style.cursor = "default"
+  }, [])
+
   const loadWorldData = async (): Promise<CountryFeature[]> => {
     try {
       // Use the local GeoJSON file
@@ -200,42 +287,51 @@ const WorldMap: React.FC<MapProps> = ({
   }
 
   useEffect(() => {
-    if (!svgRef.current || !tooltipRef.current) return
+    if (!canvasRef.current || !tooltipRef.current) return
 
-    const svg = d3.select(svgRef.current)
-    const tooltip = d3.select(tooltipRef.current)
-
-    // Clear previous content
-    svg.selectAll("*").remove()
+    const canvas = canvasRef.current
+    const ctx = canvas.getContext("2d")
+    if (!ctx) return
 
     // Set up responsive dimensions
     const margin = { top: 0, right: 0, bottom: 0, left: 0 }
     const innerWidth = width - margin.left - margin.right
     const innerHeight = height - margin.top - margin.bottom
 
-    // Create responsive SVG
-    svg
-      .attr("width", "100%")
-      .attr("height", "100%")
-      .attr("viewBox", `0 0 ${width} ${height}`)
-      .style("width", "100%")
-      .style("height", "100%")
+    // Get the actual container size for responsive canvas
+    const containerRect = canvas.parentElement?.getBoundingClientRect()
+    const containerWidth = containerRect?.width || width
+    const containerHeight = containerRect?.height || height
 
-    const g = svg
-      .append("g")
-      .attr("transform", `translate(${margin.left},${margin.top})`)
+    // Set canvas dimensions for high DPI displays
+    const devicePixelRatio = window.devicePixelRatio || 1
+    canvas.width = containerWidth * devicePixelRatio
+    canvas.height = containerHeight * devicePixelRatio
+    canvas.style.width = "100%"
+    canvas.style.height = "100%"
+    ctx.scale(devicePixelRatio, devicePixelRatio)
+
+    // Update inner dimensions to match actual container size
+    const actualInnerWidth = containerWidth - margin.left - margin.right
+    const actualInnerHeight = containerHeight - margin.top - margin.bottom
+
+    // Clear canvas
+    ctx.clearRect(0, 0, containerWidth, containerHeight)
 
     // Set up responsive projection with proper centering to avoid country splitting
-    const scale = Math.min(innerWidth, innerHeight) / 4.4
+    const scale = Math.min(actualInnerWidth, actualInnerHeight) / 4.4
     const projection = d3
       .geoMercator()
       .center([0, 0]) // Center on prime meridian to avoid splitting countries
       .scale(scale)
-      .translate([285, innerHeight / 1.5])
+      .translate([
+        285 * (actualInnerWidth / innerWidth),
+        actualInnerHeight / 1.5,
+      ])
       // Clip to viewport to avoid antimeridian wrapping slivers
       .clipExtent([
         [0, 0],
-        [innerWidth, innerHeight],
+        [actualInnerWidth, actualInnerHeight],
       ])
 
     loadWorldData()
@@ -243,10 +339,10 @@ const WorldMap: React.FC<MapProps> = ({
         console.log("Successfully loaded world data from local GeoJSON file")
 
         // Generate hexagonal grid
-        const hexRadius = Math.min(innerWidth, innerHeight) / 72 // 10% bigger hexagons in the grid
+        const hexRadius = Math.min(actualInnerWidth, actualInnerHeight) / 72 // 10% bigger hexagons in the grid
         const hexagons = generateHexagonalGrid(
-          innerWidth,
-          innerHeight,
+          actualInnerWidth,
+          actualInnerHeight,
           hexRadius,
           projection
         )
@@ -268,60 +364,32 @@ const WorldMap: React.FC<MapProps> = ({
 
         // Draw hexagons with slight spacing
         const visualHexRadius = hexRadius * 0.7 // Make hexagons 90% of grid size for spacing
+        visualHexRadiusRef.current = visualHexRadius
+        hexagonDataRef.current = landHexagons
 
-        // Clip a small padding on left/right to hide antimeridian slivers
-        const clipId = `map-clip-${Math.floor(Math.random() * 1e9)}`
+        // Set up clipping to hide antimeridian slivers
         const clipPadding = Math.max(visualHexRadius, 12)
-        const defs = svg.append("defs")
-        defs
-          .append("clipPath")
-          .attr("id", clipId)
-          .append("rect")
-          .attr("x", clipPadding)
-          .attr("y", 0)
-          .attr("width", Math.max(0, innerWidth - clipPadding * 2))
-          .attr("height", innerHeight)
+        ctx.save()
+        ctx.beginPath()
+        ctx.rect(
+          clipPadding,
+          0,
+          Math.max(0, innerWidth - clipPadding * 2),
+          innerHeight
+        )
+        ctx.clip()
 
-        g.attr("clip-path", `url(#${clipId})`)
-        g.selectAll(".hexagon")
-          .data(landHexagons)
-          .enter()
-          .append("path")
-          .attr("class", "hexagon")
-          .attr("d", (d: HexagonData) =>
-            generateHexagonPath(d.x, d.y, visualHexRadius)
-          )
-          .attr("fill", (d: HexagonData) => getCountryColor(d.value))
-          .style("cursor", "pointer")
-          .style("stroke", "none")
-          .style("transition", "all 0.3s")
-          .on("mouseover", function (event: MouseEvent, d: HexagonData) {
-            d3.select(this).style("opacity", "0.8")
+        // Draw hexagons on canvas
+        landHexagons.forEach((hex) => {
+          const color = getCountryColorCanvas(theme, hex.value)
+          drawHexagon(ctx, hex.x, hex.y, visualHexRadius, color)
+        })
 
-            tooltip.transition().duration(200).style("opacity", "1")
+        ctx.restore()
 
-            tooltip
-              .html(
-                `
-                <strong>${getFlagEmojiByCountryName(d.country || "Unknown")} ${
-                  d.country || "Unknown"
-                }</strong>
-                ${d.country ? percentageFormatter.format(countryData[d.country]?.percentage || 0) : "0%"}
-              `
-              )
-              .style("left", event.clientX + 28 + "px")
-              .style("top", event.clientY - 28 + "px")
-          })
-          .on("mousemove", function (event: MouseEvent) {
-            tooltip
-              .style("left", event.clientX + 10 + "px")
-              .style("top", event.clientY - 28 + "px")
-          })
-          .on("mouseout", function () {
-            d3.select(this).style("opacity", "1")
-
-            tooltip.transition().duration(500).style("opacity", "0")
-          })
+        // Add mouse event listeners
+        canvas.addEventListener("mousemove", handleMouseMove)
+        canvas.addEventListener("mouseleave", handleMouseLeave)
 
         setLoading(false)
       })
@@ -333,29 +401,43 @@ const WorldMap: React.FC<MapProps> = ({
         setLoading(false)
 
         // Fallback: create a simple message if data fails to load
-        g.append("text")
-          .attr("x", innerWidth / 2)
-          .attr("y", innerHeight / 2)
-          .attr("text-anchor", "middle")
-          .style("font-size", "18px")
-          .style("fill", "#666")
-          .text(
-            "Unable to load map data. Please check your internet connection."
-          )
+        ctx.fillStyle = "#666"
+        ctx.font = "18px Arial"
+        ctx.textAlign = "center"
+        ctx.fillText(
+          "Unable to load map data. Please check your internet connection.",
+          innerWidth / 2,
+          innerHeight / 2
+        )
       })
-  }, [width, height, data, countryData])
+
+    // Cleanup function
+    return () => {
+      canvas.removeEventListener("mousemove", handleMouseMove)
+      canvas.removeEventListener("mouseleave", handleMouseLeave)
+    }
+  }, [width, height, data, countryData, handleMouseMove, handleMouseLeave])
 
   return (
     <div
       className={`map-container ${className}`}
       style={{
         width: "100%",
-        aspectRatio: "16/9",
+        maxWidth: `${width}px`,
+        aspectRatio: `${width}/${height}`,
         position: "relative",
         fontFamily: "Arial, sans-serif",
       }}
     >
-      <svg ref={svgRef} />
+      <canvas
+        ref={canvasRef}
+        style={{
+          width: "100%",
+          height: "100%",
+          display: "block",
+          objectFit: "contain",
+        }}
+      />
 
       <div
         ref={tooltipRef}

@@ -13,7 +13,8 @@ import { Stat } from "@/components/ui/stat"
 import { Text } from "@/components/ui/text"
 import { Layer } from "@/components/charts/layers/layer"
 import { GeoLegend } from "@/components/charts/worldmap/geo-legend/geo-legend"
-import WorldMap from "@/components/charts/worldmap/map"
+import WorldMap from "@/components/charts/worldmap/hexagon-map"
+import StandardMap from "@/components/charts/worldmap/standard-map"
 import { GlobalSearch } from "@/components/global-search/global-search"
 import { Shell } from "@/components/shell"
 import { AccountEventsTable } from "@/app/_components/events/events-table"
@@ -41,7 +42,10 @@ export default async function Page(props: IndexPageProps) {
     getOperatorStatistics({ network }),
   ])
 
-  const recentSSVEvents = getRecentSSVEvents({ network })
+  const recentSSVEvents = getRecentSSVEvents({
+    network,
+    ordering: [{ id: "createdAt", desc: true }],
+  })
 
   const totalOperators = operators.pagination.total
   const totalValidators = validators.pagination.total
@@ -109,14 +113,15 @@ export default async function Page(props: IndexPageProps) {
         <Text variant="body-2-bold" className="text-gray-500">
           Geographical Distribution
         </Text>
-        <div className="flex flex-col lg:flex-row">
-          <div className="flex flex-1 flex-col">
-            <WorldMap
-              className="max-h-[300px] lg:-ml-8"
+        <div className="flex flex-col gap-6 lg:flex-row">
+          <div className="flex flex-1 flex-col lg:px-6">
+            <StandardMap
               data={operatorStatistics.geolocation}
+              className="max-h-[270px]"
             />
           </div>
           <GeoLegend
+            className="lg:px-6"
             items={operatorStatistics.geolocation}
             totalCount={operatorStatistics.total_count}
           />
@@ -125,14 +130,15 @@ export default async function Page(props: IndexPageProps) {
       <div className="flex max-w-full flex-col gap-6 overflow-hidden md:flex-row">
         <Layer
           className="flex-1"
-          title="Consensus Layer"
-          items={operatorStatistics.consensus_client}
+          title="Execution Layer"
+          items={operatorStatistics.execution_client}
           colorScheme="success"
         />
         <Layer
           className="flex-1"
-          title="Execution Layer"
-          items={operatorStatistics.execution_client}
+          title="Consensus Layer"
+          items={operatorStatistics.consensus_client}
+          colorScheme="violeta"
         />
       </div>
       <EventsOverviewTable dataPromise={recentSSVEvents} />

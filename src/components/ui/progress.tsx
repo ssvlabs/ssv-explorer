@@ -6,21 +6,19 @@ import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@/lib/utils/index"
 
-export const progressVariants = cva(
-  "bg-gray-50 [&>.progress-bar]:bg-primary-500",
-  {
-    variants: {
-      colorScheme: {
-        primary: "bg-primary-50 [&>.progress-bar]:bg-primary-500",
-        success: "bg-success-100 [&>.progress-bar]:bg-success-500",
-      },
+export const progressVariants = cva("", {
+  variants: {
+    colorScheme: {
+      primary: "bg-primary-50 [&>.progress-bar]:bg-primary-500",
+      success: "bg-mintaloe-light/20 [&>.progress-bar]:bg-mintaloe-light",
+      violeta: "bg-violeta-light/20 [&>.progress-bar]:bg-violeta-light",
     },
+  },
 
-    defaultVariants: {
-      colorScheme: "primary",
-    },
-  }
-)
+  defaultVariants: {
+    colorScheme: "primary",
+  },
+})
 
 export interface ProgressProps
   extends React.ComponentPropsWithoutRef<typeof ProgressPrimitive.Root>,
