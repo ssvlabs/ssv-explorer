@@ -114,7 +114,7 @@ export default async function Page(props: IndexPageProps) {
           Geographical Distribution
         </Text>
         <div className="flex flex-col gap-6 lg:flex-row">
-          <div className="flex flex-1 flex-col lg:px-6">
+          <div className="flex flex-1 flex-col p-6 lg:py-0">
             <StandardMap
               data={operatorStatistics.geolocation}
               className="max-h-[270px]"
