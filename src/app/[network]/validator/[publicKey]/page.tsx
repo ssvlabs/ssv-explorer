@@ -71,10 +71,21 @@ export default async function Page(props: IndexPageProps) {
     network,
   })
 
-  const validator = await getValidator({
-    publicKey,
-    network,
-  })
+  let validator
+  try {
+    validator = await getValidator({
+      publicKey,
+      network,
+    })
+  } catch (error) {
+    return (
+      <ErrorCard
+        className="bg-transparent"
+        errorMessage={(error as Error).message}
+        title="Validator not found"
+      />
+    )
+  }
 
   const nativeCurrency = getNativeCurrency(network)
 
