@@ -20,9 +20,12 @@ export const EventsOverviewTable = withErrorBoundary(
   ({ dataPromise: data }: EventsOverviewTableProps) => {
     const { data: events, pagination } = use(data)
 
+    // Filter out events without ownerAddress
+    const filteredEvents = events?.filter((event) => event.ownerAddress) || []
+
     const { table } = useDataTable({
       name: "events-table-preview",
-      data: events,
+      data: filteredEvents,
       columns: overviewEventsTableColumns,
       pageCount: pagination.pages,
       getRowId: (originalRow, index) =>
@@ -47,7 +50,7 @@ export const EventsOverviewTable = withErrorBoundary(
         },
       },
       meta: {
-        total: pagination.total,
+        total: filteredEvents.length,
       },
     })
 
