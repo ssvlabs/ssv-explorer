@@ -45,7 +45,7 @@ export const searchOperators = async (
     },
     [JSON.stringify(stringifyBigints(params))],
     {
-      revalidate: 30,
+      // revalidate: 30,
       tags: ["operators"],
     }
   )()
@@ -76,7 +76,7 @@ export const getOperator = async (
     },
     [JSON.stringify(params)],
     {
-      revalidate: 30,
+      // revalidate: 30,
       tags: ["operators"],
     }
   )()
@@ -87,7 +87,7 @@ export const getOperatorLocations = async (chain: ChainName) => {
     async () => api.get<Country[]>(endpoint(chain, "operators/locations")),
     [chain.toString()],
     {
-      revalidate: 60 * 60 * 24,
+      // revalidate: 30,
       tags: ["operator-locations"],
     }
   )()
