@@ -11,6 +11,7 @@ import {
 } from "@/lib/search-parsers/validators-search-parsers"
 import { stringifyBigints } from "@/lib/utils/bigint"
 import { unstable_cache } from "@/lib/utils/unstable-cache"
+import { mapBeaconChainStatus } from "@/lib/utils/validator-status-mapping"
 
 export const searchValidators = async (
   params: Partial<ValidatorsSearchSchema> & { network: ChainName }
@@ -21,6 +22,18 @@ export const searchValidators = async (
       const response = await api.get<PaginatedValidatorsResponse>(
         endpoint(params.network, "validators", `?${searchParams}`)
       )
+
+      // Map beacon chain status to user-friendly status
+      if (response?.validators) {
+        response.validators = response.validators.map((validator) => ({
+          ...validator,
+          status: mapBeaconChainStatus(
+            validator.validator_info?.status,
+            validator.status
+          ),
+        }))
+      }
+
       return response
     },
     [JSON.stringify(stringifyBigints(params))],
@@ -43,7 +56,15 @@ export const getValidator = async (
       if (!response) {
         throw new Error("Validator not found")
       }
-      return response
+      // Map beacon chain status to user-friendly status
+      const mappedResponse = {
+        ...response,
+        status: mapBeaconChainStatus(
+          response.validator_info?.status,
+          response.status
+        ),
+      }
+      return mappedResponse
     },
     [JSON.stringify(stringifyBigints(params))],
     {
