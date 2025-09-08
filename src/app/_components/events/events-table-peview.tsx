@@ -74,7 +74,7 @@ export const EventsOverviewTable = withErrorBoundary(
         <ErrorCard
           className="flex-1"
           errorMessage={(error as Error).message}
-          title="Couldn't load  Operators"
+          title="Failed to load  Recent Account Events"
         />
       )
     },

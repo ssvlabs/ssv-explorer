@@ -9,6 +9,7 @@ import { operatorsSearchParamsCache } from "@/lib/search-parsers/operator-search
 import { validatorsSearchParamsCache } from "@/lib/search-parsers/validators-search-parsers"
 import { numberFormatter } from "@/lib/utils/number"
 import { Card } from "@/components/ui/card"
+import { ErrorCard } from "@/components/ui/error-card"
 import { Stat } from "@/components/ui/stat"
 import { Text } from "@/components/ui/text"
 import { Layer } from "@/components/charts/layers/layer"
@@ -25,29 +26,38 @@ interface IndexPageProps {
   searchParams: Promise<SearchParams>
 }
 
+const getValue = <T,>(promise: PromiseSettledResult<T>): T | undefined => {
+  return promise.status === "fulfilled" ? promise.value : undefined
+}
+
 export default async function Page(props: IndexPageProps) {
   const { network } = await props.params
 
-  const [operators, validators, operatorStatistics] = await Promise.all([
-    searchOperators({
-      ...operatorsSearchParamsCache.parse({}), // add default search params
-      network,
-    }),
-    searchValidators({
-      ...validatorsSearchParamsCache.parse({}), // add default search params
-      network,
-    }),
-    getOperatorStatistics({ network }),
-  ])
+  const [operatorsPromise, validatorsPromise, operatorStatisticsPromise] =
+    await Promise.allSettled([
+      searchOperators({
+        ...operatorsSearchParamsCache.parse({}), // add default search params
+        network,
+      }),
+      searchValidators({
+        ...validatorsSearchParamsCache.parse({}), // add default search params
+        network,
+      }),
+      getOperatorStatistics({ network }),
+    ] as const)
+
+  const operators = getValue(operatorsPromise)
+  const validators = getValue(validatorsPromise)
+  const operatorStatistics = getValue(operatorStatisticsPromise)
 
   const recentSSVEvents = getRecentSSVEvents({
     network,
     ordering: [{ id: "createdAt", desc: true }],
   })
 
-  const totalOperators = operators.pagination.total
-  const totalValidators = validators.pagination.total
-  const totalStakedEth = validators.pagination.total * 32
+  const totalOperators = operators?.pagination.total ?? 0
+  const totalValidators = validators?.pagination.total ?? 0
+  const totalStakedEth = validators?.pagination.total ?? 0 * 32
 
   const nativeCurrency = getNativeCurrency(network)
 
@@ -104,41 +114,54 @@ export default async function Page(props: IndexPageProps) {
       </div>
 
       <div className="flex max-w-full flex-col gap-6 overflow-hidden md:flex-row">
-        <OperatorsOverviewTable dataPromise={Promise.resolve(operators)} />
-        <ValidatorsOverviewTable dataPromise={Promise.resolve(validators)} />
+        <OperatorsOverviewTable dataPromise={Promise.resolve(operators!)} />
+        <ValidatorsOverviewTable dataPromise={Promise.resolve(validators!)} />
       </div>
-      <Card className="flex flex-col gap-6">
-        <Text variant="body-2-bold" className="text-gray-500">
-          Geographical Distribution
-        </Text>
-        <div className="flex flex-col gap-6 lg:flex-row">
-          <div className="flex flex-1 flex-col p-6 lg:py-0">
-            <StandardMap
-              data={operatorStatistics.geolocation}
-              className="max-h-[270px]"
+      {operatorStatistics ? (
+        <>
+          <Card className="flex flex-col gap-6">
+            <Text variant="body-2-bold" className="text-gray-500">
+              Geographical Distribution
+            </Text>
+            <div className="flex flex-col gap-6 lg:flex-row">
+              <div className="flex flex-1 flex-col p-6 lg:py-0">
+                <StandardMap
+                  data={operatorStatistics.geolocation}
+                  className="max-h-[270px]"
+                />
+              </div>
+              <GeoLegend
+                className="lg:px-6"
+                items={operatorStatistics.geolocation}
+                totalCount={operatorStatistics.total_count}
+              />
+            </div>
+          </Card>
+          <div className="flex max-w-full flex-col gap-6 overflow-hidden md:flex-row">
+            <Layer
+              className="flex-1"
+              title="Execution Layer"
+              items={operatorStatistics.execution_client}
+              colorScheme="success"
+            />
+            <Layer
+              className="flex-1"
+              title="Consensus Layer"
+              items={operatorStatistics.consensus_client}
+              colorScheme="violeta"
             />
           </div>
-          <GeoLegend
-            className="lg:px-6"
-            items={operatorStatistics.geolocation}
-            totalCount={operatorStatistics.total_count}
+        </>
+      ) : (
+        <Card>
+          <ErrorCard
+            className="bg-transparent"
+            errorMessage="Something went wrong while fetching the statistics"
+            title="Failed to Statistics"
           />
-        </div>
-      </Card>
-      <div className="flex max-w-full flex-col gap-6 overflow-hidden md:flex-row">
-        <Layer
-          className="flex-1"
-          title="Execution Layer"
-          items={operatorStatistics.execution_client}
-          colorScheme="success"
-        />
-        <Layer
-          className="flex-1"
-          title="Consensus Layer"
-          items={operatorStatistics.consensus_client}
-          colorScheme="violeta"
-        />
-      </div>
+        </Card>
+      )}
+
       <EventsOverviewTable dataPromise={recentSSVEvents} />
     </Shell>
   )

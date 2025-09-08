@@ -5,7 +5,6 @@ import { api } from "@/api/api-client"
 
 import { type OperatorStatistics } from "@/types/api/statistics"
 import { type ChainName } from "@/config/chains"
-import { ms } from "@/lib/utils/number"
 import { unstable_cache } from "@/lib/utils/unstable-cache"
 
 export const getOperatorStatistics = async (params: { network: ChainName }) => {
