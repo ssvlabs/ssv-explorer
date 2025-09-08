@@ -17,7 +17,7 @@ const badgeVariants = cva(
         primary: "bg-primary-100 text-primary-500",
         unstyled: "text-gray-500",
         "multi-select": "bg-gray-300",
-        purple: "bg-[#D099FD]/30 text-[#C070FF]",
+        purple: "bg-violeta-light/30 text-violeta-regular",
         secondary: "bg-gray-300 text-gray-600",
       },
       size: {
