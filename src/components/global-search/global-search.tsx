@@ -1,12 +1,14 @@
 "use client"
 
 import * as React from "react"
+import { useEffect } from "react"
 import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
 import { shortenAddress } from "@/lib/utils/strings"
 import { useNetworkParam } from "@/hooks/app/useNetworkParam"
 import { useAsyncRoutePush } from "@/hooks/next/use-async-route-push"
+import { useAccountsInfiniteQuery } from "@/hooks/queries/use-accounts-infinite-query"
 import { useClustersInfiniteQuery } from "@/hooks/queries/use-clusters-infinite-query"
 import { useOperatorsInfiniteQuery } from "@/hooks/queries/use-operators-infinite-query"
 import { useValidatorsInfiniteQuery } from "@/hooks/queries/use-validators-infinite-query"
@@ -19,13 +21,11 @@ import {
   CommandList,
   CommandSeparator,
 } from "@/components/ui/command"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover"
+import { Popover, PopoverContent, PopoverTrigger, } from "@/components/ui/popover"
 import { Spinner } from "@/components/ui/spinner"
 import { textVariants } from "@/components/ui/text"
+import { AccountsGroup } from "@/components/global-search/groups/accounts-group"
+import { ClustersGroup } from "@/components/global-search/groups/clusters-group"
 
 import { OperatorsGroup } from "./groups/operators-group"
 import { ValidatorsGroup } from "./groups/validators-group"
@@ -77,6 +77,12 @@ export const GlobalSearch: React.FC<Props> = ({ size, ...props }) => {
     enabled: !searchType.isExactMatch,
   })
 
+  const accountsQuery = useAccountsInfiniteQuery({
+    search: debouncedSearch,
+    perPage: 5,
+    enabled: !searchType.isExactMatch,
+  })
+
   const hasLoadedSearchedOperators =
     search === debouncedSearch &&
     operatorsQuery.isSuccess &&
@@ -107,6 +113,32 @@ export const GlobalSearch: React.FC<Props> = ({ size, ...props }) => {
       }
     )
   }
+
+  useEffect(() => {
+    function handleGlobalShortcut(e: KeyboardEvent) {
+      const isTyping =
+        e.target instanceof HTMLElement &&
+        (e.target.tagName === "INPUT" ||
+          e.target.tagName === "TEXTAREA" ||
+          e.target.isContentEditable)
+
+      if (
+        !isTyping &&
+        !(e.metaKey || e.ctrlKey || e.altKey) &&
+        e.key.toLowerCase() === "/"
+      ) {
+        e.preventDefault()
+        inputRef.current?.focus()
+      }
+
+      if (e.key.toLowerCase() === "escape") {
+        close()
+      }
+    }
+
+    window.addEventListener("keydown", handleGlobalShortcut)
+    return () => window.removeEventListener("keydown", handleGlobalShortcut)
+  }, [])
 
   return (
     <Popover
@@ -185,6 +217,34 @@ export const GlobalSearch: React.FC<Props> = ({ size, ...props }) => {
                           close()
                           asyncRoutePush.mutate(
                             `/${network}/validator/${validator.public_key}`
+                          )
+                        }}
+                      />
+                    </>
+                  )}
+                  {clustersQuery.data?.length && (
+                    <>
+                      <CommandSeparator />
+                      <ClustersGroup
+                        query={clustersQuery}
+                        onSelect={(group, cluster) => {
+                          close()
+                          asyncRoutePush.mutate(
+                            `/${network}/cluster/${cluster.id}`
+                          )
+                        }}
+                      />
+                    </>
+                  )}
+                  {accountsQuery.data?.length && (
+                    <>
+                      <CommandSeparator />
+                      <AccountsGroup
+                        query={accountsQuery}
+                        onSelect={(group, account) => {
+                          close()
+                          asyncRoutePush.mutate(
+                            `/${network}/account/${account.ownerAddress}`
                           )
                         }}
                       />

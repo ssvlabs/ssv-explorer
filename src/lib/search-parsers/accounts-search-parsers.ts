@@ -2,6 +2,7 @@ import {
   createSearchParamsCache,
   createSerializer,
   parseAsArrayOf,
+  parseAsString,
 } from "nuqs/server"
 import { z } from "zod"
 
@@ -15,6 +16,9 @@ import {
 import { getSortingStateParser } from "@/lib/utils/parsers"
 
 export const accountsSearchFilters = {
+  searchOwnerAddress: parseAsString
+    .withDefault("")
+    .withOptions(defaultSearchOptions),
   id: parseAsArrayOf(z.number({ coerce: true })).withOptions(
     defaultSearchOptions
   ),
@@ -27,13 +31,13 @@ export const accountsSearchFilters = {
 
 export type AccountSearchFilterKeys = keyof typeof accountsSearchFilters
 
-export const operatorSearchSort = {
+export const accountSearchSort = {
   ordering: getSortingStateParser<Account>().withOptions(defaultSearchOptions),
 }
 
 export const accountSearchParsers = {
   ...paginationParser,
-  ...operatorSearchSort,
+  ...accountSearchSort,
   ...accountsSearchFilters,
 }
 export const accountsSearchParamsCache =

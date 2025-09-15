@@ -1,6 +1,6 @@
 import React from "react"
 import type { Metadata } from "next"
-import { getAccounts } from "@/api/account"
+import { searchAccounts } from "@/api/account"
 import { type SearchParams } from "@/types"
 
 import { type ChainName } from "@/config/chains"
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
 export default async function Page(props: IndexPageProps) {
   const search = accountsSearchParamsCache.parse(await props.searchParams)
   const { network } = await props.params
-  const accounts = getAccounts({ ...search, network: network })
+  const accounts = searchAccounts({ ...search, network: network })
 
   return (
     <Shell className="gap-2">
