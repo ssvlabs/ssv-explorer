@@ -1,6 +1,7 @@
 import { type UseInfiniteQueryResult } from "@tanstack/react-query"
 
 import { type Operator } from "@/types/api"
+import { Button } from "@/components/ui/button"
 import { CommandGroup, CommandItem } from "@/components/ui/command"
 import { Text } from "@/components/ui/text"
 import { OperatorInfo } from "@/components/operators/operator-info"
@@ -34,16 +35,21 @@ export function OperatorsGroup({ query, onSelect }: OperatorsGroupProps) {
         </CommandItem>
       ))}
       {query.hasNextPage && (
-        <CommandItem
-          className="cursor-pointer"
-          value="load-more"
-          onMouseDown={(e) => e.preventDefault()}
-          onSelect={() => {
-            query.fetchNextPage()
-          }}
-        >
-          {query.isFetching ? "Loading..." : "Load more"}
-        </CommandItem>
+        <div className="mt-1 flex w-full justify-center">
+          <Button
+            size="sm"
+            className="w-full text-primary-500"
+            variant="ghost"
+            isLoading={query.isFetching}
+            onClick={(ev) => {
+              ev.preventDefault()
+              ev.stopPropagation()
+              query.fetchNextPage()
+            }}
+          >
+            Load more
+          </Button>
+        </div>
       )}
     </CommandGroup>
   )

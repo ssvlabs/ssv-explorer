@@ -7,8 +7,8 @@ import { CommandGroup, CommandItem } from "@/components/ui/command"
 import { Text } from "@/components/ui/text"
 
 interface ClustersGroupProps {
-  query: UseInfiniteQueryResult<Cluster[], unknown>
-  onSelect: (group: "cluster", value: Cluster) => void
+  query: UseInfiniteQueryResult<Cluster<number[]>[], unknown>
+  onSelect: (group: "cluster", value: Cluster<number[]>) => void
 }
 
 export function ClustersGroup({ query, onSelect }: ClustersGroupProps) {
@@ -24,7 +24,7 @@ export function ClustersGroup({ query, onSelect }: ClustersGroupProps) {
       </Text>
       {query.data?.map((cluster) => (
         <CommandItem
-          className="px-5 py-1"
+          className="px-5 py-3"
           key={cluster.clusterId}
           onSelect={() => {
             onSelect("cluster", cluster)
@@ -37,7 +37,7 @@ export function ClustersGroup({ query, onSelect }: ClustersGroupProps) {
         <div className="mt-1 flex w-full justify-center">
           <Button
             size="sm"
-            className="w-full"
+            className="w-full text-primary-500"
             variant="ghost"
             isLoading={query.isFetching}
             onClick={(ev) => {
