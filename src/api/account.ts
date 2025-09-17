@@ -16,7 +16,7 @@ import {
 import { stringifyBigints } from "@/lib/utils/bigint"
 import { unstable_cache } from "@/lib/utils/unstable-cache"
 
-export const getAccounts = async (
+export const searchAccounts = async (
   params: Partial<AccountsSearchSchema> & { network: ChainName }
 ): Promise<PaginatedAccountsResponse> =>
   await unstable_cache(

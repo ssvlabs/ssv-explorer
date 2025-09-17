@@ -1,12 +1,14 @@
 "use client"
 
 import * as React from "react"
+import { useCallback, useEffect } from "react"
 import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
 import { shortenAddress } from "@/lib/utils/strings"
 import { useNetworkParam } from "@/hooks/app/useNetworkParam"
 import { useAsyncRoutePush } from "@/hooks/next/use-async-route-push"
+import { useAccountsInfiniteQuery } from "@/hooks/queries/use-accounts-infinite-query"
 import { useClustersInfiniteQuery } from "@/hooks/queries/use-clusters-infinite-query"
 import { useOperatorsInfiniteQuery } from "@/hooks/queries/use-operators-infinite-query"
 import { useValidatorsInfiniteQuery } from "@/hooks/queries/use-validators-infinite-query"
@@ -26,6 +28,13 @@ import {
 } from "@/components/ui/popover"
 import { Spinner } from "@/components/ui/spinner"
 import { textVariants } from "@/components/ui/text"
+import { AccountsGroup } from "@/components/global-search/groups/accounts-group"
+import { ClustersGroup } from "@/components/global-search/groups/clusters-group"
+import {
+  SearchFilter,
+  searchFiltersOrder,
+  SearchFilterType,
+} from "@/components/global-search/search-filter"
 
 import { OperatorsGroup } from "./groups/operators-group"
 import { ValidatorsGroup } from "./groups/validators-group"
@@ -50,6 +59,9 @@ export const GlobalSearch: React.FC<Props> = ({ size, ...props }) => {
   const [open, setOpen] = React.useState(false)
   const [search, setSearch] = React.useState("")
   const searchType = parseSearchInput(search)
+  const [selectedFilter, setSelectedFilter] = React.useState<SearchFilterType>(
+    SearchFilterType.All
+  )
 
   const [isFocused, setIsFocused] = React.useState(false)
   const inputRef = React.useRef<HTMLInputElement>(null)
@@ -77,6 +89,12 @@ export const GlobalSearch: React.FC<Props> = ({ size, ...props }) => {
     enabled: !searchType.isExactMatch,
   })
 
+  const accountsQuery = useAccountsInfiniteQuery({
+    search: debouncedSearch,
+    perPage: 5,
+    enabled: !searchType.isExactMatch,
+  })
+
   const hasLoadedSearchedOperators =
     search === debouncedSearch &&
     operatorsQuery.isSuccess &&
@@ -85,13 +103,15 @@ export const GlobalSearch: React.FC<Props> = ({ size, ...props }) => {
   const hasAnyLoadedData = Boolean(
     operatorsQuery.data?.length ||
       validatorsQuery.data?.length ||
-      clustersQuery.data?.length
+      clustersQuery.data?.length ||
+      accountsQuery.data?.length
   )
 
   const isLoading =
     operatorsQuery.isLoading ||
     validatorsQuery.isLoading ||
-    clustersQuery.isLoading
+    clustersQuery.isLoading ||
+    accountsQuery.isLoading
 
   const close = () => {
     inputRef.current?.blur()
@@ -107,6 +127,45 @@ export const GlobalSearch: React.FC<Props> = ({ size, ...props }) => {
       }
     )
   }
+
+  const handleGlobalShortcut = useCallback(
+    (e: KeyboardEvent) => {
+      const isTyping =
+        e.target instanceof HTMLElement &&
+        (e.target.tagName === "INPUT" ||
+          e.target.tagName === "TEXTAREA" ||
+          e.target.isContentEditable)
+
+      if (
+        !isTyping &&
+        !(e.metaKey || e.ctrlKey || e.altKey) &&
+        e.key.toLowerCase() === "/"
+      ) {
+        e.preventDefault()
+        inputRef.current?.focus()
+      }
+
+      if (e.key.toLowerCase() === "escape") {
+        close()
+      }
+
+      if (e.key.toLowerCase() === "tab") {
+        if ((open || isFocused) && !searchType.isExactMatch) {
+          e.preventDefault()
+          const order = searchFiltersOrder
+          const currentIndex = order.indexOf(selectedFilter)
+          const nextIndex = (currentIndex + 1) % order.length
+          setSelectedFilter(order[nextIndex]!)
+        }
+      }
+    },
+    [isFocused, open, searchType.isExactMatch, selectedFilter]
+  )
+
+  useEffect(() => {
+    window.addEventListener("keydown", handleGlobalShortcut)
+    return () => window.removeEventListener("keydown", handleGlobalShortcut)
+  }, [handleGlobalShortcut])
 
   return (
     <Popover
@@ -145,7 +204,10 @@ export const GlobalSearch: React.FC<Props> = ({ size, ...props }) => {
                 e.stopPropagation()
               }
             }}
-            onValueChange={(value) => setSearch(value)}
+            onValueChange={(value) => {
+              setSelectedFilter(SearchFilterType.All)
+              setSearch(value)
+            }}
             onFocus={(event) => {
               event.currentTarget.select()
               return setIsFocused(true)
@@ -159,7 +221,9 @@ export const GlobalSearch: React.FC<Props> = ({ size, ...props }) => {
         >
           {!searchType.isExactMatch && (
             <CommandList className="flex flex-col">
-              {!isLoading && search && <CommandEmpty>No found.</CommandEmpty>}
+              {!isLoading && search && !hasAnyLoadedData && (
+                <CommandEmpty>No found.</CommandEmpty>
+              )}
               {isLoading && (
                 <div className="flex items-center justify-center p-6">
                   <Spinner />
@@ -167,29 +231,82 @@ export const GlobalSearch: React.FC<Props> = ({ size, ...props }) => {
               )}
               {!isLoading && (
                 <>
-                  <OperatorsGroup
-                    query={operatorsQuery}
-                    onSelect={(group, operator) => {
-                      close()
-                      asyncRoutePush.mutate(
-                        `/${network}/operator/${operator.id}`
-                      )
-                    }}
-                  />
-                  {validatorsQuery.data?.length && (
-                    <>
-                      <CommandSeparator />
-                      <ValidatorsGroup
-                        query={validatorsQuery}
-                        onSelect={(group, validator) => {
-                          close()
-                          asyncRoutePush.mutate(
-                            `/${network}/validator/${validator.public_key}`
-                          )
-                        }}
-                      />
-                    </>
+                  {hasAnyLoadedData && (
+                    <SearchFilter
+                      value={selectedFilter}
+                      onSelect={(type) => {
+                        setSelectedFilter(type)
+                      }}
+                    />
                   )}
+                  {[SearchFilterType.Operator, SearchFilterType.All].includes(
+                    selectedFilter
+                  ) &&
+                    Boolean(operatorsQuery.data?.length) && (
+                      <>
+                        <CommandSeparator alwaysRender className="-mx-2" />
+                        <OperatorsGroup
+                          query={operatorsQuery}
+                          onSelect={(group, operator) => {
+                            close()
+                            asyncRoutePush.mutate(
+                              `/${network}/operator/${operator.id}`
+                            )
+                          }}
+                        />
+                      </>
+                    )}
+                  {[SearchFilterType.Validator, SearchFilterType.All].includes(
+                    selectedFilter
+                  ) &&
+                    Boolean(validatorsQuery.data?.length) && (
+                      <>
+                        <CommandSeparator alwaysRender className="-mx-2" />
+                        <ValidatorsGroup
+                          query={validatorsQuery}
+                          onSelect={(group, validator) => {
+                            close()
+                            asyncRoutePush.mutate(
+                              `/${network}/validator/${validator.public_key}`
+                            )
+                          }}
+                        />
+                      </>
+                    )}
+                  {[SearchFilterType.Cluster, SearchFilterType.All].includes(
+                    selectedFilter
+                  ) &&
+                    Boolean(clustersQuery.data?.length) && (
+                      <>
+                        <CommandSeparator alwaysRender className="-mx-2" />
+                        <ClustersGroup
+                          query={clustersQuery}
+                          onSelect={(group, cluster) => {
+                            close()
+                            asyncRoutePush.mutate(
+                              `/${network}/cluster/${cluster.id}`
+                            )
+                          }}
+                        />
+                      </>
+                    )}
+                  {[SearchFilterType.Account, SearchFilterType.All].includes(
+                    selectedFilter
+                  ) &&
+                    Boolean(accountsQuery.data?.length) && (
+                      <>
+                        <CommandSeparator alwaysRender className="-mx-2" />
+                        <AccountsGroup
+                          query={accountsQuery}
+                          onSelect={(group, account) => {
+                            close()
+                            asyncRoutePush.mutate(
+                              `/${network}/account/${account.ownerAddress}`
+                            )
+                          }}
+                        />
+                      </>
+                    )}
                 </>
               )}
             </CommandList>

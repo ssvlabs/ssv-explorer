@@ -1,27 +1,27 @@
-import { searchValidators } from "@/api/validators"
+import { searchAccounts } from "@/api/account"
 import { useInfiniteQuery } from "@tanstack/react-query"
 
-import { type ValidatorsSearchSchema } from "@/lib/search-parsers/validators-search-parsers"
+import { type AccountsSearchSchema } from "@/lib/search-parsers/accounts-search-parsers"
 import { useNetworkQuery } from "@/hooks/search/use-network-query"
 
-export const useValidatorsInfiniteQuery = (
-  params: Pick<ValidatorsSearchSchema, "perPage" | "search"> & {
+export const useAccountsInfiniteQuery = (
+  params: Pick<AccountsSearchSchema, "perPage"> & {
+    search?: string
     enabled?: boolean
   }
 ) => {
   const { chain } = useNetworkQuery()
 
   return useInfiniteQuery({
-    queryKey: ["validators", params.search, chain.chainId],
+    queryKey: ["accounts", params.search, chain.chainId],
     queryFn: ({ pageParam = 1 }) =>
-      searchValidators({
+      searchAccounts({
         network: chain.name,
         page: pageParam ?? 1,
         perPage: params.perPage,
-        search: params.search,
-        fullOperatorData: false,
+        searchOwnerAddress: params.search,
       }),
-    select: (data) => data.pages.flatMap((page) => page.validators),
+    select: (data) => data.pages.flatMap((page) => page.accounts),
     initialPageParam: 1,
     getNextPageParam: (lastPage) => {
       const { page, pages } = lastPage.pagination
