@@ -34,7 +34,7 @@ export function AccountsGroup({ query, onSelect }: AccountsGroupProps) {
         </CommandItem>
       ))}
       {query.hasNextPage && (
-        <div className="mt-1 flex w-full justify-center">
+        <div className="mt-1 flex w-full justify-center pb-2">
           <Button
             size="sm"
             className="w-full text-primary-500"
