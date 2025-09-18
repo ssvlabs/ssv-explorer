@@ -1,13 +1,13 @@
 import { getRecentSSVEvents } from "@/api/events"
 import { searchOperators } from "@/api/operator"
 import { getOperatorStatistics } from "@/api/statistics"
-import { searchValidators } from "@/api/validators"
+import { getTotalEffectiveBalance, searchValidators } from "@/api/validators"
 import { type SearchParams } from "@/types"
 
 import { getNativeCurrency, type ChainName } from "@/config/chains"
 import { operatorsSearchParamsCache } from "@/lib/search-parsers/operator-search-parsers"
 import { validatorsSearchParamsCache } from "@/lib/search-parsers/validators-search-parsers"
-import { numberFormatter } from "@/lib/utils/number"
+import { formatGwei, numberFormatter } from "@/lib/utils/number"
 import { Card } from "@/components/ui/card"
 import { ErrorCard } from "@/components/ui/error-card"
 import { Stat } from "@/components/ui/stat"
@@ -33,22 +33,28 @@ const getValue = <T,>(promise: PromiseSettledResult<T>): T | undefined => {
 export default async function Page(props: IndexPageProps) {
   const { network } = await props.params
 
-  const [operatorsPromise, validatorsPromise, operatorStatisticsPromise] =
-    await Promise.allSettled([
-      searchOperators({
-        ...operatorsSearchParamsCache.parse({}), // add default search params
-        network,
-      }),
-      searchValidators({
-        ...validatorsSearchParamsCache.parse({}), // add default search params
-        network,
-      }),
-      getOperatorStatistics({ network }),
-    ] as const)
+  const [
+    operatorsPromise,
+    validatorsPromise,
+    operatorStatisticsPromise,
+    totalEffectiveBalancePromise,
+  ] = await Promise.allSettled([
+    searchOperators({
+      ...operatorsSearchParamsCache.parse({}), // add default search params
+      network,
+    }),
+    searchValidators({
+      ...validatorsSearchParamsCache.parse({}), // add default search params
+      network,
+    }),
+    getOperatorStatistics({ network }),
+    getTotalEffectiveBalance({ network }),
+  ] as const)
 
   const operators = getValue(operatorsPromise)
   const validators = getValue(validatorsPromise)
   const operatorStatistics = getValue(operatorStatisticsPromise)
+  const totalEffectiveBalance = getValue(totalEffectiveBalancePromise)
 
   const recentSSVEvents = getRecentSSVEvents({
     network,
@@ -57,7 +63,10 @@ export default async function Page(props: IndexPageProps) {
 
   const totalOperators = operators?.pagination.total ?? 0
   const totalValidators = validators?.pagination.total ?? 0
-  const totalStakedEth = validators?.pagination.total ?? 0 * 32
+  console.log("validators", validators?.validators.length)
+  const totalStakedEth = totalEffectiveBalance
+    ? BigInt(totalEffectiveBalance)
+    : 0n
 
   const nativeCurrency = getNativeCurrency(network)
 
@@ -82,7 +91,7 @@ export default async function Page(props: IndexPageProps) {
           className="flex-1"
           title={`${nativeCurrency.symbol} Staked`}
           tooltip={`Total amount of ${nativeCurrency.symbol} staked across all validators on the network`}
-          content={`${numberFormatter.format(totalStakedEth)} ${nativeCurrency.symbol}`}
+          content={`${formatGwei(totalStakedEth)} ${nativeCurrency.symbol}`}
         />
       </Card>
 

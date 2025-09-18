@@ -72,3 +72,21 @@ export const getValidator = async (
       tags: ["validator"],
     }
   )()
+
+export const getTotalEffectiveBalance = async (params: {
+  network: ChainName
+}) =>
+  await unstable_cache(
+    async () => {
+      const response = await api.get<{
+        total_effective_balance: string
+      }>(endpoint(params.network, "validators", "totalEffectiveBalance"))
+      // Have to return a string, not the BigInt as cache does not know how to serialize BigInt
+      return response.total_effective_balance
+    },
+    [`${params.network}/totalEffectiveBalance`],
+    {
+      revalidate: 30,
+      tags: ["validator"],
+    }
+  )()
