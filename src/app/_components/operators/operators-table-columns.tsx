@@ -49,7 +49,7 @@ export const operatorColumns = {
       const ownerAddress = row.original.owner_address
       return (
         <div className="flex gap-1">
-          <Button asChild variant="link">
+          <Button variant="link">
             <Link
               // eslint-disable-next-line react-hooks/rules-of-hooks
               href={`/${useNetworkParam()}/account/${ownerAddress}`}
