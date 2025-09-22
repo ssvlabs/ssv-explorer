@@ -83,7 +83,6 @@ export interface ButtonProps
 
 export type ButtonFC = ComponentWithAs<"button", ButtonProps>
 
-// @ts-expect-error - I don't know how to fix this
 export const Button: ButtonFC = React.forwardRef<
   HTMLButtonElement,
   ButtonProps
@@ -145,7 +144,6 @@ export const Button: ButtonFC = React.forwardRef<
 
 Button.displayName = "Button"
 
-// @ts-expect-error - I don't know how to fix this
 export const IconButton: ButtonFC = React.forwardRef<
   HTMLButtonElement,
   ButtonProps

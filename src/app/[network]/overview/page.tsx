@@ -63,7 +63,6 @@ export default async function Page(props: IndexPageProps) {
 
   const totalOperators = operators?.pagination.total ?? 0
   const totalValidators = validators?.pagination.total ?? 0
-  console.log("validators", validators?.validators.length)
   const totalStakedEth = totalEffectiveBalance
     ? BigInt(totalEffectiveBalance)
     : 0n

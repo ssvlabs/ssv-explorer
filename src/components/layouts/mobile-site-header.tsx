@@ -1,6 +1,5 @@
 "use client"
 
-/* eslint-disable @next/next/no-img-element */
 import { useState } from "react"
 import { usePathname } from "next/navigation"
 import { Menu, X } from "lucide-react"
@@ -47,7 +46,7 @@ export function MobileSiteHeader() {
           <div className="flex-1" />
           <NetworkSwitcher />
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
-            <SheetTrigger>
+            <SheetTrigger asChild>
               <Button variant="ghost" size="icon">
                 <Menu className="size-5" />
               </Button>
@@ -69,7 +68,6 @@ export function MobileSiteHeader() {
                 <Button
                   variant="ghost"
                   onClick={handleLinkClick}
-                  asChild
                   className="h-14 justify-start rounded-none px-5"
                 >
                   <Text
@@ -84,7 +82,6 @@ export function MobileSiteHeader() {
                 <Button
                   variant="ghost"
                   onClick={handleLinkClick}
-                  asChild
                   className="h-14 justify-start rounded-none px-5"
                 >
                   <Text
@@ -99,7 +96,6 @@ export function MobileSiteHeader() {
                 <Button
                   variant="ghost"
                   onClick={handleLinkClick}
-                  asChild
                   className="h-14 justify-start rounded-none px-5"
                 >
                   <Text
@@ -114,7 +110,6 @@ export function MobileSiteHeader() {
                 <Button
                   variant="ghost"
                   onClick={handleLinkClick}
-                  asChild
                   className="h-14 justify-start rounded-none px-5"
                 >
                   <Text
@@ -129,7 +124,6 @@ export function MobileSiteHeader() {
                 <Button
                   variant="ghost"
                   onClick={handleLinkClick}
-                  asChild
                   className="h-14 justify-start rounded-none px-5"
                 >
                   <Text
