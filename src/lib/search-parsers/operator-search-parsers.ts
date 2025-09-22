@@ -4,6 +4,7 @@ import {
   createSerializer,
   parseAsArrayOf,
   parseAsBoolean,
+  parseAsInteger,
   parseAsString,
   parseAsStringEnum,
 } from "nuqs/server"
@@ -97,6 +98,7 @@ export const operatorSearchFilters = {
   )
     .withDefault([0, 100])
     .withOptions(defaultSearchOptions),
+  updatedAt: parseAsInteger,
 }
 
 export type OperatorSearchFilterKeys = keyof typeof operatorSearchFilters
