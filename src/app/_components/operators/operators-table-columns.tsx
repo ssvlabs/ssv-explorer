@@ -49,14 +49,14 @@ export const operatorColumns = {
       const ownerAddress = row.original.owner_address
       return (
         <div className="flex gap-1">
-          <Button variant="link">
-            <Link
-              // eslint-disable-next-line react-hooks/rules-of-hooks
-              href={`/${useNetworkParam()}/account/${ownerAddress}`}
-              className="font-mono"
-            >
-              {shortenAddress(ownerAddress)}
-            </Link>
+          <Button
+            variant="link"
+            as={Link}
+            // eslint-disable-next-line react-hooks/rules-of-hooks
+            href={`/${useNetworkParam()}/account/${ownerAddress}`}
+            className="font-mono"
+          >
+            {shortenAddress(ownerAddress)}
           </Button>
           <CopyBtn className="text-gray-500" text={ownerAddress} />
         </div>
