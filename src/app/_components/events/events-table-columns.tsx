@@ -53,7 +53,6 @@ export const eventsColumns = {
       return (
         <div className="flex gap-1">
           <Button
-            asChild
             variant="link"
             as={Link}
             href={`/${useNetworkParam()}/account/${ownerAddress}`}

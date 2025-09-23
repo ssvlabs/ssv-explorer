@@ -7,7 +7,11 @@ import { type SearchParams } from "@/types"
 import { getNativeCurrency, type ChainName } from "@/config/chains"
 import { operatorsSearchParamsCache } from "@/lib/search-parsers/operator-search-parsers"
 import { validatorsSearchParamsCache } from "@/lib/search-parsers/validators-search-parsers"
-import { formatGwei, numberFormatter } from "@/lib/utils/number"
+import {
+  formatGwei,
+  numberFormatter,
+  percentageFormatter,
+} from "@/lib/utils/number"
 import { Card } from "@/components/ui/card"
 import { ErrorCard } from "@/components/ui/error-card"
 import { Stat } from "@/components/ui/stat"
@@ -35,7 +39,9 @@ export default async function Page(props: IndexPageProps) {
 
   const [
     operatorsPromise,
+    updatedOperatorsFrom7DaysAgoPromise,
     validatorsPromise,
+    updatedValidatorsFrom7DaysAgoPromise,
     operatorStatisticsPromise,
     totalEffectiveBalancePromise,
   ] = await Promise.allSettled([
@@ -43,16 +49,28 @@ export default async function Page(props: IndexPageProps) {
       ...operatorsSearchParamsCache.parse({}), // add default search params
       network,
     }),
+    searchOperators({
+      ...operatorsSearchParamsCache.parse({}), // add default search params
+      network,
+      updatedAt: 7,
+    }),
     searchValidators({
       ...validatorsSearchParamsCache.parse({}), // add default search params
       network,
+    }),
+    searchValidators({
+      ...validatorsSearchParamsCache.parse({}), // add default search params
+      network,
+      updatedAt: 7,
     }),
     getOperatorStatistics({ network }),
     getTotalEffectiveBalance({ network }),
   ] as const)
 
   const operators = getValue(operatorsPromise)
+  const operators7daysAgo = getValue(updatedOperatorsFrom7DaysAgoPromise)
   const validators = getValue(validatorsPromise)
+  const validators7daysAgo = getValue(updatedValidatorsFrom7DaysAgoPromise)
   const operatorStatistics = getValue(operatorStatisticsPromise)
   const totalEffectiveBalance = getValue(totalEffectiveBalancePromise)
 
@@ -62,7 +80,14 @@ export default async function Page(props: IndexPageProps) {
   })
 
   const totalOperators = operators?.pagination.total ?? 0
+  const updatedOperatorsFrom7DaysAgo = operators7daysAgo?.pagination.total ?? 0
+
   const totalValidators = validators?.pagination.total ?? 0
+  const updatedValidatorsFrom7DaysAgo =
+    validators7daysAgo?.pagination.total ?? 0
+  const validatorsIncreasePercent =
+    (100 * updatedValidatorsFrom7DaysAgo) / totalValidators
+
   const totalStakedEth = totalEffectiveBalance
     ? BigInt(totalEffectiveBalance)
     : 0n
@@ -73,50 +98,54 @@ export default async function Page(props: IndexPageProps) {
     <Shell className="gap-6">
       <Text variant="headline4">Discover the SSV Network</Text>
       <GlobalSearch size="lg" />
-      <Card className="hidden flex-row sm:flex">
-        <Stat
-          className="flex-1"
-          title="Validators"
-          tooltip="Total number of validators registered on the SSV Network"
-          content={numberFormatter.format(totalValidators)}
-        />
-        <Stat
-          className="flex-1"
-          title="Operators"
-          tooltip="Total number of node operators running validators on the SSV Network"
-          content={numberFormatter.format(totalOperators)}
-        />
-        <Stat
-          className="flex-1"
-          title={`${nativeCurrency.symbol} Staked`}
-          tooltip={`Total amount of ${nativeCurrency.symbol} staked across all validators on the network`}
-          content={`${formatGwei(totalStakedEth)} ${nativeCurrency.symbol}`}
-        />
-      </Card>
 
-      <div className="flex flex-col gap-3 sm:hidden">
-        <Card>
+      <div className="flex flex-col gap-3 sm:flex-row">
+        <Card className="grow">
           <Stat
             className="flex-1"
             title="Validators"
             tooltip="Total number of validators registered on the SSV Network"
-            content={numberFormatter.format(totalValidators)}
+            content={
+              <div className="flex flex-row items-end justify-between">
+                <Text variant="headline4">
+                  {numberFormatter.format(totalValidators)}
+                </Text>
+                <Text variant="caption-bold" className="text-gray-500">
+                  {percentageFormatter.format(validatorsIncreasePercent)} (
+                  {numberFormatter.format(updatedValidatorsFrom7DaysAgo)})
+                </Text>
+              </div>
+            }
           />
         </Card>
-        <Card>
+        <Card className="grow">
           <Stat
             className="flex-1"
             title="Operators"
             tooltip="Total number of node operators running validators on the SSV Network"
-            content={numberFormatter.format(totalOperators)}
+            content={
+              <div className="flex flex-row items-end justify-between">
+                <Text variant="headline4">
+                  {numberFormatter.format(totalOperators)}
+                </Text>
+                <div className="flex flex-row">
+                  <Text variant="caption-medium" className="text-gray-500">
+                    Added Lasy 7 Days:
+                  </Text>{" "}
+                  <Text variant="caption-bold" className="text-gray-500">
+                    {numberFormatter.format(updatedOperatorsFrom7DaysAgo)}
+                  </Text>
+                </div>
+              </div>
+            }
           />
         </Card>
-        <Card>
+        <Card className="grow">
           <Stat
             className="flex-1"
             title={`${nativeCurrency.symbol} Staked`}
             tooltip={`Total amount of ${nativeCurrency.symbol} staked across all validators on the network`}
-            content={`${numberFormatter.format(totalStakedEth)} ${nativeCurrency.symbol}`}
+            content={`${formatGwei(totalStakedEth)} ${nativeCurrency.symbol}`}
           />
         </Card>
       </div>

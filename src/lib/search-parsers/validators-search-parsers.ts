@@ -3,6 +3,7 @@ import {
   createSearchParamsCache,
   createSerializer,
   parseAsArrayOf,
+  parseAsInteger,
   parseAsString,
   parseAsStringEnum,
 } from "nuqs/server"
@@ -26,6 +27,7 @@ export const validatorsSearchFilters = {
   operator: parseAsArrayOf(z.number({ coerce: true })).withOptions(
     defaultSearchOptions
   ),
+  updatedAt: parseAsInteger,
 }
 
 export type ValidatorSearchFilterKeys = keyof typeof validatorsSearchFilters
