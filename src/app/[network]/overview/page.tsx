@@ -130,7 +130,7 @@ export default async function Page(props: IndexPageProps) {
                 </Text>
                 <div className="flex flex-row">
                   <Text variant="caption-medium" className="text-gray-500">
-                    Added Lasy 7 Days:
+                    Added Last 7 Days:
                   </Text>{" "}
                   <Text variant="caption-bold" className="text-gray-500">
                     {numberFormatter.format(updatedOperatorsFrom7DaysAgo)}
