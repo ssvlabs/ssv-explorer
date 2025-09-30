@@ -25,6 +25,7 @@ export interface Operator {
   location: string
   logo: string
   mev_relays: string
+  ssv_client: string
   name: string
   network: string
   owner_address: string

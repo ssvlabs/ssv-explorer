@@ -89,6 +89,16 @@ export const OperatorMetaData: OperatorMetaDataFC = ({
                     {operator.setup_provider || "N/A"}
                   </Text>
                 </Outline>
+                <Outline className="md:h-6">
+                  <div className="flex flex-1 flex-col gap-1 md:flex-row md:items-center">
+                    <Text variant="caption-medium" className="text-gray-500">
+                      SSV Client:
+                    </Text>
+                    <Text variant="body-3-medium" className="flex-1 break-all">
+                      {operator.ssv_client || "N/A"}
+                    </Text>
+                  </div>
+                </Outline>
                 <Outline className="h-6">
                   <Text variant="caption-medium" className="text-gray-500">
                     DKG Endpoint:
