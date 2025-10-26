@@ -96,6 +96,7 @@ export const createDefaultOperator = (
     owner_address: "",
     address_whitelist: "",
     is_private: false,
+    ssv_client: "",
     whitelisting_contract: "",
     location: "",
     setup_provider: "",

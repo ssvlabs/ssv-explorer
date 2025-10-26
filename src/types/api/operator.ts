@@ -33,6 +33,7 @@ export interface Operator {
   public_key: string
   setup_provider: string
   twitter_url: string
+  ssv_client: string
   updated_at: string
   validators_count: number
   version: string
