@@ -38,10 +38,41 @@ export const searchOperators = async (
     async () => {
       const searchParams = operatorSearchParamsSerializer(params)
       const url = endpoint(params.network, "operators", searchParams)
-      return api.get<OperatorsSearchResponse>(url).then((response) => ({
-        operators: response.operators.map(addFallbackOperatorName),
+      const response = await api.get<OperatorsSearchResponse>(url)
+
+      // Fetch performance v2 data for each operator
+      const operatorsWithPerformanceV2 = await Promise.allSettled(
+        response.operators.map(async (operator) => {
+          try {
+            const performanceData = await getOperatorPerformanceV2({
+              network: params.network,
+              operatorId: operator.id,
+            })
+            return {
+              ...addFallbackOperatorName(operator),
+              performanceV2: performanceData,
+            }
+          } catch (error) {
+            return addFallbackOperatorName(operator)
+          }
+        })
+      )
+
+      const operators = operatorsWithPerformanceV2
+        .map((result, index) => {
+          if (result.status === "fulfilled") {
+            return result.value
+          } else {
+            const operator = response.operators[index]
+            return operator ? addFallbackOperatorName(operator) : null
+          }
+        })
+        .filter((operator): operator is Operator => operator !== null)
+
+      return {
+        operators,
         pagination: response.pagination,
-      }))
+      }
     },
     [JSON.stringify(stringifyBigints(params))],
     {
@@ -72,7 +103,23 @@ export const getOperator = async (
   return await unstable_cache(
     async () => {
       const url = endpoint(params.network, "operators", params.id)
-      return api.get<Operator>(url).then(addFallbackOperatorName)
+      const operator = await api
+        .get<Operator>(url)
+        .then(addFallbackOperatorName)
+
+      try {
+        const performanceData = await getOperatorPerformanceV2({
+          network: params.network,
+          operatorId: params.id,
+        })
+
+        return {
+          ...operator,
+          performanceV2: performanceData,
+        }
+      } catch (error) {
+        return operator
+      }
     },
     [JSON.stringify(params)],
     {
@@ -89,6 +136,40 @@ export const getOperatorLocations = async (chain: ChainName) => {
     {
       revalidate: 30,
       tags: ["operator-locations"],
+    }
+  )()
+}
+
+export interface OperatorPerformanceV2 {
+  operatorId: number
+  dailyPerformance: number
+  monthlyPerformance: number
+}
+
+export const getOperatorPerformanceV2 = async (params: {
+  network: ChainName
+  operatorId: number
+}) => {
+  return await unstable_cache(
+    async () => {
+      const url = endpoint(
+        params.network,
+        `duties/operator/${params.operatorId}/performanceV2`
+      )
+      console.log("Fetching performance v2 from:", url)
+      try {
+        const result = await api.get<OperatorPerformanceV2>(url)
+        console.log("Performance v2 result:", result)
+        return result
+      } catch (error) {
+        console.error("Error fetching performance v2:", error)
+        throw error
+      }
+    },
+    [JSON.stringify(params)],
+    {
+      revalidate: 30,
+      tags: ["operator-performance-v2"],
     }
   )()
 }
