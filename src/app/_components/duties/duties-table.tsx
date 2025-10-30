@@ -6,6 +6,7 @@ import { withErrorBoundary } from "react-error-boundary"
 
 import { type DutiesResponse, type DutyElement } from "@/types/api/duties"
 import { type Operator } from "@/types/api/operator"
+import { type ChainName } from "@/config/chains"
 import { defaultDutiesSort } from "@/lib/search-parsers/duties-search-parsers"
 import { useDataTable } from "@/hooks/use-data-table"
 import { Badge } from "@/components/ui/badge"
@@ -19,6 +20,7 @@ import { DutyDetailsModal } from "./duty-details-modal"
 interface DutiesTableProps {
   dataPromise: Promise<DutiesResponse>
   operators: Operator[]
+  network: ChainName
 }
 
 export const defaultColumns = {
@@ -31,16 +33,18 @@ export const defaultColumns = {
 }
 
 export const DutiesTable = withErrorBoundary(
-  ({ dataPromise: data, operators }: DutiesTableProps) => {
+  ({ dataPromise: data, operators, network }: DutiesTableProps) => {
     const response = use(data)
     const [selectedDuty, setSelectedDuty] = useState<DutyElement | null>(null)
     const [isModalOpen, setIsModalOpen] = useState(false)
 
     const handleRowClick = (duty: DutyElement) => {
+      console.log("Row clicked, duty selected:", duty)
       setSelectedDuty(duty)
       setIsModalOpen(true)
     }
 
+    console.log(response.duties)
     const { table } = useDataTable({
       name: "duties",
       data: response.duties,
@@ -73,6 +77,8 @@ export const DutiesTable = withErrorBoundary(
 
         <DutyDetailsModal
           data={{ operators }}
+          selectedDuty={selectedDuty}
+          network={network}
           open={isModalOpen}
           onOpenChange={setIsModalOpen}
         />

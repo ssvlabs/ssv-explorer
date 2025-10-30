@@ -1,154 +1,308 @@
 "use client"
 
+import { useEffect, useState } from "react"
+import { endpoint } from "@/api"
+import { api } from "@/api/api-client"
+import { useTheme } from "next-themes"
+import { LuRefreshCw } from "react-icons/lu"
+
 import { type DutyElement } from "@/types/api/duties"
+import {
+  DutyRoles,
+  dutySteps,
+  type DutyDetailsResponse,
+} from "@/types/api/duty-details"
 import { type Operator } from "@/types/api/operator"
-import { shortenAddress } from "@/lib/utils/strings"
-import { Badge } from "@/components/ui/badge"
-import { Card } from "@/components/ui/card"
-import { CopyBtn } from "@/components/ui/copy-btn"
+import { type ChainName } from "@/config/chains"
+import { remove0x } from "@/lib/utils/strings"
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
-import { Outline } from "@/components/ui/outline"
 import { Text } from "@/components/ui/text"
 import { OperatorAvatar } from "@/components/operators/operator-avatar"
 import CompleteBadge from "@/app/_components/duties/complete-badge"
 import Status from "@/app/_components/duties/status"
 
 interface DutyDetailsModalProps {
-  // duty: DutyElement | null
   data: { operators: Operator[] }
+  selectedDuty: DutyElement | null
+  network: ChainName
   open: boolean
   onOpenChange: (open: boolean) => void
 }
 
+const fetchDutyDetails = async (params: {
+  publicKey: string
+  slot: number
+  role: string
+  network: ChainName
+}): Promise<DutyDetailsResponse> => {
+  const searchParams = new URLSearchParams({
+    slot: params.slot.toString(),
+    role: params.role.toLowerCase(),
+  })
+
+  const url = endpoint(
+    params.network,
+    `duties/details/${remove0x(params.publicKey)}`,
+    `?${searchParams}`
+  )
+
+  console.log("Fetching from URL:", url)
+
+  return await api.get<DutyDetailsResponse>(url)
+}
+
+const isSuccessProcess = (clusterSize: number, successOperators: number) => {
+  const sizes: Record<number, number> = {
+    [4]: 1,
+    [7]: 2,
+    [10]: 3,
+    [13]: 4,
+  }
+  const result = clusterSize - successOperators
+  const threshold = sizes[clusterSize]
+  return threshold !== undefined ? result <= threshold : false
+}
+
 export function DutyDetailsModal({
-  // duty,
   data,
+  selectedDuty,
+  network,
   open,
   onOpenChange,
 }: DutyDetailsModalProps) {
-  // if (!duty) return null
-  console.log(data)
+  const [dutyDetails, setDutyDetails] = useState<DutyDetailsResponse | null>(
+    null
+  )
+  const [loading, setLoading] = useState(false)
+  const { theme } = useTheme()
+  const dark = theme === "dark"
+
+  useEffect(() => {
+    if (open && selectedDuty) {
+      console.log("Fetching duty details for:", {
+        publicKey: selectedDuty.publicKey,
+        slot: selectedDuty.slot,
+        role: selectedDuty.duty,
+        network: network,
+      })
+
+      setLoading(true)
+      setDutyDetails(null) // Reset previous data
+
+      fetchDutyDetails({
+        publicKey: selectedDuty.publicKey,
+        slot: selectedDuty.slot,
+        role: selectedDuty.duty,
+        network: network,
+      })
+        .then((details) => {
+          console.log("Duty details response:", details)
+          setDutyDetails(details)
+        })
+        .catch((error) => {
+          console.error("Error fetching duty details:", error)
+        })
+        .finally(() => {
+          setLoading(false)
+        })
+    }
+  }, [open, selectedDuty, network])
+
+  const handleOpenChange = (newOpen: boolean) => {
+    console.log("handleOpenChange called:", { newOpen })
+    onOpenChange(newOpen)
+
+    if (!newOpen) {
+      console.log("Modal closing, resetting state")
+      // Reset state when modal closes
+      setDutyDetails(null)
+      setLoading(false)
+    }
+  }
+  if (!selectedDuty) return null
+
+  const rounds: {
+    round?: number
+    leader?: number
+    prepares?: number[]
+    commits?: number[]
+    pre_consensus?: number[]
+    post_consensus?: number[]
+  }[] = dutyDetails?.round_changes || []
+
+  rounds[rounds.length ? rounds.length - 1 : 0] = {
+    ...rounds[rounds.length - 1],
+    post_consensus: dutyDetails?.post_consensus.length
+      ? dutyDetails?.post_consensus
+      : [],
+  }
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-h-[522px] p-6">
-        {/*<DialogHeader className="pb-4">*/}
+    <Dialog open={open} onOpenChange={handleOpenChange}>
+      {/*<div>*/}
+      <DialogContent className="min-w-[400px] max-w-[800px] p-6">
         <div className="flex h-[86px] flex-col justify-between">
-          <DialogTitle className="text-xl font-semibold">Duty</DialogTitle>
-          <div className="flex h-[40px] w-full gap-4">
+          <DialogTitle className="w-[50px] font-semibold">Duty</DialogTitle>
+          <div className="flex h-[40px] justify-between gap-4">
             <Text className="flex w-[110px] gap-2" variant={"body-3-bold"}>
-              <img className="h-[14px] w-4" src={"/images/cluster.svg"} />
+              <img
+                className="h-[14px] w-4"
+                src={`/images/duty-icon/${dark ? "dark" : "light"}.svg`}
+              />
               Cluster
             </Text>
-            {data.operators.map((operator) => (
-              <div
-                key={operator.id}
-                className="flex flex-col items-center justify-center gap-1"
-              >
-                <OperatorAvatar
-                  size="base"
-                  className="md:row-start-1 md:row-end-3"
-                  variant="unstyled"
-                  src={operator.logo}
-                />
-                <Text
-                  className="font-mono text-gray-600"
-                  variant={"caption-medium"}
+            <div className="ml-10 mr-2 flex justify-end gap-[16.5px]">
+              {" "}
+              {[...data.operators].map((operator) => (
+                <div
+                  key={operator.id}
+                  className="flex flex-col items-center justify-center gap-1"
                 >
-                  {operator.id}
-                </Text>
-              </div>
-            ))}
-          </div>
-        </div>
-        {/*</DialogHeader>*/}
-        <div className="flex size-full flex-col">
-          <div className="flex-col">
-            <Text className="w-[120px]" variant={"body-3-bold"}>
-              Round Start
-            </Text>
-            <div className="flex">
-              <div className={"mt-[14px] flex w-[120px] flex-col gap-2"}>
-                <Text
-                  className="flex w-[120px] items-center gap-2 text-gray-600"
-                  variant={"caption-medium"}
-                >
-                  <CompleteBadge isSuccess />
-                  Lead
-                </Text>
-                <Text
-                  className="flex w-[120px] items-center gap-2 text-gray-600"
-                  variant={"caption-medium"}
-                >
-                  {" "}
-                  <CompleteBadge isSuccess={false} />
-                  Pre
-                </Text>
-                <Text
-                  className="flex w-[120px] items-center gap-2 text-gray-600"
-                  variant={"caption-medium"}
-                >
-                  Bratishka
-                </Text>
-                <Text
-                  className="flex w-[120px] items-center gap-2 text-gray-600"
-                  variant={"caption-medium"}
-                >
-                  Hueta
-                </Text>
-              </div>
-              <div className={"flex gap-1"}>
-                <div className="flex max-w-12 flex-col items-center justify-center gap-2 rounded-[8px] border border-gray-300 bg-gray-100 px-2 py-3">
-                  <Status isSuccess={false} isLeader={false} />
-                  <Status isSuccess={true} isLeader={true} />
-                  <Status isSuccess={true} isLeader={true} />
-                  <Status isSuccess={true} isLeader={true} />
+                  <OperatorAvatar
+                    size="base"
+                    className="md:row-start-1 md:row-end-3"
+                    variant="unstyled"
+                    src={operator.logo}
+                  />
+                  <Text
+                    className="font-mono text-gray-600"
+                    variant={"caption-medium"}
+                  >
+                    {operator.id}
+                  </Text>
                 </div>
-                <div className="flex max-w-12 flex-col items-center justify-center gap-2 rounded-[8px] border border-gray-300 bg-gray-100 px-2 py-3">
-                  <Status isSuccess={true} isLeader={true} />
-                  <Status isSuccess={true} isLeader={true} />
-                  <Status isSuccess={true} isLeader={true} />
-                  <Status isSuccess={true} isLeader={true} />
-                </div>
-                <div className="flex max-w-12 flex-col items-center justify-center gap-2 rounded-[8px] border border-gray-300 bg-gray-100 px-2 py-3">
-                  <Status isSuccess={true} isLeader={true} />
-                  <Status isSuccess={true} isLeader={true} />
-                  <Status isSuccess={true} isLeader={true} />
-                  <Status isSuccess={true} isLeader={true} />
-                </div>
-                <div className="flex max-w-12 flex-col items-center justify-center gap-2 rounded-[8px] border border-gray-300 bg-gray-100 px-2 py-3">
-                  <Status isSuccess={true} isLeader={true} />
-                  <Status isSuccess={true} isLeader={true} />
-                  <Status isSuccess={true} isLeader={true} />
-                  <Status isSuccess={true} isLeader={true} />
-                </div>
-              </div>
+              ))}
             </div>
           </div>
-
-          {/*<div className="flex gap-2 w-full">*/}
-          {/*    <div className="w-[120px] flex flex-col justify-between">*/}
-          {/*        <Text className="w-[120px]" variant={"body-3-bold"}>Round Start</Text>*/}
-          {/*        <div className='flex flex-col gap-1'>*/}
-          {/*            <Text className="w-[120px]" variant={"body-3-medium"}>Leader</Text>*/}
-          {/*        </div>*/}
-          {/*    </div>*/}
-          {/*</div>*/}
-
-          {/*<div*/}
-          {/*    className="max-w-12 gap-2 justify-center items-center py-3 px-2 flex flex-col bg-gray-100 border rounded-[8px] border-gray-300">*/}
-          {/*    <Status isSuccess={true} isLeader={true}/>*/}
-          {/*    <Status isSuccess={true} isLeader={true}/>*/}
-          {/*        <Status isSuccess={true} isLeader={true}/>*/}
-          {/*        <Status isSuccess={true} isLeader={true}/>*/}
-          {/*    </div>*/}
-          {/*</div>*/}
         </div>
+        <div className="h-px w-full bg-gray-200" />
+
+        <div className="flex size-full flex-col">
+          {dutyDetails?.pre_consensus && (
+            <div className="flex items-center">
+              <div className="relative flex flex-col">
+                <Text
+                  className="ml-0.5 flex w-[120px] items-center gap-2 text-gray-600"
+                  variant={"caption-medium"}
+                >
+                  <CompleteBadge
+                    isSuccess={isSuccessProcess(
+                      data.operators.length,
+                      (dutyDetails.pre_consensus || []).length
+                    )}
+                  />
+                  Pre Consensus
+                </Text>
+                <div className="absolute top-[18px] ml-[7px] h-8 w-px bg-gray-300" />
+              </div>
+              <div className="ml-10 flex gap-1">
+                {dutyDetails?.operators.map(({ id }) => {
+                  return (
+                    <div
+                      key={id}
+                      className="flex max-w-12 flex-col items-center justify-center gap-2 rounded-[8px] border border-gray-300 bg-gray-100 px-2 py-3"
+                    >
+                      <Status
+                        isSuccess={dutyDetails?.pre_consensus?.includes(id)}
+                      />
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          )}
+          {[...rounds, ...rounds, ...rounds].map((round, index) => {
+            const keys = Object.keys(round).filter(
+              (roundName) => roundName !== "round"
+            ) as Array<keyof typeof round>
+            return (
+              <div key={index} className="relative mt-5 flex-col">
+                <Text
+                  className="flex w-[120px] items-center gap-2 text-nowrap"
+                  variant={"body-3-bold"}
+                >
+                  <LuRefreshCw className="text-gray-600" />
+
+                  {index > 0 ? "Round Change" : "Round Start"}
+                </Text>
+                <div className="absolute ml-[7px] h-[14px] w-px bg-gray-300" />
+                <div className="ml-0.5 flex justify-between">
+                  <div className={"mt-[14px] flex w-[120px] flex-col"}>
+                    {keys.map((key, keyIndex) => {
+                      if (key === "post_consensus") {
+                        console.log(round[key])
+                      }
+                      return (
+                        <div key={key} className="flex flex-col">
+                          <Text
+                            className="flex w-[120px] items-center gap-2 text-gray-600"
+                            variant={"caption-medium"}
+                          >
+                            <CompleteBadge
+                              isSuccess={
+                                Array.isArray(round[key])
+                                  ? isSuccessProcess(
+                                      data.operators.length,
+                                      (round[key] || []).length
+                                    )
+                                  : data.operators
+                                      .map((op) => op.id)
+                                      .includes(round[key] || -1)
+                              }
+                            />
+                            {dutySteps[key]}
+                          </Text>
+                          {keyIndex !== keys.length - 1 && (
+                            <div className="ml-[5px] h-2 w-px bg-gray-300" />
+                          )}
+                        </div>
+                      )
+                    })}
+                  </div>
+                  <div className="flex-col">
+                    <div className="flex gap-1">
+                      {[...data.operators].map(({ id }) => {
+                        console.log(dutyDetails?.operators)
+                        return (
+                          <div
+                            key={id}
+                            className="flex max-w-12 flex-col items-center justify-center gap-2 rounded-[8px] border border-gray-300 bg-gray-100 px-2 py-3"
+                          >
+                            {keys.map((key) => {
+                              return (
+                                <Status
+                                  key={key}
+                                  isNeutral={
+                                    key === "leader" && round[key] !== id
+                                  }
+                                  isSuccess={
+                                    (Array.isArray(round[key]) &&
+                                      round[key].includes(id)) ||
+                                    (key === "leader" && round[key] === id)
+                                  }
+                                  isLeader={
+                                    key === "leader" && round[key] === id
+                                  }
+                                />
+                              )
+                            })}
+                          </div>
+                        )
+                      })}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+        {/*</div>*/}
       </DialogContent>
+      {/*</div>*/}
     </Dialog>
   )
 }
