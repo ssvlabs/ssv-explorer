@@ -84,13 +84,6 @@ export function DutyDetailsModal({
 
   useEffect(() => {
     if (open && selectedDuty) {
-      console.log("Fetching duty details for:", {
-        publicKey: selectedDuty.publicKey,
-        slot: selectedDuty.slot,
-        role: selectedDuty.duty,
-        network: network,
-      })
-
       setLoading(true)
       setDutyDetails(null) // Reset previous data
 
@@ -101,12 +94,9 @@ export function DutyDetailsModal({
         network: network,
       })
         .then((details) => {
-          console.log("Duty details response:", details)
           setDutyDetails(details)
         })
-        .catch((error) => {
-          console.error("Error fetching duty details:", error)
-        })
+        .catch((error) => {})
         .finally(() => {
           setLoading(false)
         })
@@ -118,8 +108,6 @@ export function DutyDetailsModal({
     onOpenChange(newOpen)
 
     if (!newOpen) {
-      console.log("Modal closing, resetting state")
-      // Reset state when modal closes
       setDutyDetails(null)
       setLoading(false)
     }
@@ -183,7 +171,7 @@ export function DutyDetailsModal({
 
         <div className="flex size-full flex-col">
           {dutyDetails?.pre_consensus && (
-            <div className="flex items-center">
+            <div className="flex items-center justify-between">
               <div className="relative flex flex-col">
                 <Text
                   className="ml-0.5 flex w-[120px] items-center gap-2 text-gray-600"
@@ -199,7 +187,7 @@ export function DutyDetailsModal({
                 </Text>
                 <div className="absolute top-[18px] ml-[7px] h-8 w-px bg-gray-300" />
               </div>
-              <div className="ml-10 flex gap-1">
+              <div className="ml-10 flex justify-end gap-1">
                 {dutyDetails?.operators.map(({ id }) => {
                   return (
                     <div
@@ -215,7 +203,7 @@ export function DutyDetailsModal({
               </div>
             </div>
           )}
-          {[...rounds, ...rounds, ...rounds].map((round, index) => {
+          {rounds.map((round, index) => {
             const keys = Object.keys(round).filter(
               (roundName) => roundName !== "round"
             ) as Array<keyof typeof round>
@@ -233,9 +221,6 @@ export function DutyDetailsModal({
                 <div className="ml-0.5 flex justify-between">
                   <div className={"mt-[14px] flex w-[120px] flex-col"}>
                     {keys.map((key, keyIndex) => {
-                      if (key === "post_consensus") {
-                        console.log(round[key])
-                      }
                       return (
                         <div key={key} className="flex flex-col">
                           <Text
@@ -265,8 +250,7 @@ export function DutyDetailsModal({
                   </div>
                   <div className="flex-col">
                     <div className="flex gap-1">
-                      {[...data.operators].map(({ id }) => {
-                        console.log(dutyDetails?.operators)
+                      {data.operators.map(({ id }) => {
                         return (
                           <div
                             key={id}
