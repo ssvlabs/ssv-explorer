@@ -64,7 +64,7 @@ export const getDutyDetails = async (params: {
       return await api.get<DutyDetailsResponse>(
         endpoint(
           params.network,
-          `hoodi/duties/details/${remove0x(params.publicKey)}`,
+          `duties/details/${remove0x(params.publicKey)}`,
           `?${searchParams}`
         )
       )
