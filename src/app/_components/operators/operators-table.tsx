@@ -2,7 +2,6 @@
 
 import { use } from "react"
 import { TableProvider } from "@/context/table-context"
-import postgres from "postgres"
 import { withErrorBoundary } from "react-error-boundary"
 
 import {
@@ -31,8 +30,6 @@ import {
   type OperatorColumnsAccessorKeys,
 } from "./operators-table-columns"
 
-import column = postgres.toPascal.column
-
 interface OperatorsTableProps extends OperatorTableFiltersProps {
   dataPromise: Promise<OperatorsSearchResponse>
   hideColumns?: OperatorColumnsAccessorKeys[]
@@ -43,7 +40,6 @@ export const OperatorsTable = withErrorBoundary(
     const { operators, pagination } = use(data)
     const [enablePerformanceV2] = useLocalStorage("ENABLE_PERFORMANCE_V2")
 
-    console.log(enablePerformanceV2)
     const columns = enablePerformanceV2
       ? operatorsTableColumns
       : operatorsTableColumns.filter(
@@ -51,7 +47,7 @@ export const OperatorsTable = withErrorBoundary(
             column !== operatorColumns.performanceV2_24h &&
             column !== operatorColumns.performanceV2_30d
         )
-    console.log(columns)
+
     const visibleColumns = hideColumns
       ? columns.filter((column) => !hideColumns.includes(column.accessorKey))
       : columns

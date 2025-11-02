@@ -39,12 +39,10 @@ export const DutiesTable = withErrorBoundary(
     const [isModalOpen, setIsModalOpen] = useState(false)
 
     const handleRowClick = (duty: DutyElement) => {
-      console.log("Row clicked, duty selected:", duty)
       setSelectedDuty(duty)
       setIsModalOpen(true)
     }
 
-    console.log(response.duties)
     const { table } = useDataTable({
       name: "duties",
       data: response.duties,

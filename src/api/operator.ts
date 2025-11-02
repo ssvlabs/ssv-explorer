@@ -156,10 +156,8 @@ export const getOperatorPerformanceV2 = async (params: {
         params.network,
         `duties/operator/${params.operatorId}/performanceV2`
       )
-      console.log("Fetching performance v2 from:", url)
       try {
         const result = await api.get<OperatorPerformanceV2>(url)
-        console.log("Performance v2 result:", result)
         return result
       } catch (error) {
         console.error("Error fetching performance v2:", error)
