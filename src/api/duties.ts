@@ -5,6 +5,7 @@ import { api } from "@/api/api-client"
 import { omitBy } from "lodash-es"
 
 import { type DutiesResponse } from "@/types/api/duties"
+import { type DutyDetailsResponse } from "@/types/api/duty-details"
 import { type ChainName } from "@/config/chains"
 import { type DutiesSearchSchema } from "@/lib/search-parsers/duties-search-parsers"
 import { stringifyBigints } from "@/lib/utils/bigint"
@@ -36,7 +37,7 @@ export const searchDuties = async (
         endpoint(
           params.network,
           `duties/${remove0x(params.validatorPublicKey || "")}`,
-          `?${searchParams}`
+          `?${searchParams}&includeFailed=true`
         )
       )
     },
@@ -44,5 +45,33 @@ export const searchDuties = async (
     {
       revalidate: 30,
       tags: ["duties"],
+    }
+  )()
+
+export const getDutyDetails = async (params: {
+  publicKey: string
+  slot: number
+  role: string
+  network: ChainName
+}): Promise<DutyDetailsResponse> =>
+  await unstable_cache(
+    async () => {
+      const searchParams = new URLSearchParams({
+        slot: params.slot.toString(),
+        role: params.role.toLowerCase(),
+      })
+
+      return await api.get<DutyDetailsResponse>(
+        endpoint(
+          params.network,
+          `duties/details/${remove0x(params.publicKey)}`,
+          `?${searchParams}`
+        )
+      )
+    },
+    [JSON.stringify(params)],
+    {
+      revalidate: 30,
+      tags: ["duty-details"],
     }
   )()

@@ -192,6 +192,24 @@ export default async function Page(props: IndexPageProps) {
                   />
                   <Stat
                     className="flex-1"
+                    title="Performance v2 (1D | 1M)"
+                    tooltip="Operator performance v2 is calculated by the percentage of attended duties within the specified time-frame."
+                    content={
+                      <div className="flex items-center gap-1">
+                        <PerformanceText
+                          performance={operator.performanceV2?.dailyPerformance}
+                        />
+                        <Text className="font-thin text-gray-500">|</Text>
+                        <PerformanceText
+                          performance={
+                            operator.performanceV2?.monthlyPerformance
+                          }
+                        />
+                      </div>
+                    }
+                  />
+                  <Stat
+                    className="flex-1"
                     title="Validators"
                     tooltip="The number of validators serviced by this operator"
                     content={<Text>{operator.validators_count}</Text>}

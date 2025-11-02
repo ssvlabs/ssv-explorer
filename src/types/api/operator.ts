@@ -5,6 +5,11 @@ interface Performance {
   "30d": number
 }
 
+interface PerformanceV2 {
+  dailyPerformance: number
+  monthlyPerformance: number
+}
+
 export interface Operator {
   id: number
   id_str: string
@@ -29,6 +34,7 @@ export interface Operator {
   network: string
   owner_address: string
   performance: Performance
+  performanceV2?: PerformanceV2
   previous_fee: string
   public_key: string
   setup_provider: string

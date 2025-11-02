@@ -158,7 +158,11 @@ export default async function Page(props: IndexPageProps) {
       <OperatorsList operators={validator.operators} />
 
       <Card>
-        <DutiesTable dataPromise={duties} />
+        <DutiesTable
+          dataPromise={duties}
+          operators={validator.operators}
+          network={network}
+        />
       </Card>
     </Shell>
   )
