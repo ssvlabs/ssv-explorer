@@ -16,7 +16,6 @@ import CompleteBadge from "@/app/_components/duties/complete-badge"
 import Status from "@/app/_components/duties/status"
 
 interface DutyDetailsModalProps {
-  data: { operators: Operator[] }
   selectedDuty: DutyElement | null
   network: ChainName
   open: boolean
@@ -36,7 +35,6 @@ const isSuccessProcess = (clusterSize: number, successOperators: number) => {
 }
 
 export function DutyDetailsModal({
-  data,
   selectedDuty,
   network,
   open,
@@ -95,7 +93,7 @@ export function DutyDetailsModal({
             </Text>
             <div className="ml-10 mr-2 flex justify-end gap-[16.5px]">
               {" "}
-              {[...data.operators].map((operator) => (
+              {(dutyDetails?.operators || []).map((operator) => (
                 <div
                   key={operator.id}
                   className="flex flex-col items-center justify-center gap-1"
@@ -134,7 +132,7 @@ export function DutyDetailsModal({
                   >
                     <CompleteBadge
                       isSuccess={isSuccessProcess(
-                        data.operators.length,
+                        (dutyDetails?.operators || []).length,
                         (dutyDetails.pre_consensus || []).length
                       )}
                     />
@@ -143,7 +141,7 @@ export function DutyDetailsModal({
                   <div className="absolute top-[18px] ml-[7px] h-8 w-px bg-gray-300" />
                 </div>
                 <div className="ml-10 flex justify-end gap-1">
-                  {dutyDetails?.operators.map(({ id }) => {
+                  {(dutyDetails?.operators || []).map(({ id }) => {
                     return (
                       <div
                         key={id}
@@ -186,10 +184,10 @@ export function DutyDetailsModal({
                                 isSuccess={
                                   Array.isArray(round[key])
                                     ? isSuccessProcess(
-                                        data.operators.length,
+                                        (dutyDetails?.operators || []).length,
                                         (round[key] || []).length
                                       )
-                                    : data.operators
+                                    : (dutyDetails?.operators || [])
                                         .map((op) => op.id)
                                         .includes(round[key] || -1)
                                 }
@@ -205,7 +203,7 @@ export function DutyDetailsModal({
                     </div>
                     <div className="flex-col">
                       <div className="flex gap-1">
-                        {data.operators.map(({ id }) => {
+                        {(dutyDetails?.operators || []).map(({ id }) => {
                           return (
                             <div
                               key={id}

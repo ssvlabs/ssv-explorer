@@ -34,7 +34,7 @@ export const OperatorCard: OperatorCardFC = ({
   return (
     <div
       className={cn(
-        "flex flex-col items-center gap-3 rounded-2xl border px-5 py-6",
+        "flex size-full flex-col items-center gap-3 rounded-2xl border px-5 py-6",
         {
           "border-transparent bg-gray-50": operator.is_active === 1,
           "border-error-200 bg-error-50": operator.is_active === 0,
