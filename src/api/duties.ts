@@ -75,3 +75,37 @@ export const getDutyDetails = async (params: {
       tags: ["duty-details"],
     }
   )()
+
+export const getValidatorPerformanceV2 = async (params: {
+  publicKey: string
+  network: ChainName
+}): Promise<{
+  publicKey: string
+  operatorsPerformance: Array<{
+    operatorId: number
+    dailyPerformance: number
+    monthlyPerformance: number
+  }>
+}> =>
+  await unstable_cache(
+    async () => {
+      return await api.get<{
+        publicKey: string
+        operatorsPerformance: Array<{
+          operatorId: number
+          dailyPerformance: number
+          monthlyPerformance: number
+        }>
+      }>(
+        endpoint(
+          params.network,
+          `duties/validator/${remove0x(params.publicKey)}/performanceV2`
+        )
+      )
+    },
+    [JSON.stringify(params)],
+    {
+      revalidate: 30,
+      tags: ["validator-performance-v2"],
+    }
+  )()
