@@ -76,7 +76,7 @@ export function DutyDetailsModal({
   }
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogContent className="min-w-[400px] max-w-[800px] p-6">
+      <DialogContent className="max-h-[522px] min-w-[400px] max-w-[800px] p-6">
         <div className="flex h-[86px] flex-col justify-between">
           <DialogTitle className="w-[50px] text-nowrap font-semibold">
             {(dutyDetails?.role || "").charAt(0).toUpperCase() +
@@ -122,7 +122,7 @@ export function DutyDetailsModal({
             <Spinner size="lg" />
           </div>
         ) : (
-          <div className="flex size-full flex-col">
+          <div className="flex max-h-[350px] flex-col overflow-y-auto">
             {dutyDetails?.pre_consensus && (
               <div className="flex items-center justify-between">
                 <div className="relative flex flex-col">
