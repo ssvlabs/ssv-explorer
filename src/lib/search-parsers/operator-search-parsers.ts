@@ -15,7 +15,7 @@ import {
   addressesParser,
   defaultSearchOptions,
 } from "@/lib/search-parsers/shared/parsers"
-import { MEV_RELAYS_VALUES } from "@/lib/utils/operator"
+import { MEV_RELAYS_VALUES, STATUS_API_VALUES } from "@/lib/utils/operator"
 import { getSortingStateParser, parseAsTuple } from "@/lib/utils/parsers"
 
 import { type OperatorSortingKeys } from "../../types/api/operator"
@@ -67,9 +67,7 @@ export const operatorSearchFilters = {
   )
     .withDefault([0, 0])
     .withOptions(defaultSearchOptions),
-  status: parseAsArrayOf(
-    z.enum(["active", "inactive", "no validators", "invalid"])
-  )
+  status: parseAsArrayOf(z.enum(STATUS_API_VALUES))
     .withDefault([])
     .withOptions(defaultSearchOptions),
   isPrivate: parseAsBoolean.withOptions(defaultSearchOptions),
