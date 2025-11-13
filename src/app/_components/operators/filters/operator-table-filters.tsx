@@ -20,6 +20,7 @@ import { LocationFilter } from "./location-filter"
 import { NameFilter } from "./name-filter"
 import { Performance24hFilter } from "./performance-24h-filter"
 import { Performance30dFilter } from "./performance-30d-filter"
+import { StatusFilter } from "./status-filter"
 import { ValidatorsFilter } from "./validators-filter"
 import { VerifiedFilter } from "./verified-filter"
 import { IsPrivateFilter } from "./visibility-filter"
@@ -65,7 +66,7 @@ export const OperatorTableFilters = ({
         {/* <ManagedEthFilter /> */}
         <Performance24hFilter />
         <Performance30dFilter />
-        {/* <StatusFilter /> */}
+        <StatusFilter />
         <VerifiedFilter />
         <IsPrivateFilter />
         {enabledFilters.count > 0 && (
