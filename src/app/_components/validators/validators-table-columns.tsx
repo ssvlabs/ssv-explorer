@@ -131,7 +131,7 @@ export const validatorColumns: Record<
         <ValidatorStatusBadge size="sm" status={row.original.status} />
       </div>
     ),
-    enableSorting: false,
+    enableSorting: true,
   },
 }
 
