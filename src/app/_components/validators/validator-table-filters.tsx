@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button"
 import { textVariants } from "@/components/ui/text"
 import { OperatorsFilter } from "@/app/_components/clusters/filters/operators-filter"
 import { HexFilter } from "@/app/_components/shared/filters/address-filter"
+import { StatusFilter } from "@/app/_components/validators/filters/status-filter"
 
 export type ValidatorTableFiltersProps = {
   hidePublicKeyFilter?: boolean
@@ -68,6 +69,7 @@ export const ValidatorTableFilters = ({
           />
         )}
         {!hideOperatorsFilter && <OperatorsFilter searchQueryKey="operator" />}
+        <StatusFilter />
         {enabledFilters.count > 0 && (
           <Button
             variant="ghost"

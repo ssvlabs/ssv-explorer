@@ -18,6 +18,10 @@ import {
   publicKeysParser,
 } from "@/lib/search-parsers/shared/parsers"
 import { getSortingStateParser } from "@/lib/utils/parsers"
+import {
+  validatorStatusApiParams,
+  type ValidatorStatusApiParam,
+} from "@/lib/utils/validator-status-mapping"
 
 export const validatorsSearchFilters = {
   search: parseAsString.withOptions(defaultSearchOptions),
@@ -28,6 +32,11 @@ export const validatorsSearchFilters = {
     defaultSearchOptions
   ),
   updatedAt: parseAsInteger,
+  status: parseAsArrayOf(
+    parseAsStringEnum<ValidatorStatusApiParam>(validatorStatusApiParams)
+  )
+    .withDefault([])
+    .withOptions(defaultSearchOptions),
 }
 
 export type ValidatorSearchFilterKeys = keyof typeof validatorsSearchFilters
