@@ -21,7 +21,7 @@ import { GeoLegend } from "@/components/charts/worldmap/geo-legend/geo-legend"
 import StandardMap from "@/components/charts/worldmap/standard-map"
 import { GlobalSearch } from "@/components/global-search/global-search"
 import { Shell } from "@/components/shell"
-import { EventsOverviewTable } from "@/app/_components/events/events-table-peview"
+import { EventsOverviewTable } from "@/app/_components/events/events-overview-table"
 import { OperatorsOverviewTable } from "@/app/_components/operators/operators-table-peview"
 import { ValidatorsOverviewTable } from "@/app/_components/validators/validators-overview-table"
 

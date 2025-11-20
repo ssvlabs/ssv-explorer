@@ -4,7 +4,7 @@ import { type Address } from "viem"
 
 import { type ChainName } from "@/config/chains"
 import { eventsSearchParamsCache } from "@/lib/search-parsers/events-search-parsers"
-import { AccountEventsTable } from "@/app/_components/events/events-table"
+import { EventsAccountTable } from "@/app/_components/events/events-account-table"
 
 interface IndexPageProps {
   params: Promise<{ address: Address; network: ChainName }>
@@ -22,5 +22,5 @@ export default async function IndexPage({
     ownerAddress: address,
     network: network,
   })
-  return <AccountEventsTable dataPromise={events} />
+  return <EventsAccountTable dataPromise={events} />
 }

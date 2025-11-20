@@ -24,7 +24,7 @@ export const EventsOverviewTable = withErrorBoundary(
     const filteredEvents = events?.filter((event) => event.ownerAddress) || []
 
     const { table } = useDataTable({
-      name: "events-table-preview",
+      name: "events-overview-table",
       data: filteredEvents,
       columns: overviewEventsTableColumns,
       pageCount: pagination.pages,
