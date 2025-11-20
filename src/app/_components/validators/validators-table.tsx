@@ -9,7 +9,6 @@ import { defaultValidatorSort } from "@/lib/search-parsers/validators-search-par
 import { useValidatorsSearchParams } from "@/hooks/search/use-custom-search-params"
 import { useDataTable } from "@/hooks/use-data-table"
 import { ErrorCard } from "@/components/ui/error-card"
-import { Text } from "@/components/ui/text"
 import { DataTableMenuButton } from "@/components/data-table/data-table-filters-button"
 import { DataTableViewOptions } from "@/components/data-table/data-table-view-options"
 import { DataTable } from "@/components/data-table/elastic-10k-table/data-table"
@@ -70,7 +69,6 @@ export const ValidatorsTable = withErrorBoundary(
       <>
         <TableProvider table={table}>
           <div className="flex items-center gap-2">
-            <Text variant="headline4">Validators</Text>
             <div className="flex-1" />
             <DataTableMenuButton enabledFilters={enabledFilters} />
             <DataTableViewOptions table={table} tableName="validators" />

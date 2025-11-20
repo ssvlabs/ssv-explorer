@@ -22,16 +22,16 @@ import {
   eventsTableColumns,
 } from "./events-table-columns"
 
-interface OperatorsTableProps {
+interface EventsAccountTableProps {
   dataPromise: Promise<PaginatedEventsResponse>
 }
 
-export const AccountEventsTable = withErrorBoundary(
-  ({ dataPromise: data }: OperatorsTableProps) => {
+export const EventsAccountTable = withErrorBoundary(
+  ({ dataPromise: data }: EventsAccountTableProps) => {
     const { data: events, pagination } = use(data)
 
     const { table } = useDataTable<AccountEvent>({
-      name: "events-table",
+      name: "events-account-table",
       data: events,
       columns: eventsTableColumns,
       pageCount: pagination.pages,
