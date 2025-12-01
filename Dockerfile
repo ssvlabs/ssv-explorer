@@ -1,5 +1,5 @@
 # Use an official Node.js runtime as a base image
-FROM node:24-alpine
+FROM node:24-alpine@sha256:2867d550cf9d8bb50059a0fff528741f11a84d985c732e60e19e8e75c7239c43
 
 # Define build argument with a default value can be stage or prod
 ARG MODE=stage 
