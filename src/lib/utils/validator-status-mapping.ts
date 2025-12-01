@@ -28,6 +28,39 @@ export const VALIDATOR_STATUS = {
   EXITED: "Exited" as const,
 } as const
 
+// Validator Status Constants
+export const VALIDATOR_STATUS_TO_API_PARAM: Record<
+  keyof typeof VALIDATOR_STATUS,
+  string
+> = {
+  NOT_DEPOSITED: "notDeposited" as const,
+  PENDING: "pending" as const,
+  ACTIVE: "active" as const,
+  INACTIVE: "inactive" as const,
+  EXITING: "exiting" as const,
+  SLASHED: "slashed" as const,
+  EXITED: "exited" as const,
+} as const
+
+export const validatorStatusApiParams = Object.values(
+  VALIDATOR_STATUS_TO_API_PARAM
+)
+
+export type ValidatorStatusApiParam = (typeof validatorStatusApiParams)[0]
+
+export const validatorStatusApiParamToLabel: Record<
+  ValidatorStatusApiParam,
+  ValidatorStatus
+> = {
+  [VALIDATOR_STATUS_TO_API_PARAM.ACTIVE]: VALIDATOR_STATUS.ACTIVE,
+  [VALIDATOR_STATUS_TO_API_PARAM.EXITED]: VALIDATOR_STATUS.EXITED,
+  [VALIDATOR_STATUS_TO_API_PARAM.NOT_DEPOSITED]: VALIDATOR_STATUS.NOT_DEPOSITED,
+  [VALIDATOR_STATUS_TO_API_PARAM.PENDING]: VALIDATOR_STATUS.PENDING,
+  [VALIDATOR_STATUS_TO_API_PARAM.INACTIVE]: VALIDATOR_STATUS.INACTIVE,
+  [VALIDATOR_STATUS_TO_API_PARAM.SLASHED]: VALIDATOR_STATUS.SLASHED,
+  [VALIDATOR_STATUS_TO_API_PARAM.EXITING]: VALIDATOR_STATUS.EXITING,
+} as const
+
 export type BeaconChainStatus =
   | typeof BEACON_CHAIN_STATUS.EMPTY
   | typeof BEACON_CHAIN_STATUS.PENDING_INITIALIZED

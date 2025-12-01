@@ -1,10 +1,11 @@
 "use client"
 
-import { use } from "react"
+import { use, useState } from "react"
 import { TableProvider } from "@/context/table-context"
 import { withErrorBoundary } from "react-error-boundary"
 
-import { type DutiesResponse } from "@/types/api/duties"
+import { type DutiesResponse, type DutyElement } from "@/types/api/duties"
+import { type ChainName } from "@/config/chains"
 import { defaultDutiesSort } from "@/lib/search-parsers/duties-search-parsers"
 import { useDataTable } from "@/hooks/use-data-table"
 import { Badge } from "@/components/ui/badge"
@@ -12,10 +13,12 @@ import { Text } from "@/components/ui/text"
 import { DataTable } from "@/components/data-table/data-table"
 import { DataTableViewOptions } from "@/components/data-table/data-table-view-options"
 
-import { dutiesTableColumns } from "./duties-table-columns"
+import { createDutiesTableColumns } from "./duties-table-columns"
+import { DutyDetailsModal } from "./duty-details-modal"
 
 interface DutiesTableProps {
   dataPromise: Promise<DutiesResponse>
+  network: ChainName
 }
 
 export const defaultColumns = {
@@ -28,13 +31,20 @@ export const defaultColumns = {
 }
 
 export const DutiesTable = withErrorBoundary(
-  ({ dataPromise: data }: DutiesTableProps) => {
+  ({ dataPromise: data, network }: DutiesTableProps) => {
     const response = use(data)
+    const [selectedDuty, setSelectedDuty] = useState<DutyElement | null>(null)
+    const [isModalOpen, setIsModalOpen] = useState(false)
+
+    const handleRowClick = (duty: DutyElement) => {
+      setSelectedDuty(duty)
+      setIsModalOpen(true)
+    }
 
     const { table } = useDataTable({
       name: "duties",
       data: response.duties,
-      columns: dutiesTableColumns,
+      columns: createDutiesTableColumns(handleRowClick),
       pageCount: response.pagination.pages,
       getRowId: (originalRow, index) => `${originalRow.publicKey}-${index}`,
       shallow: false,
@@ -60,6 +70,13 @@ export const DutiesTable = withErrorBoundary(
           </div>
           <DataTable table={table} />
         </TableProvider>
+
+        <DutyDetailsModal
+          selectedDuty={selectedDuty}
+          network={network}
+          open={isModalOpen}
+          onOpenChange={setIsModalOpen}
+        />
       </>
     )
   },

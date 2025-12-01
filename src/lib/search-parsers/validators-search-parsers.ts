@@ -3,6 +3,7 @@ import {
   createSearchParamsCache,
   createSerializer,
   parseAsArrayOf,
+  parseAsInteger,
   parseAsString,
   parseAsStringEnum,
 } from "nuqs/server"
@@ -17,6 +18,10 @@ import {
   publicKeysParser,
 } from "@/lib/search-parsers/shared/parsers"
 import { getSortingStateParser } from "@/lib/utils/parsers"
+import {
+  validatorStatusApiParams,
+  type ValidatorStatusApiParam,
+} from "@/lib/utils/validator-status-mapping"
 
 export const validatorsSearchFilters = {
   search: parseAsString.withOptions(defaultSearchOptions),
@@ -26,6 +31,12 @@ export const validatorsSearchFilters = {
   operator: parseAsArrayOf(z.number({ coerce: true })).withOptions(
     defaultSearchOptions
   ),
+  updatedAt: parseAsInteger,
+  status: parseAsArrayOf(
+    parseAsStringEnum<ValidatorStatusApiParam>(validatorStatusApiParams)
+  )
+    .withDefault([])
+    .withOptions(defaultSearchOptions),
 }
 
 export type ValidatorSearchFilterKeys = keyof typeof validatorsSearchFilters

@@ -38,7 +38,7 @@ export type ComponentWithAs<Component extends As, Props extends object = {}> = {
       Props,
       AsComponent
     >
-  ): JSX.Element
+  ): React.ReactNode
   displayName?: string
   propTypes?: React.WeakValidationMap<any>
   contextTypes?: React.ValidationMap<any>

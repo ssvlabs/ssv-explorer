@@ -1,13 +1,14 @@
 import { type UseInfiniteQueryResult } from "@tanstack/react-query"
 
-import { type SearchValidator } from "@/types/api"
+import { type Operator, type SearchValidator } from "@/types/api"
 import { shortenAddress } from "@/lib/utils/strings"
+import { Button } from "@/components/ui/button"
 import { CommandGroup, CommandItem } from "@/components/ui/command"
 import { Text } from "@/components/ui/text"
 
 interface ValidatorsGroupProps {
-  query: UseInfiniteQueryResult<SearchValidator[], unknown>
-  onSelect: (group: "validator", value: SearchValidator) => void
+  query: UseInfiniteQueryResult<SearchValidator<Operator>[], unknown>
+  onSelect: (group: "validator", value: SearchValidator<Operator>) => void
 }
 
 export function ValidatorsGroup({ query, onSelect }: ValidatorsGroupProps) {
@@ -33,16 +34,21 @@ export function ValidatorsGroup({ query, onSelect }: ValidatorsGroupProps) {
         </CommandItem>
       ))}
       {query.hasNextPage && (
-        <CommandItem
-          className="cursor-pointer"
-          value="load-more"
-          onMouseDown={(e) => e.preventDefault()}
-          onSelect={() => {
-            query.fetchNextPage()
-          }}
-        >
-          {query.isFetching ? "Loading..." : "Load more"}
-        </CommandItem>
+        <div className="mt-1 flex w-full justify-center pb-2">
+          <Button
+            size="sm"
+            className="w-full text-primary-500"
+            variant="ghost"
+            isLoading={query.isFetching}
+            onClick={(ev) => {
+              ev.preventDefault()
+              ev.stopPropagation()
+              query.fetchNextPage()
+            }}
+          >
+            Load more
+          </Button>
+        </div>
       )}
     </CommandGroup>
   )

@@ -15,7 +15,7 @@ export const getOperatorStatistics = async (params: { network: ChainName }) => {
     },
     [JSON.stringify(params)],
     {
-      // revalidate: 30,
+      revalidate: 30,
       tags: ["operators/statistics"],
     }
   )()

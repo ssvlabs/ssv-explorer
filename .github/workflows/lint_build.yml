@@ -66,5 +66,6 @@ jobs:
           SSV_NETWORKS: "${{ env.STAGE_SSV_NETWORKS }}"
           NEXT_PUBLIC_SSV_NETWORKS: "${{ env.STAGE_SSV_NETWORKS }}"
           SITE_URL: "https://explorer.stage.ssv.network"
+          COINCECKO_API_URL: "https://api.coingecko.com/api/"
 
         run: pnpm build

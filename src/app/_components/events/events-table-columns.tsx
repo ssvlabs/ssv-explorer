@@ -52,14 +52,13 @@ export const eventsColumns = {
       const ownerAddress = row.original.ownerAddress
       return (
         <div className="flex gap-1">
-          <Button asChild variant="link">
-            <Link
-              // eslint-disable-next-line react-hooks/rules-of-hooks
-              href={`/${useNetworkParam()}/account/${ownerAddress}`}
-              className="font-mono"
-            >
-              {shortenAddress(ownerAddress)}
-            </Link>
+          <Button
+            variant="link"
+            as={Link}
+            href={`/${useNetworkParam()}/account/${ownerAddress}`}
+            className="font-mono"
+          >
+            {shortenAddress(ownerAddress)}
           </Button>
           <CopyBtn className="text-gray-500" text={ownerAddress} />
         </div>

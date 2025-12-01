@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils"
 import { percentageFormatter } from "@/lib/utils/number"
 
 type PerformanceTextProps = {
-  performance: number
+  performance: number | undefined
 }
 
 const getColor = (performance: number) => {
@@ -18,6 +18,14 @@ const getColor = (performance: number) => {
 export const PerformanceText: FC<
   PerformanceTextProps & ComponentPropsWithRef<"span">
 > = ({ performance, className, ...props }) => {
+  if (performance === undefined || performance === null) {
+    return (
+      <span className={cn("text-gray-500", className)} {...props}>
+        n/a
+      </span>
+    )
+  }
+
   return (
     <span className={cn(getColor(performance), className)} {...props}>
       {percentageFormatter.format(performance)}
