@@ -15,7 +15,7 @@ import {
 import { Card } from "@/components/ui/card"
 import { ErrorCard } from "@/components/ui/error-card"
 import { Stat } from "@/components/ui/stat"
-import { Text } from "@/components/ui/text"
+import { Span, Text } from "@/components/ui/text"
 import { Layer } from "@/components/charts/layers/layer"
 import { GeoLegend } from "@/components/charts/worldmap/geo-legend/geo-legend"
 import StandardMap from "@/components/charts/worldmap/standard-map"
@@ -110,10 +110,13 @@ export default async function Page(props: IndexPageProps) {
                 <Text variant="headline4">
                   {numberFormatter.format(totalValidators)}
                 </Text>
-                <Text variant="caption-bold" className="text-gray-500">
-                  {percentageFormatter.format(validatorsIncreasePercent)} (
-                  {numberFormatter.format(updatedValidatorsFrom7DaysAgo)})
-                </Text>
+                <Text variant="caption-medium" className="text-gray-500">
+                  Added Last 7 Days:{" "}
+                  <Span variant="caption-bold" className="text-gray-500">
+                    {percentageFormatter.format(validatorsIncreasePercent)} (
+                    {numberFormatter.format(updatedValidatorsFrom7DaysAgo)})
+                  </Span>
+                </Text>{" "}
               </div>
             }
           />
