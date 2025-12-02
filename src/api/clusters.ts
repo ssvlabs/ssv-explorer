@@ -87,3 +87,23 @@ export const getCluster = async (
       tags: ["cluster"],
     }
   )()
+
+export const getClusterEffectiveBalance = async (
+  params: { network: ChainName } & { id: string }
+) =>
+  await unstable_cache(
+    async () => {
+      const response = await api.get<{
+        clusterId: string
+        effectiveBalance: string
+      }>(
+        endpoint(params.network, "clusters", params.id, "totalEffectiveBalance")
+      )
+      return response
+    },
+    [JSON.stringify(stringifyBigints(params))],
+    {
+      revalidate: 30,
+      tags: ["cluster-effective-balance"],
+    }
+  )()
