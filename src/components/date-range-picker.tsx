@@ -3,7 +3,7 @@
 import React, { useEffect, useState, type FC } from "react"
 import { ChevronDownIcon, ChevronUpIcon } from "lucide-react"
 
-import { Button } from "@/components/ui/button"
+import { Button, type ButtonProps } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
 import {
   Popover,
@@ -127,6 +127,8 @@ export interface DateRangeSelectorProps {
   showActions?: boolean
   /** Custom class name */
   className?: string
+
+  canUpdate?: boolean
 }
 
 export const DateRangeSelector: FC<DateRangeSelectorProps> = ({
@@ -136,6 +138,7 @@ export const DateRangeSelector: FC<DateRangeSelectorProps> = ({
   onCancel,
   showActions = true,
   className,
+  canUpdate = true,
 }) => {
   const [selectedPreset, setSelectedPreset] = useState<string | undefined>(
     undefined
@@ -286,10 +289,17 @@ export const DateRangeSelector: FC<DateRangeSelectorProps> = ({
       </div>
       {showActions && (
         <div className="flex justify-end gap-2 border-t py-2 pr-4">
-          <Button onClick={onCancel} variant="ghost">
-            Cancel
+          <Button onClick={onCancel} variant="ghost" className="w-32 text-sm">
+            Remove
           </Button>
-          <Button onClick={onUpdate}>Update</Button>
+          <Button
+            disabled={!canUpdate}
+            onClick={onUpdate}
+            variant="default"
+            className="w-32 text-sm"
+          >
+            Apply
+          </Button>
         </div>
       )}
     </div>

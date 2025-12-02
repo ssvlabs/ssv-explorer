@@ -17,7 +17,8 @@ import {
   defaultSearchOptions,
   publicKeysParser,
 } from "@/lib/search-parsers/shared/parsers"
-import { getSortingStateParser } from "@/lib/utils/parsers"
+import { sortNumbers } from "@/lib/utils/number"
+import { getSortingStateParser, parseAsTuple } from "@/lib/utils/parsers"
 import {
   validatorStatusApiParams,
   type ValidatorStatusApiParam,
@@ -37,6 +38,12 @@ export const validatorsSearchFilters = {
   )
     .withDefault([])
     .withOptions(defaultSearchOptions),
+  createdAt: parseAsTuple(
+    z.tuple([z.number({ coerce: true }), z.number({ coerce: true })]),
+    {
+      postParse: sortNumbers,
+    }
+  ).withOptions(defaultSearchOptions),
 }
 
 export type ValidatorSearchFilterKeys = keyof typeof validatorsSearchFilters

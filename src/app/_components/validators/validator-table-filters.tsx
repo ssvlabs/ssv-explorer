@@ -1,6 +1,7 @@
 import { useTable } from "@/context/table-context"
 import { Collapse } from "react-collapse"
 
+import { operatorSearchFilters } from "@/lib/search-parsers/operator-search-parsers"
 import {
   validatorsSearchParsers,
   type ValidatorSearchFilterKeys,
@@ -11,6 +12,7 @@ import { Button } from "@/components/ui/button"
 import { textVariants } from "@/components/ui/text"
 import { OperatorsFilter } from "@/app/_components/clusters/filters/operators-filter"
 import { HexFilter } from "@/app/_components/shared/filters/address-filter"
+import { DateRangeFilter } from "@/app/_components/shared/filters/date-range-filter"
 import { StatusFilter } from "@/app/_components/validators/filters/status-filter"
 
 export type ValidatorTableFiltersProps = {
@@ -70,6 +72,11 @@ export const ValidatorTableFilters = ({
         )}
         {!hideOperatorsFilter && <OperatorsFilter searchQueryKey="operator" />}
         <StatusFilter />
+        <DateRangeFilter
+          name="Created At"
+          searchQueryKey="createdAt"
+          parser={validatorsSearchParsers.createdAt}
+        />
         {enabledFilters.count > 0 && (
           <Button
             variant="ghost"
