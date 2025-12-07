@@ -133,7 +133,7 @@ export const validatorColumns: Record<
         <ValidatorStatusBadge size="sm" status={row.original.status} />
       </div>
     ),
-    enableSorting: true,
+    enableSorting: false,
   },
   createdAt: {
     accessorKey: "createdAt",
@@ -153,6 +153,7 @@ export const validatorColumns: Record<
         </Tooltip>
       </div>
     ),
+    enableSorting: false,
   },
 }
 

@@ -38,7 +38,7 @@ export const validatorsSearchFilters = {
   )
     .withDefault([])
     .withOptions(defaultSearchOptions),
-  createdAt: parseAsTuple(
+  dateRange: parseAsTuple(
     z.tuple([z.number({ coerce: true }), z.number({ coerce: true })]),
     {
       postParse: sortNumbers,
@@ -53,7 +53,7 @@ export const defaultValidatorSort: ExtendedSortingState<
 > = [{ id: "created_at", desc: true }]
 
 export const validatorSearchSort = {
-  ordering: getSortingStateParser<SearchValidator<Operator>>()
+  orderBy: getSortingStateParser<SearchValidator<Operator>>()
     .withOptions(defaultSearchOptions)
     .withDefault(defaultValidatorSort),
 }
