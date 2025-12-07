@@ -1,7 +1,10 @@
 import { getRecentSSVEvents } from "@/api/events"
 import { searchOperators } from "@/api/operator"
-import { getOperatorStatistics } from "@/api/statistics"
-import { getTotalEffectiveBalance, searchValidators } from "@/api/validators"
+import {
+  getOperatorStatistics,
+  getTotalEffectiveBalance,
+} from "@/api/statistics"
+import { searchValidators } from "@/api/validators"
 import { type SearchParams } from "@/types"
 
 import { getNativeCurrency, type ChainName } from "@/config/chains"
