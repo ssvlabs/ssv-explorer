@@ -74,8 +74,8 @@ export const ValidatorTableFilters = ({
         <StatusFilter />
         <DateRangeFilter
           name="Created At"
-          searchQueryKey="createdAt"
-          parser={validatorsSearchParsers.createdAt}
+          searchQueryKey="dateRange"
+          parser={validatorsSearchParsers.dateRange}
         />
         {enabledFilters.count > 0 && (
           <Button
