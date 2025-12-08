@@ -44,6 +44,7 @@ export interface Operator {
   validators_count: number
   version: string
   website_url: string
+  effective_balance: bigint
   whitelist_addresses: string[]
   whitelisting_contract: string
   type: "verified_operator" | "dapp_node" | "operator"

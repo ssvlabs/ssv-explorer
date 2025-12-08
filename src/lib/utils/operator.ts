@@ -156,6 +156,7 @@ export const createDefaultOperator = (
     validators_count: 0,
     version: "v4",
     network: "holesky",
+    effective_balance: 0n,
     ...operator,
   }) satisfies Operator
 
