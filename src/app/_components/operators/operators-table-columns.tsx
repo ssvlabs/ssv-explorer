@@ -5,6 +5,7 @@ import { type ColumnDef } from "@tanstack/react-table"
 import { formatDistanceToNowStrict } from "date-fns"
 
 import { type Operator } from "@/types/api"
+import { formatGwei } from "@/lib/utils/number"
 import { getYearlyFee } from "@/lib/utils/operator"
 import { shortenAddress } from "@/lib/utils/strings"
 import { useNetworkParam } from "@/hooks/app/useNetworkParam"
@@ -241,6 +242,25 @@ export const operatorColumns = {
       )
     },
   },
+  ethManaged: {
+    accessorKey: "effectiveBalance",
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        column={column}
+        title="ETH Managed"
+        className="justify-end text-right"
+      />
+    ),
+    cell: ({ row }) => {
+      return (
+        <div className="text-right">
+          {row.original.effective_balance > 0
+            ? `${formatGwei(row.original.effective_balance)} ETH`
+            : "-"}
+        </div>
+      )
+    },
+  },
 } satisfies Record<string, ColumnDefWithTitle<Operator>>
 
 export const operatorsTableColumns = [
@@ -259,6 +279,7 @@ export const operatorsTableColumns = [
   operatorColumns.mevRelays,
   operatorColumns.status,
   operatorColumns.createdAt,
+  operatorColumns.ethManaged,
 ] satisfies ColumnDef<Operator>[]
 
 export type OperatorColumnsAccessorKeys = keyof typeof operatorColumns
