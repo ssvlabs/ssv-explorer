@@ -4,8 +4,7 @@ import { useTheme } from "next-themes"
 import { LuRefreshCw } from "react-icons/lu"
 
 import { type DutyElement } from "@/types/api/duties"
-import { dutySteps, type DutyDetailsResponse } from "@/types/api/duty-details"
-import { type Operator } from "@/types/api/operator"
+import { dutySteps } from "@/types/api/duty-details"
 import { type ChainName } from "@/config/chains"
 import { useDutyDetails } from "@/hooks/duties/use-duty-details"
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog"
@@ -174,24 +173,40 @@ export function DutyDetailsModal({
                   <div className="ml-0.5 flex justify-between">
                     <div className={"mt-[14px] flex w-[120px] flex-col"}>
                       {keys.map((key, keyIndex) => {
+                        const operatorIds = (dutyDetails?.operators || []).map(
+                          (op) => op.id
+                        )
+                        const clusterSize = operatorIds.length
+
+                        const isLeaderOnlyStep =
+                          key === "leader" && keys.length === 1
+
+                        const isLastStepOfIncompleteRound =
+                          keyIndex === keys.length - 1 &&
+                          rounds.length - 1 > index
+
+                        let isSuccess
+                        if (isLeaderOnlyStep || isLastStepOfIncompleteRound) {
+                          isSuccess = false
+                        } else if (Array.isArray(round[key])) {
+                          const participatingOperators = (round[key] || [])
+                            .length
+                          isSuccess = isSuccessProcess(
+                            clusterSize,
+                            participatingOperators
+                          )
+                        } else {
+                          const operatorId = round[key]
+                          isSuccess = operatorIds.includes(operatorId || -1)
+                        }
+
                         return (
                           <div key={key} className="flex flex-col">
                             <Text
                               className="flex w-[120px] items-center gap-2 text-gray-600"
                               variant={"caption-medium"}
                             >
-                              <CompleteBadge
-                                isSuccess={
-                                  Array.isArray(round[key])
-                                    ? isSuccessProcess(
-                                        (dutyDetails?.operators || []).length,
-                                        (round[key] || []).length
-                                      )
-                                    : (dutyDetails?.operators || [])
-                                        .map((op) => op.id)
-                                        .includes(round[key] || -1)
-                                }
-                              />
+                              <CompleteBadge isSuccess={isSuccess} />
                               {dutySteps[key]}
                             </Text>
                             {keyIndex !== keys.length - 1 && (
@@ -219,7 +234,10 @@ export function DutyDetailsModal({
                                     isSuccess={
                                       (Array.isArray(round[key]) &&
                                         round[key].includes(id)) ||
-                                      (key === "leader" && round[key] === id)
+                                      (key === "leader" &&
+                                        round[key] === id &&
+                                        keys.length > 1 &&
+                                        index < rounds.length)
                                     }
                                     isLeader={
                                       key === "leader" && round[key] === id
