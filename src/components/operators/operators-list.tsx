@@ -18,16 +18,29 @@ export const OperatorsList: OperatorsListFC = ({
   operators,
   ...props
 }) => {
+  const count = operators.length
+
+  const getGridClasses = () => {
+    if (count === 4) {
+      return "flex gap-6 flex-wrap justify-center [&>*]:w-[320px] [&>*]:flex-shrink-0"
+    }
+    if (count === 7) {
+      return "flex gap-6 flex-wrap justify-center [&>*]:w-[172px] [&>*]:flex-shrink-0"
+    }
+    if (count === 10) {
+      return "flex gap-6 flex-wrap justify-center [&>*]:w-[250px] [&>*]:flex-shrink-0"
+    }
+    if (count === 13) {
+      return "flex gap-6 flex-wrap justify-center [&>*]:w-[168px] [&>*]:flex-shrink-0"
+    }
+
+    // Default fallback
+    return "flex gap-6 flex-wrap justify-center [&>*]:min-w-[168px] [&>*]:max-w-[320px] [&>*]:flex-shrink-0"
+  }
+
   return (
     <div className={cn(className)} {...props}>
-      <div
-        className={cn(
-          "flex gap-6 overflow-x-auto md:overflow-x-auto lg:flex-wrap lg:justify-center [&>*]:min-w-48 lg:[&>*]:min-w-[172px]",
-          {
-            "[&>*]:flex-1": operators.length < 8,
-          }
-        )}
-      >
+      <div className={cn(getGridClasses())}>
         {operators.map((operator) => (
           <OperatorCard key={operator.id} operator={operator} />
         ))}

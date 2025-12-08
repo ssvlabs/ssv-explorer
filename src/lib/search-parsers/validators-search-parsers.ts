@@ -3,6 +3,7 @@ import {
   createSearchParamsCache,
   createSerializer,
   parseAsArrayOf,
+  parseAsInteger,
   parseAsString,
   parseAsStringEnum,
 } from "nuqs/server"
@@ -16,7 +17,12 @@ import {
   defaultSearchOptions,
   publicKeysParser,
 } from "@/lib/search-parsers/shared/parsers"
-import { getSortingStateParser } from "@/lib/utils/parsers"
+import { sortNumbers } from "@/lib/utils/number"
+import { getSortingStateParser, parseAsTuple } from "@/lib/utils/parsers"
+import {
+  validatorStatusApiParams,
+  type ValidatorStatusApiParam,
+} from "@/lib/utils/validator-status-mapping"
 
 export const validatorsSearchFilters = {
   search: parseAsString.withOptions(defaultSearchOptions),
@@ -26,6 +32,18 @@ export const validatorsSearchFilters = {
   operator: parseAsArrayOf(z.number({ coerce: true })).withOptions(
     defaultSearchOptions
   ),
+  updatedAt: parseAsInteger,
+  status: parseAsArrayOf(
+    parseAsStringEnum<ValidatorStatusApiParam>(validatorStatusApiParams)
+  )
+    .withDefault([])
+    .withOptions(defaultSearchOptions),
+  dateRange: parseAsTuple(
+    z.tuple([z.number({ coerce: true }), z.number({ coerce: true })]),
+    {
+      postParse: sortNumbers,
+    }
+  ).withOptions(defaultSearchOptions),
 }
 
 export type ValidatorSearchFilterKeys = keyof typeof validatorsSearchFilters
@@ -35,7 +53,7 @@ export const defaultValidatorSort: ExtendedSortingState<
 > = [{ id: "created_at", desc: true }]
 
 export const validatorSearchSort = {
-  ordering: getSortingStateParser<SearchValidator<Operator>>()
+  orderBy: getSortingStateParser<SearchValidator<Operator>>()
     .withOptions(defaultSearchOptions)
     .withDefault(defaultValidatorSort),
 }

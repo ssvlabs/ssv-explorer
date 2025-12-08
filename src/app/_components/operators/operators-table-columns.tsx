@@ -5,6 +5,7 @@ import { type ColumnDef } from "@tanstack/react-table"
 import { formatDistanceToNowStrict } from "date-fns"
 
 import { type Operator } from "@/types/api"
+import { formatGwei } from "@/lib/utils/number"
 import { getYearlyFee } from "@/lib/utils/operator"
 import { shortenAddress } from "@/lib/utils/strings"
 import { useNetworkParam } from "@/hooks/app/useNetworkParam"
@@ -49,14 +50,14 @@ export const operatorColumns = {
       const ownerAddress = row.original.owner_address
       return (
         <div className="flex gap-1">
-          <Button asChild variant="link">
-            <Link
-              // eslint-disable-next-line react-hooks/rules-of-hooks
-              href={`/${useNetworkParam()}/account/${ownerAddress}`}
-              className="font-mono"
-            >
-              {shortenAddress(ownerAddress)}
-            </Link>
+          <Button
+            variant="link"
+            as={Link}
+            // eslint-disable-next-line react-hooks/rules-of-hooks
+            href={`/${useNetworkParam()}/account/${ownerAddress}`}
+            className="font-mono"
+          >
+            {shortenAddress(ownerAddress)}
           </Button>
           <CopyBtn className="text-gray-500" text={ownerAddress} />
         </div>
@@ -93,18 +94,30 @@ export const operatorColumns = {
   fee: {
     accessorKey: "fee",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Fee" />
+      <DataTableColumnHeader
+        column={column}
+        title="Fee"
+        className="justify-end text-right"
+      />
     ),
     cell: ({ row }) => (
-      <div>{getYearlyFee(BigInt(row.original.fee), { format: true })}</div>
+      <div className="text-right">
+        {getYearlyFee(BigInt(row.original.fee), { format: true })}
+      </div>
     ),
   },
   validatorsCount: {
     accessorKey: "validatorsCount",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Validators Count" />
+      <DataTableColumnHeader
+        column={column}
+        title="Validators Count"
+        className="justify-end text-right"
+      />
     ),
-    cell: ({ row }) => <div>{row.original.validators_count}</div>,
+    cell: ({ row }) => (
+      <div className="text-right">{row.original.validators_count}</div>
+    ),
   },
   performance24h: {
     accessorKey: "performance24h",
@@ -137,6 +150,46 @@ export const operatorColumns = {
     ),
     cell: ({ row }) => {
       const performance = row.original.performance["30d"]
+      return (
+        <div className="flex items-center justify-end">
+          <OperatorPerformanceTooltip>
+            <PerformanceText className="text-right" performance={performance} />
+          </OperatorPerformanceTooltip>
+        </div>
+      )
+    },
+  },
+  performanceV2_24h: {
+    accessorKey: "performanceV2_24h",
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        className="justify-end text-right"
+        column={column}
+        title="24h v2"
+      />
+    ),
+    cell: ({ row }) => {
+      const performance = row.original.performanceV2?.dailyPerformance
+      return (
+        <div className="flex items-center justify-end">
+          <OperatorPerformanceTooltip>
+            <PerformanceText className="text-right" performance={performance} />
+          </OperatorPerformanceTooltip>
+        </div>
+      )
+    },
+  },
+  performanceV2_30d: {
+    accessorKey: "performanceV2_30d",
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        column={column}
+        title="30d v2"
+        className="justify-end text-right"
+      />
+    ),
+    cell: ({ row }) => {
+      const performance = row.original.performanceV2?.monthlyPerformance
       return (
         <div className="flex items-center justify-end">
           <OperatorPerformanceTooltip>
@@ -189,6 +242,25 @@ export const operatorColumns = {
       )
     },
   },
+  ethManaged: {
+    accessorKey: "effectiveBalance",
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        column={column}
+        title="ETH Managed"
+        className="justify-end text-right"
+      />
+    ),
+    cell: ({ row }) => {
+      return (
+        <div className="text-right">
+          {row.original.effective_balance > 0
+            ? `${formatGwei(row.original.effective_balance)} ETH`
+            : "-"}
+        </div>
+      )
+    },
+  },
 } satisfies Record<string, ColumnDefWithTitle<Operator>>
 
 export const operatorsTableColumns = [
@@ -202,9 +274,12 @@ export const operatorsTableColumns = [
   operatorColumns.validatorsCount,
   operatorColumns.performance24h,
   operatorColumns.performance30d,
+  operatorColumns.performanceV2_24h,
+  operatorColumns.performanceV2_30d,
   operatorColumns.mevRelays,
   operatorColumns.status,
   operatorColumns.createdAt,
+  operatorColumns.ethManaged,
 ] satisfies ColumnDef<Operator>[]
 
 export type OperatorColumnsAccessorKeys = keyof typeof operatorColumns

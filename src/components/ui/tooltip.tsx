@@ -1,8 +1,11 @@
+"use client"
+
 import * as React from "react"
 import * as TooltipPrimitive from "@radix-ui/react-tooltip"
-import { useEffectOnce } from "react-use"
+import { useClickAway, useEffectOnce } from "react-use"
 
 import { cn } from "@/lib/utils"
+import { isMobile } from "@/lib/utils/ismobile"
 
 const TooltipProvider = TooltipPrimitive.Provider
 
@@ -15,23 +18,30 @@ const TooltipArrow = TooltipPrimitive.Arrow
 const TooltipContent = React.forwardRef<
   React.ElementRef<typeof TooltipPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>
->(({ className, sideOffset = 4, ...props }, ref) => (
-  <TooltipPrimitive.Portal>
-    <TooltipPrimitive.Content
-      ref={ref}
-      sideOffset={sideOffset}
-      // eslint-disable-next-line tailwindcss/no-custom-classname
-      className={cn(
-        "shadcn-tooltip z-50 max-w-md overflow-hidden rounded-md bg-gray-700 px-4 py-2.5 text-sm font-medium text-gray-50 shadow-md animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 dark:bg-gray-300 dark:text-gray-800",
-        className
-      )}
-      style={{
-        fontWeight: 400,
-      }}
-      {...props}
-    />
-  </TooltipPrimitive.Portal>
-))
+>(
+  (
+    { className, sideOffset = 2, side = "top", align = "center", ...props },
+    ref
+  ) => (
+    <TooltipPrimitive.Portal>
+      <TooltipPrimitive.Content
+        ref={ref}
+        sideOffset={sideOffset}
+        side={side}
+        align={align}
+        // eslint-disable-next-line tailwindcss/no-custom-classname
+        className={cn(
+          "shadcn-tooltip z-50 max-w-md overflow-hidden rounded-md bg-gray-700 px-4 py-2.5 text-sm font-medium text-gray-50 shadow-md animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 dark:bg-gray-300 dark:text-gray-800",
+          className
+        )}
+        style={{
+          fontWeight: 400,
+        }}
+        {...props}
+      />
+    </TooltipPrimitive.Portal>
+  )
+)
 TooltipContent.displayName = TooltipPrimitive.Content.displayName
 
 interface TooltipProps
@@ -56,11 +66,25 @@ const Tooltip: React.FC<TooltipProps> = ({
   className,
   ...props
 }) => {
-  if (!content) return children
+  const [isClicked, setIsClicked] = React.useState(false)
+  const ref = React.useRef(null)
+  useClickAway(ref, () => setIsClicked(false))
+  const mobile = React.useMemo(() => isMobile(), [])
+
+  const forceClosed = content ? undefined : false
+
   return (
     <TooltipProvider>
-      <TooltipRoot delayDuration={delayDuration || 300} open={open}>
-        <TooltipTrigger asChild={asChild} type="button">
+      <TooltipRoot
+        delayDuration={delayDuration || 300}
+        open={forceClosed ?? (open || (mobile ? isClicked : undefined))}
+      >
+        <TooltipTrigger
+          asChild={asChild}
+          type="button"
+          ref={ref}
+          onClick={() => setIsClicked((prev) => !prev)}
+        >
           {children}
         </TooltipTrigger>
         <TooltipContent
@@ -70,6 +94,10 @@ const Tooltip: React.FC<TooltipProps> = ({
             className
           )}
           {...props}
+          style={{
+            ...props.style,
+            maxWidth: "var(--radix-popper-available-width)",
+          }}
         >
           {hasArrow && <TooltipArrow className="fill-gray-700" />}
           {content}
@@ -102,9 +130,10 @@ export const useIsInsideTooltip = () => {
 
 export {
   Tooltip,
-  TooltipRoot,
   TooltipArrow,
-  TooltipTrigger,
   TooltipContent,
   TooltipProvider,
+  TooltipRoot,
+  TooltipTrigger,
+  TooltipPrimitive,
 }

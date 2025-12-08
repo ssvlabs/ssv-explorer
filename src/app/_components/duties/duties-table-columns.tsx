@@ -8,13 +8,22 @@ import { DataTableColumnHeader } from "@/components/data-table/data-table-column
 
 import { OperatorConsensusBreakdown } from "./cells/operator-consensus-breakdown"
 
-export const dutiesTableColumns: ColumnDef<DutyElement>[] = [
+export const createDutiesTableColumns = (
+  onRowClick: (duty: DutyElement) => void
+): ColumnDef<DutyElement>[] => [
   {
     accessorKey: "epoch",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Epoch" />
     ),
-    cell: ({ row }) => <div>{row.original.epoch}</div>,
+    cell: ({ row }) => (
+      <div
+        className="-m-2 cursor-pointer rounded p-2 hover:bg-gray-50"
+        onClick={() => onRowClick(row.original)}
+      >
+        {row.original.epoch}
+      </div>
+    ),
     enableSorting: false,
   },
   {
@@ -22,7 +31,14 @@ export const dutiesTableColumns: ColumnDef<DutyElement>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Slot" />
     ),
-    cell: ({ row }) => <div>{row.original.slot}</div>,
+    cell: ({ row }) => (
+      <div
+        className="-m-2 cursor-pointer rounded p-2 hover:bg-gray-50"
+        onClick={() => onRowClick(row.original)}
+      >
+        {row.original.slot}
+      </div>
+    ),
     enableSorting: false,
   },
   {
@@ -30,7 +46,14 @@ export const dutiesTableColumns: ColumnDef<DutyElement>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Duty" />
     ),
-    cell: ({ row }) => <div>{row.original.duty}</div>,
+    cell: ({ row }) => (
+      <div
+        className="-m-2 cursor-pointer rounded p-2 hover:bg-gray-50"
+        onClick={() => onRowClick(row.original)}
+      >
+        {row.original.duty}
+      </div>
+    ),
     enableSorting: false,
   },
   {
@@ -43,7 +66,10 @@ export const dutiesTableColumns: ColumnDef<DutyElement>[] = [
       />
     ),
     cell: ({ row }) => (
-      <div className="flex justify-end">
+      <div
+        className="-m-2 flex cursor-pointer justify-end rounded p-2 hover:bg-gray-50"
+        onClick={() => onRowClick(row.original)}
+      >
         <OperatorConsensusBreakdown
           operators={row.original.operators}
           missingOperators={row.original.missing_operators}
@@ -62,7 +88,10 @@ export const dutiesTableColumns: ColumnDef<DutyElement>[] = [
       />
     ),
     cell: ({ row }) => (
-      <div className="flex justify-end">
+      <div
+        className="-m-2 flex cursor-pointer justify-end rounded p-2 hover:bg-gray-50"
+        onClick={() => onRowClick(row.original)}
+      >
         <Badge
           className="capitalize"
           size="sm"

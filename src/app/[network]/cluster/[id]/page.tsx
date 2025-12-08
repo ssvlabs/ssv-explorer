@@ -18,6 +18,7 @@ import { ErrorCard } from "@/components/ui/error-card"
 import { Outline } from "@/components/ui/outline"
 import { Stat } from "@/components/ui/stat"
 import { Text } from "@/components/ui/text"
+import { EffectiveBalanceStat } from "@/components/clusters/effective-balance-stat"
 import { OperatorsList } from "@/components/operators/operators-list"
 import { Shell } from "@/components/shell"
 import { ValidatorsTable } from "@/app/_components/validators/validators-table"
@@ -58,9 +59,7 @@ export default async function Page(props: IndexPageProps) {
     network: network,
   })
 
-  const cluster = await getCluster({ id, network: network }).catch((error) => {
-    return null
-  })
+  const cluster = await getCluster({ id, network: network }).catch(() => null)
 
   if (!cluster) {
     return (
@@ -71,8 +70,6 @@ export default async function Page(props: IndexPageProps) {
       />
     )
   }
-
-  const nativeCurrency = getNativeCurrency(network)
 
   return (
     <Shell className="gap-6">
@@ -116,13 +113,11 @@ export default async function Page(props: IndexPageProps) {
             content={formatSSV(BigInt(cluster.balance)) + " SSV"}
           />
           <div className="h-full border-r border-gray-500" />
-          <Stat
+          <EffectiveBalanceStat
             className="flex-1"
-            title={`Total ${nativeCurrency.symbol}`}
-            content={
-              numberFormatter.format(+cluster.validatorCount * 32) +
-              ` ${nativeCurrency.symbol}`
-            }
+            clusterId={id}
+            network={network}
+            fallbackBalance={cluster.balance}
           />
         </div>
       </Card>
@@ -130,7 +125,7 @@ export default async function Page(props: IndexPageProps) {
       <Card>
         <ValidatorsTable
           dataPromise={validators}
-          columns={["publicKey", "status"]}
+          columns={["publicKey", "status", "createdAt"]}
           hideOperatorsFilter
           hideOwnerAddressFilter
           hideClusterIdFilter

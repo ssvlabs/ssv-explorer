@@ -5,6 +5,11 @@ interface Performance {
   "30d": number
 }
 
+interface PerformanceV2 {
+  dailyPerformance: number
+  monthlyPerformance: number
+}
+
 export interface Operator {
   id: number
   id_str: string
@@ -25,19 +30,21 @@ export interface Operator {
   location: string
   logo: string
   mev_relays: string
-  ssv_client: string
   name: string
   network: string
   owner_address: string
   performance: Performance
+  performanceV2?: PerformanceV2
   previous_fee: string
   public_key: string
   setup_provider: string
   twitter_url: string
+  ssv_client: string
   updated_at: string
   validators_count: number
   version: string
   website_url: string
+  effective_balance: bigint
   whitelist_addresses: string[]
   whitelisting_contract: string
   type: "verified_operator" | "dapp_node" | "operator"

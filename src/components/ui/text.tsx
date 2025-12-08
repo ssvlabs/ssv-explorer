@@ -37,7 +37,6 @@ export type TextProps = ComponentPropsWithoutRef<"p"> &
 
 type FCProps = ComponentWithAs<"p", TextProps>
 
-// @ts-expect-error fix this
 export const Text: FCProps = forwardRef(
   ({ className, variant, children, as, ...props }, ref) => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -55,7 +54,6 @@ export const Text: FCProps = forwardRef(
   }
 )
 
-// @ts-expect-error fix this
 export const Span: FCProps = forwardRef(
   ({ className, variant, children, as, ...props }, ref) => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment

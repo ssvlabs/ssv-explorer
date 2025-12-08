@@ -58,6 +58,40 @@ export const MEV_RELAYS_MAP = {
 
 export const MEV_RELAY_QUERY_VALUES = Object.values(MEV_RELAYS_MAP)
 
+// UI labels for status filter
+export const STATUS_DISPLAY_VALUES = [
+  "Active",
+  "Inactive",
+  "Pending Validators",
+  "No Validators",
+] as const
+
+// API values for status filter
+export const STATUS_API_VALUES = [
+  "active",
+  "inactive",
+  "pending_validators",
+  "no_validators",
+] as const
+
+// Mapping between UI display and API values
+export const STATUS_UI_TO_API = {
+  Active: "active",
+  Inactive: "inactive",
+  "Pending Validators": "pending_validators",
+  "No Validators": "no_validators",
+} as const
+
+export const STATUS_API_TO_UI = {
+  active: "Active",
+  inactive: "Inactive",
+  pending_validators: "Pending Validators",
+  no_validators: "No Validators",
+} as const
+
+export type OperatorStatusDisplay = (typeof STATUS_DISPLAY_VALUES)[number]
+export type OperatorStatusAPI = (typeof STATUS_API_VALUES)[number]
+
 export const MEV_RELAYS_LOGOS = {
   [MEV_RELAYS_MAP.AESTUS]: "aestus",
   [MEV_RELAYS_MAP.AGNOSTIC]: "agnostic",
@@ -122,6 +156,7 @@ export const createDefaultOperator = (
     validators_count: 0,
     version: "v4",
     network: "holesky",
+    effective_balance: 0n,
     ...operator,
   }) satisfies Operator
 

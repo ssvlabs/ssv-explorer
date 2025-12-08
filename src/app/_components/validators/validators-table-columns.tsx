@@ -4,6 +4,7 @@ import Link from "next/link"
 import { type ColumnDef } from "@tanstack/react-table"
 
 import { type Operator, type SearchValidator } from "@/types/api"
+import { getRelativeTime } from "@/lib/utils/date"
 import { add0x, remove0x, shortenAddress } from "@/lib/utils/strings"
 import { useNetworkParam } from "@/hooks/app/useNetworkParam"
 import { CopyBtn } from "@/components/ui/copy-btn"
@@ -22,6 +23,7 @@ export type ValidatorTableColumnAccessorKey =
   | "ownerAddress"
   | "operators"
   | "status"
+  | "createdAt"
 
 export const validatorColumns: Record<
   ValidatorTableColumnAccessorKey,
@@ -133,6 +135,26 @@ export const validatorColumns: Record<
     ),
     enableSorting: false,
   },
+  createdAt: {
+    accessorKey: "createdAt",
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        column={column}
+        title="Registered"
+        className="justify-end text-right"
+      />
+    ),
+    cell: ({ row }) => (
+      <div className="flex justify-end">
+        <Tooltip content={row.original.created_at} asChild alignOffset={30}>
+          <Text variant="body-3-medium" className="text-gray-600">
+            {getRelativeTime(row.original.created_at)}
+          </Text>
+        </Tooltip>
+      </div>
+    ),
+    enableSorting: false,
+  },
 }
 
 export const validatorsTableColumns: ColumnDefWithTitle<
@@ -143,6 +165,7 @@ export const validatorsTableColumns: ColumnDefWithTitle<
   validatorColumns.ownerAddress,
   validatorColumns.operators,
   validatorColumns.status,
+  validatorColumns.createdAt,
 ]
 
 export const validatorsOverviewTableColumns: ColumnDef<

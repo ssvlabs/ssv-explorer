@@ -1,6 +1,5 @@
 "use client"
 
-/* eslint-disable @next/next/no-img-element */
 import { useState } from "react"
 import { usePathname } from "next/navigation"
 import { Menu, X } from "lucide-react"
@@ -24,6 +23,7 @@ import { ThemeSwitcher } from "@/components/layouts/theme-switcher"
 import { Logo } from "@/components/logo"
 import { NetworkSwitcher } from "@/components/network-switcher"
 import { Link } from "@/components/nextjs/custom-link"
+import { ValueChangeIndicator } from "@/components/value-change-indicator"
 
 export function MobileSiteHeader() {
   const network = useNetworkParam()
@@ -47,7 +47,7 @@ export function MobileSiteHeader() {
           <div className="flex-1" />
           <NetworkSwitcher />
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
-            <SheetTrigger>
+            <SheetTrigger asChild>
               <Button variant="ghost" size="icon">
                 <Menu className="size-5" />
               </Button>
@@ -69,7 +69,6 @@ export function MobileSiteHeader() {
                 <Button
                   variant="ghost"
                   onClick={handleLinkClick}
-                  asChild
                   className="h-14 justify-start rounded-none px-5"
                 >
                   <Text
@@ -84,7 +83,6 @@ export function MobileSiteHeader() {
                 <Button
                   variant="ghost"
                   onClick={handleLinkClick}
-                  asChild
                   className="h-14 justify-start rounded-none px-5"
                 >
                   <Text
@@ -99,7 +97,6 @@ export function MobileSiteHeader() {
                 <Button
                   variant="ghost"
                   onClick={handleLinkClick}
-                  asChild
                   className="h-14 justify-start rounded-none px-5"
                 >
                   <Text
@@ -114,7 +111,6 @@ export function MobileSiteHeader() {
                 <Button
                   variant="ghost"
                   onClick={handleLinkClick}
-                  asChild
                   className="h-14 justify-start rounded-none px-5"
                 >
                   <Text
@@ -129,7 +125,6 @@ export function MobileSiteHeader() {
                 <Button
                   variant="ghost"
                   onClick={handleLinkClick}
-                  asChild
                   className="h-14 justify-start rounded-none px-5"
                 >
                   <Text
@@ -167,11 +162,12 @@ export function MobileSiteHeader() {
               </div>
               <Separator className="bg-gray-300" />
               <div className="flex h-10 items-center px-5">
-                <Text variant="caption-medium" className="font-sans">
-                  <span className="text-gray-500">SSV Price: </span>
+                <Text variant="caption-medium" className="flex gap-1 font-sans">
+                  <span className="text-gray-500">SSV Price:</span>
                   <span className="text-primary-500">
-                    {currencyFormatter.format(rates?.ssv ?? 0)}
+                    {currencyFormatter.format(rates?.price ?? 0)}
                   </span>
+                  <ValueChangeIndicator value={rates?.change} />
                 </Text>
               </div>
             </SheetContent>

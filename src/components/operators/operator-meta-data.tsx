@@ -10,6 +10,7 @@ import { type Operator } from "@/types/api"
 import { cn } from "@/lib/utils"
 import { getYearlyFee } from "@/lib/utils/operator"
 import { Button } from "@/components/ui/button"
+import { CopyBtn } from "@/components/ui/copy-btn"
 import { Outline } from "@/components/ui/outline"
 import { Text } from "@/components/ui/text"
 import { MevRelaysDisplay } from "@/components/mev-relays-display"
@@ -39,8 +40,8 @@ export const OperatorMetaData: OperatorMetaDataFC = ({
       <div className="flex w-full flex-col items-start justify-between rounded-xl bg-gray-200 p-2 md:flex-row">
         <div className="flex flex-col gap-5">
           <div className="flex flex-col gap-2">
-            <div className="flex flex-wrap gap-2">
-              <Outline className="h-6">
+            <div className="flex flex-wrap gap-1 md:gap-2">
+              <Outline>
                 <Text variant="caption-medium" className="text-gray-500">
                   Fee (Yearly):
                 </Text>
@@ -48,7 +49,7 @@ export const OperatorMetaData: OperatorMetaDataFC = ({
                   {getYearlyFee(BigInt(operator.fee), { format: true })}
                 </Text>
               </Outline>
-              <Outline className="h-6">
+              <Outline>
                 <Text variant="caption-medium" className="text-gray-500">
                   Location:
                 </Text>
@@ -56,7 +57,7 @@ export const OperatorMetaData: OperatorMetaDataFC = ({
                   {operator.location || "N/A"}
                 </Text>
               </Outline>
-              <Outline className="h-6">
+              <Outline>
                 <Text variant="caption-medium" className="text-gray-500">
                   ETH1 node client:
                 </Text>
@@ -64,7 +65,7 @@ export const OperatorMetaData: OperatorMetaDataFC = ({
                   {operator.eth1_node_client || "N/A"}
                 </Text>
               </Outline>
-              <Outline className="h-6">
+              <Outline>
                 <Text variant="caption-medium" className="text-gray-500">
                   ETH2 node client:
                 </Text>
@@ -72,7 +73,7 @@ export const OperatorMetaData: OperatorMetaDataFC = ({
                   {operator.eth2_node_client || "N/A"}
                 </Text>
               </Outline>
-              <Outline className="h-6 text-xl">
+              <Outline className="flex min-h-6 flex-col items-start gap-1 text-xl md:flex-row md:items-center">
                 <Text variant="caption-medium" className="text-gray-500">
                   MEV Relays:
                 </Text>
@@ -80,8 +81,8 @@ export const OperatorMetaData: OperatorMetaDataFC = ({
               </Outline>
             </div>
             {shouldShowMore && (
-              <div className="flex flex-wrap gap-2">
-                <Outline className="h-6">
+              <div className="flex flex-wrap gap-1 md:gap-2">
+                <Outline className="md:h-6">
                   <Text variant="caption-medium" className="text-gray-500">
                     Cloud provider:
                   </Text>
@@ -99,13 +100,16 @@ export const OperatorMetaData: OperatorMetaDataFC = ({
                     </Text>
                   </div>
                 </Outline>
-                <Outline className="h-6">
-                  <Text variant="caption-medium" className="text-gray-500">
-                    DKG Endpoint:
-                  </Text>
-                  <Text variant="body-3-medium">
-                    {operator.dkg_address || "N/A"}
-                  </Text>
+                <Outline className="md:h-6">
+                  <div className="flex flex-1 flex-col gap-1 md:flex-row md:items-center">
+                    <Text variant="caption-medium" className="text-gray-500">
+                      DKG Endpoint:
+                    </Text>
+                    <Text variant="body-3-medium" className="flex-1 break-all">
+                      {operator.dkg_address || "N/A"}
+                    </Text>
+                  </div>
+                  <CopyBtn text={operator.dkg_address} />
                 </Outline>
                 {operator.twitter_url && (
                   <Outline asChild>

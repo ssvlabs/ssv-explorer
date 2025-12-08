@@ -1,7 +1,7 @@
 "use client"
 
-/* eslint-disable @next/next/no-img-element */
-import type { FC } from "react"
+import { type FC } from "react"
+import Image from "next/image"
 import { useTheme } from "next-themes"
 
 import { cn } from "@/lib/utils"
@@ -31,7 +31,7 @@ export const ThemeSwitcher: FC<ButtonProps> = ({ className, ...props }) => {
       {...props}
       size="icon"
       className={cn(
-        "min-w-auto size-fit h-[28px] min-h-[28px] w-[44px] min-w-[44px] rounded-full border-none bg-transparent transition-all",
+        "size-fit rounded-full border-none bg-transparent transition-all",
         "hover:bg-transparent active:bg-transparent",
         {
           "hover:brightness-[1.15] active:brightness-[0.9]": theme === "dark",
@@ -41,7 +41,7 @@ export const ThemeSwitcher: FC<ButtonProps> = ({ className, ...props }) => {
       )}
       onClick={toggleTheme}
     >
-      <img key={url} src={url} alt="theme-switcher" />
+      <Image width="44" height="28" key={url} src={url} alt="theme-switcher" />
     </Button>
   )
 }
