@@ -23,6 +23,8 @@ import { VerifiedOperatorBadge } from "@/components/operators/verified-operator-
 import { Shell } from "@/components/shell"
 import { ValidatorsTable } from "@/app/_components/validators/validators-table"
 
+import { PerformanceV2Section } from "./performance-v2-section"
+
 interface IndexPageProps {
   params: Promise<{ id: string; network: ChainName }>
   searchParams: Promise<{ network: string }>
@@ -75,7 +77,6 @@ export async function generateMetadata(
 
 export default async function Page(props: IndexPageProps) {
   const { id, network } = await props.params
-
   const validatorsSearch = validatorsSearchParamsCache.parse(
     await props.searchParams
   )
@@ -191,24 +192,7 @@ export default async function Page(props: IndexPageProps) {
                       </div>
                     }
                   />
-                  <Stat
-                    className="flex-1"
-                    title="Performance v2 (1D | 1M)"
-                    tooltip="Operator performance v2 is calculated by the percentage of attended duties within the specified time-frame."
-                    content={
-                      <div className="flex items-center gap-1">
-                        <PerformanceText
-                          performance={operator.performanceV2?.dailyPerformance}
-                        />
-                        <Text className="font-thin text-gray-500">|</Text>
-                        <PerformanceText
-                          performance={
-                            operator.performanceV2?.monthlyPerformance
-                          }
-                        />
-                      </div>
-                    }
-                  />
+                  <PerformanceV2Section operator={operator} />
                   <Stat
                     className="flex-1"
                     title="Validators"
