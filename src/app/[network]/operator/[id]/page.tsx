@@ -15,6 +15,7 @@ import { ErrorCard } from "@/components/ui/error-card"
 import { Outline } from "@/components/ui/outline"
 import { Stat } from "@/components/ui/stat"
 import { Text } from "@/components/ui/text"
+import { PerformanceChart } from "@/components/operators/charts/performance-chart"
 import { OperatorAvatar } from "@/components/operators/operator-avatar"
 import { OperatorMetaData } from "@/components/operators/operator-meta-data"
 import { PerformanceText } from "@/components/operators/performance-text"
@@ -88,7 +89,7 @@ export default async function Page(props: IndexPageProps) {
 
   return (
     <Shell className="gap-2">
-      {(async () => {
+      {await (async () => {
         try {
           const operator = await getOperator({
             network,
@@ -200,6 +201,13 @@ export default async function Page(props: IndexPageProps) {
                   />
                 </div>
               </Card>
+              <div className="flex flex-row gap-4">
+                <PerformanceChart
+                  className="w-full md:w-1/2"
+                  operatorId={+id}
+                  network={network}
+                />
+              </div>
               <Card>
                 <ValidatorsTable dataPromise={validators} hideOperatorsFilter />
               </Card>
