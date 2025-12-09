@@ -1,6 +1,6 @@
 "use client"
 
-import { api } from "@/api/api-client"
+import { getOperatorPerformanceChart } from "@/api/operator"
 import { useQuery } from "@tanstack/react-query"
 
 import { type OperatorPerformanceChart } from "@/types/api/operator"
@@ -21,21 +21,13 @@ export const useOperatorPerformanceChart = (params: {
       params.type,
     ],
     queryFn: async () =>
-      await api.get<OperatorPerformanceChart>(
-        `/api/${params.network}/operator/${params.operatorId}/performance-chart${queryString(params)}`
-      ),
+      await getOperatorPerformanceChart({
+        network: params.network,
+        operatorId: params.operatorId,
+        points: params.points,
+        type: params.type,
+      }),
     enabled: Boolean(params.operatorId && params.network),
     staleTime: 60 * 1000,
   })
-}
-
-const queryString = (params: { points?: number; type?: string }) => {
-  const searchParams = new URLSearchParams()
-  if (params.points !== undefined) {
-    searchParams.set("points", params.points.toString())
-  }
-  if (params.type) {
-    searchParams.set("type", params.type)
-  }
-  return searchParams.size ? `?${searchParams.toString()}` : ""
 }
