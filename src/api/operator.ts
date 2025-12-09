@@ -11,6 +11,10 @@ import type {
 } from "@/types/api"
 import { type ChainName } from "@/config/chains"
 import {
+  operatorPerformanceChartParamsSerializer,
+  type OperatorPerformanceChartParams,
+} from "@/lib/search-parsers/operator-performance-chart-parsers"
+import {
   operatorSearchParamsSerializer,
   type OperatorsSearchSchema,
 } from "@/lib/search-parsers/operator-search-parsers"
@@ -177,26 +181,23 @@ export const getOperatorPerformanceV2 = async (params: {
   )()
 }
 
-export const getOperatorPerformanceChart = async (params: {
-  network: ChainName
-  operatorId: number
-  points?: number
-  type?: "daily" | "hourly"
-}) =>
+export const getOperatorPerformanceChart = async (
+  params: {
+    network: ChainName
+    operatorId: number
+  } & Partial<OperatorPerformanceChartParams>
+) =>
   await unstable_cache(
     async () => {
-      const searchParams = new URLSearchParams()
-      if (params.points) {
-        searchParams.set("points", params.points.toString())
-      }
-      if (params.type) {
-        searchParams.set("type", params.type.toString())
-      }
+      const searchParams = operatorPerformanceChartParamsSerializer({
+        points: params.points,
+        type: params.type,
+      })
 
       const url = endpoint(
         params.network,
         `duties/operator/${params.operatorId}/performance-chart`,
-        searchParams.size ? `?${searchParams.toString()}` : ""
+        searchParams ? `?${searchParams}` : ""
       )
       return await api.get<OperatorPerformanceChart>(url)
     },
