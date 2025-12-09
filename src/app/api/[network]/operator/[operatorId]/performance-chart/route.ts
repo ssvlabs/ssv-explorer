@@ -4,9 +4,9 @@ import { chainNames, type ChainName } from "@/config/chains"
 
 export async function GET(
   _request: Request,
-  ctx: RouteContext<"/api/[network]/operator/[operatorId]/performance-chart">
+  { params }: { params: Promise<{ network: string; operatorId: string }> }
 ) {
-  const { network, operatorId } = await ctx.params
+  const { network, operatorId } = await params
   const searchParams = new URL(_request.url).searchParams
   const pointsParam = searchParams.get("points")
   const typeParam = (searchParams.get("type") || "daily") as "daily" | "hourly"

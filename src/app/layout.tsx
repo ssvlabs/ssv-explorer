@@ -14,11 +14,19 @@ import { Suspense } from "react"
 import type { Metadata, Viewport } from "next"
 import { Slot } from "@radix-ui/react-slot"
 
+import { type ChainName } from "@/config/chains"
 import { Toaster } from "@/components/ui/toaster"
 
 import { Providers } from "./_providers/providers"
 
-export type RootLayoutProps = LayoutProps<"/">
+export interface RootLayoutProps {
+  children: React.ReactNode
+  params: Promise<{
+    page: string
+    route: string
+    network: ChainName
+  }>
+}
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),

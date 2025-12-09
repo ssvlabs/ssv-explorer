@@ -4,7 +4,7 @@ const config = {
   parserOptions: {
     project: true,
   },
-  ignorePatterns: ["scripts/**/*", ".next/types/routes.d.ts"],
+  ignorePatterns: ["scripts/**/*"],
   plugins: ["@typescript-eslint", "tailwindcss"],
   extends: [
     "next/core-web-vitals",
