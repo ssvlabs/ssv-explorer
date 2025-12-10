@@ -28,7 +28,7 @@ importers:
         version: 5.1.0
       '@hookform/resolvers':
         specifier: ^3.9.1
-        version: 3.10.0(react-hook-form@7.53.2(react@19.2.1))
+        version: 3.10.0(react-hook-form@7.68.0(react@19.2.1))
       '@radix-ui/react-checkbox':
         specifier: ^1.1.2
         version: 1.1.2(@types/react-dom@18.3.7(@types/react@18.3.27))(@types/react@18.3.27)(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
@@ -163,7 +163,7 @@ importers:
         version: 5.0.0(react@19.2.1)
       react-hook-form:
         specifier: ^7.53.2
-        version: 7.53.2(react@19.2.1)
+        version: 7.68.0(react@19.2.1)
       react-icons:
         specifier: ^5.4.0
         version: 5.4.0(react@19.2.1)
@@ -4890,8 +4890,8 @@ packages:
     peerDependencies:
       react: '>=16.13.1'
 
-  react-hook-form@7.53.2:
-    resolution: {integrity: sha512-YVel6fW5sOeedd1524pltpHX+jgU2u3DSDtXEaBORNdqiNrsX/nUI/iGXONegttg0mJVnfrIkiV0cmTU6Oo2xw==}
+  react-hook-form@7.68.0:
+    resolution: {integrity: sha512-oNN3fjrZ/Xo40SWlHf1yCjlMK417JxoSJVUXQjGdvdRCU07NTFei1i1f8ApUAts+IVh14e4EdakeLEA+BEAs/Q==}
     engines: {node: '>=18.0.0'}
     peerDependencies:
       react: ^16.8.0 || ^17 || ^18 || ^19
@@ -6783,9 +6783,9 @@ snapshots:
 
   '@fontsource/roboto-mono@5.1.0': {}
 
-  '@hookform/resolvers@3.10.0(react-hook-form@7.53.2(react@19.2.1))':
+  '@hookform/resolvers@3.10.0(react-hook-form@7.68.0(react@19.2.1))':
     dependencies:
-      react-hook-form: 7.53.2(react@19.2.1)
+      react-hook-form: 7.68.0(react@19.2.1)
 
   '@humanwhocodes/config-array@0.13.0':
     dependencies:
@@ -10237,7 +10237,7 @@ snapshots:
       '@babel/runtime': 7.26.0
       react: 19.2.1
 
-  react-hook-form@7.53.2(react@19.2.1):
+  react-hook-form@7.68.0(react@19.2.1):
     dependencies:
       react: 19.2.1
 
