@@ -3,6 +3,7 @@
 import { xor } from "lodash-es"
 
 import { cn, toSentenceCase } from "@/lib/utils"
+import { useOperatorNodeClients } from "@/hooks/queries/use-operator-node-clients"
 import { useOperatorsSearchParams } from "@/hooks/search/use-custom-search-params"
 import { Checkbox } from "@/components/ui/checkbox"
 import {
@@ -14,10 +15,11 @@ import {
 } from "@/components/ui/command"
 import { FilterButton } from "@/components/filter/filter-button"
 
-const clients = ["lodestar", "nimbus", "teku", "lighthouse", "prysm"]
-
 export function Eth2ClientFilter() {
   const { filters, setFilters } = useOperatorsSearchParams()
+  const { data: nodeClients, isLoading } = useOperatorNodeClients()
+
+  const clients = nodeClients?.eth2 || []
 
   return (
     <FilterButton
@@ -27,7 +29,9 @@ export function Eth2ClientFilter() {
     >
       <Command>
         <CommandList className="max-h-none overflow-y-auto">
-          <CommandEmpty>This list is empty.</CommandEmpty>
+          <CommandEmpty>
+            {isLoading ? "Loading..." : "This list is empty."}
+          </CommandEmpty>
           <CommandGroup>
             {clients.map((client) => (
               <CommandItem

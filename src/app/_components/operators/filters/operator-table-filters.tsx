@@ -20,6 +20,7 @@ import { LocationFilter } from "./location-filter"
 import { NameFilter } from "./name-filter"
 import { Performance24hFilter } from "./performance-24h-filter"
 import { Performance30dFilter } from "./performance-30d-filter"
+import { SsvClientFilter } from "./ssv-client-filter"
 import { StatusFilter } from "./status-filter"
 import { ValidatorsFilter } from "./validators-filter"
 import { VerifiedFilter } from "./verified-filter"
@@ -60,6 +61,7 @@ export const OperatorTableFilters = ({
         <LocationFilter />
         <Eth1ClientFilter />
         <Eth2ClientFilter />
+        <SsvClientFilter />
         <FeeFilter />
         <MevRelaysFilter />
         <ValidatorsFilter />
