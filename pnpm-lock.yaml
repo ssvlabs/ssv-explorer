@@ -142,7 +142,7 @@ importers:
         version: 0.4.6(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
       nuqs:
         specifier: ^2.2.3
-        version: 2.2.3(@remix-run/react@2.13.1(react-dom@19.2.1(react@19.2.1))(react@19.2.1)(typescript@5.7.2))(next@15.5.7(@babel/core@7.26.0)(react-dom@19.2.1(react@19.2.1))(react@19.2.1))(react-router-dom@6.27.0(react-dom@19.2.1(react@19.2.1))(react@19.2.1))(react@19.2.1)
+        version: 2.8.3(@remix-run/react@2.13.1(react-dom@19.2.1(react@19.2.1))(react@19.2.1)(typescript@5.7.2))(next@15.5.7(@babel/core@7.26.0)(react-dom@19.2.1(react@19.2.1))(react@19.2.1))(react-router-dom@6.27.0(react-dom@19.2.1(react@19.2.1))(react@19.2.1))(react-router@6.27.0(react@19.2.1))(react@19.2.1)
       postgres:
         specifier: ^3.4.5
         version: 3.4.7
@@ -2489,6 +2489,9 @@ packages:
   '@scure/bip39@1.6.0':
     resolution: {integrity: sha512-+lF0BbLiJNwVlev4eKelw1WWLaiKXw7sSl8T6FvBlWkdX+94aGJ4o8XjUdlyhTCjd8c+B3KT3JfS8P0bLRNU6A==}
 
+  '@standard-schema/spec@1.0.0':
+    resolution: {integrity: sha512-m2bOd0f2RT9k8QJx1JN85cZYyH1RqFBdlwtkSlf4tBDYLCiiZnv1fIIwacK6cqwXavOydf0NPToMQgpKq+dVlA==}
+
   '@svgr/babel-plugin-add-jsx-attribute@8.0.0':
     resolution: {integrity: sha512-b9MIk7yhdS1pMCZM8VeNfUlSKVRhsHZNMl5O9SfaX0l0t5wjdgu4IDzGB8bpnGBBOjGST3rRFVsaaEtI4W6f7g==}
     engines: {node: '>=14'}
@@ -4452,9 +4455,6 @@ packages:
     resolution: {integrity: sha512-qOOzS1cBTWYF4BH8fVePDBOO9iptMnGUEZwNc/cMWnTV2nVLZ7VoNWEPHkYczZA0pdoA7dl6e7FL659nX9S2aw==}
     engines: {node: '>=16 || 14 >=14.17'}
 
-  mitt@3.0.1:
-    resolution: {integrity: sha512-vKivATfr97l2/QBCYAkXYDbrIWPM2IIKEl7YPhjCvKlG3kE2gm+uBo6nEXK3M5/Ffh/FLpKExzOQ3JJoJGFKBw==}
-
   motion-dom@11.18.1:
     resolution: {integrity: sha512-g76KvA001z+atjfxczdRtw/RXOM3OMSdd1f4DL77qCTF/+avrRJiawSG4yDibEQ215sr9kpinSlX2pCTJ9zbhw==}
 
@@ -4537,17 +4537,23 @@ packages:
   nth-check@2.1.1:
     resolution: {integrity: sha512-lqjrjmaOoAnWfMmBPL+XNnynZh2+swxiX3WUE0s4yEHI6m+AwrK2UZOimIRl3X/4QctVqS8AiZjFqyOGrMXb/w==}
 
-  nuqs@2.2.3:
-    resolution: {integrity: sha512-nMCcUW06KSqEXA0xp+LiRqDpIE59BVYbjZLe0HUisJAlswfihHYSsAjYTzV0lcE1thfh8uh+LqUHGdQ8qq8rfA==}
+  nuqs@2.8.3:
+    resolution: {integrity: sha512-ZSLiAw0uDYE3JpmV3Yot7aGP4mfyj7vYCPrM7r7qUo9Bx00Vf/7eHOp4iC9LtgV1PVVdqLkvMf/8qN79BP1Jkg==}
     peerDependencies:
       '@remix-run/react': '>=2'
+      '@tanstack/react-router': ^1
       next: '>=14.2.0'
       react: '>=18.2.0 || ^19.0.0-0'
-      react-router-dom: '>=6'
+      react-router: ^5 || ^6 || ^7
+      react-router-dom: ^5 || ^6 || ^7
     peerDependenciesMeta:
       '@remix-run/react':
         optional: true
+      '@tanstack/react-router':
+        optional: true
       next:
+        optional: true
+      react-router:
         optional: true
       react-router-dom:
         optional: true
@@ -7726,6 +7732,8 @@ snapshots:
       '@noble/hashes': 1.8.0
       '@scure/base': 1.2.6
 
+  '@standard-schema/spec@1.0.0': {}
+
   '@svgr/babel-plugin-add-jsx-attribute@8.0.0(@babel/core@7.26.0)':
     dependencies:
       '@babel/core': 7.26.0
@@ -9874,8 +9882,6 @@ snapshots:
 
   minipass@7.1.2: {}
 
-  mitt@3.0.1: {}
-
   motion-dom@11.18.1:
     dependencies:
       motion-utils: 11.18.1
@@ -9956,13 +9962,14 @@ snapshots:
     dependencies:
       boolbase: 1.0.0
 
-  nuqs@2.2.3(@remix-run/react@2.13.1(react-dom@19.2.1(react@19.2.1))(react@19.2.1)(typescript@5.7.2))(next@15.5.7(@babel/core@7.26.0)(react-dom@19.2.1(react@19.2.1))(react@19.2.1))(react-router-dom@6.27.0(react-dom@19.2.1(react@19.2.1))(react@19.2.1))(react@19.2.1):
+  nuqs@2.8.3(@remix-run/react@2.13.1(react-dom@19.2.1(react@19.2.1))(react@19.2.1)(typescript@5.7.2))(next@15.5.7(@babel/core@7.26.0)(react-dom@19.2.1(react@19.2.1))(react@19.2.1))(react-router-dom@6.27.0(react-dom@19.2.1(react@19.2.1))(react@19.2.1))(react-router@6.27.0(react@19.2.1))(react@19.2.1):
     dependencies:
-      mitt: 3.0.1
+      '@standard-schema/spec': 1.0.0
       react: 19.2.1
     optionalDependencies:
       '@remix-run/react': 2.13.1(react-dom@19.2.1(react@19.2.1))(react@19.2.1)(typescript@5.7.2)
       next: 15.5.7(@babel/core@7.26.0)(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
+      react-router: 6.27.0(react@19.2.1)
       react-router-dom: 6.27.0(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
 
   object-assign@4.1.1: {}
