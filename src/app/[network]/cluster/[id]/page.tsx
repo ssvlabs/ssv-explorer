@@ -4,11 +4,8 @@ import { getCluster } from "@/api/clusters"
 import { searchValidators } from "@/api/validators"
 import { type Hex } from "viem"
 
-import { getNativeCurrency, type ChainName } from "@/config/chains"
-import {
-  validatorsSearchParamsCache,
-  type ValidatorsSearchSchema,
-} from "@/lib/search-parsers/validators-search-parsers"
+import { type ChainName } from "@/config/chains"
+import { validatorsSearchParamsCache } from "@/lib/search-parsers/validators-search-parsers"
 import { formatSSV, numberFormatter } from "@/lib/utils/number"
 import { remove0x, shortenAddress } from "@/lib/utils/strings"
 import { Button } from "@/components/ui/button"
@@ -49,9 +46,7 @@ export const metadata: Metadata = {
 export default async function Page(props: IndexPageProps) {
   const { id, network } = await props.params
   const awaitedSearchParams = await props.searchParams
-  const searchParams = validatorsSearchParamsCache.parse(
-    awaitedSearchParams
-  ) as ValidatorsSearchSchema
+  const searchParams = validatorsSearchParamsCache.parse(awaitedSearchParams)
 
   const validators = searchValidators({
     ...searchParams,
