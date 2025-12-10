@@ -3,8 +3,17 @@
 import { endpoint } from "@/api"
 import { api } from "@/api/api-client"
 
-import type { Country, Operator, OperatorsSearchResponse } from "@/types/api"
+import type {
+  Country,
+  Operator,
+  OperatorPerformanceChart,
+  OperatorsSearchResponse,
+} from "@/types/api"
 import { type ChainName } from "@/config/chains"
+import {
+  operatorPerformanceChartParamsSerializer,
+  type OperatorPerformanceChartParams,
+} from "@/lib/search-parsers/operator-performance-chart-parsers"
 import {
   operatorSearchParamsSerializer,
   type OperatorsSearchSchema,
@@ -171,3 +180,30 @@ export const getOperatorPerformanceV2 = async (params: {
     }
   )()
 }
+
+export const getOperatorPerformanceChart = async (
+  params: {
+    network: ChainName
+    operatorId: number
+  } & Partial<OperatorPerformanceChartParams>
+) =>
+  await unstable_cache(
+    async () => {
+      const searchParams = operatorPerformanceChartParamsSerializer({
+        points: params.points,
+        type: params.type,
+      })
+
+      const url = endpoint(
+        params.network,
+        `duties/operator/${params.operatorId}/performance-chart`,
+        searchParams ? `?${searchParams}` : ""
+      )
+      return await api.get<OperatorPerformanceChart>(url)
+    },
+    [JSON.stringify(params)],
+    {
+      revalidate: 30,
+      tags: ["operator-performance-chart"],
+    }
+  )()

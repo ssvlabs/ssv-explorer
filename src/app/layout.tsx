@@ -63,7 +63,7 @@ export const viewport: Viewport = {
   ],
 }
 
-export default async function RootLayout(props: RootLayoutProps) {
+export default async function RootLayout(props: LayoutProps<"/">) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head />

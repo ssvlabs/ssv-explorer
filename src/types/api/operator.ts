@@ -60,6 +60,20 @@ export type OperatorSortingKeys = Pick<
   performance30d: number
 }
 
+export interface OperatorPerformanceChartPoint {
+  performance: number
+  timestamp: string
+}
+
+export interface OperatorPerformanceChart {
+  operatorID: number
+  type: "daily" | "hourly"
+  points: number
+  start: string
+  end: string
+  data: OperatorPerformanceChartPoint[]
+}
+
 export type OperatorsSearchResponse = WithInfinitePagination<{
   operators: Operator[]
 }>
