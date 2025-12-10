@@ -113,7 +113,7 @@
     "eslint-config-prettier": "9.1.2",
     "eslint-plugin-tailwindcss": "3.18.2",
     "husky": "9.1.7",
-    "lint-staged": "16.1.2",
+    "lint-staged": "16.2.7",
     "pg": "8.13.1",
     "postcss": "8.4.49",
     "prettier": "3.3.3",
