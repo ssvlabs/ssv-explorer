@@ -5,10 +5,7 @@ import { getValidator } from "@/api/validators"
 import { type SearchParams } from "nuqs"
 
 import { getNativeCurrency, type ChainName } from "@/config/chains"
-import {
-  dutiesSearchParamsCache,
-  type DutiesSearchSchema,
-} from "@/lib/search-parsers/duties-search-parsers"
+import { dutiesSearchParamsCache } from "@/lib/search-parsers/duties-search-parsers"
 import { cn } from "@/lib/utils"
 import { formatGwei } from "@/lib/utils/number"
 import { shortenAddress } from "@/lib/utils/strings"
@@ -61,9 +58,7 @@ export default async function Page(props: IndexPageProps) {
   }
 
   const awaitedSearchParams = await props.searchParams
-  const searchParams = dutiesSearchParamsCache.parse(
-    awaitedSearchParams
-  ) as DutiesSearchSchema
+  const searchParams = dutiesSearchParamsCache.parse(awaitedSearchParams)
 
   const duties = searchDuties({
     ...searchParams,
