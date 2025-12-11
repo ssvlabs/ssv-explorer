@@ -1,4 +1,4 @@
-import { isAddress, type Address } from "viem"
+import { isAddress } from "viem"
 
 import { shortenAddress } from "@/lib/utils/strings"
 import { Card } from "@/components/ui/card"
@@ -12,15 +12,10 @@ import { Shell } from "@/components/shell"
 import { TableNavigation } from "./_components/table-navigations"
 import { AccountStats } from "./account-stats"
 
-interface IndexPageProps {
-  children: React.ReactNode
-  params: Promise<{ address: Address }>
-}
-
 export default async function AccountLayout({
   params,
   children,
-}: IndexPageProps) {
+}: LayoutProps<"/[network]/account/[address]">) {
   const { address } = await params
 
   if (!isAddress(address)) {
