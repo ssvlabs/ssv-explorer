@@ -9,7 +9,6 @@ import { MdOutlineLock } from "react-icons/md"
 import { type Operator } from "@/types/api"
 import { cn } from "@/lib/utils"
 import { useNetworkParam } from "@/hooks/app/useNetworkParam"
-import { useLocalStorage } from "@/hooks/use-local-storage"
 import { Outline } from "@/components/ui/outline"
 import { Text } from "@/components/ui/text"
 import { OperatorAvatar } from "@/components/operators/operator-avatar"
@@ -30,7 +29,6 @@ export const OperatorCard: OperatorCardFC = ({
   operator,
   ...props
 }) => {
-  const [enablePerformanceV2] = useLocalStorage("ENABLE_PERFORMANCE_V2")
   return (
     <div
       className={cn(
@@ -84,19 +82,6 @@ export const OperatorCard: OperatorCardFC = ({
             variant="body-3-medium"
           />
         </Outline>
-        {!!enablePerformanceV2 && (
-          <Outline>
-            <PerformanceIcon />
-            <Text
-              as={PerformanceText}
-              performance={operator.performanceV2?.dailyPerformance}
-              variant="body-3-medium"
-            />
-            <Text variant="caption-medium" className="text-gray-500">
-              v2
-            </Text>
-          </Outline>
-        )}
       </div>
     </div>
   )

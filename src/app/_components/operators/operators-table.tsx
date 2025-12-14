@@ -12,7 +12,6 @@ import {
 import { operatorSearchSort } from "@/lib/search-parsers/operator-search-parsers"
 import { useOperatorsSearchParams } from "@/hooks/search/use-custom-search-params"
 import { useDataTable } from "@/hooks/use-data-table"
-import { useLocalStorage } from "@/hooks/use-local-storage"
 import { ErrorCard } from "@/components/ui/error-card"
 import { Text } from "@/components/ui/text"
 import { DataTable } from "@/components/data-table/data-table"
@@ -38,15 +37,7 @@ interface OperatorsTableProps extends OperatorTableFiltersProps {
 export const OperatorsTable = withErrorBoundary(
   ({ dataPromise: data, hideColumns, ...filters }: OperatorsTableProps) => {
     const { operators, pagination } = use(data)
-    const [enablePerformanceV2] = useLocalStorage("ENABLE_PERFORMANCE_V2")
-
-    const columns = enablePerformanceV2
-      ? operatorsTableColumns
-      : operatorsTableColumns.filter(
-          (column) =>
-            column !== operatorColumns.performanceV2_24h &&
-            column !== operatorColumns.performanceV2_30d
-        )
+    const columns = operatorsTableColumns
 
     const visibleColumns = hideColumns
       ? columns.filter((column) => !hideColumns.includes(column.accessorKey))
