@@ -1,6 +1,6 @@
 import type { Metadata } from "next"
 import Link from "next/link"
-import { getValidatorPerformanceV2, searchDuties } from "@/api/duties"
+import { searchDuties } from "@/api/duties"
 import { getValidator } from "@/api/validators"
 import { type SearchParams } from "nuqs"
 
@@ -65,10 +65,6 @@ export default async function Page(props: IndexPageProps) {
     validatorPublicKey: publicKey,
     network,
   })
-  const performanceV2 = await getValidatorPerformanceV2({
-    publicKey,
-    network,
-  })
   let validator
   try {
     validator = await getValidator({
@@ -86,22 +82,6 @@ export default async function Page(props: IndexPageProps) {
   }
 
   const nativeCurrency = getNativeCurrency(network)
-
-  // Merge performance V2 data with operators
-  const operatorsWithPerformanceV2 = validator.operators.map((operator) => {
-    const performanceData = performanceV2?.operatorsPerformance?.find(
-      (perf) => perf.operatorId === operator.id
-    )
-    return {
-      ...operator,
-      performanceV2: performanceData
-        ? {
-            dailyPerformance: performanceData.dailyPerformance,
-            monthlyPerformance: performanceData.monthlyPerformance,
-          }
-        : operator.performanceV2,
-    }
-  })
 
   return (
     <Shell className="gap-6">
@@ -169,7 +149,7 @@ export default async function Page(props: IndexPageProps) {
         </div>
       </Card>
 
-      <OperatorsList operators={operatorsWithPerformanceV2} />
+      <OperatorsList operators={validator.operators} />
 
       <Card>
         <DutiesTable dataPromise={duties} network={network} />
