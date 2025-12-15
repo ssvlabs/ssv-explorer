@@ -37,6 +37,9 @@ export const operatorSearchFilters = {
   eth2: parseAsArrayOf(z.string())
     .withDefault([])
     .withOptions(defaultSearchOptions),
+  ssvClient: parseAsArrayOf(z.string())
+    .withDefault([])
+    .withOptions(defaultSearchOptions),
   mev: parseAsArrayOf(z.enum(MEV_RELAYS_VALUES))
     .withDefault([])
     .withOptions(defaultSearchOptions),
