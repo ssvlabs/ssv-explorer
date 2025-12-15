@@ -36,11 +36,10 @@ export const DutiesTable = withErrorBoundary(
     const response = use(data)
     const [selectedDuty, setSelectedDuty] = useState<DutyElement | null>(null)
     const [isModalOpen, setIsModalOpen] = useState(false)
-    const [enablePerformanceV2] = useLocalStorage("ENABLE_PERFORMANCE_V2")
 
     const handleRowClick = (duty: DutyElement) => {
       setSelectedDuty(duty)
-      setIsModalOpen(Boolean(enablePerformanceV2))
+      setIsModalOpen(true)
     }
 
     const { table } = useDataTable({

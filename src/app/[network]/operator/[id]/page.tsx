@@ -23,8 +23,6 @@ import { VerifiedOperatorBadge } from "@/components/operators/verified-operator-
 import { Shell } from "@/components/shell"
 import { ValidatorsTable } from "@/app/_components/validators/validators-table"
 
-import { PerformanceV2Section } from "./performance-v2-section"
-
 interface IndexPageProps {
   params: Promise<{ id: string; network: ChainName }>
   searchParams: Promise<{ network: string }>
@@ -192,7 +190,6 @@ export default async function Page(props: IndexPageProps) {
                       </div>
                     }
                   />
-                  <PerformanceV2Section operator={operator} />
                   <Stat
                     className="flex-1"
                     title="Validators"

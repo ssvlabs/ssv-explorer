@@ -1,4 +1,5 @@
-import { isAddress } from "viem"
+import { type ReactNode } from "react"
+import { type Address, isAddress } from "viem"
 
 import { shortenAddress } from "@/lib/utils/strings"
 import { Card } from "@/components/ui/card"
@@ -15,8 +16,11 @@ import { AccountStats } from "./account-stats"
 export default async function AccountLayout({
   params,
   children,
-}: LayoutProps<"/[network]/account/[address]">) {
-  const { address } = await params
+}: {
+  children: ReactNode
+  params: { address: Address }
+}) {
+  const { address } = params
 
   if (!isAddress(address)) {
     return (

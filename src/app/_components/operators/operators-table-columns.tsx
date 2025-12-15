@@ -159,46 +159,6 @@ export const operatorColumns = {
       )
     },
   },
-  performanceV2_24h: {
-    accessorKey: "performanceV2_24h",
-    header: ({ column }) => (
-      <DataTableColumnHeader
-        className="justify-end text-right"
-        column={column}
-        title="24h v2"
-      />
-    ),
-    cell: ({ row }) => {
-      const performance = row.original.performanceV2?.dailyPerformance
-      return (
-        <div className="flex items-center justify-end">
-          <OperatorPerformanceTooltip>
-            <PerformanceText className="text-right" performance={performance} />
-          </OperatorPerformanceTooltip>
-        </div>
-      )
-    },
-  },
-  performanceV2_30d: {
-    accessorKey: "performanceV2_30d",
-    header: ({ column }) => (
-      <DataTableColumnHeader
-        column={column}
-        title="30d v2"
-        className="justify-end text-right"
-      />
-    ),
-    cell: ({ row }) => {
-      const performance = row.original.performanceV2?.monthlyPerformance
-      return (
-        <div className="flex items-center justify-end">
-          <OperatorPerformanceTooltip>
-            <PerformanceText className="text-right" performance={performance} />
-          </OperatorPerformanceTooltip>
-        </div>
-      )
-    },
-  },
   mevRelays: {
     accessorKey: "mevRelays",
     header: ({ column }) => (
@@ -274,8 +234,6 @@ export const operatorsTableColumns = [
   operatorColumns.validatorsCount,
   operatorColumns.performance24h,
   operatorColumns.performance30d,
-  operatorColumns.performanceV2_24h,
-  operatorColumns.performanceV2_30d,
   operatorColumns.mevRelays,
   operatorColumns.status,
   operatorColumns.createdAt,
