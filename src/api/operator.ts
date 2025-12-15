@@ -110,6 +110,32 @@ export const getOperatorLocations = async (chain: ChainName) => {
   )()
 }
 
+interface NodeClientsResponse {
+  ETH1_NODE: string[]
+  ETH2_NODE: string[]
+  SSV_NODE: string[]
+}
+
+export const getOperatorNodeClients = async (chain: ChainName) => {
+  return await unstable_cache(
+    async () => {
+      const url = endpoint(chain, "operators/nodes/all")
+      const response = await api.get<NodeClientsResponse>(url)
+
+      return {
+        eth1: response.ETH1_NODE,
+        eth2: response.ETH2_NODE,
+        ssvClient: response.SSV_NODE,
+      }
+    },
+    [chain.toString()],
+    {
+      revalidate: 300, // Cache for 5 minutes
+      tags: ["operator-node-clients"],
+    }
+  )()
+}
+
 export const getOperatorPerformanceChart = async (
   params: {
     network: ChainName
