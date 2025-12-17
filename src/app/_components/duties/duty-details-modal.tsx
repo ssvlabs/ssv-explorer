@@ -49,7 +49,6 @@ export function DutyDetailsModal({
     network: network,
     enabled: open && !!selectedDuty,
   })
-
   const handleOpenChange = (newOpen: boolean) => {
     onOpenChange(newOpen)
   }
@@ -67,7 +66,7 @@ export function DutyDetailsModal({
     post_consensus?: number[]
   }[] = dutyDetails?.round_changes || []
 
-  if ((dutyDetails?.post_consensus || []).length > 0) {
+  if (dutyDetails?.hasConsensusRoundChanges) {
     rounds[rounds.length - 1] = {
       ...rounds[rounds.length - 1],
       post_consensus: dutyDetails?.post_consensus.length
