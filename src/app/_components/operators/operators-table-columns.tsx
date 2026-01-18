@@ -94,7 +94,7 @@ export const operatorColumns = {
     enableSorting: false,
   },
   ethFee: {
-    accessorKey: "eth_fee",
+    accessorKey: "ethFee",
     title: "Fee (ETH)",
     header: ({ column }) => (
       <DataTableColumnHeader

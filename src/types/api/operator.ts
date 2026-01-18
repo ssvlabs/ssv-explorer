@@ -49,10 +49,11 @@ export interface Operator {
 
 export type OperatorSortingKeys = Pick<
   Operator,
-  "validators_count" | "fee" | "eth_fee" | "status" | "id"
+  "validators_count" | "fee" | "status" | "id"
 > & {
   performance24h: number
   performance30d: number
+  ethFee: string
 }
 
 export interface OperatorPerformanceChartPoint {
