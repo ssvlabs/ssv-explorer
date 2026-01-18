@@ -119,6 +119,7 @@ export const operatorColumns = {
   },
   fee: {
     accessorKey: "fee",
+    title: "Fee (SSV)",
     header: ({ column }) => (
       <DataTableColumnHeader
         column={column}
@@ -237,10 +238,11 @@ export const operatorColumns = {
   },
   ethManaged: {
     accessorKey: "effectiveBalance",
+    title: "Total ETH Managed",
     header: ({ column }) => (
       <DataTableColumnHeader
         column={column}
-        title="TotalETH Managed"
+        title="Total ETH Managed"
         className="justify-end text-right"
       />
     ),

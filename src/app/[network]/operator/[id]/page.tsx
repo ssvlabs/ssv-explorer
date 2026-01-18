@@ -7,6 +7,7 @@ import { MdOutlineLock } from "react-icons/md"
 import { type ChainName } from "@/config/chains"
 import { validatorsSearchParamsCache } from "@/lib/search-parsers/validators-search-parsers"
 import { cn } from "@/lib/utils"
+import { numberFormatter } from "@/lib/utils/number"
 import { shortenAddress } from "@/lib/utils/strings"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
@@ -195,6 +196,21 @@ export default async function Page(props: IndexPageProps) {
                     title="Validators"
                     tooltip="The number of validators serviced by this operator"
                     content={<Text>{operator.validators_count}</Text>}
+                  />
+                  <div className="h-full border-r border-gray-500" />
+                  <Stat
+                    className="flex-1"
+                    title="Total ETH Managed"
+                    tooltip="Total ETH staked across all validators in this cluster"
+                    content={
+                      <Text>
+                        {operator.effective_balance > 0 ? (
+                          `${numberFormatter.format(Number(operator.effective_balance))} ETH`
+                        ) : (
+                          <span className="text-gray-400">- ETH</span>
+                        )}
+                      </Text>
+                    }
                   />
                 </div>
               </Card>

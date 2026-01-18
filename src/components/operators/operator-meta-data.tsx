@@ -5,9 +5,12 @@ import { Collapse } from "react-collapse"
 import { FaGlobe, FaLinkedin } from "react-icons/fa"
 import { FaXTwitter } from "react-icons/fa6"
 import { LuChevronDown } from "react-icons/lu"
+import { formatUnits } from "viem"
 
 import { type Operator } from "@/types/api"
+import { globals } from "@/config/globals"
 import { cn } from "@/lib/utils"
+import { ethFormatter } from "@/lib/utils/number"
 import { getYearlyFee } from "@/lib/utils/operator"
 import { Button } from "@/components/ui/button"
 import { CopyBtn } from "@/components/ui/copy-btn"
@@ -45,9 +48,30 @@ export const OperatorMetaData: OperatorMetaDataFC = ({
                 <Text variant="caption-medium" className="text-gray-500">
                   Fee (Yearly):
                 </Text>
-                <Text variant="body-3-medium">
-                  {getYearlyFee(BigInt(operator.fee), { format: true })}
-                </Text>
+                <div className="flex items-center gap-2">
+                  {BigInt(operator.eth_fee || 0) > 0 ? (
+                    <Text variant="body-3-medium">
+                      {(() => {
+                        const yearlyEthFee =
+                          BigInt(operator.eth_fee) * globals.BLOCKS_PER_YEAR
+                        return `${ethFormatter.format(+formatUnits(yearlyEthFee, 18))} ETH`
+                      })()}
+                    </Text>
+                  ) : (
+                    <Text variant="body-3-medium" className="text-gray-400">
+                      - ETH
+                    </Text>
+                  )}
+                  {BigInt(operator.fee || 0) > 0 ? (
+                    <Text variant="body-3-medium">
+                      {getYearlyFee(BigInt(operator.fee), { format: true })}
+                    </Text>
+                  ) : (
+                    <Text variant="body-3-medium" className="text-gray-400">
+                      - SSV
+                    </Text>
+                  )}
+                </div>
               </Outline>
               <Outline>
                 <Text variant="caption-medium" className="text-gray-500">
