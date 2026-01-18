@@ -16,6 +16,7 @@ export interface Operator {
   dkg_address: string
   eth1_node_client: string
   eth2_node_client: string
+  eth_fee: string
   fee: string
   is_active: number
   is_deleted: boolean
@@ -43,12 +44,12 @@ export interface Operator {
   whitelisting_contract: string
   type: "verified_operator" | "dapp_node" | "operator"
 
-  status: "No validators" | "Active" | "Inactive" | "Removed"
+  status: "No Validators" | "Active" | "Inactive" | "Removed"
 }
 
 export type OperatorSortingKeys = Pick<
   Operator,
-  "validators_count" | "fee" | "status" | "id"
+  "validators_count" | "fee" | "eth_fee" | "status" | "id"
 > & {
   performance24h: number
   performance30d: number

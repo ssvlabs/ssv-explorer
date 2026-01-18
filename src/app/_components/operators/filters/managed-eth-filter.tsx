@@ -3,58 +3,68 @@
 import { isEqual } from "lodash-es"
 
 import { operatorSearchFilters } from "@/lib/search-parsers/operator-search-parsers"
-import { useNativeCurrency } from "@/hooks/app/use-native-currency"
 import { useOperatorsSearchParams } from "@/hooks/search/use-custom-search-params"
+import { Text } from "@/components/ui/text"
 import { FilterButton } from "@/components/filter/filter-button"
 import { Range } from "@/components/filter/range-filter"
 
-const defaultRange: [number, number] = [0, 25000]
 export function ManagedEthFilter() {
   const { filters, setFilters } = useOperatorsSearchParams()
 
-  const hasSelectedItems = !isEqual(
-    filters.managedEth,
-    operatorSearchFilters.managedEth.defaultValue
-  )
+  const defaultRange = operatorSearchFilters.effectiveBalance.defaultValue
 
-  const nativeCurrency = useNativeCurrency()
+  const isActive =
+    !isEqual(filters.effectiveBalance, defaultRange) &&
+    Boolean(filters.effectiveBalance)
+
+  const apply = (range: [number, number]) => {
+    const isCleared = isEqual(range, defaultRange)
+    setFilters((prev) => ({
+      ...prev,
+      effectiveBalance: isCleared ? null : range,
+    }))
+  }
+
+  const remove = () => {
+    apply(defaultRange)
+  }
 
   return (
     <FilterButton
-      isActive={hasSelectedItems}
-      name={`Managed ${nativeCurrency.symbol}`}
+      isActive={isActive}
+      name={`ETH Managed`}
+      onClear={remove}
       popover={{
         content: {
           className: "w-[400px] max-w-full",
         },
       }}
-      onClear={() =>
-        setFilters({
-          ...filters,
-          managedEth: operatorSearchFilters.managedEth.defaultValue,
-        })
-      }
     >
       <Range
-        name={`Managed ${nativeCurrency.symbol}`}
-        searchRange={filters.managedEth}
-        inputs={{
-          start: { step: 1 },
-          end: { step: 1 },
-        }}
-        apply={(range) =>
-          setFilters({
-            ...filters,
-            managedEth: range,
-          })
-        }
-        remove={() =>
-          setFilters({
-            ...filters,
-            managedEth: operatorSearchFilters.managedEth.defaultValue,
-          })
-        }
+        className="w-[400px] max-w-full"
+        name={`ETH Managed`}
+        searchRange={filters.effectiveBalance}
         defaultRange={defaultRange}
+        apply={apply}
+        remove={remove}
+        step={1}
+        decimals={0}
+        inputs={{
+          start: {
+            rightSlot: (
+              <Text variant="body-3-medium" className="text-gray-500">
+                ETH
+              </Text>
+            ),
+          },
+          end: {
+            rightSlot: (
+              <Text variant="body-3-medium" className="text-gray-500">
+                ETH
+              </Text>
+            ),
+          },
+        }}
       />
     </FilterButton>
   )

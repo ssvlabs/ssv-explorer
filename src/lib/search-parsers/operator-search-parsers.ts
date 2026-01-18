@@ -54,6 +54,17 @@ export const operatorSearchFilters = {
       ...defaultSearchOptions,
       throttleMs: 500,
     }),
+  ethFee: parseAsTuple(
+    z.tuple([z.number({ coerce: true }), z.number({ coerce: true })]),
+    {
+      postParse: sortNumbers,
+    }
+  )
+    .withDefault([0, 10])
+    .withOptions({
+      ...defaultSearchOptions,
+      throttleMs: 500,
+    }),
   validatorsCount: parseAsTuple(
     z.tuple([z.number({ coerce: true }), z.number({ coerce: true })]),
     {
@@ -62,13 +73,13 @@ export const operatorSearchFilters = {
   )
     .withDefault([0, 3000])
     .withOptions(defaultSearchOptions),
-  managedEth: parseAsTuple(
+  effectiveBalance: parseAsTuple(
     z.tuple([z.number({ coerce: true }), z.number({ coerce: true })]),
     {
       postParse: sortNumbers,
     }
   )
-    .withDefault([0, 0])
+    .withDefault([0, 25000])
     .withOptions(defaultSearchOptions),
   status: parseAsArrayOf(z.enum(STATUS_API_VALUES))
     .withDefault([])

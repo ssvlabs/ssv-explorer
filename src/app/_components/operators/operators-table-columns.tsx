@@ -3,9 +3,11 @@
 import Link from "next/link"
 import { type ColumnDef } from "@tanstack/react-table"
 import { formatDistanceToNowStrict } from "date-fns"
+import { formatUnits } from "viem"
 
 import { type Operator } from "@/types/api"
-import { formatGwei } from "@/lib/utils/number"
+import { globals } from "@/config/globals"
+import { ethFormatter, numberFormatter } from "@/lib/utils/number"
 import { getYearlyFee } from "@/lib/utils/operator"
 import { shortenAddress } from "@/lib/utils/strings"
 import { useNetworkParam } from "@/hooks/app/useNetworkParam"
@@ -91,20 +93,52 @@ export const operatorColumns = {
     cell: ({ row }) => <div>{row.original.eth2_node_client}</div>,
     enableSorting: false,
   },
-  fee: {
-    accessorKey: "fee",
+  ethFee: {
+    accessorKey: "eth_fee",
+    title: "Fee (ETH)",
     header: ({ column }) => (
       <DataTableColumnHeader
         column={column}
-        title="Fee"
+        title="Fee (ETH)"
         className="justify-end text-right"
       />
     ),
-    cell: ({ row }) => (
-      <div className="text-right">
-        {getYearlyFee(BigInt(row.original.fee), { format: true })}
-      </div>
+    cell: ({ row }) => {
+      const ethFee = BigInt(row.original.eth_fee || 0)
+      const yearlyEthFee = ethFee * globals.BLOCKS_PER_YEAR
+      return (
+        <div className="text-right">
+          {ethFee > 0 ? (
+            `${ethFormatter.format(+formatUnits(yearlyEthFee, 18))} ETH`
+          ) : (
+            <span className="text-gray-400">- ETH</span>
+          )}
+        </div>
+      )
+    },
+  },
+  fee: {
+    accessorKey: "fee",
+    title: "Fee (SSV)",
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        column={column}
+        title="Fee (SSV)"
+        className="justify-end text-right"
+      />
     ),
+    cell: ({ row }) => {
+      const fee = BigInt(row.original.fee || 0)
+      return (
+        <div className="text-right">
+          {fee > 0 ? (
+            getYearlyFee(fee, { format: true })
+          ) : (
+            <span className="text-gray-400">- SSV</span>
+          )}
+        </div>
+      )
+    },
   },
   validatorsCount: {
     accessorKey: "validatorsCount",
@@ -204,19 +238,18 @@ export const operatorColumns = {
   },
   ethManaged: {
     accessorKey: "effectiveBalance",
+    title: "Total ETH Managed",
     header: ({ column }) => (
       <DataTableColumnHeader
         column={column}
-        title="ETH Managed"
+        title="Total ETH Managed"
         className="justify-end text-right"
       />
     ),
     cell: ({ row }) => {
       return (
         <div className="text-right">
-          {row.original.effective_balance > 0
-            ? `${formatGwei(row.original.effective_balance)} ETH`
-            : "-"}
+          {`${numberFormatter.format(row.original.effective_balance || 0)} ETH`}
         </div>
       )
     },
@@ -230,6 +263,8 @@ export const operatorsTableColumns = [
   operatorColumns.location,
   operatorColumns.eth1NodeClient,
   operatorColumns.eth2NodeClient,
+  operatorColumns.ethManaged,
+  operatorColumns.ethFee,
   operatorColumns.fee,
   operatorColumns.validatorsCount,
   operatorColumns.performance24h,
@@ -237,7 +272,6 @@ export const operatorsTableColumns = [
   operatorColumns.mevRelays,
   operatorColumns.status,
   operatorColumns.createdAt,
-  operatorColumns.ethManaged,
 ] satisfies ColumnDef<Operator>[]
 
 export type OperatorColumnsAccessorKeys = keyof typeof operatorColumns
@@ -246,6 +280,7 @@ export const operatorsTableDefaultColumnsKeys: OperatorColumnsAccessorKeys[] = [
   "id",
   "name",
   "ownerAddress",
+  "ethFee",
   "fee",
   "validatorsCount",
   "performance24h",
