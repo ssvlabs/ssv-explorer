@@ -119,6 +119,13 @@ export const clustersTableColumns: ColumnDefWithTitle<Cluster>[] = [
     enableSorting: false,
   },
   {
+    accessorKey: "validatorCount",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Validator Count" />
+    ),
+    cell: ({ row }) => <div>{row.original.validatorCount}</div>,
+  },
+  {
     accessorKey: "effectiveBalance",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Effective Balance" />
@@ -141,13 +148,6 @@ export const clustersTableColumns: ColumnDefWithTitle<Cluster>[] = [
       }
       return <Text className="text-gray-400">-</Text>
     },
-  },
-  {
-    accessorKey: "validatorCount",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Validator Count" />
-    ),
-    cell: ({ row }) => <div>{row.original.validatorCount}</div>,
   },
   {
     accessorKey: "active",
