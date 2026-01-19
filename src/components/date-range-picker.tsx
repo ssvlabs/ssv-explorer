@@ -201,7 +201,7 @@ export const DateRangeSelector: FC<DateRangeSelectorProps> = ({
     setSelectedPreset("custom")
   }
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+   
   useEffect(() => {
     checkPreset()
   }, [range])
@@ -214,7 +214,7 @@ export const DateRangeSelector: FC<DateRangeSelectorProps> = ({
     preset: string
     label: string
     isSelected: boolean
-  }): JSX.Element => (
+  }) => (
     <Button
       className={textVariants({
         variant: "body-3-medium",
@@ -333,7 +333,7 @@ export const DateRangePicker: FC<DateRangePickerProps> & {
   onUpdate,
   align = "end",
   locale = "en-US",
-}): JSX.Element => {
+}) => {
   const [isOpen, setIsOpen] = useState(false)
 
   const getInitialRange = (): DateRange => ({
@@ -347,7 +347,7 @@ export const DateRangePicker: FC<DateRangePickerProps> & {
   const [tempRange, setTempRange] = useState<DateRange>(range)
 
   // Sync tempRange when popover opens
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+   
   useEffect(() => {
     if (isOpen) {
       setTempRange(range)
