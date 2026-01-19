@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import Image from "next/image"
 import Link from "next/link"
 import { getCluster } from "@/api/clusters"
 import { searchValidators } from "@/api/validators"
@@ -6,6 +7,7 @@ import { type Hex } from "viem"
 
 import { type ChainName } from "@/config/chains"
 import { validatorsSearchParamsCache } from "@/lib/search-parsers/validators-search-parsers"
+import { cn } from "@/lib/utils"
 import { formatSSV, numberFormatter } from "@/lib/utils/number"
 import { remove0x, shortenAddress } from "@/lib/utils/strings"
 import { Button } from "@/components/ui/button"
@@ -15,6 +17,7 @@ import { ErrorCard } from "@/components/ui/error-card"
 import { Outline } from "@/components/ui/outline"
 import { Stat } from "@/components/ui/stat"
 import { Text } from "@/components/ui/text"
+import { ClusterStatusBadge } from "@/components/clusters/cluster-status-badge"
 import { EffectiveBalanceStat } from "@/components/clusters/effective-balance-stat"
 import { OperatorsList } from "@/components/operators/operators-list"
 import { Shell } from "@/components/shell"
@@ -98,6 +101,21 @@ export default async function Page(props: IndexPageProps) {
         <div className="flex flex-col gap-2 align-sub md:flex-row md:items-center md:gap-6">
           <Stat
             className="flex-1"
+            title="Status"
+            content={
+              <Text
+                className={cn({
+                  "text-success-700": cluster.active,
+                  "text-error-500": !cluster.active,
+                })}
+              >
+                {cluster.active ? "Active" : "Inactive"}
+              </Text>
+            }
+          />
+          <div className="h-full border-r border-gray-500" />
+          <Stat
+            className="flex-1"
             title="Validators"
             content={numberFormatter.format(+cluster.validatorCount)}
           />
@@ -105,14 +123,37 @@ export default async function Page(props: IndexPageProps) {
           <Stat
             className="flex-1"
             title="Cluster Balance"
-            content={formatSSV(BigInt(cluster.balance)) + " SSV"}
+            content={
+              <div className="flex items-center gap-0.5">
+                <Image
+                  src={
+                    cluster.migrated
+                      ? "/images/networks/dark.svg"
+                      : "/images/ssvIcons/icon.svg"
+                  }
+                  alt={cluster.migrated ? "ETH" : "SSV"}
+                  width={20}
+                  height={20}
+                  className="object-fit size-5"
+                />
+                <Text>
+                  {formatSSV(
+                    BigInt(
+                      cluster.migrated ? cluster.ethBalance : cluster.balance
+                    )
+                  )}
+                </Text>
+              </div>
+            }
           />
           <div className="h-full border-r border-gray-500" />
-          <EffectiveBalanceStat
+          <Stat
             className="flex-1"
-            clusterId={id}
-            network={network}
-            fallbackBalance={cluster.balance}
+            title="Total Effective Balance"
+            tooltip="Total ETH staked across all validators in this cluster"
+            content={
+              numberFormatter.format(Number(cluster.effectiveBalance)) + " ETH"
+            }
           />
         </div>
       </Card>

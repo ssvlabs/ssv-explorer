@@ -1,11 +1,12 @@
 "use client"
 
+import Image from "next/image"
 import Link from "next/link"
 import { type ColumnDef } from "@tanstack/react-table"
 import { formatDistanceToNowStrict } from "date-fns"
 
 import { type Cluster } from "@/types/api"
-import { formatSSV } from "@/lib/utils/number"
+import { ethFormatter, formatSSV, numberFormatter } from "@/lib/utils/number"
 import { remove0x, shortenAddress } from "@/lib/utils/strings"
 import { useNetworkParam } from "@/hooks/app/useNetworkParam"
 import { CopyBtn } from "@/components/ui/copy-btn"
@@ -75,7 +76,6 @@ export const clustersTableColumns: ColumnDefWithTitle<Cluster>[] = [
               content={<OperatorInfo operator={operator} />}
             >
               <Link
-                // eslint-disable-next-line react-hooks/rules-of-hooks
                 href={`/${useNetworkParam()}/operator/${operator.id}`}
                 key={operator.id}
               >
@@ -96,7 +96,51 @@ export const clustersTableColumns: ColumnDefWithTitle<Cluster>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Balance" />
     ),
-    cell: ({ row }) => <div>{formatSSV(BigInt(row.original.balance))} SSV</div>,
+    cell: ({ row }) => {
+      const { ethBalance, balance, migrated } = row.original
+
+      return (
+        <div className="flex items-center gap-2">
+          <Image
+            src={
+              migrated
+                ? "/images/networks/dark.svg"
+                : "/images/ssvIcons/icon.svg"
+            }
+            alt={migrated ? "ETH" : "SSV"}
+            width={16}
+            height={16}
+            className="object-fit size-4"
+          />
+          <Text>{formatSSV(BigInt(migrated ? ethBalance : balance))}</Text>
+        </div>
+      )
+    },
+    enableSorting: false,
+  },
+  {
+    accessorKey: "effectiveBalance",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Effective Balance" />
+    ),
+    cell: ({ row }) => {
+      const effectiveBalance = BigInt(row.original.effectiveBalance || 0)
+      if (effectiveBalance > 0) {
+        return (
+          <div className="flex items-center gap-2">
+            <Image
+              src="/images/networks/dark.svg"
+              alt="ETH"
+              width={16}
+              height={16}
+              className="object-fit size-4"
+            />
+            <Text>{numberFormatter.format(Number(effectiveBalance))}</Text>
+          </div>
+        )
+      }
+      return <Text className="text-gray-400">-</Text>
+    },
   },
   {
     accessorKey: "validatorCount",
@@ -134,6 +178,7 @@ export const clustersTableDefaultColumnsKeys: ClusterColumnsAccessorKeys[] = [
   "operators",
   "validatorCount",
   "balance",
+  "effectiveBalance",
   "active",
 ]
 

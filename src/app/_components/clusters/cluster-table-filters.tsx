@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils"
 import { useClustersSearchParams } from "@/hooks/search/use-custom-search-params"
 import { Button } from "@/components/ui/button"
 import { textVariants } from "@/components/ui/text"
+import { EffectiveBalanceFilter } from "@/app/_components/clusters/filters/effective-balance-filter"
 import { IsLiquidatedFilter } from "@/app/_components/clusters/filters/is-liquidated-filter"
 import { OperatorsFilter } from "@/app/_components/clusters/filters/operators-filter"
 import { StatusFilter } from "@/app/_components/clusters/filters/status-filter"
@@ -57,6 +58,7 @@ export const ClusterTableFilters = ({
         <StatusFilter />
         <IsLiquidatedFilter />
         <OperatorsFilter />
+        <EffectiveBalanceFilter />
         {enabledFilters.count > 0 && (
           <Button
             variant="ghost"

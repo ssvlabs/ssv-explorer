@@ -15,6 +15,7 @@ import {
   clustersParser,
   defaultSearchOptions,
 } from "@/lib/search-parsers/shared/parsers"
+import { sortNumbers } from "@/lib/utils/number"
 import { getSortingStateParser, parseAsTuple } from "@/lib/utils/parsers"
 
 export const clustersSearchFilters = {
@@ -32,6 +33,14 @@ export const clustersSearchFilters = {
       postParse: (values) => values.sort((a, b) => +a - +b),
     }
   ).withOptions(defaultSearchOptions),
+  effectiveBalance: parseAsTuple(
+    z.tuple([z.number({ coerce: true }), z.number({ coerce: true })]),
+    {
+      postParse: sortNumbers,
+    }
+  )
+    .withDefault([0, 25000])
+    .withOptions(defaultSearchOptions),
   operatorDetails: parseAsBoolean
     .withOptions(defaultSearchOptions)
     .withDefault(true),
