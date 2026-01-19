@@ -63,6 +63,16 @@ export const AccountStats: AccountStatsFC = ({
         tooltip="Total number of operators managed by this account"
         content={numberFormatter.format(stats.data?.operators || 0)}
         isContentLoading={stats.isPending}
+        subContent={
+          Number(stats.data?.totalOperatorEthManaged) > 0 && (
+            <Text variant="overline" className="text-gray-500">
+              Total ETH managed:{" "}
+              <Span variant="caption-bold" className="text-gray-600">
+                {`${stats.data?.totalOperatorEthManaged || 0n} ${nativeCurrency.symbol}`}
+              </Span>
+            </Text>
+          )
+        }
       />
     </div>
   )

@@ -25,6 +25,7 @@ export type AccountStatsResponse = {
     clusters: number
     validators: number
     effectiveBalance: string
+    totalOperatorEthManaged: string
   }
 }
 
