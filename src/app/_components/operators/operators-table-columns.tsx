@@ -97,23 +97,15 @@ export const operatorColumns = {
     accessorKey: "ethFee",
     title: "Fee (ETH)",
     header: ({ column }) => (
-      <DataTableColumnHeader
-        column={column}
-        title="Fee (ETH)"
-        className="justify-end text-right"
-      />
+      <DataTableColumnHeader column={column} title="Fee (ETH)" />
     ),
     cell: ({ row }) => {
       const ethFee = BigInt(row.original.eth_fee || 0)
       const yearlyEthFee = ethFee * globals.BLOCKS_PER_YEAR
-      return (
-        <div className="text-right">
-          {ethFee > 0 ? (
-            `${ethFormatter.format(+formatUnits(yearlyEthFee, 18))} ETH`
-          ) : (
-            <span className="text-gray-400">- ETH</span>
-          )}
-        </div>
+      return ethFee > 0 ? (
+        `${ethFormatter.format(+formatUnits(yearlyEthFee, 18))} ETH`
+      ) : (
+        <span className="text-gray-400">- ETH</span>
       )
     },
   },
@@ -121,37 +113,23 @@ export const operatorColumns = {
     accessorKey: "fee",
     title: "Fee (SSV)",
     header: ({ column }) => (
-      <DataTableColumnHeader
-        column={column}
-        title="Fee (SSV)"
-        className="justify-end text-right"
-      />
+      <DataTableColumnHeader column={column} title="Fee (SSV)" />
     ),
     cell: ({ row }) => {
       const fee = BigInt(row.original.fee || 0)
-      return (
-        <div className="text-right">
-          {fee > 0 ? (
-            getYearlyFee(fee, { format: true })
-          ) : (
-            <span className="text-gray-400">- SSV</span>
-          )}
-        </div>
+      return fee > 0 ? (
+        getYearlyFee(fee, { format: true })
+      ) : (
+        <span className="text-gray-400">- SSV</span>
       )
     },
   },
   validatorsCount: {
     accessorKey: "validatorsCount",
     header: ({ column }) => (
-      <DataTableColumnHeader
-        column={column}
-        title="Validators Count"
-        className="justify-end text-right"
-      />
+      <DataTableColumnHeader column={column} title="Validators Count" />
     ),
-    cell: ({ row }) => (
-      <div className="text-right">{row.original.validators_count}</div>
-    ),
+    cell: ({ row }) => row.original.validators_count,
   },
   performance24h: {
     accessorKey: "performance24h",
@@ -240,19 +218,10 @@ export const operatorColumns = {
     accessorKey: "effectiveBalance",
     title: "ETH Managed",
     header: ({ column }) => (
-      <DataTableColumnHeader
-        column={column}
-        title="ETH Managed"
-        className="justify-end text-right"
-      />
+      <DataTableColumnHeader column={column} title="ETH Managed" />
     ),
-    cell: ({ row }) => {
-      return (
-        <div className="text-right">
-          {`${numberFormatter.format(row.original.effective_balance || 0)} ETH`}
-        </div>
-      )
-    },
+    cell: ({ row }) =>
+      `${numberFormatter.format(row.original.effective_balance || 0)} ETH`,
   },
 } satisfies Record<string, ColumnDefWithTitle<Operator>>
 
