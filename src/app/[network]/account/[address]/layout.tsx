@@ -1,6 +1,7 @@
-import { isAddress, type Address } from "viem"
+import { checksumAddress, isAddress, type Address } from "viem"
 
 import { shortenAddress } from "@/lib/utils/strings"
+import { tryCatch } from "@/lib/utils/tryCatch"
 import { Card } from "@/components/ui/card"
 import { CopyBtn } from "@/components/ui/copy-btn"
 import { ErrorCard } from "@/components/ui/error-card"
@@ -21,7 +22,8 @@ export default async function AccountLayout({
   params,
   children,
 }: IndexPageProps) {
-  const { address } = await params
+  const address = checksumAddress((await params).address)
+  console.log("address:", address)
 
   if (!isAddress(address)) {
     return (
