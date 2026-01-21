@@ -127,7 +127,7 @@ export const operatorColumns = {
   validatorsCount: {
     accessorKey: "validatorsCount",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Validators Count" />
+      <DataTableColumnHeader column={column} title="Validators" />
     ),
     cell: ({ row }) => row.original.validators_count,
   },
@@ -137,7 +137,7 @@ export const operatorColumns = {
       <DataTableColumnHeader
         className="justify-end text-right"
         column={column}
-        title="24h"
+        title="24h %"
       />
     ),
     cell: ({ row }) => {
@@ -194,7 +194,7 @@ export const operatorColumns = {
       const status = row.original.status
       return (
         <div className="flex justify-end">
-          <OperatorStatusBadge size="sm" status={status} />
+          <OperatorStatusBadge size="xs" status={status} />
         </div>
       )
     },
@@ -232,9 +232,9 @@ export const operatorsTableColumns = [
   operatorColumns.location,
   operatorColumns.eth1NodeClient,
   operatorColumns.eth2NodeClient,
-  operatorColumns.ethManaged,
   operatorColumns.ethFee,
   operatorColumns.fee,
+  operatorColumns.ethManaged,
   operatorColumns.validatorsCount,
   operatorColumns.performance24h,
   operatorColumns.performance30d,
@@ -251,6 +251,7 @@ export const operatorsTableDefaultColumnsKeys: OperatorColumnsAccessorKeys[] = [
   "ownerAddress",
   "ethFee",
   "fee",
+  "ethManaged",
   "validatorsCount",
   "performance24h",
   "status",
