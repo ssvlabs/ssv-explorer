@@ -238,11 +238,11 @@ export const operatorColumns = {
   },
   ethManaged: {
     accessorKey: "effectiveBalance",
-    title: "Total ETH Managed",
+    title: "ETH Managed",
     header: ({ column }) => (
       <DataTableColumnHeader
         column={column}
-        title="Total ETH Managed"
+        title="ETH Managed"
         className="justify-end text-right"
       />
     ),
