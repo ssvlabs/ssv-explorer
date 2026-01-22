@@ -262,7 +262,6 @@ export const operatorsTableDefaultColumnsKeys: OperatorColumnsAccessorKeys[] = [
   "name",
   "ownerAddress",
   "ethFee",
-  "fee",
   "ethManaged",
   "validatorsCount",
   "performance24h",
