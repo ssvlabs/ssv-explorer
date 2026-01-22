@@ -17,8 +17,6 @@ import { ErrorCard } from "@/components/ui/error-card"
 import { Outline } from "@/components/ui/outline"
 import { Stat } from "@/components/ui/stat"
 import { Text } from "@/components/ui/text"
-import { ClusterStatusBadge } from "@/components/clusters/cluster-status-badge"
-import { EffectiveBalanceStat } from "@/components/clusters/effective-balance-stat"
 import { OperatorsList } from "@/components/operators/operators-list"
 import { Shell } from "@/components/shell"
 import { ValidatorsTable } from "@/app/_components/validators/validators-table"
@@ -116,13 +114,7 @@ export default async function Page(props: IndexPageProps) {
           <div className="h-full border-r border-gray-500" />
           <Stat
             className="flex-1"
-            title="Validators"
-            content={numberFormatter.format(+cluster.validatorCount)}
-          />
-          <div className="h-full border-r border-gray-500" />
-          <Stat
-            className="flex-1"
-            title="Cluster Balance"
+            title="Current Balance"
             content={
               <div className="flex items-center gap-0.5">
                 <Image
@@ -149,11 +141,17 @@ export default async function Page(props: IndexPageProps) {
           <div className="h-full border-r border-gray-500" />
           <Stat
             className="flex-1"
-            title="Total Effective Balance"
-            tooltip="Total ETH staked across all validators in this cluster"
+            title="Effective Balance"
+            tooltip="ETH staked across all validators in this cluster"
             content={
               numberFormatter.format(Number(cluster.effectiveBalance)) + " ETH"
             }
+          />
+          <div className="h-full border-r border-gray-500" />
+          <Stat
+            className="flex-1"
+            title="Validators"
+            content={numberFormatter.format(+cluster.validatorCount)}
           />
         </div>
       </Card>
