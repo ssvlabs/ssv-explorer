@@ -1,13 +1,12 @@
 "use client"
 
+import Image from "next/image"
 import Link from "next/link"
 import { type ColumnDef } from "@tanstack/react-table"
 import { formatDistanceToNowStrict } from "date-fns"
-import { formatUnits } from "viem"
 
 import { type Operator } from "@/types/api"
-import { globals } from "@/config/globals"
-import { ethFormatter, numberFormatter } from "@/lib/utils/number"
+import { formatETH, formatSSV, numberFormatter } from "@/lib/utils/number"
 import { getYearlyFee } from "@/lib/utils/operator"
 import { shortenAddress } from "@/lib/utils/strings"
 import { useNetworkParam } from "@/hooks/app/useNetworkParam"
@@ -101,11 +100,17 @@ export const operatorColumns = {
     ),
     cell: ({ row }) => {
       const ethFee = BigInt(row.original.eth_fee || 0)
-      const yearlyEthFee = ethFee * globals.BLOCKS_PER_YEAR
-      return ethFee > 0 ? (
-        `${ethFormatter.format(+formatUnits(yearlyEthFee, 18))} ETH`
-      ) : (
-        <span className="text-gray-400">- ETH</span>
+      return (
+        <div className="flex items-center gap-2">
+          <Image
+            src="/images/networks/dark.svg"
+            alt="ETH"
+            width={16}
+            height={16}
+            className="object-fit size-4"
+          />
+          <span>{formatETH(getYearlyFee(ethFee))}</span>
+        </div>
       )
     },
   },
@@ -117,10 +122,17 @@ export const operatorColumns = {
     ),
     cell: ({ row }) => {
       const fee = BigInt(row.original.fee || 0)
-      return fee > 0 ? (
-        getYearlyFee(fee, { format: true })
-      ) : (
-        <span className="text-gray-400">- SSV</span>
+      return (
+        <div className="flex items-center gap-2">
+          <Image
+            src="/images/ssvIcons/icon.svg"
+            alt="SSV"
+            width={16}
+            height={16}
+            className="object-fit size-4"
+          />
+          <span>{formatSSV(getYearlyFee(fee))}</span>
+        </div>
       )
     },
   },
