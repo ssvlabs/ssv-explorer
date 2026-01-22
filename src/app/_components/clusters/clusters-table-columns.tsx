@@ -6,7 +6,7 @@ import { type ColumnDef } from "@tanstack/react-table"
 import { formatDistanceToNowStrict } from "date-fns"
 
 import { type Cluster } from "@/types/api"
-import { ethFormatter, formatSSV, numberFormatter } from "@/lib/utils/number"
+import { formatSSV, numberFormatter } from "@/lib/utils/number"
 import { remove0x, shortenAddress } from "@/lib/utils/strings"
 import { useNetworkParam } from "@/hooks/app/useNetworkParam"
 import { CopyBtn } from "@/components/ui/copy-btn"
@@ -119,13 +119,6 @@ export const clustersTableColumns: ColumnDefWithTitle<Cluster>[] = [
     enableSorting: false,
   },
   {
-    accessorKey: "validatorCount",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Validator Count" />
-    ),
-    cell: ({ row }) => <div>{row.original.validatorCount}</div>,
-  },
-  {
     accessorKey: "effectiveBalance",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Effective Balance" />
@@ -150,11 +143,26 @@ export const clustersTableColumns: ColumnDefWithTitle<Cluster>[] = [
     },
   },
   {
+    accessorKey: "validatorCount",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Validators" />
+    ),
+    cell: ({ row }) => <div>{row.original.validatorCount}</div>,
+  },
+  {
     accessorKey: "active",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Active" />
+      <DataTableColumnHeader
+        className="justify-end text-right"
+        column={column}
+        title="Active"
+      />
     ),
-    cell: ({ row }) => <ClusterStatusBadge active={row.original.active} />,
+    cell: ({ row }) => (
+      <div className="flex justify-end">
+        <ClusterStatusBadge active={row.original.active} />
+      </div>
+    ),
   },
   {
     accessorKey: "createdAt",
