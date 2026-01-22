@@ -64,13 +64,13 @@ export const OperatorTableFilters = ({
         <Eth1ClientFilter />
         <Eth2ClientFilter />
         <SsvClientFilter />
-        <ManagedEthFilter />
         <EthFeeFilter />
         <FeeFilter />
-        <MevRelaysFilter />
+        <ManagedEthFilter />
         <ValidatorsFilter />
         <Performance24hFilter />
         <Performance30dFilter />
+        <MevRelaysFilter />
         <StatusFilter />
         <VerifiedFilter />
         <IsPrivateFilter />
