@@ -165,7 +165,8 @@ export default async function Page(props: IndexPageProps) {
           <div className="h-full border-r border-gray-500" />
           <Stat
             className="flex-1"
-            title="Runway"
+            title="Runway (days)"
+            tooltip="The cluster operational runway in days"
             content={formatRunway(runway)}
           />
         </div>
