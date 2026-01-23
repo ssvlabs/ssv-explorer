@@ -13,7 +13,7 @@ export const useAccountsInfiniteQuery = (
   const { chain } = useNetworkQuery()
 
   return useInfiniteQuery({
-    queryKey: ["accounts", params.search, chain.chainId],
+    queryKey: ["accounts", params.search, chain.id],
     queryFn: ({ pageParam = 1 }) =>
       searchAccounts({
         network: chain.name,

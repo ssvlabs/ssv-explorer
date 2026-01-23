@@ -2,12 +2,14 @@ import type { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
 import { getCluster } from "@/api/clusters"
+import { getNetworkFeeParams } from "@/api/network-fee"
 import { searchValidators } from "@/api/validators"
 import { type Hex } from "viem"
 
 import { type ChainName } from "@/config/chains"
 import { validatorsSearchParamsCache } from "@/lib/search-parsers/validators-search-parsers"
 import { cn } from "@/lib/utils"
+import { calculateRunway, formatRunway } from "@/lib/utils/cluster"
 import { formatSSV, numberFormatter } from "@/lib/utils/number"
 import { remove0x, shortenAddress } from "@/lib/utils/strings"
 import { Button } from "@/components/ui/button"
@@ -66,6 +68,13 @@ export default async function Page(props: IndexPageProps) {
       />
     )
   }
+
+  const networkFeesParams = await getNetworkFeeParams({ network })
+
+  const runway = calculateRunway({
+    cluster,
+    networkFeesParams,
+  })
 
   return (
     <Shell className="gap-6">
@@ -152,6 +161,12 @@ export default async function Page(props: IndexPageProps) {
             className="flex-1"
             title="Validators"
             content={numberFormatter.format(+cluster.validatorCount)}
+          />
+          <div className="h-full border-r border-gray-500" />
+          <Stat
+            className="flex-1"
+            title="Runway"
+            content={formatRunway(runway)}
           />
         </div>
       </Card>

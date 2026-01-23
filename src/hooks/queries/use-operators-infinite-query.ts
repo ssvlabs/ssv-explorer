@@ -12,7 +12,7 @@ export const useOperatorsInfiniteQuery = (
   const { chain } = useNetworkQuery()
 
   return useInfiniteQuery({
-    queryKey: ["operators", params.search, chain.chainId],
+    queryKey: ["operators", params.search, chain.id],
     queryFn: ({ pageParam = 1 }) =>
       searchOperators({
         network: chain.name,
