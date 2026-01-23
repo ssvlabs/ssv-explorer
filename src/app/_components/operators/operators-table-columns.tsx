@@ -214,15 +214,21 @@ export const operatorColumns = {
   createdAt: {
     accessorKey: "createdAt",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Registration Date" />
+      <DataTableColumnHeader
+        column={column}
+        title="Registration Date"
+        className="justify-end text-right"
+      />
     ),
     cell: ({ row }) => {
       return (
-        <Text variant="body-3-medium" className="text-gray-600">
-          {formatDistanceToNowStrict(row.original.created_at, {
-            addSuffix: true,
-          })}
-        </Text>
+        <div className="flex justify-end">
+          <Text variant="body-3-medium" className="text-gray-600">
+            {formatDistanceToNowStrict(row.original.created_at, {
+              addSuffix: true,
+            })}
+          </Text>
+        </div>
       )
     },
   },
@@ -241,14 +247,14 @@ export const operatorsTableColumns = [
   operatorColumns.id,
   operatorColumns.name,
   operatorColumns.ownerAddress,
-  operatorColumns.location,
-  operatorColumns.eth1NodeClient,
-  operatorColumns.eth2NodeClient,
   operatorColumns.ethFee,
   operatorColumns.fee,
   operatorColumns.ethManaged,
   operatorColumns.validatorsCount,
   operatorColumns.performance24h,
+  operatorColumns.location,
+  operatorColumns.eth1NodeClient,
+  operatorColumns.eth2NodeClient,
   operatorColumns.performance30d,
   operatorColumns.mevRelays,
   operatorColumns.status,
@@ -262,6 +268,7 @@ export const operatorsTableDefaultColumnsKeys: OperatorColumnsAccessorKeys[] = [
   "name",
   "ownerAddress",
   "ethFee",
+  "fee",
   "ethManaged",
   "validatorsCount",
   "performance24h",
