@@ -13,7 +13,7 @@ import { shortenAddress } from "@/lib/utils/strings"
 import { useNetworkParam } from "@/hooks/app/useNetworkParam"
 import { Button } from "@/components/ui/button"
 import { CopyBtn } from "@/components/ui/copy-btn"
-import { Text } from "@/components/ui/text"
+import { Text, textVariants } from "@/components/ui/text"
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header"
 import { MevRelaysDisplay } from "@/components/mev-relays-display"
 import { OperatorInfo } from "@/components/operators/operator-info"
@@ -97,21 +97,17 @@ export const operatorColumns = {
     accessorKey: "ethFee",
     title: "Fee (ETH)",
     header: ({ column }) => (
-      <DataTableColumnHeader
-        column={column}
-        title="Fee (ETH)"
-        className="justify-end text-right"
-      />
+      <DataTableColumnHeader column={column} title="Fee (ETH)" />
     ),
     cell: ({ row }) => {
       const ethFee = BigInt(row.original.eth_fee || 0)
       const yearlyEthFee = ethFee * globals.BLOCKS_PER_YEAR
       return (
-        <div className="text-right">
+        <div>
           {ethFee > 0 ? (
             `${ethFormatter.format(+formatUnits(yearlyEthFee, 18))} ETH`
           ) : (
-            <span className="text-gray-400">- ETH</span>
+            <span>- ETH</span>
           )}
         </div>
       )
@@ -121,16 +117,12 @@ export const operatorColumns = {
     accessorKey: "fee",
     title: "Fee (SSV)",
     header: ({ column }) => (
-      <DataTableColumnHeader
-        column={column}
-        title="Fee (SSV)"
-        className="justify-end text-right"
-      />
+      <DataTableColumnHeader column={column} title="Fee (SSV)" />
     ),
     cell: ({ row }) => {
       const fee = BigInt(row.original.fee || 0)
       return (
-        <div className="text-right">
+        <div>
           {fee > 0 ? (
             getYearlyFee(fee, { format: true })
           ) : (
@@ -143,15 +135,9 @@ export const operatorColumns = {
   validatorsCount: {
     accessorKey: "validatorsCount",
     header: ({ column }) => (
-      <DataTableColumnHeader
-        column={column}
-        title="Validators Count"
-        className="justify-end text-right"
-      />
+      <DataTableColumnHeader column={column} title="Validators Count" />
     ),
-    cell: ({ row }) => (
-      <div className="text-right">{row.original.validators_count}</div>
-    ),
+    cell: ({ row }) => <div>{row.original.validators_count}</div>,
   },
   performance24h: {
     accessorKey: "performance24h",
@@ -216,7 +202,11 @@ export const operatorColumns = {
       const status = row.original.status
       return (
         <div className="flex justify-end">
-          <OperatorStatusBadge size="sm" status={status} />
+          <OperatorStatusBadge
+            size="sm"
+            className={textVariants({ variant: "caption-medium" })}
+            status={status}
+          />
         </div>
       )
     },
@@ -238,17 +228,13 @@ export const operatorColumns = {
   },
   ethManaged: {
     accessorKey: "effectiveBalance",
-    title: "Total ETH Managed",
+    title: "ETH Managed",
     header: ({ column }) => (
-      <DataTableColumnHeader
-        column={column}
-        title="Total ETH Managed"
-        className="justify-end text-right"
-      />
+      <DataTableColumnHeader column={column} title="ETH Managed" />
     ),
     cell: ({ row }) => {
       return (
-        <div className="text-right">
+        <div>
           {`${numberFormatter.format(row.original.effective_balance || 0)} ETH`}
         </div>
       )
@@ -281,7 +267,6 @@ export const operatorsTableDefaultColumnsKeys: OperatorColumnsAccessorKeys[] = [
   "name",
   "ownerAddress",
   "ethFee",
-  "fee",
   "validatorsCount",
   "performance24h",
   "status",

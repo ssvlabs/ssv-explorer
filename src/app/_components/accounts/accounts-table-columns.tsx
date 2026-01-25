@@ -105,7 +105,7 @@ export const accountColumns = {
   },
   effectiveBalance: {
     accessorKey: "effectiveBalance",
-    title: `Total ETH Staked`,
+    title: `ETH Staked`,
     header: ({ column }) => {
       // eslint-disable-next-line react-hooks/rules-of-hooks
       const nativeCurrency = useNativeCurrency()

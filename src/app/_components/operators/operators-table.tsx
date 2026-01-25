@@ -39,6 +39,8 @@ export const OperatorsTable = withErrorBoundary(
     const { operators, pagination } = use(data)
     const columns = operatorsTableColumns
 
+    console.log("operators:", operators)
+
     const visibleColumns = hideColumns
       ? columns.filter((column) => !hideColumns.includes(column.accessorKey))
       : columns
