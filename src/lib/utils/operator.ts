@@ -1,24 +1,12 @@
-import { formatUnits, parseEther } from "viem"
+import { parseEther } from "viem"
 
 import type { Operator } from "@/types/api"
 import { globals } from "@/config/globals"
 import { roundOperatorFee } from "@/lib/utils/bigint"
-import { ethFormatter, sortNumbers } from "@/lib/utils/number"
+import { sortNumbers } from "@/lib/utils/number"
 
-type GetYearlyFeeOpts = {
-  format?: boolean
-}
-
-export function getYearlyFee(fee: bigint, opts: { format: true }): string
-export function getYearlyFee(fee: bigint, opts?: GetYearlyFeeOpts): bigint
-export function getYearlyFee(
-  fee: bigint,
-  opts?: GetYearlyFeeOpts
-): string | bigint {
-  const yearlyFee = fee * BigInt(globals.BLOCKS_PER_YEAR)
-  if (opts?.format)
-    return ethFormatter.format(+formatUnits(yearlyFee, 18)) + " SSV"
-  return yearlyFee
+export function getYearlyFee(fee: bigint): bigint {
+  return fee * BigInt(globals.BLOCKS_PER_YEAR)
 }
 
 export function getBlockFee(yearlyFee: number) {
@@ -108,6 +96,13 @@ export const sortOperators = <T extends { id: number }[]>(operators: T) => {
 }
 export const sumOperatorsFee = (operators: Pick<Operator, "fee">[]) => {
   return operators.reduce((acc, operator) => acc + BigInt(operator.fee), 0n)
+}
+
+export const sumOperatorsEthFees = (operators: Pick<Operator, "eth_fee">[]) => {
+  return operators.reduce(
+    (acc, operator) => acc + BigInt(operator.eth_fee || 0),
+    0n
+  )
 }
 
 export const getOperatorIds = <T extends { id: number }[]>(operators: T) => {

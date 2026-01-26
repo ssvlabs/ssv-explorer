@@ -105,7 +105,7 @@ export const accountColumns = {
   },
   effectiveBalance: {
     accessorKey: "effectiveBalance",
-    title: `Total ETH Staked`,
+    title: `ETH Staked`,
     header: ({ column }) => {
       // eslint-disable-next-line react-hooks/rules-of-hooks
       const nativeCurrency = useNativeCurrency()
@@ -134,10 +134,10 @@ export const accountColumns = {
 export const accountsTableColumns = [
   accountColumns.ownerAddress,
   accountColumns.recipientAddress,
+  accountColumns.effectiveBalance,
   accountColumns.operator,
   accountColumns.cluster,
   accountColumns.validator,
-  accountColumns.effectiveBalance,
 ] satisfies ColumnDef<Account>[]
 
 export const accountsDefaultColumnVisibility: Partial<
@@ -147,6 +147,6 @@ export const accountsDefaultColumnVisibility: Partial<
   operator: true,
   cluster: true,
   validator: true,
-  effectiveBalance: false,
+  effectiveBalance: true,
   recipientAddress: false,
 }

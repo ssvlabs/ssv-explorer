@@ -2,12 +2,14 @@ import type { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
 import { getCluster } from "@/api/clusters"
+import { getNetworkFeeParams } from "@/api/network-fee"
 import { searchValidators } from "@/api/validators"
 import { type Hex } from "viem"
 
 import { type ChainName } from "@/config/chains"
 import { validatorsSearchParamsCache } from "@/lib/search-parsers/validators-search-parsers"
 import { cn } from "@/lib/utils"
+import { calculateRunway, formatRunway } from "@/lib/utils/cluster"
 import { formatSSV, numberFormatter } from "@/lib/utils/number"
 import { remove0x, shortenAddress } from "@/lib/utils/strings"
 import { Button } from "@/components/ui/button"
@@ -17,8 +19,6 @@ import { ErrorCard } from "@/components/ui/error-card"
 import { Outline } from "@/components/ui/outline"
 import { Stat } from "@/components/ui/stat"
 import { Text } from "@/components/ui/text"
-import { ClusterStatusBadge } from "@/components/clusters/cluster-status-badge"
-import { EffectiveBalanceStat } from "@/components/clusters/effective-balance-stat"
 import { OperatorsList } from "@/components/operators/operators-list"
 import { Shell } from "@/components/shell"
 import { ValidatorsTable } from "@/app/_components/validators/validators-table"
@@ -69,6 +69,13 @@ export default async function Page(props: IndexPageProps) {
     )
   }
 
+  const networkFeesParams = await getNetworkFeeParams({ network })
+
+  const runway = calculateRunway({
+    cluster,
+    networkFeesParams,
+  })
+
   return (
     <Shell className="gap-6">
       <Card>
@@ -116,13 +123,7 @@ export default async function Page(props: IndexPageProps) {
           <div className="h-full border-r border-gray-500" />
           <Stat
             className="flex-1"
-            title="Validators"
-            content={numberFormatter.format(+cluster.validatorCount)}
-          />
-          <div className="h-full border-r border-gray-500" />
-          <Stat
-            className="flex-1"
-            title="Cluster Balance"
+            title="Current Balance"
             content={
               <div className="flex items-center gap-0.5">
                 <Image
@@ -149,11 +150,24 @@ export default async function Page(props: IndexPageProps) {
           <div className="h-full border-r border-gray-500" />
           <Stat
             className="flex-1"
-            title="Total Effective Balance"
-            tooltip="Total ETH staked across all validators in this cluster"
+            title="Effective Balance"
+            tooltip="ETH staked across all validators in this cluster"
             content={
               numberFormatter.format(Number(cluster.effectiveBalance)) + " ETH"
             }
+          />
+          <div className="h-full border-r border-gray-500" />
+          <Stat
+            className="flex-1"
+            title="Validators"
+            content={numberFormatter.format(+cluster.validatorCount)}
+          />
+          <div className="h-full border-r border-gray-500" />
+          <Stat
+            className="flex-1"
+            title="Runway (days)"
+            tooltip="The cluster operational runway in days"
+            content={formatRunway(runway)}
           />
         </div>
       </Card>

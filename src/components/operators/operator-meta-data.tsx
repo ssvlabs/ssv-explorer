@@ -10,7 +10,7 @@ import { formatUnits } from "viem"
 import { type Operator } from "@/types/api"
 import { globals } from "@/config/globals"
 import { cn } from "@/lib/utils"
-import { ethFormatter } from "@/lib/utils/number"
+import { ethFormatter, formatSSV } from "@/lib/utils/number"
 import { getYearlyFee } from "@/lib/utils/operator"
 import { Button } from "@/components/ui/button"
 import { CopyBtn } from "@/components/ui/copy-btn"
@@ -64,7 +64,7 @@ export const OperatorMetaData: OperatorMetaDataFC = ({
                   )}
                   {BigInt(operator.fee || 0) > 0 ? (
                     <Text variant="body-3-medium">
-                      {getYearlyFee(BigInt(operator.fee), { format: true })}
+                      {formatSSV(getYearlyFee(BigInt(operator.fee)))}
                     </Text>
                   ) : (
                     <Text variant="body-3-medium" className="text-gray-400">

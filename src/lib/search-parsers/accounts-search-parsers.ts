@@ -27,6 +27,7 @@ export const accountsSearchFilters = {
   operators: numberRangeParser.withDefault([0, 5000]),
   clusters: numberRangeParser.withDefault([0, 5000]),
   validators: numberRangeParser.withDefault([0, 200000]),
+  effectiveBalance: numberRangeParser.withDefault([0, 500 * 2048]),
 }
 
 export type AccountSearchFilterKeys = keyof typeof accountsSearchFilters
