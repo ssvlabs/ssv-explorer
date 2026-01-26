@@ -12,7 +12,7 @@ export const useValidatorsInfiniteQuery = (
   const { chain } = useNetworkQuery()
 
   return useInfiniteQuery({
-    queryKey: ["validators", params.search, chain.id],
+    queryKey: ["validators", params.search, chain.chainId],
     queryFn: ({ pageParam = 1 }) =>
       searchValidators({
         network: chain.name,

@@ -98,13 +98,6 @@ export const sumOperatorsFee = (operators: Pick<Operator, "fee">[]) => {
   return operators.reduce((acc, operator) => acc + BigInt(operator.fee), 0n)
 }
 
-export const sumOperatorsEthFees = (operators: Pick<Operator, "eth_fee">[]) => {
-  return operators.reduce(
-    (acc, operator) => acc + BigInt(operator.eth_fee || 0),
-    0n
-  )
-}
-
 export const getOperatorIds = <T extends { id: number }[]>(operators: T) => {
   return sortNumbers(operators.map((operator) => operator.id))
 }
