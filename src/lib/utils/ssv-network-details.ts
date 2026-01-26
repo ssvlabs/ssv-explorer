@@ -18,7 +18,7 @@ const networkSchema = z
       googleTagSecret: z.string().optional(),
       tokenAddress: z.string().refine(isAddress).optional(),
       setterContractAddress: z.string().refine(isAddress).optional(),
-      getterContractAddress: z.string().refine(isAddress),
+      getterContractAddress: z.string().refine(isAddress).optional(),
     })
   )
   .min(1)

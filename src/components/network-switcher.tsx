@@ -58,7 +58,7 @@ export const NetworkSwitcher: FC<Props> = ({
             {supportedChains.map((supportedChain) => (
               <CommandItem
                 defaultChecked
-                key={supportedChain.id}
+                key={supportedChain.chainId}
                 onSelect={() => {
                   query.set(supportedChain.name)
                   onSelect?.(supportedChain)
@@ -72,7 +72,7 @@ export const NetworkSwitcher: FC<Props> = ({
                 <Check
                   className={cn(
                     "ml-auto mr-2 size-3",
-                    selectedChain?.id === supportedChain.id
+                    selectedChain?.chainId === supportedChain.chainId
                       ? "opacity-100"
                       : "opacity-0"
                   )}
