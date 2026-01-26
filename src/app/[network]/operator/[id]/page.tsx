@@ -1,4 +1,5 @@
 import { type Metadata } from "next"
+import Image from "next/image"
 import Link from "next/link"
 import { getOperator } from "@/api/operator"
 import { searchValidators } from "@/api/validators"
@@ -193,24 +194,35 @@ export default async function Page(props: IndexPageProps) {
                   />
                   <Stat
                     className="flex-1"
-                    title="Validators"
-                    tooltip="The number of validators serviced by this operator"
-                    content={<Text>{operator.validators_count}</Text>}
+                    title="ETH Managed"
+                    tooltip="ETH staked across all validators in this cluster"
+                    content={
+                      <div className="flex items-center gap-0.5">
+                        <Image
+                          src="/images/networks/dark.svg"
+                          alt="ETH"
+                          width={20}
+                          height={20}
+                          className="object-fit size-5"
+                        />
+                        {operator.effective_balance > 0 ? (
+                          <Text>
+                            {numberFormatter.format(
+                              Number(operator.effective_balance)
+                            )}
+                          </Text>
+                        ) : (
+                          <Text className="text-gray-400">-</Text>
+                        )}
+                      </div>
+                    }
                   />
                   <div className="h-full border-r border-gray-500" />
                   <Stat
                     className="flex-1"
-                    title="Total ETH Managed"
-                    tooltip="Total ETH staked across all validators in this cluster"
-                    content={
-                      <Text>
-                        {operator.effective_balance > 0 ? (
-                          `${numberFormatter.format(Number(operator.effective_balance))} ETH`
-                        ) : (
-                          <span className="text-gray-400">- ETH</span>
-                        )}
-                      </Text>
-                    }
+                    title="Validators"
+                    tooltip="The number of validators serviced by this operator"
+                    content={<Text>{operator.validators_count}</Text>}
                   />
                 </div>
               </Card>

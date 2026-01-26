@@ -64,6 +64,14 @@ export const AccountTableFilters = () => {
           step={1}
           decimals={0}
         />
+        <RangeFilter<AccountSearchFilterKeys>
+          name="Effective Balance"
+          searchQueryKey="effectiveBalance"
+          parser={accountsSearchFilters.effectiveBalance}
+          suffix=""
+          step={1}
+          decimals={0}
+        />
         {enabledFilters.count > 0 && (
           <Button
             variant="ghost"

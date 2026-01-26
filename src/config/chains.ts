@@ -1,3 +1,5 @@
+import { hoodi as hoodiViem, mainnet as mainnetViem } from "viem/chains"
+
 import { networks } from "@/lib/utils/ssv-network-details"
 
 export const defaultNativeCurrency = {
@@ -7,21 +9,19 @@ export const defaultNativeCurrency = {
 }
 
 const mainnet = {
+  ...mainnetViem,
   name: "mainnet",
   displayName: "Ethereum",
   testnet: false,
-  chainId: 1,
   genesisTimestamp: 1438269973000,
-  nativeCurrency: defaultNativeCurrency,
 } as const
 
 const hoodi = {
+  ...hoodiViem,
   name: "hoodi",
   displayName: "Hoodi",
   testnet: true,
-  chainId: 560048,
   genesisTimestamp: 1742213400000,
-  nativeCurrency: defaultNativeCurrency,
 } as const
 
 export type CustomChain = typeof mainnet | typeof hoodi
@@ -30,22 +30,22 @@ const chains = [mainnet, hoodi]
 
 export const supportedChains = networks.reduce(
   (acc, network) => {
-    const chain = chains.find((chain) => chain.chainId === network.networkId)
+    const chain = chains.find((chain) => chain.id === network.networkId)
     if (!chain) return acc
     return [...acc, chain]
   },
   [] as typeof chains
 )
 
-export const chainIds = supportedChains.map((chain) => chain.chainId)
+export const chainIds = supportedChains.map((chain) => chain.id)
 export const chainNames = supportedChains.map((chain) => chain.name)
 
-export type ChainID = (typeof supportedChains)[number]["chainId"]
+export type ChainID = (typeof supportedChains)[number]["id"]
 export type ChainName = (typeof supportedChains)[number]["name"]
 
 export const chainsById = supportedChains.reduce(
   (acc, chain) => {
-    acc[chain.chainId] = chain
+    acc[chain.id] = chain
     return acc
   },
   {} as Record<ChainID, (typeof chains)[number]>

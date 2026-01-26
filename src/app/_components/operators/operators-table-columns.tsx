@@ -1,13 +1,12 @@
 "use client"
 
+import Image from "next/image"
 import Link from "next/link"
 import { type ColumnDef } from "@tanstack/react-table"
 import { formatDistanceToNowStrict } from "date-fns"
-import { formatUnits } from "viem"
 
 import { type Operator } from "@/types/api"
-import { globals } from "@/config/globals"
-import { ethFormatter, numberFormatter } from "@/lib/utils/number"
+import { formatETH, formatSSV, numberFormatter } from "@/lib/utils/number"
 import { getYearlyFee } from "@/lib/utils/operator"
 import { shortenAddress } from "@/lib/utils/strings"
 import { useNetworkParam } from "@/hooks/app/useNetworkParam"
@@ -101,14 +100,16 @@ export const operatorColumns = {
     ),
     cell: ({ row }) => {
       const ethFee = BigInt(row.original.eth_fee || 0)
-      const yearlyEthFee = ethFee * globals.BLOCKS_PER_YEAR
       return (
-        <div>
-          {ethFee > 0 ? (
-            `${ethFormatter.format(+formatUnits(yearlyEthFee, 18))} ETH`
-          ) : (
-            <span>- ETH</span>
-          )}
+        <div className="flex items-center gap-2">
+          <Image
+            src="/images/networks/dark.svg"
+            alt="ETH"
+            width={16}
+            height={16}
+            className="object-fit size-4"
+          />
+          <span>{formatETH(getYearlyFee(ethFee))}</span>
         </div>
       )
     },
@@ -122,12 +123,15 @@ export const operatorColumns = {
     cell: ({ row }) => {
       const fee = BigInt(row.original.fee || 0)
       return (
-        <div>
-          {fee > 0 ? (
-            getYearlyFee(fee, { format: true })
-          ) : (
-            <span className="text-gray-400">- SSV</span>
-          )}
+        <div className="flex items-center gap-2">
+          <Image
+            src="/images/ssvIcons/icon.svg"
+            alt="SSV"
+            width={16}
+            height={16}
+            className="object-fit size-4"
+          />
+          <span>{formatSSV(getYearlyFee(fee))}</span>
         </div>
       )
     },
@@ -135,9 +139,9 @@ export const operatorColumns = {
   validatorsCount: {
     accessorKey: "validatorsCount",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Validators Count" />
+      <DataTableColumnHeader column={column} title="Validators" />
     ),
-    cell: ({ row }) => <div>{row.original.validators_count}</div>,
+    cell: ({ row }) => row.original.validators_count,
   },
   performance24h: {
     accessorKey: "performance24h",
@@ -145,7 +149,7 @@ export const operatorColumns = {
       <DataTableColumnHeader
         className="justify-end text-right"
         column={column}
-        title="24h"
+        title="24h %"
       />
     ),
     cell: ({ row }) => {
@@ -214,15 +218,21 @@ export const operatorColumns = {
   createdAt: {
     accessorKey: "createdAt",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Registration Date" />
+      <DataTableColumnHeader
+        column={column}
+        title="Registration Date"
+        className="justify-end text-right"
+      />
     ),
     cell: ({ row }) => {
       return (
-        <Text variant="body-3-medium" className="text-gray-600">
-          {formatDistanceToNowStrict(row.original.created_at, {
-            addSuffix: true,
-          })}
-        </Text>
+        <div className="flex justify-end">
+          <Text variant="body-3-medium" className="text-gray-600">
+            {formatDistanceToNowStrict(row.original.created_at, {
+              addSuffix: true,
+            })}
+          </Text>
+        </div>
       )
     },
   },
@@ -232,13 +242,8 @@ export const operatorColumns = {
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="ETH Managed" />
     ),
-    cell: ({ row }) => {
-      return (
-        <div>
-          {`${numberFormatter.format(row.original.effective_balance || 0)} ETH`}
-        </div>
-      )
-    },
+    cell: ({ row }) =>
+      `${numberFormatter.format(row.original.effective_balance || 0)} ETH`,
   },
 } satisfies Record<string, ColumnDefWithTitle<Operator>>
 
@@ -246,14 +251,14 @@ export const operatorsTableColumns = [
   operatorColumns.id,
   operatorColumns.name,
   operatorColumns.ownerAddress,
+  operatorColumns.ethFee,
+  operatorColumns.fee,
+  operatorColumns.ethManaged,
+  operatorColumns.validatorsCount,
+  operatorColumns.performance24h,
   operatorColumns.location,
   operatorColumns.eth1NodeClient,
   operatorColumns.eth2NodeClient,
-  operatorColumns.ethManaged,
-  operatorColumns.ethFee,
-  operatorColumns.fee,
-  operatorColumns.validatorsCount,
-  operatorColumns.performance24h,
   operatorColumns.performance30d,
   operatorColumns.mevRelays,
   operatorColumns.status,
@@ -267,6 +272,7 @@ export const operatorsTableDefaultColumnsKeys: OperatorColumnsAccessorKeys[] = [
   "name",
   "ownerAddress",
   "ethFee",
+  "ethManaged",
   "validatorsCount",
   "performance24h",
   "status",

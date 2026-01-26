@@ -28,12 +28,20 @@ export const bigintFormatter = new Intl.NumberFormat("en-US", {
   maximumFractionDigits: 7,
 })
 
-export const ethFormatter = new Intl.NumberFormat("en-US", {
+export const ssvFormatter = new Intl.NumberFormat("en-US", {
   useGrouping: true,
   maximumFractionDigits: 5,
 })
 
+export const ethFormatter = new Intl.NumberFormat("en-US", {
+  useGrouping: true,
+  maximumFractionDigits: 8,
+})
+
 export const formatSSV = (num: bigint, decimals = 18) =>
+  ssvFormatter.format(+formatUnits(num, decimals))
+
+export const formatETH = (num: bigint, decimals = 18) =>
   ethFormatter.format(+formatUnits(num, decimals))
 
 export const formatBigintInput = (num: bigint, decimals = 18) =>

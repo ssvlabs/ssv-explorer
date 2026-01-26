@@ -1,5 +1,5 @@
 import { type ReactNode } from "react"
-import { isAddress, type Address } from "viem"
+import { isAddress } from "viem"
 
 import { shortenAddress } from "@/lib/utils/strings"
 import { Card } from "@/components/ui/card"
@@ -16,7 +16,7 @@ import { AccountStats } from "./account-stats"
 type LayoutProps = {
   children: ReactNode
   params: Promise<{
-    address: Address
+    address: string
   }>
 }
 
