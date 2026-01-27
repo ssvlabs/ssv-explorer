@@ -12,7 +12,7 @@ import { shortenAddress } from "@/lib/utils/strings"
 import { useNetworkParam } from "@/hooks/app/useNetworkParam"
 import { Button } from "@/components/ui/button"
 import { CopyBtn } from "@/components/ui/copy-btn"
-import { Text, textVariants } from "@/components/ui/text"
+import { Text } from "@/components/ui/text"
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header"
 import { MevRelaysDisplay } from "@/components/mev-relays-display"
 import { OperatorInfo } from "@/components/operators/operator-info"
@@ -26,10 +26,11 @@ export const operatorColumns = {
   id: {
     accessorKey: "id",
     title: "ID",
+    maxSize: 65,
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Id" />
     ),
-    cell: ({ row }) => <div className="w-4">{row.original.id}</div>,
+    cell: ({ row }) => <div>{row.original.id}</div>,
     // enableSorting: false,
   },
   name: {
@@ -206,11 +207,7 @@ export const operatorColumns = {
       const status = row.original.status
       return (
         <div className="flex justify-end">
-          <OperatorStatusBadge
-            size="sm"
-            className={textVariants({ variant: "caption-medium" })}
-            status={status}
-          />
+          <OperatorStatusBadge size="xs" status={status} />
         </div>
       )
     },
@@ -237,7 +234,7 @@ export const operatorColumns = {
     },
   },
   ethManaged: {
-    accessorKey: "effectiveBalance",
+    accessorKey: "ethManaged",
     title: "ETH Managed",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="ETH Managed" />
