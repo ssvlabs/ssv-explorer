@@ -57,16 +57,22 @@ export const Range: FC<ComponentPropsWithoutRef<"form"> & RangeProps> = ({
   const isChanged = form.formState.isDirty
 
   const submit = form.handleSubmit((data) => {
-    const shouldEmit = !isEqual(searchRange, data.range)
+    // Swap values if min > max
+    let range: [number, number] = data.range
+    if (range[0] > range[1]) {
+      range = [range[1], range[0]]
+    }
+
+    const shouldEmit = !isEqual(searchRange, range)
     if (!shouldEmit) {
       return form.reset({
         range: searchRange ?? defaultRange,
       })
     }
-    if (isEqual(data.range, defaultRange)) {
+    if (isEqual(range, defaultRange)) {
       return remove()
     }
-    return apply(data.range)
+    return apply(range)
   })
 
   useEffect(() => {
