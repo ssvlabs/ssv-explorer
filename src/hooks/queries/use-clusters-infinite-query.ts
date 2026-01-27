@@ -12,7 +12,7 @@ export const useClustersInfiniteQuery = (
   const { chain } = useNetworkQuery()
 
   return useInfiniteQuery({
-    queryKey: ["clusters", params.search, chain.id],
+    queryKey: ["clusters", params.search, chain.chainId],
     queryFn: ({ pageParam = 1 }) =>
       searchClusters({
         network: chain.name,

@@ -242,8 +242,20 @@ export const operatorColumns = {
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="ETH Managed" />
     ),
-    cell: ({ row }) =>
-      `${numberFormatter.format(row.original.effective_balance || 0)} ETH`,
+    cell: ({ row }) => (
+      <div className="flex items-center gap-2">
+        <Image
+          src="/images/networks/dark.svg"
+          alt="ETH"
+          width={16}
+          height={16}
+          className="object-fit size-4"
+        />
+        <span>
+          {numberFormatter.format(row.original.effective_balance || 0)}
+        </span>
+      </div>
+    ),
   },
 } satisfies Record<string, ColumnDefWithTitle<Operator>>
 
