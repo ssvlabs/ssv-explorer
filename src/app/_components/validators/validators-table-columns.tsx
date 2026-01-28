@@ -107,7 +107,6 @@ export const validatorColumns: Record<
             content={<OperatorInfo operator={operator} />}
           >
             <Link
-               
               href={`/${useNetworkParam()}/operator/${operator.id}`}
               key={operator.id}
             >

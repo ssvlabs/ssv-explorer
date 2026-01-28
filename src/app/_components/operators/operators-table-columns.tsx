@@ -26,10 +26,11 @@ export const operatorColumns = {
   id: {
     accessorKey: "id",
     title: "ID",
+    maxSize: 65,
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Id" />
     ),
-    cell: ({ row }) => <div className="w-4">{row.original.id}</div>,
+    cell: ({ row }) => <div>{row.original.id}</div>,
     // enableSorting: false,
   },
   name: {
@@ -233,7 +234,7 @@ export const operatorColumns = {
     },
   },
   ethManaged: {
-    accessorKey: "effectiveBalance",
+    accessorKey: "ethManaged",
     title: "ETH Managed",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="ETH Managed" />
@@ -280,7 +281,6 @@ export const operatorsTableDefaultColumnsKeys: OperatorColumnsAccessorKeys[] = [
   "name",
   "ownerAddress",
   "ethFee",
-  "fee",
   "ethManaged",
   "validatorsCount",
   "performance24h",

@@ -66,7 +66,7 @@ export const clustersTableColumns: ColumnDefWithTitle<Cluster>[] = [
       <DataTableColumnHeader column={column} title="Operators" />
     ),
     cell: ({ row }) => (
-      <div className="flex gap-1">
+      <div className="flex gap-px">
         {row.original.operators.map((operator) => {
           return (
             <Tooltip
@@ -80,6 +80,7 @@ export const clustersTableColumns: ColumnDefWithTitle<Cluster>[] = [
                 key={operator.id}
               >
                 <OperatorAvatar
+                  size="sm"
                   src={operator.logo}
                   isPrivate={operator.is_private}
                 />
@@ -160,7 +161,7 @@ export const clustersTableColumns: ColumnDefWithTitle<Cluster>[] = [
     ),
     cell: ({ row }) => (
       <div className="flex justify-end">
-        <ClusterStatusBadge active={row.original.active} />
+        <ClusterStatusBadge active={row.original.active} size="xs" />
       </div>
     ),
   },
