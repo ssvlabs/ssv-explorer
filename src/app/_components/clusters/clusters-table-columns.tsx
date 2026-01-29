@@ -152,11 +152,12 @@ export const clustersTableColumns: ColumnDefWithTitle<Cluster>[] = [
   },
   {
     accessorKey: "active",
+    title: "Status",
     header: ({ column }) => (
       <DataTableColumnHeader
         className="justify-end text-right"
         column={column}
-        title="Active"
+        title="Status"
       />
     ),
     cell: ({ row }) => (
@@ -176,7 +177,7 @@ export const clustersTableColumns: ColumnDefWithTitle<Cluster>[] = [
       </Text>
     ),
   },
-] satisfies ColumnDef<Cluster>[]
+] satisfies ColumnDefWithTitle<Cluster>[]
 
 export type ClusterColumnsAccessorKeys =
   (typeof clustersTableColumns)[number]["accessorKey"]

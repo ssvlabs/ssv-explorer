@@ -159,7 +159,7 @@ export default async function Page(props: IndexPageProps) {
       <Card>
         <ValidatorsTable
           dataPromise={validators}
-          columns={["publicKey", "status", "createdAt"]}
+          columns={["publicKey", "effectiveBalance", "status", "createdAt"]}
           hideOperatorsFilter
           hideOwnerAddressFilter
           hideClusterIdFilter
