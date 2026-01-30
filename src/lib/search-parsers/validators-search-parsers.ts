@@ -53,9 +53,9 @@ export const defaultValidatorSort: ExtendedSortingState<
 > = [{ id: "created_at", desc: true }]
 
 export const validatorSearchSort = {
-  orderBy: parseAsString
-    .withOptions({ ...defaultSearchOptions, clearOnDefault: false })
-    .withDefault("createdAt"),
+  orderBy: getSortingStateParser<SearchValidator<Operator>>()
+    .withOptions(defaultSearchOptions)
+    .withDefault(defaultValidatorSort),
 }
 
 export const elasticSearchParsers = {
