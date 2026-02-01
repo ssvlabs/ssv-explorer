@@ -159,7 +159,7 @@ export const validatorColumns: Record<
     ),
     cell: ({ row }) => (
       <div className="flex justify-end">
-        <ValidatorStatusBadge size="sm" status={row.original.status} />
+        <ValidatorStatusBadge size="xs" status={row.original.status} />
       </div>
     ),
     enableSorting: false,
