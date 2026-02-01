@@ -16,10 +16,18 @@ import { CopyBtn } from "@/components/ui/copy-btn"
 import { ErrorCard } from "@/components/ui/error-card"
 import { Outline } from "@/components/ui/outline"
 import { Stat } from "@/components/ui/stat"
+import { Tab } from "@/components/ui/tab"
 import { Text } from "@/components/ui/text"
 import { OperatorsList } from "@/components/operators/operators-list"
 import { Shell } from "@/components/shell"
-import { ValidatorsTable } from "@/app/_components/validators/validators-table"
+import {
+  ValidatorsTable,
+  ValidatorsTableContent,
+  ValidatorsTableFilters,
+  ValidatorsTableHeader,
+  ValidatorsTableMenuButton,
+  ValidatorsTableRoot,
+} from "@/app/_components/validators/validators-table"
 
 interface IndexPageProps {
   params: Promise<{ id: Hex; network: ChainName }>
@@ -156,14 +164,37 @@ export default async function Page(props: IndexPageProps) {
         </div>
       </Card>
       <OperatorsList operators={cluster.operators} />
-      <Card>
-        <ValidatorsTable
+      <Card className="gap-0 p-0">
+        <ValidatorsTableRoot
+          dataPromise={validators}
+          columns={["publicKey", "status", "createdAt"]}
+        >
+          <div className="flex items-center gap-2 p-5">
+            <Tab
+              variant="ghost"
+              count={+cluster.validatorCount}
+              data-active={true}
+            >
+              Validators
+            </Tab>
+            <div className="flex-1"></div>
+            <ValidatorsTableMenuButton />
+          </div>
+          <ValidatorsTableFilters
+            className="px-5"
+            hideOperatorsFilter
+            hideOwnerAddressFilter
+            hideClusterIdFilter
+          />
+          <ValidatorsTableContent />
+        </ValidatorsTableRoot>
+        {/* <ValidatorsTable
           dataPromise={validators}
           columns={["publicKey", "status", "createdAt"]}
           hideOperatorsFilter
           hideOwnerAddressFilter
           hideClusterIdFilter
-        />
+        /> */}
       </Card>
     </Shell>
   )

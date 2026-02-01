@@ -1,5 +1,5 @@
 import { useTable } from "@/context/table-context"
-import { Collapse } from "react-collapse"
+import { UnmountClosed } from "react-collapse"
 
 import { operatorSearchFilters } from "@/lib/search-parsers/operator-search-parsers"
 import {
@@ -20,6 +20,7 @@ export type ValidatorTableFiltersProps = {
   hideClusterIdFilter?: boolean
   hideOwnerAddressFilter?: boolean
   hideOperatorsFilter?: boolean
+  className?: string
 }
 
 export const ValidatorTableFilters = ({
@@ -27,19 +28,21 @@ export const ValidatorTableFilters = ({
   hideClusterIdFilter,
   hideOwnerAddressFilter,
   hideOperatorsFilter,
+  className,
 }: ValidatorTableFiltersProps) => {
   const { isFiltersOpen } = useTable()
   const { enabledFilters, clearFilters } = useValidatorsSearchParams()
 
   return (
-    <Collapse isOpened={isFiltersOpen}>
+    <UnmountClosed isOpened={isFiltersOpen}>
       <div
         className={cn(
           "flex flex-wrap items-center gap-2 overflow-hidden border-t border-gray-300 py-2 transition-opacity duration-300",
           {
             "opacity-100": isFiltersOpen,
             "invisible opacity-0": !isFiltersOpen,
-          }
+          },
+          className
         )}
         aria-hidden={!isFiltersOpen}
       >
@@ -91,6 +94,6 @@ export const ValidatorTableFilters = ({
           </Button>
         )}
       </div>
-    </Collapse>
+    </UnmountClosed>
   )
 }
