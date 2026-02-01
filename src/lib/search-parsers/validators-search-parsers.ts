@@ -44,6 +44,14 @@ export const validatorsSearchFilters = {
       postParse: sortNumbers,
     }
   ).withOptions(defaultSearchOptions),
+  effectiveBalance: parseAsTuple(
+    z.tuple([z.number({ coerce: true }), z.number({ coerce: true })]),
+    {
+      postParse: sortNumbers,
+    }
+  )
+    .withDefault([0, 25000])
+    .withOptions(defaultSearchOptions),
 }
 
 export type ValidatorSearchFilterKeys = keyof typeof validatorsSearchFilters
