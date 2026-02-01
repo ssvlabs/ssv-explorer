@@ -21,10 +21,8 @@ import { Text } from "@/components/ui/text"
 import { OperatorsList } from "@/components/operators/operators-list"
 import { Shell } from "@/components/shell"
 import {
-  ValidatorsTable,
   ValidatorsTableContent,
   ValidatorsTableFilters,
-  ValidatorsTableHeader,
   ValidatorsTableMenuButton,
   ValidatorsTableRoot,
 } from "@/app/_components/validators/validators-table"
@@ -104,9 +102,8 @@ export default async function Page(props: IndexPageProps) {
             <CopyBtn text={cluster.ownerAddress} />
           </Outline>
         </div>
-        <div className="flex flex-col gap-2 align-sub md:flex-row md:items-center md:gap-6">
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-6">
           <Stat
-            className="flex-1"
             title="Status"
             content={
               <Text
@@ -119,9 +116,7 @@ export default async function Page(props: IndexPageProps) {
               </Text>
             }
           />
-          <div className="h-full border-r border-gray-500" />
           <Stat
-            className="flex-1"
             title="Current Balance"
             content={
               <div className="flex items-center gap-0.5">
@@ -146,18 +141,14 @@ export default async function Page(props: IndexPageProps) {
               </div>
             }
           />
-          <div className="h-full border-r border-gray-500" />
           <Stat
-            className="flex-1"
             title="Effective Balance"
             tooltip="ETH staked across all validators in this cluster"
             content={
               numberFormatter.format(Number(cluster.effectiveBalance)) + " ETH"
             }
           />
-          <div className="h-full border-r border-gray-500" />
           <Stat
-            className="flex-1"
             title="Validators"
             content={numberFormatter.format(+cluster.validatorCount)}
           />

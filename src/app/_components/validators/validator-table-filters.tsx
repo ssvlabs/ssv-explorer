@@ -34,15 +34,21 @@ export const ValidatorTableFilters = ({
   const { enabledFilters, clearFilters } = useValidatorsSearchParams()
 
   return (
-    <UnmountClosed isOpened={isFiltersOpen}>
+    <UnmountClosed
+      isOpened={isFiltersOpen}
+      colSpan={2}
+      style={{ border: "1px solid red" }}
+      theme={{
+        collapse: cn("ReactCollapse--collapse", className),
+      }}
+    >
       <div
         className={cn(
           "flex flex-wrap items-center gap-2 overflow-hidden border-t border-gray-300 py-2 transition-opacity duration-300",
           {
             "opacity-100": isFiltersOpen,
             "invisible opacity-0": !isFiltersOpen,
-          },
-          className
+          }
         )}
         aria-hidden={!isFiltersOpen}
       >
