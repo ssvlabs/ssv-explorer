@@ -222,7 +222,7 @@ export default async function Page(props: IndexPageProps) {
               </Card>
               <div className="flex flex-row gap-4">
                 <PerformanceChart
-                  className="w-full md:w-1/2"
+                  className="w-full"
                   operatorId={+id}
                   network={network}
                 />
