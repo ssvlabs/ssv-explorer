@@ -57,8 +57,10 @@ export default async function AccountLayout({ params, children }: LayoutProps) {
           </div>
           <AccountStats ownerAddress={address} />
         </Card>
-        <Card className="">
-          <TableNavigation ownerAddress={address} />
+        <Card className="grid grid-cols-[auto_1fr] gap-0 p-0">
+          <div className="flex items-center gap-2 overflow-x-auto p-5">
+            <TableNavigation ownerAddress={address} />
+          </div>
           {children}
         </Card>
       </div>

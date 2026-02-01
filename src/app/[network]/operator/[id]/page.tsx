@@ -156,9 +156,8 @@ export default async function Page(props: IndexPageProps) {
                 </div>
                 <OperatorMetaData operator={operator} />
 
-                <div className="flex flex-col gap-2 align-sub md:flex-row md:items-center md:gap-6">
+                <div className="grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-6">
                   <Stat
-                    className="flex-1"
                     title="Status"
                     tooltip="Based on whether the majority of assigned duties were performed in the last 10 epochs"
                     content={
@@ -175,9 +174,7 @@ export default async function Page(props: IndexPageProps) {
                       </Text>
                     }
                   />
-                  <div className="h-full border-r border-gray-500" />
                   <Stat
-                    className="flex-1"
                     title="Performance (1D | 1M)"
                     tooltip="Operator performance is calculated by the percentage of attended duties within the specified time-frame."
                     content={
@@ -193,7 +190,6 @@ export default async function Page(props: IndexPageProps) {
                     }
                   />
                   <Stat
-                    className="flex-1"
                     title="ETH Managed"
                     tooltip="ETH staked across all validators in this cluster"
                     content={
@@ -217,9 +213,7 @@ export default async function Page(props: IndexPageProps) {
                       </div>
                     }
                   />
-                  <div className="h-full border-r border-gray-500" />
                   <Stat
-                    className="flex-1"
                     title="Validators"
                     tooltip="The number of validators serviced by this operator"
                     content={<Text>{operator.validators_count}</Text>}
@@ -228,7 +222,7 @@ export default async function Page(props: IndexPageProps) {
               </Card>
               <div className="flex flex-row gap-4">
                 <PerformanceChart
-                  className="w-full md:w-1/2"
+                  className="w-full"
                   operatorId={+id}
                   network={network}
                 />

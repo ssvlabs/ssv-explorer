@@ -30,16 +30,23 @@ import { IsPrivateFilter } from "./visibility-filter"
 
 export type OperatorTableFiltersProps = {
   hideOwnerAddressFilter?: boolean
+  className?: string
 }
 
 export const OperatorTableFilters = ({
   hideOwnerAddressFilter,
+  className,
 }: OperatorTableFiltersProps) => {
   const { isFiltersOpen } = useTable()
   const { enabledFilters, clearFilters } = useOperatorsSearchParams()
 
   return (
-    <Collapse isOpened={isFiltersOpen}>
+    <Collapse
+      isOpened={isFiltersOpen}
+      theme={{
+        collapse: cn("ReactCollapse--collapse", className),
+      }}
+    >
       <div
         className={cn(
           "flex flex-wrap items-center gap-2 overflow-hidden border-t border-gray-300 py-2 transition-opacity duration-300",
