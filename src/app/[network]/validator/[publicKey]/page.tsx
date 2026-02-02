@@ -3,6 +3,7 @@ import Link from "next/link"
 import { searchDuties } from "@/api/duties"
 import { getValidator } from "@/api/validators"
 import { type SearchParams } from "nuqs"
+import { FaEthereum } from "react-icons/fa"
 
 import { getNativeCurrency, type ChainName } from "@/config/chains"
 import { dutiesSearchParamsCache } from "@/lib/search-parsers/duties-search-parsers"
@@ -140,8 +141,14 @@ export default async function Page(props: IndexPageProps) {
             }
           />
           <Stat
-            title={`${nativeCurrency.symbol} Balance`}
-            content={`${formatGwei(BigInt(validator.validator_info.effective_balance || 0n))} ${nativeCurrency.symbol}`}
+            className="flex-1"
+            title="Effective Balance"
+            content={
+              <div className="flex items-center gap-1">
+                <FaEthereum className="size-5 text-gray-800" />
+                <span>{`${formatGwei(BigInt(validator.validator_info.effective_balance || 0n))} ${nativeCurrency.symbol}`}</span>
+              </div>
+            }
           />
         </div>
       </Card>
