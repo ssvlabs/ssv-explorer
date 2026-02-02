@@ -38,7 +38,10 @@ export const Stat: StatFC = ({
     <div className={cn("flex flex-col", className)} {...props}>
       <Tooltip content={tooltip}>
         <div className="flex items-center gap-1">
-          <Text variant="caption-medium" className="text-gray-500">
+          <Text
+            variant="caption-medium"
+            className="whitespace-nowrap text-gray-500"
+          >
             {title}
           </Text>
           {tooltip && <FaInfoCircle className="size-3 text-gray-500" />}

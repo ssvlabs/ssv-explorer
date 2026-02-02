@@ -126,9 +126,8 @@ export default async function Page(props: IndexPageProps) {
             <CopyBtn text={validator.cluster} />
           </Outline>
         </div>
-        <div className="flex items-center gap-6 align-sub">
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-6">
           <Stat
-            className="flex-1"
             title="Status"
             content={
               <Text
@@ -141,7 +140,6 @@ export default async function Page(props: IndexPageProps) {
               </Text>
             }
           />
-          <div className="h-full border-r border-gray-500" />
           <Stat
             className="flex-1"
             title="Effective Balance"

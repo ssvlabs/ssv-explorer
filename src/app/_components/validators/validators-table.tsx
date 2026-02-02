@@ -22,6 +22,7 @@ import { useDataTable } from "@/hooks/use-data-table"
 import { ErrorCard } from "@/components/ui/error-card"
 import { Text } from "@/components/ui/text"
 import { DataTableMenuButton } from "@/components/data-table/data-table-filters-button"
+import { DataTableViewOptions } from "@/components/data-table/data-table-view-options"
 import { DataTable } from "@/components/data-table/elastic-10k-table/data-table"
 import {
   ValidatorTableFilters,
@@ -95,14 +96,21 @@ type ValidatorsTableRootProps = {
   children: ReactNode
 }
 
-const ValidatorsTableRoot: FC<ValidatorsTableRootProps> = ({
-  dataPromise,
-  columns,
-  children,
-}) => {
-  const { table } = useValidatorsTable({ dataPromise, columns })
-  return <TableProvider table={table}>{children}</TableProvider>
-}
+const ValidatorsTableRoot = withErrorBoundary(
+  ({ dataPromise, columns, children }: ValidatorsTableRootProps) => {
+    const { table } = useValidatorsTable({ dataPromise, columns })
+    return <TableProvider table={table}>{children}</TableProvider>
+  },
+  {
+    fallbackRender: ({ error }) => (
+      <ErrorCard
+        className="bg-transparent"
+        errorMessage={(error as Error).message}
+        title="Couldn't load Validators"
+      />
+    ),
+  }
+)
 
 type ValidatorsTableHeaderProps = {
   title?: string
@@ -128,6 +136,11 @@ const ValidatorsTableHeader: ValidatorsTableHeaderFC = ({
 const ValidatorsTableMenuButton = () => {
   const { enabledFilters } = useValidatorsSearchParams()
   return <DataTableMenuButton enabledFilters={enabledFilters} />
+}
+
+const ValidatorsTableViewOptions = () => {
+  const { table } = useTable<SearchValidator<Operator>>()
+  return <DataTableViewOptions table={table} tableName="validators" />
 }
 
 type ValidatorsTableContentProps = object
@@ -157,27 +170,16 @@ type ValidatorsTableProps = {
   columns?: ValidatorTableColumnAccessorKey[]
 } & ValidatorTableFiltersProps
 
-const ValidatorsTable = withErrorBoundary(
-  ({ dataPromise, columns, ...filterProps }: ValidatorsTableProps) => {
-    return (
-      <ValidatorsTableRoot dataPromise={dataPromise} columns={columns}>
-        <ValidatorsTableHeader />
-        <ValidatorsTableFilters {...filterProps} />
-        <ValidatorsTableContent />
-      </ValidatorsTableRoot>
-    )
-  },
-  {
-    fallbackRender: ({ error }) => {
-      return (
-        <ErrorCard
-          className="bg-transparent"
-          errorMessage={(error as Error).message}
-          title="Couldn't load  Validators"
-        />
-      )
-    },
-  }
+const ValidatorsTable: FC<ValidatorsTableProps> = ({
+  dataPromise,
+  columns,
+  ...filterProps
+}) => (
+  <ValidatorsTableRoot dataPromise={dataPromise} columns={columns}>
+    <ValidatorsTableHeader />
+    <ValidatorsTableFilters {...filterProps} />
+    <ValidatorsTableContent />
+  </ValidatorsTableRoot>
 )
 
 // ============================================================================
@@ -193,6 +195,7 @@ export {
   ValidatorsTableRoot,
   ValidatorsTableHeader,
   ValidatorsTableMenuButton,
+  ValidatorsTableViewOptions,
   ValidatorsTableFilters,
   ValidatorsTableContent,
 }

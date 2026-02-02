@@ -18,17 +18,24 @@ import { HexFilter } from "@/app/_components/shared/filters/address-filter"
 export type ClusterTableFiltersProps = {
   hideClusterIdFilter?: boolean
   hideOwnerAddressFilter?: boolean
+  className?: string
 }
 
 export const ClusterTableFilters = ({
   hideClusterIdFilter,
   hideOwnerAddressFilter,
+  className,
 }: ClusterTableFiltersProps) => {
   const { isFiltersOpen } = useTable()
   const { enabledFilters, clearFilters } = useClustersSearchParams()
 
   return (
-    <Collapse isOpened={isFiltersOpen}>
+    <Collapse
+      isOpened={isFiltersOpen}
+      theme={{
+        collapse: cn("ReactCollapse--collapse", className),
+      }}
+    >
       <div
         className={cn(
           "flex flex-wrap items-center gap-2 overflow-hidden border-t border-gray-300 py-2 transition-opacity duration-300",
