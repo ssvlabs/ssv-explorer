@@ -10,6 +10,7 @@ import { useAccountsSearchParams } from "@/hooks/search/use-custom-search-params
 import { Button } from "@/components/ui/button"
 import { textVariants } from "@/components/ui/text"
 import { HexFilter } from "@/app/_components/shared/filters/address-filter"
+import { EffectiveBalanceFilter } from "@/app/_components/shared/filters/effective-balance-filter"
 import { RangeFilter } from "@/app/_components/shared/filters/range-filter"
 
 export const AccountTableFilters = () => {
@@ -40,6 +41,7 @@ export const AccountTableFilters = () => {
           invalidMessage="Invalid recipient address"
           parser={accountsSearchFilters.recipientAddress}
         />
+        <EffectiveBalanceFilter searchParamsHook={useAccountsSearchParams} />
         <RangeFilter<AccountSearchFilterKeys>
           name="Operators"
           searchQueryKey="operators"
@@ -60,14 +62,6 @@ export const AccountTableFilters = () => {
           name="Validators"
           searchQueryKey="validators"
           parser={accountsSearchFilters.validators}
-          suffix=""
-          step={1}
-          decimals={0}
-        />
-        <RangeFilter<AccountSearchFilterKeys>
-          name="Effective Balance"
-          searchQueryKey="effectiveBalance"
-          parser={accountsSearchFilters.effectiveBalance}
           suffix=""
           step={1}
           decimals={0}
