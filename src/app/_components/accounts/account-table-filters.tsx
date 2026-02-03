@@ -41,6 +41,14 @@ export const AccountTableFilters = () => {
           invalidMessage="Invalid recipient address"
           parser={accountsSearchFilters.recipientAddress}
         />
+        <RangeFilter<AccountSearchFilterKeys>
+          name="ETH Managed"
+          searchQueryKey="totalOperatorEthManaged"
+          parser={accountsSearchFilters.totalOperatorEthManaged}
+          suffix=""
+          step={1}
+          decimals={0}
+        />
         <EffectiveBalanceFilter searchParamsHook={useAccountsSearchParams} />
         <RangeFilter<AccountSearchFilterKeys>
           name="Operators"
