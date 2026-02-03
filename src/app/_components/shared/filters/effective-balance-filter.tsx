@@ -2,16 +2,24 @@
 
 import { isEqual } from "lodash-es"
 
-import { validatorsSearchFilters } from "@/lib/search-parsers/validators-search-parsers"
-import { useValidatorsSearchParams } from "@/hooks/search/use-custom-search-params"
+import { effectiveBalanceParser } from "@/lib/search-parsers/shared/parsers"
+import { useCustomSearchParams } from "@/hooks/search/use-custom-search-params"
 import { Text } from "@/components/ui/text"
 import { FilterButton } from "@/components/filter/filter-button"
 import { Range } from "@/components/filter/range-filter"
 
-export function EffectiveBalanceFilter() {
-  const { filters, setFilters } = useValidatorsSearchParams()
+export function EffectiveBalanceFilter({
+  searchParamsHook,
+}: {
+  searchParamsHook: () => ReturnType<
+    typeof useCustomSearchParams<{
+      effectiveBalance: typeof effectiveBalanceParser
+    }>
+  >
+}) {
+  const { filters, setFilters } = searchParamsHook()
 
-  const defaultRange = validatorsSearchFilters.effectiveBalance.defaultValue
+  const defaultRange = effectiveBalanceParser.defaultValue
 
   const isActive =
     !isEqual(filters.effectiveBalance, defaultRange) &&

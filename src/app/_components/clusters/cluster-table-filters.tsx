@@ -9,11 +9,11 @@ import { cn } from "@/lib/utils"
 import { useClustersSearchParams } from "@/hooks/search/use-custom-search-params"
 import { Button } from "@/components/ui/button"
 import { textVariants } from "@/components/ui/text"
-import { EffectiveBalanceFilter } from "@/app/_components/clusters/filters/effective-balance-filter"
 import { IsLiquidatedFilter } from "@/app/_components/clusters/filters/is-liquidated-filter"
 import { OperatorsFilter } from "@/app/_components/clusters/filters/operators-filter"
 import { StatusFilter } from "@/app/_components/clusters/filters/status-filter"
 import { HexFilter } from "@/app/_components/shared/filters/address-filter"
+import { EffectiveBalanceFilter } from "@/app/_components/shared/filters/effective-balance-filter"
 
 export type ClusterTableFiltersProps = {
   hideClusterIdFilter?: boolean
@@ -63,7 +63,7 @@ export const ClusterTableFilters = ({
           />
         )}
         <OperatorsFilter />
-        <EffectiveBalanceFilter />
+        <EffectiveBalanceFilter searchParamsHook={useClustersSearchParams} />
         <StatusFilter />
         <IsLiquidatedFilter />
         {enabledFilters.count > 0 && (

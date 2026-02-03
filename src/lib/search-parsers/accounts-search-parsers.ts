@@ -11,6 +11,7 @@ import { paginationParser } from "@/lib/search-parsers"
 import {
   addressesParser,
   defaultSearchOptions,
+  effectiveBalanceParser,
   numberRangeParser,
 } from "@/lib/search-parsers/shared/parsers"
 import { getSortingStateParser } from "@/lib/utils/parsers"
@@ -27,7 +28,8 @@ export const accountsSearchFilters = {
   operators: numberRangeParser.withDefault([0, 5000]),
   clusters: numberRangeParser.withDefault([0, 5000]),
   validators: numberRangeParser.withDefault([0, 200000]),
-  effectiveBalance: numberRangeParser.withDefault([0, 500 * 2048]),
+  totalOperatorEthManaged: numberRangeParser.withDefault([0, 500 * 2048]),
+  effectiveBalance: effectiveBalanceParser,
 }
 
 export type AccountSearchFilterKeys = keyof typeof accountsSearchFilters

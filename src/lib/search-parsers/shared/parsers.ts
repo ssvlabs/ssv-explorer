@@ -36,3 +36,12 @@ export const numberRangeParser = parseAsTuple(
   ...defaultSearchOptions,
   throttleMs: 500,
 })
+
+export const effectiveBalanceParser = parseAsTuple(
+  z.tuple([z.number({ coerce: true }), z.number({ coerce: true })]),
+  {
+    postParse: sortNumbers,
+  }
+)
+  .withDefault([0, 25000])
+  .withOptions(defaultSearchOptions)
