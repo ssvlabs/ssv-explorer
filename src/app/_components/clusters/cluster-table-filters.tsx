@@ -62,10 +62,10 @@ export const ClusterTableFilters = ({
             parser={clustersSearchFilters.ownerAddress}
           />
         )}
-        <StatusFilter />
-        <IsLiquidatedFilter />
         <OperatorsFilter />
         <EffectiveBalanceFilter />
+        <StatusFilter />
+        <IsLiquidatedFilter />
         {enabledFilters.count > 0 && (
           <Button
             variant="ghost"
