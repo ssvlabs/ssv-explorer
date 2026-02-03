@@ -5,7 +5,7 @@
  * @typedef {import('./types.cjs').CommitRoot} CommitRoot
  */
 
-const ticketIdReg = /\b\d{10}\b/;
+const ticketIdReg = /\b\d{10,}\b/
 
 /**
  * Process commits and group them by ticket ID
@@ -13,23 +13,23 @@ const ticketIdReg = /\b\d{10}\b/;
  * @returns {Map<string, CommitRoot[]>}
  */
 function processCommits(commits) {
-  const ticketsMap = /** @type {Map<string, CommitRoot[]>} */ (new Map());
+  const ticketsMap = /** @type {Map<string, CommitRoot[]>} */ (new Map())
 
   commits.forEach((commit) => {
-    const [ticketId] = commit.commit.message.match(ticketIdReg) || [];
+    const [ticketId] = commit.commit.message.match(ticketIdReg) || []
     if (ticketId) {
-      ticketsMap.set(ticketId, [...(ticketsMap.get(ticketId) || []), commit]);
+      ticketsMap.set(ticketId, [...(ticketsMap.get(ticketId) || []), commit])
     }
-  });
+  })
 
   // Log results
   if (ticketsMap.size === 0) {
-    console.log("No ticket IDs found in any commit messages.");
+    console.log("No ticket IDs found in any commit messages.")
   } else {
-    console.log([...ticketsMap.entries()]);
+    console.log([...ticketsMap.entries()])
   }
 
-  return ticketsMap;
+  return ticketsMap
 }
 
 // Mock data for testing
@@ -55,10 +55,10 @@ const mockCommits = [
       },
     },
   },
-];
+]
 
 module.exports = {
   processCommits,
   mockCommits,
   ticketIdReg,
-};
+}
