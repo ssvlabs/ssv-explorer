@@ -2,12 +2,9 @@
 
 import { endpoint } from "@/api"
 import { api } from "@/api/api-client"
+import { formatGwei, parseEther } from "viem"
 
-import {
-  type Operator,
-  type PaginatedValidatorsResponse,
-  type Validator,
-} from "@/types/api"
+import type { PaginatedValidatorsResponse, Validator } from "@/types/api"
 import { type ChainName } from "@/config/chains"
 import {
   validatorsSearchParamsSerializer,
@@ -22,10 +19,18 @@ export const searchValidators = async (
 ) =>
   await unstable_cache(
     async () => {
-      const searchParams = validatorsSearchParamsSerializer(params)
-      const response = await api.get<PaginatedValidatorsResponse>(
-        endpoint(params.network, "validators", `?${searchParams}`)
-      )
+      const augmentedParams = {
+        ...params,
+        effectiveBalance: params.effectiveBalance
+          ? (params.effectiveBalance.map(
+              (value) => +formatGwei(parseEther(value.toString()))
+            ) as [number, number])
+          : params.effectiveBalance,
+      }
+
+      const searchParams = validatorsSearchParamsSerializer(augmentedParams)
+      const url = endpoint(params.network, "validators", `?${searchParams}`)
+      const response = await api.get<PaginatedValidatorsResponse>(url)
 
       // Map beacon chain status to user-friendly status
       if (response?.validators) {
