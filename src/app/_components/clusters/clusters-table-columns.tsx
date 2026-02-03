@@ -156,7 +156,7 @@ export const clustersTableColumns: ColumnDefWithTitle<Cluster>[] = [
       <DataTableColumnHeader
         className="justify-end text-right"
         column={column}
-        title="Active"
+        title="Status"
       />
     ),
     cell: ({ row }) => (
