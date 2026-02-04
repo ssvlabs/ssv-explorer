@@ -24,7 +24,7 @@ export const searchClusters = async <
   await unstable_cache(
     async () => {
       const searchParams = clustersSearchParamsSerializer(params)
-      const url = endpoint(params.network, "clusters", `?${searchParams}`)
+      const url = endpoint(params.network, "clusters", searchParams)
       return await api.get<PaginatedClustersResponse<T>>(url)
     },
     [JSON.stringify(stringifyBigints(params))],

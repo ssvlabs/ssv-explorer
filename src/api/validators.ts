@@ -29,7 +29,7 @@ export const searchValidators = async (
       }
 
       const searchParams = validatorsSearchParamsSerializer(augmentedParams)
-      const url = endpoint(params.network, "validators", `?${searchParams}`)
+      const url = endpoint(params.network, "validators", searchParams)
       const response = await api.get<PaginatedValidatorsResponse>(url)
 
       // Map beacon chain status to user-friendly status
