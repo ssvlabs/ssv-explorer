@@ -31,7 +31,7 @@ export const searchAccounts = async (
       }
 
       const searchParams = accountSearchParamsSerializer(augmentedParams)
-      const url = endpoint(params.network, "accounts", `?${searchParams}`)
+      const url = endpoint(params.network, "accounts", searchParams)
       return api.get<PaginatedAccountsResponse>(url)
     },
     [JSON.stringify(stringifyBigints(params))],
