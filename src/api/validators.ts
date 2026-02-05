@@ -19,16 +19,7 @@ export const searchValidators = async (
 ) =>
   await unstable_cache(
     async () => {
-      const augmentedParams = {
-        ...params,
-        effectiveBalance: params.effectiveBalance
-          ? (params.effectiveBalance.map(
-              (value) => +formatGwei(parseEther(value.toString()))
-            ) as [number, number])
-          : params.effectiveBalance,
-      }
-
-      const searchParams = validatorsSearchParamsSerializer(augmentedParams)
+      const searchParams = validatorsSearchParamsSerializer(params)
       const url = endpoint(params.network, "validators", searchParams)
       const response = await api.get<PaginatedValidatorsResponse>(url)
 

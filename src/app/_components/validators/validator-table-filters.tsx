@@ -86,7 +86,11 @@ export const ValidatorTableFilters = ({
           searchQueryKey="dateRange"
           parser={validatorsSearchParsers.dateRange}
         />
-        <EffectiveBalanceFilter searchParamsHook={useValidatorsSearchParams} />
+        <EffectiveBalanceFilter<ValidatorSearchFilterKeys>
+          name="Effective Balance"
+          searchQueryKey="effectiveBalance"
+          parser={validatorsSearchParsers.effectiveBalance}
+        />
         {enabledFilters.count > 0 && (
           <Button
             variant="ghost"

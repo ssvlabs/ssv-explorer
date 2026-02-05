@@ -14,6 +14,7 @@ import { paginationParser } from "@/lib/search-parsers"
 import {
   addressesParser,
   defaultSearchOptions,
+  getEffectiveBalanceParser,
 } from "@/lib/search-parsers/shared/parsers"
 import { MEV_RELAYS_VALUES, STATUS_API_VALUES } from "@/lib/utils/operator"
 import { getSortingStateParser, parseAsTuple } from "@/lib/utils/parsers"
@@ -73,14 +74,7 @@ export const operatorSearchFilters = {
   )
     .withDefault([0, 3000])
     .withOptions(defaultSearchOptions),
-  effectiveBalance: parseAsTuple(
-    z.tuple([z.number({ coerce: true }), z.number({ coerce: true })]),
-    {
-      postParse: sortNumbers,
-    }
-  )
-    .withDefault([0, 25000])
-    .withOptions(defaultSearchOptions),
+  effectiveBalance: getEffectiveBalanceParser({ serializeToGwei: false }),
   status: parseAsArrayOf(z.enum(STATUS_API_VALUES))
     .withDefault([])
     .withOptions(defaultSearchOptions),

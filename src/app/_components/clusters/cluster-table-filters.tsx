@@ -63,7 +63,11 @@ export const ClusterTableFilters = ({
           />
         )}
         <OperatorsFilter />
-        <EffectiveBalanceFilter searchParamsHook={useClustersSearchParams} />
+        <EffectiveBalanceFilter<ClusterSearchFilterKeys>
+          name="Effective Balance"
+          searchQueryKey="effectiveBalance"
+          parser={clustersSearchFilters.effectiveBalance}
+        />
         <StatusFilter />
         <IsLiquidatedFilter />
         {enabledFilters.count > 0 && (
