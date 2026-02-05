@@ -70,8 +70,8 @@ export const OperatorTableFilters = ({
         <LocationFilter />
         <Eth1ClientFilter />
         <Eth2ClientFilter />
-        <SsvClientFilter />
         <MevRelaysFilter />
+        <SsvClientFilter />
         <EthFeeFilter />
         <FeeFilter />
         <ManagedEthFilter />
