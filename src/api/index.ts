@@ -11,10 +11,14 @@ export const endpoint = (
   if (!ssvNetwork) {
     throw new Error(`SSV network details not found for chainId: ${chainName}`)
   }
-  return urlJoin(
+  const url = urlJoin(
     ssvNetwork.api,
     ssvNetwork.apiVersion,
     ssvNetwork.apiNetwork,
     ...paths.map(String)
   )
+
+  // For debugging purposes
+  if (process.env.NODE_ENV === "development") console.log("endpoint:", url)
+  return url
 }

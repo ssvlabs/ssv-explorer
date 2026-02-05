@@ -49,7 +49,11 @@ export const AccountTableFilters = () => {
           step={1}
           decimals={0}
         />
-        <EffectiveBalanceFilter searchParamsHook={useAccountsSearchParams} />
+        <EffectiveBalanceFilter<AccountSearchFilterKeys>
+          name="Effective Balance"
+          searchQueryKey="effectiveBalance"
+          parser={accountsSearchFilters.effectiveBalance}
+        />
         <RangeFilter<AccountSearchFilterKeys>
           name="Operators"
           searchQueryKey="operators"

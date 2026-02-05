@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { xor } from "lodash-es"
 import { X } from "lucide-react"
-import { useQueryState, type ParserBuilder } from "nuqs"
+import { SingleParserBuilder, useQueryState } from "nuqs"
 import { Collapse } from "react-collapse"
 import { MdKeyboardReturn } from "react-icons/md"
 import { type Address, type Hex } from "viem"
@@ -24,7 +24,7 @@ import { FilterButton } from "@/components/filter/filter-button"
 type HexFilterProps<TSearchKey extends string = string> = {
   name: string
   searchQueryKey: TSearchKey
-  parser: ParserBuilder<Address[]>
+  parser: SingleParserBuilder<Address[]>
   placeholder?: string
   invalidMessage?: string
 }
