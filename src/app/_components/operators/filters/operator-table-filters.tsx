@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button"
 import { textVariants } from "@/components/ui/text"
 import { MevRelaysFilter } from "@/app/_components/operators/filters/mev-relays-filter"
 import { HexFilter } from "@/app/_components/shared/filters/address-filter"
+import { EffectiveBalanceFilter } from "@/app/_components/shared/filters/effective-balance-filter"
 
 import { EthFeeFilter } from "./eth-fee-filter"
 import { Eth1ClientFilter } from "./eth1-client-filter"
@@ -18,7 +19,6 @@ import { Eth2ClientFilter } from "./eth2-client-filter"
 import { FeeFilter } from "./fee-filter"
 import { IdFilter } from "./id-filter"
 import { LocationFilter } from "./location-filter"
-import { ManagedEthFilter } from "./managed-eth-filter"
 import { NameFilter } from "./name-filter"
 import { Performance24hFilter } from "./performance-24h-filter"
 import { Performance30dFilter } from "./performance-30d-filter"
@@ -74,7 +74,11 @@ export const OperatorTableFilters = ({
         <SsvClientFilter />
         <EthFeeFilter />
         <FeeFilter />
-        <ManagedEthFilter />
+        <EffectiveBalanceFilter<OperatorSearchFilterKeys>
+          name="ETH Managed"
+          searchQueryKey="effectiveBalance"
+          parser={operatorSearchParsers.effectiveBalance}
+        />
         <ValidatorsFilter />
         <Performance24hFilter />
         <Performance30dFilter />

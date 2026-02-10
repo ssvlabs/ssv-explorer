@@ -1,57 +1,59 @@
 "use client"
 
 import { isEqual } from "lodash-es"
+import { SingleParserBuilder, useQueryState } from "nuqs"
 
-import { effectiveBalanceParser } from "@/lib/search-parsers/shared/parsers"
-import { useCustomSearchParams } from "@/hooks/search/use-custom-search-params"
+import { useDisclosure } from "@/hooks/use-disclosure"
 import { Text } from "@/components/ui/text"
 import { FilterButton } from "@/components/filter/filter-button"
-import { Range } from "@/components/filter/range-filter"
+import { OpenRange } from "@/components/filter/open-range-filter"
 
-export function EffectiveBalanceFilter({
-  searchParamsHook,
-}: {
-  searchParamsHook: () => ReturnType<
-    typeof useCustomSearchParams<{
-      effectiveBalance: typeof effectiveBalanceParser
-    }>
-  >
-}) {
-  const { filters, setFilters } = searchParamsHook()
+type Props<TSearchKey extends string = string> = {
+  name: string
+  searchQueryKey: TSearchKey
+  parser: SingleParserBuilder<[number, number]> & {
+    defaultValue: [number, number]
+  }
+}
+export function EffectiveBalanceFilter<TSearchKey extends string = string>({
+  name,
+  searchQueryKey,
+  parser,
+}: Props<TSearchKey>) {
+  const popup = useDisclosure()
 
-  const defaultRange = effectiveBalanceParser.defaultValue
+  const [searchRange, setSearchRange] = useQueryState(searchQueryKey, parser)
+  const defaultRange = parser.defaultValue
 
-  const isActive =
-    !isEqual(filters.effectiveBalance, defaultRange) &&
-    Boolean(filters.effectiveBalance)
+  const isActive = !isEqual(searchRange, defaultRange) && Boolean(searchRange)
 
   const apply = (range: [number, number]) => {
     const isCleared = isEqual(range, defaultRange)
-    setFilters((prev) => ({
-      ...prev,
-      effectiveBalance: isCleared ? null : range,
-    }))
+    setSearchRange(isCleared ? null : range)
+    popup.onOpenChange(false)
   }
 
   const remove = () => {
     apply(defaultRange)
+    popup.onOpenChange(false)
   }
 
   return (
     <FilterButton
       isActive={isActive}
-      name="Effective Balance"
+      name={name}
       onClear={remove}
       popover={{
+        root: popup,
         content: {
           className: "w-[400px] max-w-full",
         },
       }}
     >
-      <Range
+      <OpenRange
         className="w-[400px] max-w-full"
-        name="Effective Balance"
-        searchRange={filters.effectiveBalance}
+        name={name}
+        searchRange={searchRange}
         defaultRange={defaultRange}
         apply={apply}
         remove={remove}
@@ -59,6 +61,7 @@ export function EffectiveBalanceFilter({
         decimals={0}
         inputs={{
           start: {
+            placeholder: "From",
             rightSlot: (
               <Text variant="body-3-medium" className="text-gray-500">
                 ETH
@@ -66,6 +69,7 @@ export function EffectiveBalanceFilter({
             ),
           },
           end: {
+            placeholder: "To",
             rightSlot: (
               <Text variant="body-3-medium" className="text-gray-500">
                 ETH
