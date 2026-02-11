@@ -33,8 +33,6 @@ export default async function AccountLayout({ params, children }: LayoutProps) {
     )
   }
 
-  console.log("children:", children)
-
   return (
     <Shell className="gap-2">
       <div className="flex flex-col gap-6">
