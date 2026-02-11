@@ -22,8 +22,8 @@ import { OperatorsList } from "@/components/operators/operators-list"
 import { Shell } from "@/components/shell"
 import {
   ValidatorsTableContent,
+  ValidatorsTableFilterButton,
   ValidatorsTableFilters,
-  ValidatorsTableMenuButton,
   ValidatorsTableRoot,
 } from "@/app/_components/validators/validators-table"
 
@@ -169,7 +169,7 @@ export default async function Page(props: IndexPageProps) {
               Validators
             </Tab>
             <div className="flex-1"></div>
-            <ValidatorsTableMenuButton />
+            <ValidatorsTableFilterButton />
           </div>
           <ValidatorsTableFilters
             className="px-5"
