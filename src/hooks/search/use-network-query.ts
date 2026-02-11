@@ -50,7 +50,6 @@ export const useNetworkQuery = () => {
   }, [network])
 
   const setNetwork = (network: ChainName) => {
-    console.trace("setNetwork:", network)
     if (maybeRedirect(network)) return
 
     if (whitelistedRoutesRegex.test(pathname))
