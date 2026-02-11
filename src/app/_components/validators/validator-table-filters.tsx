@@ -80,17 +80,18 @@ export const ValidatorTableFilters = ({
           />
         )}
         {!hideOperatorsFilter && <OperatorsFilter searchQueryKey="operator" />}
+        <EffectiveBalanceFilter<ValidatorSearchFilterKeys>
+          name="Effective Balance"
+          searchQueryKey="effectiveBalance"
+          parser={validatorsSearchParsers.effectiveBalance}
+        />
         <StatusFilter />
         <DateRangeFilter
           name="Created At"
           searchQueryKey="dateRange"
           parser={validatorsSearchParsers.dateRange}
         />
-        <EffectiveBalanceFilter<ValidatorSearchFilterKeys>
-          name="Effective Balance"
-          searchQueryKey="effectiveBalance"
-          parser={validatorsSearchParsers.effectiveBalance}
-        />
+
         {enabledFilters.count > 0 && (
           <Button
             variant="ghost"

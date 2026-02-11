@@ -129,11 +129,12 @@ const ValidatorsTableHeader: ValidatorsTableHeaderFC = ({
   <div className={cn("flex items-center gap-2", className)} {...props}>
     <Text variant="headline4">{title}</Text>
     <div className="flex-1" />
-    <ValidatorsTableMenuButton />
+    <ValidatorsTableFilterButton />
+    <ValidatorsTableViewOptions />
   </div>
 )
 
-const ValidatorsTableMenuButton = () => {
+const ValidatorsTableFilterButton = () => {
   const { enabledFilters } = useValidatorsSearchParams()
   return <DataTableMenuButton enabledFilters={enabledFilters} />
 }
@@ -194,7 +195,7 @@ export {
   // Individual parts
   ValidatorsTableRoot,
   ValidatorsTableHeader,
-  ValidatorsTableMenuButton,
+  ValidatorsTableFilterButton,
   ValidatorsTableViewOptions,
   ValidatorsTableFilters,
   ValidatorsTableContent,

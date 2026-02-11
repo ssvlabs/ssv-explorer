@@ -7,8 +7,8 @@ import { type ChainName } from "@/config/chains"
 import { validatorsSearchParamsCache } from "@/lib/search-parsers/validators-search-parsers"
 import {
   ValidatorsTableContent,
+  ValidatorsTableFilterButton,
   ValidatorsTableFilters,
-  ValidatorsTableMenuButton,
   ValidatorsTableRoot,
   ValidatorsTableViewOptions,
 } from "@/app/_components/validators/validators-table"
@@ -57,7 +57,7 @@ export default async function IndexPage({
       ]}
     >
       <div className="flex items-center justify-end gap-2 p-5">
-        <ValidatorsTableMenuButton />
+        <ValidatorsTableFilterButton />
         <ValidatorsTableViewOptions />
       </div>
       <ValidatorsTableFilters
