@@ -1,4 +1,5 @@
 import { type Metadata } from "next"
+import Image from "next/image"
 import Link from "next/link"
 import { getOperator } from "@/api/operator"
 import { searchValidators } from "@/api/validators"
@@ -7,6 +8,7 @@ import { MdOutlineLock } from "react-icons/md"
 import { type ChainName } from "@/config/chains"
 import { validatorsSearchParamsCache } from "@/lib/search-parsers/validators-search-parsers"
 import { cn } from "@/lib/utils"
+import { numberFormatter } from "@/lib/utils/number"
 import { shortenAddress } from "@/lib/utils/strings"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
@@ -15,14 +17,13 @@ import { ErrorCard } from "@/components/ui/error-card"
 import { Outline } from "@/components/ui/outline"
 import { Stat } from "@/components/ui/stat"
 import { Text } from "@/components/ui/text"
+import { PerformanceChart } from "@/components/operators/charts/performance-chart"
 import { OperatorAvatar } from "@/components/operators/operator-avatar"
 import { OperatorMetaData } from "@/components/operators/operator-meta-data"
 import { PerformanceText } from "@/components/operators/performance-text"
 import { VerifiedOperatorBadge } from "@/components/operators/verified-operator-badge"
 import { Shell } from "@/components/shell"
 import { ValidatorsTable } from "@/app/_components/validators/validators-table"
-
-import { PerformanceV2Section } from "./performance-v2-section"
 
 interface IndexPageProps {
   params: Promise<{ id: string; network: ChainName }>
@@ -88,7 +89,7 @@ export default async function Page(props: IndexPageProps) {
 
   return (
     <Shell className="gap-2">
-      {(async () => {
+      {await (async () => {
         try {
           const operator = await getOperator({
             network,
@@ -155,16 +156,15 @@ export default async function Page(props: IndexPageProps) {
                 </div>
                 <OperatorMetaData operator={operator} />
 
-                <div className="flex flex-col gap-2 align-sub md:flex-row md:items-center md:gap-6">
+                <div className="grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-6">
                   <Stat
-                    className="flex-1"
                     title="Status"
                     tooltip="Based on whether the majority of assigned duties were performed in the last 10 epochs"
                     content={
                       <Text
                         className={cn({
                           "text-success-700": operator.status === "Active",
-                          "text-gray-500": operator.status === "No validators",
+                          "text-gray-500": operator.status === "No Validators",
                           "text-error-500":
                             operator.status === "Inactive" ||
                             operator.status === "Removed",
@@ -174,9 +174,7 @@ export default async function Page(props: IndexPageProps) {
                       </Text>
                     }
                   />
-                  <div className="h-full border-r border-gray-500" />
                   <Stat
-                    className="flex-1"
                     title="Performance (1D | 1M)"
                     tooltip="Operator performance is calculated by the percentage of attended duties within the specified time-frame."
                     content={
@@ -191,15 +189,44 @@ export default async function Page(props: IndexPageProps) {
                       </div>
                     }
                   />
-                  <PerformanceV2Section operator={operator} />
                   <Stat
-                    className="flex-1"
+                    title="ETH Managed"
+                    tooltip="ETH staked across all validators in this cluster"
+                    content={
+                      <div className="flex items-center gap-0.5">
+                        <Image
+                          src="/images/networks/dark.svg"
+                          alt="ETH"
+                          width={20}
+                          height={20}
+                          className="object-fit size-5"
+                        />
+                        {operator.effective_balance > 0 ? (
+                          <Text>
+                            {numberFormatter.format(
+                              Number(operator.effective_balance)
+                            )}
+                          </Text>
+                        ) : (
+                          <Text className="text-gray-400">-</Text>
+                        )}
+                      </div>
+                    }
+                  />
+                  <Stat
                     title="Validators"
                     tooltip="The number of validators serviced by this operator"
                     content={<Text>{operator.validators_count}</Text>}
                   />
                 </div>
               </Card>
+              <div className="flex flex-row gap-4">
+                <PerformanceChart
+                  className="w-full"
+                  operatorId={+id}
+                  network={network}
+                />
+              </div>
               <Card>
                 <ValidatorsTable dataPromise={validators} hideOperatorsFilter />
               </Card>

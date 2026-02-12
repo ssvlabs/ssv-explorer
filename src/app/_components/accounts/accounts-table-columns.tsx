@@ -38,9 +38,9 @@ export const accountColumns = {
   },
   recipientAddress: {
     accessorKey: "recipientAddress",
-    title: "Recipient Address",
+    title: "Fee Recipient Address",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Recipient Address" />
+      <DataTableColumnHeader column={column} title="Fee Recipient Address" />
     ),
     cell: ({ row }) =>
       row.original.recipientAddress && (
@@ -61,13 +61,38 @@ export const accountColumns = {
       ),
     enableSorting: false,
   },
+  totalOperatorEthManaged: {
+    accessorKey: "totalOperatorEthManaged",
+    title: "ETH Managed",
+    header: ({ column }) => {
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const nativeCurrency = useNativeCurrency()
+      return (
+        <DataTableColumnHeader
+          column={column}
+          title={`${nativeCurrency.symbol} Managed`}
+          className="flex justify-end text-right"
+        />
+      )
+    },
+    cell: ({ row }) => {
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const nativeCurrency = useNativeCurrency()
+      return (
+        <div className="text-right">
+          {row.original.totalOperatorEthManaged || 0} {nativeCurrency.symbol}
+        </div>
+      )
+    },
+    enableSorting: false,
+  },
   operator: {
     accessorKey: "operator",
-    title: "Operator Count",
+    title: "Operators",
     header: ({ column }) => (
       <DataTableColumnHeader
         column={column}
-        title="Operator Count"
+        title="Operators"
         className="justify-end text-right"
       />
     ),
@@ -77,11 +102,11 @@ export const accountColumns = {
   },
   cluster: {
     accessorKey: "cluster",
-    title: "Cluster Count",
+    title: "Clusters",
     header: ({ column }) => (
       <DataTableColumnHeader
         column={column}
-        title="Cluster Count"
+        title="Clusters"
         className="justify-end text-right"
       />
     ),
@@ -91,11 +116,11 @@ export const accountColumns = {
   },
   validator: {
     accessorKey: "validator",
-    title: "Validator Count",
+    title: "Validators",
     header: ({ column }) => (
       <DataTableColumnHeader
         column={column}
-        title="Validator Count"
+        title="Validators"
         className="flex justify-end text-right"
       />
     ),
@@ -105,14 +130,12 @@ export const accountColumns = {
   },
   effectiveBalance: {
     accessorKey: "effectiveBalance",
-    title: `Total ETH Staked`,
+    title: `Effective Balance`,
     header: ({ column }) => {
-      // eslint-disable-next-line react-hooks/rules-of-hooks
-      const nativeCurrency = useNativeCurrency()
       return (
         <DataTableColumnHeader
           column={column}
-          title={`${nativeCurrency.symbol} Staked`}
+          title="Effective Balance"
           className="flex justify-end text-right"
         />
       )
@@ -134,10 +157,11 @@ export const accountColumns = {
 export const accountsTableColumns = [
   accountColumns.ownerAddress,
   accountColumns.recipientAddress,
+  accountColumns.totalOperatorEthManaged,
+  accountColumns.effectiveBalance,
   accountColumns.operator,
   accountColumns.cluster,
   accountColumns.validator,
-  accountColumns.effectiveBalance,
 ] satisfies ColumnDef<Account>[]
 
 export const accountsDefaultColumnVisibility: Partial<
@@ -147,6 +171,6 @@ export const accountsDefaultColumnVisibility: Partial<
   operator: true,
   cluster: true,
   validator: true,
-  effectiveBalance: false,
+  effectiveBalance: true,
   recipientAddress: false,
 }

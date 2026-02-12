@@ -1,7 +1,6 @@
 import { useTable } from "@/context/table-context"
-import { Collapse } from "react-collapse"
+import { UnmountClosed } from "react-collapse"
 
-import { operatorSearchFilters } from "@/lib/search-parsers/operator-search-parsers"
 import {
   validatorsSearchParsers,
   type ValidatorSearchFilterKeys,
@@ -13,6 +12,7 @@ import { textVariants } from "@/components/ui/text"
 import { OperatorsFilter } from "@/app/_components/clusters/filters/operators-filter"
 import { HexFilter } from "@/app/_components/shared/filters/address-filter"
 import { DateRangeFilter } from "@/app/_components/shared/filters/date-range-filter"
+import { EffectiveBalanceFilter } from "@/app/_components/shared/filters/effective-balance-filter"
 import { StatusFilter } from "@/app/_components/validators/filters/status-filter"
 
 export type ValidatorTableFiltersProps = {
@@ -20,6 +20,7 @@ export type ValidatorTableFiltersProps = {
   hideClusterIdFilter?: boolean
   hideOwnerAddressFilter?: boolean
   hideOperatorsFilter?: boolean
+  className?: string
 }
 
 export const ValidatorTableFilters = ({
@@ -27,12 +28,20 @@ export const ValidatorTableFilters = ({
   hideClusterIdFilter,
   hideOwnerAddressFilter,
   hideOperatorsFilter,
+  className,
 }: ValidatorTableFiltersProps) => {
   const { isFiltersOpen } = useTable()
   const { enabledFilters, clearFilters } = useValidatorsSearchParams()
 
   return (
-    <Collapse isOpened={isFiltersOpen}>
+    <UnmountClosed
+      isOpened={isFiltersOpen}
+      colSpan={2}
+      style={{ border: "1px solid red" }}
+      theme={{
+        collapse: cn("ReactCollapse--collapse", className),
+      }}
+    >
       <div
         className={cn(
           "flex flex-wrap items-center gap-2 overflow-hidden border-t border-gray-300 py-2 transition-opacity duration-300",
@@ -71,12 +80,18 @@ export const ValidatorTableFilters = ({
           />
         )}
         {!hideOperatorsFilter && <OperatorsFilter searchQueryKey="operator" />}
+        <EffectiveBalanceFilter<ValidatorSearchFilterKeys>
+          name="Effective Balance"
+          searchQueryKey="effectiveBalance"
+          parser={validatorsSearchParsers.effectiveBalance}
+        />
         <StatusFilter />
         <DateRangeFilter
           name="Created At"
           searchQueryKey="dateRange"
           parser={validatorsSearchParsers.dateRange}
         />
+
         {enabledFilters.count > 0 && (
           <Button
             variant="ghost"
@@ -91,6 +106,6 @@ export const ValidatorTableFilters = ({
           </Button>
         )}
       </div>
-    </Collapse>
+    </UnmountClosed>
   )
 }

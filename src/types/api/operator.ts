@@ -5,11 +5,6 @@ interface Performance {
   "30d": number
 }
 
-interface PerformanceV2 {
-  dailyPerformance: number
-  monthlyPerformance: number
-}
-
 export interface Operator {
   id: number
   id_str: string
@@ -21,6 +16,7 @@ export interface Operator {
   dkg_address: string
   eth1_node_client: string
   eth2_node_client: string
+  eth_fee: string
   fee: string
   is_active: number
   is_deleted: boolean
@@ -34,7 +30,6 @@ export interface Operator {
   network: string
   owner_address: string
   performance: Performance
-  performanceV2?: PerformanceV2
   previous_fee: string
   public_key: string
   setup_provider: string
@@ -49,7 +44,7 @@ export interface Operator {
   whitelisting_contract: string
   type: "verified_operator" | "dapp_node" | "operator"
 
-  status: "No validators" | "Active" | "Inactive" | "Removed"
+  status: "No Validators" | "Active" | "Inactive" | "Removed"
 }
 
 export type OperatorSortingKeys = Pick<
@@ -58,6 +53,21 @@ export type OperatorSortingKeys = Pick<
 > & {
   performance24h: number
   performance30d: number
+  ethFee: string
+}
+
+export interface OperatorPerformanceChartPoint {
+  performance: number
+  timestamp: string
+}
+
+export interface OperatorPerformanceChart {
+  operatorID: number
+  type: "daily" | "hourly"
+  points: number
+  start: string
+  end: string
+  data: OperatorPerformanceChartPoint[]
 }
 
 export type OperatorsSearchResponse = WithInfinitePagination<{

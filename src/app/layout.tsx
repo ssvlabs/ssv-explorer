@@ -63,7 +63,7 @@ export const viewport: Viewport = {
   ],
 }
 
-export default async function RootLayout(props: RootLayoutProps) {
+export default async function RootLayout(props: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head />

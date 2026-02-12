@@ -14,6 +14,7 @@ export default async function NetworkLayout({
   params,
 }: NetworkLayoutProps) {
   const { network } = await params
+  console.log("network:", network)
   const chain = supportedChains.find((chain) => chain.name === network)
   if (!chain) {
     return redirect(

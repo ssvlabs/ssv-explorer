@@ -16,10 +16,10 @@ export function TableNavigation({ ownerAddress }: TableNavigationProps) {
   return (
     <div className="flex items-center gap-2 overflow-auto">
       <RouteTabLink
-        href={`/${network}/account/${ownerAddress}/`}
-        count={stats.data?.validators}
+        href={`/${network}/account/${ownerAddress}/operators`}
+        count={stats.data?.operators}
       >
-        Validators
+        Operators
       </RouteTabLink>
       <RouteTabLink
         href={`/${network}/account/${ownerAddress}/clusters`}
@@ -28,13 +28,13 @@ export function TableNavigation({ ownerAddress }: TableNavigationProps) {
         Clusters
       </RouteTabLink>
       <RouteTabLink
-        href={`/${network}/account/${ownerAddress}/operators`}
-        count={stats.data?.operators}
+        href={`/${network}/account/${ownerAddress}/`}
+        count={stats.data?.validators}
       >
-        Operators
+        Validators
       </RouteTabLink>
       <RouteTabLink href={`/${network}/account/${ownerAddress}/history`}>
-        History
+        Account History
       </RouteTabLink>
     </div>
   )

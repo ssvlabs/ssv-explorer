@@ -8,7 +8,6 @@ import { type DutiesResponse, type DutyElement } from "@/types/api/duties"
 import { type ChainName } from "@/config/chains"
 import { defaultDutiesSort } from "@/lib/search-parsers/duties-search-parsers"
 import { useDataTable } from "@/hooks/use-data-table"
-import { useLocalStorage } from "@/hooks/use-local-storage"
 import { Badge } from "@/components/ui/badge"
 import { Text } from "@/components/ui/text"
 import { DataTable } from "@/components/data-table/data-table"
@@ -36,11 +35,10 @@ export const DutiesTable = withErrorBoundary(
     const response = use(data)
     const [selectedDuty, setSelectedDuty] = useState<DutyElement | null>(null)
     const [isModalOpen, setIsModalOpen] = useState(false)
-    const [enablePerformanceV2] = useLocalStorage("ENABLE_PERFORMANCE_V2")
 
     const handleRowClick = (duty: DutyElement) => {
       setSelectedDuty(duty)
-      setIsModalOpen(Boolean(enablePerformanceV2))
+      setIsModalOpen(true)
     }
 
     const { table } = useDataTable({
@@ -68,7 +66,7 @@ export const DutiesTable = withErrorBoundary(
               {response.pagination.total}
             </Badge>
             <div className="flex-1"></div>
-            <DataTableViewOptions table={table} />
+            {/* <DataTableViewOptions table={table} /> */}
           </div>
           <DataTable table={table} />
         </TableProvider>

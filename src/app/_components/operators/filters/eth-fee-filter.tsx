@@ -8,18 +8,19 @@ import { Text } from "@/components/ui/text"
 import { FilterButton } from "@/components/filter/filter-button"
 import { Range } from "@/components/filter/range-filter"
 
-export function FeeFilter() {
+export function EthFeeFilter() {
   const { filters, setFilters } = useOperatorsSearchParams()
 
-  const defaultRange = operatorSearchFilters.fee.defaultValue
+  const defaultRange = operatorSearchFilters.ethFee.defaultValue
 
-  const isActive = !isEqual(filters.fee, defaultRange) && Boolean(filters.fee)
+  const isActive =
+    !isEqual(filters.ethFee, defaultRange) && Boolean(filters.ethFee)
 
   const apply = (range: [number, number]) => {
     const isCleared = isEqual(range, defaultRange)
     setFilters((prev) => ({
       ...prev,
-      fee: isCleared ? null : range,
+      ethFee: isCleared ? null : range,
     }))
   }
 
@@ -29,7 +30,7 @@ export function FeeFilter() {
 
   return (
     <FilterButton
-      name="Fee (SSV)"
+      name="Fee (ETH)"
       isActive={isActive}
       onClear={remove}
       popover={{
@@ -40,25 +41,25 @@ export function FeeFilter() {
     >
       <Range
         className="w-[400px] max-w-full"
-        name="Fee (SSV)"
-        searchRange={filters.fee}
+        name="Fee (ETH)"
+        searchRange={filters.ethFee}
         defaultRange={defaultRange}
         apply={apply}
         remove={remove}
-        step={0.1}
+        step={0.01}
         decimals={2}
         inputs={{
           start: {
             rightSlot: (
               <Text variant="body-3-medium" className="text-gray-500">
-                SSV
+                ETH
               </Text>
             ),
           },
           end: {
             rightSlot: (
               <Text variant="body-3-medium" className="text-gray-500">
-                SSV
+                ETH
               </Text>
             ),
           },

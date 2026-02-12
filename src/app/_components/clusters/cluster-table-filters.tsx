@@ -13,21 +13,29 @@ import { IsLiquidatedFilter } from "@/app/_components/clusters/filters/is-liquid
 import { OperatorsFilter } from "@/app/_components/clusters/filters/operators-filter"
 import { StatusFilter } from "@/app/_components/clusters/filters/status-filter"
 import { HexFilter } from "@/app/_components/shared/filters/address-filter"
+import { EffectiveBalanceFilter } from "@/app/_components/shared/filters/effective-balance-filter"
 
 export type ClusterTableFiltersProps = {
   hideClusterIdFilter?: boolean
   hideOwnerAddressFilter?: boolean
+  className?: string
 }
 
 export const ClusterTableFilters = ({
   hideClusterIdFilter,
   hideOwnerAddressFilter,
+  className,
 }: ClusterTableFiltersProps) => {
   const { isFiltersOpen } = useTable()
   const { enabledFilters, clearFilters } = useClustersSearchParams()
 
   return (
-    <Collapse isOpened={isFiltersOpen}>
+    <Collapse
+      isOpened={isFiltersOpen}
+      theme={{
+        collapse: cn("ReactCollapse--collapse", className),
+      }}
+    >
       <div
         className={cn(
           "flex flex-wrap items-center gap-2 overflow-hidden border-t border-gray-300 py-2 transition-opacity duration-300",
@@ -54,9 +62,14 @@ export const ClusterTableFilters = ({
             parser={clustersSearchFilters.ownerAddress}
           />
         )}
+        <OperatorsFilter />
+        <EffectiveBalanceFilter<ClusterSearchFilterKeys>
+          name="Effective Balance"
+          searchQueryKey="effectiveBalance"
+          parser={clustersSearchFilters.effectiveBalance}
+        />
         <StatusFilter />
         <IsLiquidatedFilter />
-        <OperatorsFilter />
         {enabledFilters.count > 0 && (
           <Button
             variant="ghost"

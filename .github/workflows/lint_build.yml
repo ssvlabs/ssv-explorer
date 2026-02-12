@@ -39,11 +39,11 @@ jobs:
 
       - uses: actions/setup-node@3235b876344d2a9aa001b8d1453c930bba69e610 # v3
         with:
-          node-version: 20.12.2
+          node-version: 20.19.6
 
       - uses: pnpm/action-setup@v2
         with:
-          version: 9.0.6
+          version: 10.20.0
 
       - uses: actions/cache@6f8efc29b200d32929f49075959781ed54ec270c # v3
         with:
@@ -56,7 +56,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Run lint
-        run: pnpm lint
+        run: pnpm typegen && pnpm lint
         env:
           SKIP_ENV_VALIDATION: true
 

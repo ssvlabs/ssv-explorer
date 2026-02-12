@@ -15,17 +15,17 @@ import {
 } from "@/components/ui/command"
 import { FilterButton } from "@/components/filter/filter-button"
 
-export function Eth1ClientFilter() {
+export function SsvClientFilter() {
   const { filters, setFilters } = useOperatorsSearchParams()
   const { data: nodeClients, isLoading } = useOperatorNodeClients()
 
-  const clients = nodeClients?.eth1 || []
+  const clients = nodeClients?.ssvClient || []
 
   return (
     <FilterButton
-      name="ETH1 Client"
-      activeFiltersCount={filters.eth1?.length}
-      onClear={() => setFilters((prev) => ({ ...prev, eth1: null }))}
+      name="SSV Client"
+      activeFiltersCount={filters.ssvClient?.length}
+      onClear={() => setFilters((prev) => ({ ...prev, ssvClient: null }))}
     >
       <Command>
         <CommandList className="max-h-none overflow-y-auto">
@@ -41,13 +41,13 @@ export function Eth1ClientFilter() {
                 onSelect={() => {
                   setFilters((prev) => ({
                     ...prev,
-                    eth1: xor(prev.eth1, [client]),
+                    ssvClient: xor(prev.ssvClient, [client]),
                   }))
                 }}
               >
                 <Checkbox
                   id={client}
-                  checked={filters.eth1?.includes(client)}
+                  checked={filters.ssvClient?.includes(client)}
                   className="mr-2"
                 />
                 <span
@@ -55,7 +55,7 @@ export function Eth1ClientFilter() {
                     "flex-1 text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                   )}
                 >
-                  {toSentenceCase(client)}
+                  {client}
                 </span>
               </CommandItem>
             ))}

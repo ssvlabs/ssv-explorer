@@ -5,6 +5,7 @@ export interface DutyDetailsResponse {
   public_key: string
   slot: number
   epoch: number
+  hasConsensusRoundChanges: boolean
   pre_consensus: number[] | null
   post_consensus: number[]
   round_changes: Array<{

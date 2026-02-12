@@ -1,21 +1,14 @@
-import {
-  useEffect,
-  useState,
-  type ComponentPropsWithoutRef,
-  type FC,
-} from "react"
+import { useEffect, type ComponentPropsWithoutRef, type FC } from "react"
 import { isEqual } from "lodash-es"
 import { useForm } from "react-hook-form"
 
 import { cn } from "@/lib/utils"
-import { useReactiveRef as useRef } from "@/hooks/use-reactive-ref"
 import { Button } from "@/components/ui/button"
 import { Form } from "@/components/ui/form"
-import { RangeSlider } from "@/components/ui/slider"
 
 import { NumberInput, type NumberInputProps } from "../ui/number-input"
 
-export type RangeProps = {
+export type OpenRangeProps = {
   name: string
   defaultRange: [number, number]
   searchRange: [number, number] | null
@@ -31,7 +24,9 @@ export type RangeProps = {
   remove: () => void
 }
 
-export const Range: FC<ComponentPropsWithoutRef<"form"> & RangeProps> = ({
+export const OpenRange: FC<
+  ComponentPropsWithoutRef<"form"> & OpenRangeProps
+> = ({
   name,
   defaultRange,
   inputs,
@@ -57,9 +52,10 @@ export const Range: FC<ComponentPropsWithoutRef<"form"> & RangeProps> = ({
   const isChanged = form.formState.isDirty
 
   const submit = form.handleSubmit((data) => {
-    // Swap values if min > max
     let range: [number, number] = data.range
-    if (range[0] > range[1]) {
+    const hasValues = range[1] !== 0 && range[0] !== 0
+    // Swap values if min > max
+    if (hasValues && range[0] > range[1]) {
       range = [range[1], range[0]]
     }
 
@@ -107,8 +103,6 @@ export const Range: FC<ComponentPropsWithoutRef<"form"> & RangeProps> = ({
           <div className="flex items-center justify-between">
             <NumberInput
               id="first-input"
-              min={min || defaultRange[0]}
-              max={max || defaultRange[1]}
               decimals={decimals}
               {...inputs?.start}
               step={step}
@@ -118,13 +112,12 @@ export const Range: FC<ComponentPropsWithoutRef<"form"> & RangeProps> = ({
               )}
               type="number"
               value={range[0]}
+              clearZeroOnMount
               onChange={(newStart) => {
                 setRange([newStart, range[1]])
               }}
             />
             <NumberInput
-              min={min || defaultRange[0]}
-              max={max || defaultRange[1]}
               decimals={decimals}
               {...inputs?.end}
               step={step}
@@ -134,16 +127,10 @@ export const Range: FC<ComponentPropsWithoutRef<"form"> & RangeProps> = ({
                 inputs?.end?.className
               )}
               value={range[1]}
+              clearZeroOnMount
               onChange={(newEnd) => setRange([range[0], newEnd])}
             />
           </div>
-          <RangeSlider
-            className="py-1"
-            value={form.watch("range")}
-            max={defaultRange[1]}
-            step={step}
-            onValueChange={(values) => setRange(values as [number, number])}
-          />
         </div>
         <div className="flex justify-end gap-2 border-t border-gray-300 p-4">
           <Button

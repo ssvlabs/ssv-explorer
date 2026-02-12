@@ -5,7 +5,13 @@ import { type Address } from "viem"
 
 import { type ChainName } from "@/config/chains"
 import { validatorsSearchParamsCache } from "@/lib/search-parsers/validators-search-parsers"
-import { ValidatorsTable } from "@/app/_components/accounts/tables/validators-table"
+import {
+  ValidatorsTableContent,
+  ValidatorsTableFilterButton,
+  ValidatorsTableFilters,
+  ValidatorsTableRoot,
+  ValidatorsTableViewOptions,
+} from "@/app/_components/validators/validators-table"
 
 interface IndexPageProps {
   params: Promise<{ address: Address; network: ChainName }>
@@ -39,10 +45,26 @@ export default async function IndexPage({
     network: network,
   })
   return (
-    <ValidatorsTable
+    <ValidatorsTableRoot
       dataPromise={validators}
-      hideOwnerAddressFilter
-      hideColumns={["ownerAddress"]}
-    />
+      columns={[
+        "publicKey",
+        "cluster",
+        "operators",
+        "effectiveBalance",
+        "status",
+        "createdAt",
+      ]}
+    >
+      <div className="flex items-center justify-end gap-2 p-5">
+        <ValidatorsTableFilterButton />
+        <ValidatorsTableViewOptions />
+      </div>
+      <ValidatorsTableFilters
+        className="col-span-2 px-5"
+        hideOwnerAddressFilter
+      />
+      <ValidatorsTableContent className="col-span-2" />
+    </ValidatorsTableRoot>
   )
 }
