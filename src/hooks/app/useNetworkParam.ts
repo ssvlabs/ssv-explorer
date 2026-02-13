@@ -7,5 +7,7 @@ import { extractNetworkParam } from "@/lib/server-utils/network-param"
 
 export const useNetworkParam = () => {
   const params = useParams<{ network: ChainName }>()
-  return extractNetworkParam(params)
+  const host =
+    typeof window === "undefined" ? undefined : window.location.hostname
+  return extractNetworkParam(params, { host })
 }
