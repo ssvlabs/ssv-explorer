@@ -6,7 +6,6 @@ await import("./src/env.js")
 
 /** @type {import("next").NextConfig} */
 const nextConfig = {
-  // Already doing linting and typechecking as separate tasks in CI
   typescript: { ignoreBuildErrors: true },
 
   // Enable compression for better performance
@@ -43,16 +42,6 @@ const nextConfig = {
     maxInactiveAge: 15 * 60 * 1000, // 15 minutes (increased from default 60s)
     // Number of pages that should be kept simultaneously without being disposed
     pagesBufferLength: 8, // Increased from default 2
-  },
-
-  redirects: async () => {
-    return [
-      {
-        source: "/",
-        destination: "/mainnet/overview",
-        permanent: true,
-      },
-    ]
   },
 }
 
