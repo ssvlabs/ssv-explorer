@@ -1,6 +1,5 @@
 "use client"
 
-/* eslint-disable @next/next/no-img-element */
 import { usePathname } from "next/navigation"
 
 import { cn } from "@/lib/utils"
@@ -46,6 +45,17 @@ export function SiteHeader() {
               <ValueChangeIndicator value={rates?.change} />
             </Text>
             <NetworkSwitcher />
+            <Button
+              as={Link}
+              href="https://explorer.ssv.network/"
+              target="_blank"
+              variant="secondary"
+              className={cn(
+                "w-fit gap-1 border border-primary-200 bg-primary-100 px-3 font-sans text-sm capitalize text-primary-500 hover:bg-primary-200"
+              )}
+            >
+              Mainnet Explorer
+            </Button>
             <Button
               as={Link}
               href="https://app.ssv.network/join"
