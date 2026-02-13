@@ -45,16 +45,6 @@ const nextConfig = {
     // Number of pages that should be kept simultaneously without being disposed
     pagesBufferLength: 8, // Increased from default 2
   },
-
-  redirects: async () => {
-    return [
-      {
-        source: "/",
-        destination: "/mainnet/overview",
-        permanent: true,
-      },
-    ]
-  },
 }
 
 export default nextConfig
