@@ -116,7 +116,7 @@ export default async function Page(props: IndexPageProps) {
               </Text>
             }
           />
-          <Stat
+          {/* <Stat
             title="Current Balance"
             content={
               <div className="flex items-center gap-0.5">
@@ -140,7 +140,7 @@ export default async function Page(props: IndexPageProps) {
                 </Text>
               </div>
             }
-          />
+          /> */}
           <Stat
             title="Effective Balance"
             tooltip="ETH staked across all validators in this cluster"

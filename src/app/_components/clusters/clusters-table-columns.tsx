@@ -92,33 +92,33 @@ export const clustersTableColumns: ColumnDefWithTitle<Cluster>[] = [
     ),
     enableSorting: false,
   },
-  {
-    accessorKey: "balance",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Balance" />
-    ),
-    cell: ({ row }) => {
-      const { ethBalance, balance, migrated } = row.original
+  // {
+  //   accessorKey: "balance",
+  //   header: ({ column }) => (
+  //     <DataTableColumnHeader column={column} title="Balance" />
+  //   ),
+  //   cell: ({ row }) => {
+  //     const { ethBalance, balance, migrated } = row.original
 
-      return (
-        <div className="flex items-center gap-2">
-          <Image
-            src={
-              migrated
-                ? "/images/networks/dark.svg"
-                : "/images/ssvIcons/icon.svg"
-            }
-            alt={migrated ? "ETH" : "SSV"}
-            width={16}
-            height={16}
-            className="object-fit size-4"
-          />
-          <Text>{formatSSV(BigInt(migrated ? ethBalance : balance))}</Text>
-        </div>
-      )
-    },
-    enableSorting: false,
-  },
+  //     return (
+  //       <div className="flex items-center gap-2">
+  //         <Image
+  //           src={
+  //             migrated
+  //               ? "/images/networks/dark.svg"
+  //               : "/images/ssvIcons/icon.svg"
+  //           }
+  //           alt={migrated ? "ETH" : "SSV"}
+  //           width={16}
+  //           height={16}
+  //           className="object-fit size-4"
+  //         />
+  //         <Text>{formatSSV(BigInt(migrated ? ethBalance : balance))}</Text>
+  //       </div>
+  //     )
+  //   },
+  //   enableSorting: false,
+  // },
   {
     accessorKey: "effectiveBalance",
     header: ({ column }) => (
@@ -186,7 +186,7 @@ export const clustersTableDefaultColumnsKeys: ClusterColumnsAccessorKeys[] = [
   "ownerAddress",
   "operators",
   "validatorCount",
-  "balance",
+  // "balance",
   "effectiveBalance",
   "active",
 ]
