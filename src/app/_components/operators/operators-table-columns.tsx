@@ -234,7 +234,7 @@ export const operatorColumns = {
     },
   },
   ethManaged: {
-    accessorKey: "ethManaged",
+    accessorKey: "effectiveBalance",
     title: "ETH Managed",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="ETH Managed" />
