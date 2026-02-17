@@ -13,6 +13,7 @@ import { ErrorCard } from "@/components/ui/error-card"
 import { Outline } from "@/components/ui/outline"
 import { Stat } from "@/components/ui/stat"
 import { Text } from "@/components/ui/text"
+import { PerformanceChart } from "@/components/operators/charts/performance-chart"
 import { OperatorAvatar } from "@/components/operators/operator-avatar"
 import { OperatorMetaData } from "@/components/operators/operator-meta-data"
 import { PerformanceText } from "@/components/operators/performance-text"
@@ -22,7 +23,6 @@ import { TableNavigation } from "@/app/[network]/operator/[id]/_components/table
 
 interface IndexPageProps {
   params: Promise<{ id: string; network: ChainName }>
-  searchParams: Promise<{ network: string }>
   children: React.ReactNode
 }
 
@@ -205,6 +205,13 @@ export default async function Page(props: IndexPageProps) {
                   />
                 </div>
               </Card>
+              <div className="flex flex-row gap-4">
+                <PerformanceChart
+                  className="w-full"
+                  operatorId={+id}
+                  network={network}
+                />
+              </div>
               <Card gap="none">
                 <TableNavigation
                   operatorId={id}
