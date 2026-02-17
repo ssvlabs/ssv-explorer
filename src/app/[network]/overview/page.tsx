@@ -10,11 +10,7 @@ import { type SearchParams } from "@/types"
 import { getNativeCurrency, type ChainName } from "@/config/chains"
 import { operatorsSearchParamsCache } from "@/lib/search-parsers/operator-search-parsers"
 import { validatorsSearchParamsCache } from "@/lib/search-parsers/validators-search-parsers"
-import {
-  formatGwei,
-  numberFormatter,
-  percentageFormatter,
-} from "@/lib/utils/number"
+import { numberFormatter, percentageFormatter } from "@/lib/utils/number"
 import { Card } from "@/components/ui/card"
 import { ErrorCard } from "@/components/ui/error-card"
 import { Stat } from "@/components/ui/stat"
@@ -91,9 +87,7 @@ export default async function Page(props: IndexPageProps) {
   const validatorsIncreasePercent =
     (100 * updatedValidatorsFrom7DaysAgo) / totalValidators
 
-  const totalStakedEth = totalEffectiveBalance
-    ? BigInt(totalEffectiveBalance)
-    : 0n
+  const totalStakedEth = totalEffectiveBalance ?? 0
 
   const nativeCurrency = getNativeCurrency(network)
 
@@ -151,7 +145,7 @@ export default async function Page(props: IndexPageProps) {
             className="flex-1"
             title={`${nativeCurrency.symbol} Staked`}
             tooltip={`Total amount of ${nativeCurrency.symbol} staked across all validators on the network`}
-            content={`${formatGwei(totalStakedEth)} ${nativeCurrency.symbol}`}
+            content={`${totalStakedEth} ${nativeCurrency.symbol}`}
           />
         </Card>
       </div>
