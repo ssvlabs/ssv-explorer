@@ -91,9 +91,7 @@ export default async function Page(props: IndexPageProps) {
   const validatorsIncreasePercent =
     (100 * updatedValidatorsFrom7DaysAgo) / totalValidators
 
-  const totalStakedEth = totalEffectiveBalance
-    ? BigInt(totalEffectiveBalance)
-    : 0n
+  const totalStakedEth = totalEffectiveBalance ?? 0
 
   const nativeCurrency = getNativeCurrency(network)
 
@@ -151,7 +149,7 @@ export default async function Page(props: IndexPageProps) {
             className="flex-1"
             title={`${nativeCurrency.symbol} Staked`}
             tooltip={`Total amount of ${nativeCurrency.symbol} staked across all validators on the network`}
-            content={`${formatGwei(totalStakedEth)} ${nativeCurrency.symbol}`}
+            content={`${totalStakedEth} ${nativeCurrency.symbol}`}
           />
         </Card>
       </div>
