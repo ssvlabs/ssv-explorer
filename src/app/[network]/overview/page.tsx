@@ -10,11 +10,7 @@ import { type SearchParams } from "@/types"
 import { getNativeCurrency, type ChainName } from "@/config/chains"
 import { operatorsSearchParamsCache } from "@/lib/search-parsers/operator-search-parsers"
 import { validatorsSearchParamsCache } from "@/lib/search-parsers/validators-search-parsers"
-import {
-  formatGwei,
-  numberFormatter,
-  percentageFormatter,
-} from "@/lib/utils/number"
+import { numberFormatter, percentageFormatter } from "@/lib/utils/number"
 import { Card } from "@/components/ui/card"
 import { ErrorCard } from "@/components/ui/error-card"
 import { Stat } from "@/components/ui/stat"
