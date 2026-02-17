@@ -24,11 +24,9 @@ export const searchValidators = async (
   await unstable_cache(
     async () => {
       const searchParams = validatorsSearchParamsSerializer(params)
-      const response = await api.get<PaginatedValidatorsResponse>(
-        endpoint(params.network, "validators", `?${searchParams}`)
-      )
+      const url = endpoint(params.network, "validators", searchParams)
+      const response = await api.get<PaginatedValidatorsResponse>(url)
 
-      // Map beacon chain status to user-friendly status
       if (response?.validators) {
         response.validators = response.validators.map((validator) => ({
           ...validator,
@@ -62,7 +60,6 @@ export const getValidator = async (
         throw new Error("Validator not found")
       }
 
-      // Fetch performance v2 data for each operator
       const operatorsWithPerformanceV2 = await Promise.allSettled(
         response.operators.map(async (operator) => {
           try {
@@ -74,7 +71,7 @@ export const getValidator = async (
               ...operator,
               performanceV2: performanceData,
             }
-          } catch (error) {
+          } catch {
             return operator
           }
         })
@@ -84,15 +81,14 @@ export const getValidator = async (
         .map((result, index) => {
           if (result.status === "fulfilled") {
             return result.value
-          } else {
-            const operator = response.operators[index]
-            return operator || null
           }
+
+          const operator = response.operators[index]
+          return operator || null
         })
         .filter((operator): operator is Operator => operator !== null)
 
-      // Map beacon chain status to user-friendly status
-      const mappedResponse = {
+      return {
         ...response,
         operators,
         status: mapBeaconChainStatus(
@@ -100,7 +96,6 @@ export const getValidator = async (
           response.status
         ),
       }
-      return mappedResponse
     },
     [JSON.stringify(stringifyBigints(params))],
     {
@@ -117,7 +112,6 @@ export const getTotalEffectiveBalance = async (params: {
       const response = await api.get<{
         total_effective_balance: string
       }>(endpoint(params.network, "validators", "totalEffectiveBalance"))
-      // Have to return a string, not the BigInt as cache does not know how to serialize BigInt
       return response.total_effective_balance
     },
     [`${params.network}/totalEffectiveBalance`],

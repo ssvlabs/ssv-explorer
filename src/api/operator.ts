@@ -3,8 +3,17 @@
 import { endpoint } from "@/api"
 import { api } from "@/api/api-client"
 
-import type { Country, Operator, OperatorsSearchResponse } from "@/types/api"
+import type {
+  Country,
+  Operator,
+  OperatorPerformanceChart,
+  OperatorsSearchResponse,
+} from "@/types/api"
 import { type ChainName } from "@/config/chains"
+import {
+  operatorPerformanceChartParamsSerializer,
+  type OperatorPerformanceChartParams,
+} from "@/lib/search-parsers/operator-performance-chart-parsers"
 import {
   operatorSearchParamsSerializer,
   type OperatorsSearchSchema,
@@ -40,7 +49,6 @@ export const searchOperators = async (
       const url = endpoint(params.network, "operators", searchParams)
       const response = await api.get<OperatorsSearchResponse>(url)
 
-      // Fetch performance v2 data for each operator
       const operatorsWithPerformanceV2 = await Promise.allSettled(
         response.operators.map(async (operator) => {
           try {
@@ -52,7 +60,7 @@ export const searchOperators = async (
               ...addFallbackOperatorName(operator),
               performanceV2: performanceData,
             }
-          } catch (error) {
+          } catch {
             return addFallbackOperatorName(operator)
           }
         })
@@ -62,10 +70,10 @@ export const searchOperators = async (
         .map((result, index) => {
           if (result.status === "fulfilled") {
             return result.value
-          } else {
-            const operator = response.operators[index]
-            return operator ? addFallbackOperatorName(operator) : null
           }
+
+          const operator = response.operators[index]
+          return operator ? addFallbackOperatorName(operator) : null
         })
         .filter((operator): operator is Operator => operator !== null)
 
@@ -117,7 +125,7 @@ export const getOperator = async (
           ...operator,
           performanceV2: performanceData,
         }
-      } catch (error) {
+      } catch {
         return operator
       }
     },
@@ -140,6 +148,32 @@ export const getOperatorLocations = async (chain: ChainName) => {
   )()
 }
 
+interface NodeClientsResponse {
+  ETH1_NODE: string[]
+  ETH2_NODE: string[]
+  SSV_NODE: string[]
+}
+
+export const getOperatorNodeClients = async (chain: ChainName) => {
+  return await unstable_cache(
+    async () => {
+      const url = endpoint(chain, "operators/nodes/all")
+      const response = await api.get<NodeClientsResponse>(url)
+
+      return {
+        eth1: response.ETH1_NODE,
+        eth2: response.ETH2_NODE,
+        ssvClient: response.SSV_NODE,
+      }
+    },
+    [chain.toString()],
+    {
+      revalidate: 300,
+      tags: ["operator-node-clients"],
+    }
+  )()
+}
+
 export interface OperatorPerformanceV2 {
   operatorId: number
   dailyPerformance: number
@@ -156,13 +190,7 @@ export const getOperatorPerformanceV2 = async (params: {
         params.network,
         `duties/operator/${params.operatorId}/performanceV2`
       )
-      try {
-        const result = await api.get<OperatorPerformanceV2>(url)
-        return result
-      } catch (error) {
-        console.error("Error fetching performance v2:", error)
-        throw error
-      }
+      return await api.get<OperatorPerformanceV2>(url)
     },
     [JSON.stringify(params)],
     {
@@ -171,3 +199,30 @@ export const getOperatorPerformanceV2 = async (params: {
     }
   )()
 }
+
+export const getOperatorPerformanceChart = async (
+  params: {
+    network: ChainName
+    operatorId: number
+  } & Partial<OperatorPerformanceChartParams>
+) =>
+  await unstable_cache(
+    async () => {
+      const searchParams = operatorPerformanceChartParamsSerializer({
+        points: params.points,
+        type: params.type,
+      })
+
+      const url = endpoint(
+        params.network,
+        `duties/operator/${params.operatorId}/performance-chart`,
+        searchParams ? `?${searchParams}` : ""
+      )
+      return await api.get<OperatorPerformanceChart>(url)
+    },
+    [JSON.stringify(params)],
+    {
+      revalidate: 30,
+      tags: ["operator-performance-chart"],
+    }
+  )()

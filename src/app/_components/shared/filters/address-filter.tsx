@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { xor } from "lodash-es"
 import { X } from "lucide-react"
-import { useQueryState, type ParserBuilder } from "nuqs"
+import { type ParserBuilder, useQueryState } from "nuqs"
 import { Collapse } from "react-collapse"
 import { MdKeyboardReturn } from "react-icons/md"
 import { type Address, type Hex } from "viem"
@@ -38,9 +38,10 @@ export function HexFilter<TSearchKey extends string = string>({
   const [open, setOpen] = useState(false)
   const [search, setSearch] = useState<string>("")
   const [hexes, setHexes] = useQueryState(searchQueryKey, parser)
+  const parsedSearch = parser.parse(search)
 
-  const isSearchValidHex = Boolean(parser.parse(search)?.length ?? 0 > 0)
-  const isHexSelected = hexes?.includes(search)
+  const isSearchValidHex = Boolean(parsedSearch && parsedSearch.length > 0)
+  const isHexSelected = hexes?.includes(search as Address)
 
   return (
     <FilterButton

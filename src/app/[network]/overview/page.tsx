@@ -1,21 +1,20 @@
 import { getRecentSSVEvents } from "@/api/events"
 import { searchOperators } from "@/api/operator"
-import { getOperatorStatistics } from "@/api/statistics"
-import { getTotalEffectiveBalance, searchValidators } from "@/api/validators"
+import {
+  getOperatorStatistics,
+  getTotalEffectiveBalance,
+} from "@/api/statistics"
+import { searchValidators } from "@/api/validators"
 import { type SearchParams } from "@/types"
 
 import { getNativeCurrency, type ChainName } from "@/config/chains"
 import { operatorsSearchParamsCache } from "@/lib/search-parsers/operator-search-parsers"
 import { validatorsSearchParamsCache } from "@/lib/search-parsers/validators-search-parsers"
-import {
-  formatGwei,
-  numberFormatter,
-  percentageFormatter,
-} from "@/lib/utils/number"
+import { numberFormatter, percentageFormatter } from "@/lib/utils/number"
 import { Card } from "@/components/ui/card"
 import { ErrorCard } from "@/components/ui/error-card"
 import { Stat } from "@/components/ui/stat"
-import { Text } from "@/components/ui/text"
+import { Span, Text } from "@/components/ui/text"
 import { Layer } from "@/components/charts/layers/layer"
 import { GeoLegend } from "@/components/charts/worldmap/geo-legend/geo-legend"
 import StandardMap from "@/components/charts/worldmap/standard-map"
@@ -46,20 +45,20 @@ export default async function Page(props: IndexPageProps) {
     totalEffectiveBalancePromise,
   ] = await Promise.allSettled([
     searchOperators({
-      ...operatorsSearchParamsCache.parse({}), // add default search params
+      ...operatorsSearchParamsCache.parse({}),
       network,
     }),
     searchOperators({
-      ...operatorsSearchParamsCache.parse({}), // add default search params
+      ...operatorsSearchParamsCache.parse({}),
       network,
       updatedAt: 7,
     }),
     searchValidators({
-      ...validatorsSearchParamsCache.parse({}), // add default search params
+      ...validatorsSearchParamsCache.parse({}),
       network,
     }),
     searchValidators({
-      ...validatorsSearchParamsCache.parse({}), // add default search params
+      ...validatorsSearchParamsCache.parse({}),
       network,
       updatedAt: 7,
     }),
@@ -88,10 +87,7 @@ export default async function Page(props: IndexPageProps) {
   const validatorsIncreasePercent =
     (100 * updatedValidatorsFrom7DaysAgo) / totalValidators
 
-  const totalStakedEth = totalEffectiveBalance
-    ? BigInt(totalEffectiveBalance)
-    : 0n
-
+  const totalStakedEth = totalEffectiveBalance ?? 0
   const nativeCurrency = getNativeCurrency(network)
 
   return (
@@ -110,9 +106,12 @@ export default async function Page(props: IndexPageProps) {
                 <Text variant="headline4">
                   {numberFormatter.format(totalValidators)}
                 </Text>
-                <Text variant="caption-bold" className="text-gray-500">
-                  {percentageFormatter.format(validatorsIncreasePercent)} (
-                  {numberFormatter.format(updatedValidatorsFrom7DaysAgo)})
+                <Text variant="caption-medium" className="text-gray-500">
+                  Added Last 7 Days:{" "}
+                  <Span variant="caption-bold" className="text-gray-500">
+                    {percentageFormatter.format(validatorsIncreasePercent)} (
+                    {numberFormatter.format(updatedValidatorsFrom7DaysAgo)})
+                  </Span>
                 </Text>
               </div>
             }
@@ -145,7 +144,7 @@ export default async function Page(props: IndexPageProps) {
             className="flex-1"
             title={`${nativeCurrency.symbol} Staked`}
             tooltip={`Total amount of ${nativeCurrency.symbol} staked across all validators on the network`}
-            content={`${formatGwei(totalStakedEth)} ${nativeCurrency.symbol}`}
+            content={`${totalStakedEth} ${nativeCurrency.symbol}`}
           />
         </Card>
       </div>

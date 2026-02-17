@@ -14,6 +14,7 @@ import {
   addressesParser,
   clustersParser,
   defaultSearchOptions,
+  getEffectiveBalanceParser,
 } from "@/lib/search-parsers/shared/parsers"
 import { getSortingStateParser, parseAsTuple } from "@/lib/utils/parsers"
 
@@ -32,6 +33,7 @@ export const clustersSearchFilters = {
       postParse: (values) => values.sort((a, b) => +a - +b),
     }
   ).withOptions(defaultSearchOptions),
+  effectiveBalance: getEffectiveBalanceParser({ serializeToGwei: false }),
   operatorDetails: parseAsBoolean
     .withOptions(defaultSearchOptions)
     .withDefault(true),

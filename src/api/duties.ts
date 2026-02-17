@@ -75,7 +75,6 @@ export const getDutyDetails = async (params: {
       tags: ["duty-details"],
     }
   )()
-
 export const getValidatorPerformanceV2 = async (params: {
   publicKey: string
   network: ChainName

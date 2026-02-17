@@ -14,6 +14,7 @@ import { paginationParser } from "@/lib/search-parsers"
 import {
   addressesParser,
   defaultSearchOptions,
+  getEffectiveBalanceParser,
 } from "@/lib/search-parsers/shared/parsers"
 import { MEV_RELAYS_VALUES, STATUS_API_VALUES } from "@/lib/utils/operator"
 import { getSortingStateParser, parseAsTuple } from "@/lib/utils/parsers"
@@ -37,6 +38,9 @@ export const operatorSearchFilters = {
   eth2: parseAsArrayOf(z.string())
     .withDefault([])
     .withOptions(defaultSearchOptions),
+  ssvClient: parseAsArrayOf(z.string())
+    .withDefault([])
+    .withOptions(defaultSearchOptions),
   mev: parseAsArrayOf(z.enum(MEV_RELAYS_VALUES))
     .withDefault([])
     .withOptions(defaultSearchOptions),
@@ -51,6 +55,17 @@ export const operatorSearchFilters = {
       ...defaultSearchOptions,
       throttleMs: 500,
     }),
+  ethFee: parseAsTuple(
+    z.tuple([z.number({ coerce: true }), z.number({ coerce: true })]),
+    {
+      postParse: sortNumbers,
+    }
+  )
+    .withDefault([0, 10])
+    .withOptions({
+      ...defaultSearchOptions,
+      throttleMs: 500,
+    }),
   validatorsCount: parseAsTuple(
     z.tuple([z.number({ coerce: true }), z.number({ coerce: true })]),
     {
@@ -59,14 +74,7 @@ export const operatorSearchFilters = {
   )
     .withDefault([0, 3000])
     .withOptions(defaultSearchOptions),
-  managedEth: parseAsTuple(
-    z.tuple([z.number({ coerce: true }), z.number({ coerce: true })]),
-    {
-      postParse: sortNumbers,
-    }
-  )
-    .withDefault([0, 0])
-    .withOptions(defaultSearchOptions),
+  effectiveBalance: getEffectiveBalanceParser({ serializeToGwei: false }),
   status: parseAsArrayOf(z.enum(STATUS_API_VALUES))
     .withDefault([])
     .withOptions(defaultSearchOptions),

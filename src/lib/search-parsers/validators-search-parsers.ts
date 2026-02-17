@@ -15,9 +15,11 @@ import {
   addressesParser,
   clustersParser,
   defaultSearchOptions,
+  getEffectiveBalanceParser,
   publicKeysParser,
 } from "@/lib/search-parsers/shared/parsers"
-import { getSortingStateParser } from "@/lib/utils/parsers"
+import { sortNumbers } from "@/lib/utils/number"
+import { getSortingStateParser, parseAsTuple } from "@/lib/utils/parsers"
 import {
   validatorStatusApiParams,
   type ValidatorStatusApiParam,
@@ -37,6 +39,13 @@ export const validatorsSearchFilters = {
   )
     .withDefault([])
     .withOptions(defaultSearchOptions),
+  dateRange: parseAsTuple(
+    z.tuple([z.number({ coerce: true }), z.number({ coerce: true })]),
+    {
+      postParse: sortNumbers,
+    }
+  ).withOptions(defaultSearchOptions),
+  effectiveBalance: getEffectiveBalanceParser({ serializeToGwei: true }),
 }
 
 export type ValidatorSearchFilterKeys = keyof typeof validatorsSearchFilters
@@ -46,7 +55,7 @@ export const defaultValidatorSort: ExtendedSortingState<
 > = [{ id: "created_at", desc: true }]
 
 export const validatorSearchSort = {
-  ordering: getSortingStateParser<SearchValidator<Operator>>()
+  orderBy: getSortingStateParser<SearchValidator<Operator>>()
     .withOptions(defaultSearchOptions)
     .withDefault(defaultValidatorSort),
 }

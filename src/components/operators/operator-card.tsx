@@ -37,7 +37,7 @@ export const OperatorCard: OperatorCardFC = ({
         "flex size-full flex-col items-center gap-3 rounded-2xl border px-5 py-6",
         {
           "border-transparent bg-gray-50": operator.is_active === 1,
-          "border-error-200 bg-error-50": operator.is_active === 0,
+          "border-error-200": operator.is_active === 0,
         },
         className
       )}
@@ -53,7 +53,6 @@ export const OperatorCard: OperatorCardFC = ({
       <div className="flex items-center gap-[6px]">
         <Text
           as={Link}
-          // eslint-disable-next-line react-hooks/rules-of-hooks
           href={`/${useNetworkParam()}/operator/${operator.id}`}
           variant="body-3-medium"
           className="line-clamp-1 cursor-pointer"

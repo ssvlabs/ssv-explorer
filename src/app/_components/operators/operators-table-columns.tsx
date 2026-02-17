@@ -1,10 +1,12 @@
 "use client"
 
+import Image from "next/image"
 import Link from "next/link"
 import { type ColumnDef } from "@tanstack/react-table"
 import { formatDistanceToNowStrict } from "date-fns"
 
 import { type Operator } from "@/types/api"
+import { formatETH, formatSSV, numberFormatter } from "@/lib/utils/number"
 import { getYearlyFee } from "@/lib/utils/operator"
 import { shortenAddress } from "@/lib/utils/strings"
 import { useNetworkParam } from "@/hooks/app/useNetworkParam"
@@ -24,10 +26,11 @@ export const operatorColumns = {
   id: {
     accessorKey: "id",
     title: "ID",
+    maxSize: 65,
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Id" />
     ),
-    cell: ({ row }) => <div className="w-4">{row.original.id}</div>,
+    cell: ({ row }) => <div>{row.original.id}</div>,
     // enableSorting: false,
   },
   name: {
@@ -90,33 +93,56 @@ export const operatorColumns = {
     cell: ({ row }) => <div>{row.original.eth2_node_client}</div>,
     enableSorting: false,
   },
+  ethFee: {
+    accessorKey: "ethFee",
+    title: "Fee (ETH)",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Fee (ETH)" />
+    ),
+    cell: ({ row }) => {
+      const ethFee = BigInt(row.original.eth_fee || 0)
+      return (
+        <div className="flex items-center gap-2">
+          <Image
+            src="/images/networks/dark.svg"
+            alt="ETH"
+            width={16}
+            height={16}
+            className="object-fit size-4"
+          />
+          <span>{formatETH(getYearlyFee(ethFee))}</span>
+        </div>
+      )
+    },
+  },
   fee: {
     accessorKey: "fee",
+    title: "Fee (SSV)",
     header: ({ column }) => (
-      <DataTableColumnHeader
-        column={column}
-        title="Fee"
-        className="justify-end text-right"
-      />
+      <DataTableColumnHeader column={column} title="Fee (SSV)" />
     ),
-    cell: ({ row }) => (
-      <div className="text-right">
-        {getYearlyFee(BigInt(row.original.fee), { format: true })}
-      </div>
-    ),
+    cell: ({ row }) => {
+      const fee = BigInt(row.original.fee || 0)
+      return (
+        <div className="flex items-center gap-2">
+          <Image
+            src="/images/ssvIcons/icon.svg"
+            alt="SSV"
+            width={16}
+            height={16}
+            className="object-fit size-4"
+          />
+          <span>{formatSSV(getYearlyFee(fee))}</span>
+        </div>
+      )
+    },
   },
   validatorsCount: {
     accessorKey: "validatorsCount",
     header: ({ column }) => (
-      <DataTableColumnHeader
-        column={column}
-        title="Validators Count"
-        className="justify-end text-right"
-      />
+      <DataTableColumnHeader column={column} title="Validators" />
     ),
-    cell: ({ row }) => (
-      <div className="text-right">{row.original.validators_count}</div>
-    ),
+    cell: ({ row }) => row.original.validators_count,
   },
   performance24h: {
     accessorKey: "performance24h",
@@ -124,7 +150,7 @@ export const operatorColumns = {
       <DataTableColumnHeader
         className="justify-end text-right"
         column={column}
-        title="24h"
+        title="24h %"
       />
     ),
     cell: ({ row }) => {
@@ -221,7 +247,7 @@ export const operatorColumns = {
       const status = row.original.status
       return (
         <div className="flex justify-end">
-          <OperatorStatusBadge size="sm" status={status} />
+          <OperatorStatusBadge size="xs" status={status} />
         </div>
       )
     },
@@ -229,17 +255,44 @@ export const operatorColumns = {
   createdAt: {
     accessorKey: "createdAt",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Registration Date" />
+      <DataTableColumnHeader
+        column={column}
+        title="Registration Date"
+        className="justify-end text-right"
+      />
     ),
     cell: ({ row }) => {
       return (
-        <Text variant="body-3-medium" className="text-gray-600">
-          {formatDistanceToNowStrict(row.original.created_at, {
-            addSuffix: true,
-          })}
-        </Text>
+        <div className="flex justify-end">
+          <Text variant="body-3-medium" className="text-gray-600">
+            {formatDistanceToNowStrict(row.original.created_at, {
+              addSuffix: true,
+            })}
+          </Text>
+        </div>
       )
     },
+  },
+  ethManaged: {
+    accessorKey: "effectiveBalance",
+    title: "ETH Managed",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="ETH Managed" />
+    ),
+    cell: ({ row }) => (
+      <div className="flex items-center gap-2">
+        <Image
+          src="/images/networks/dark.svg"
+          alt="ETH"
+          width={16}
+          height={16}
+          className="object-fit size-4"
+        />
+        <span>
+          {numberFormatter.format(row.original.effective_balance || 0)}
+        </span>
+      </div>
+    ),
   },
 } satisfies Record<string, ColumnDefWithTitle<Operator>>
 
@@ -247,12 +300,14 @@ export const operatorsTableColumns = [
   operatorColumns.id,
   operatorColumns.name,
   operatorColumns.ownerAddress,
+  operatorColumns.ethFee,
+  operatorColumns.fee,
+  operatorColumns.ethManaged,
+  operatorColumns.validatorsCount,
+  operatorColumns.performance24h,
   operatorColumns.location,
   operatorColumns.eth1NodeClient,
   operatorColumns.eth2NodeClient,
-  operatorColumns.fee,
-  operatorColumns.validatorsCount,
-  operatorColumns.performance24h,
   operatorColumns.performance30d,
   operatorColumns.performanceV2_24h,
   operatorColumns.performanceV2_30d,
@@ -267,7 +322,8 @@ export const operatorsTableDefaultColumnsKeys: OperatorColumnsAccessorKeys[] = [
   "id",
   "name",
   "ownerAddress",
-  "fee",
+  "ethFee",
+  "ethManaged",
   "validatorsCount",
   "performance24h",
   "status",

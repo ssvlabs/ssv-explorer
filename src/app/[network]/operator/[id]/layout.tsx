@@ -152,7 +152,7 @@ export default async function Page(props: IndexPageProps) {
                       <Text
                         className={cn({
                           "text-success-700": operator.status === "Active",
-                          "text-gray-500": operator.status === "No validators",
+                          "text-gray-500": operator.status === "No Validators",
                           "text-error-500":
                             operator.status === "Inactive" ||
                             operator.status === "Removed",

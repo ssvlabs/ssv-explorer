@@ -4,7 +4,13 @@ import { type Address } from "viem"
 
 import { type ChainName } from "@/config/chains"
 import { operatorsSearchParamsCache } from "@/lib/search-parsers/operator-search-parsers"
-import { OperatorsTable } from "@/app/_components/operators/operators-table"
+import {
+  OperatorsTableContent,
+  OperatorsTableFilters,
+  OperatorsTableMenuButton,
+  OperatorsTableRoot,
+  OperatorsTableViewOptions,
+} from "@/app/_components/operators/operators-table"
 
 interface IndexPageProps {
   params: Promise<{ address: Address; network: ChainName }>
@@ -23,10 +29,16 @@ export default async function IndexPage({
     network: network,
   })
   return (
-    <OperatorsTable
-      dataPromise={operators}
-      hideOwnerAddressFilter
-      hideColumns={["ownerAddress"]}
-    />
+    <OperatorsTableRoot dataPromise={operators} hideColumns={["ownerAddress"]}>
+      <div className="flex items-center justify-end gap-2 p-5">
+        <OperatorsTableMenuButton />
+        <OperatorsTableViewOptions />
+      </div>
+      <OperatorsTableFilters
+        className="col-span-2 px-5"
+        hideOwnerAddressFilter
+      />
+      <OperatorsTableContent className="col-span-2" />
+    </OperatorsTableRoot>
   )
 }

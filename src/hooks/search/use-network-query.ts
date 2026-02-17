@@ -15,6 +15,7 @@ const whitelistedRoutesRegex = new RegExp(
     "/accounts",
   ].join("|")})`
 )
+
 export const useNetworkQuery = () => {
   const router = useRouter()
   const network = useNetworkParam()

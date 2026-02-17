@@ -16,7 +16,6 @@
   "javascript.validate.enable": false,
   "javascript.format.enable": false,
   "typescript.format.enable": false,
-
   "search.exclude": {
     ".eslintcache": true,
     ".git": true,
@@ -26,18 +25,15 @@
     "test/**/__snapshots__": true,
     "yarn.lock": true
   },
-
   // Disable organize imports on save to prevent conflicts with Prettier, keep ESLint fixes
   "editor.codeActionsOnSave": {
     "source.organizeImports": "never",
     "source.fixAll.eslint": "explicit",
     "source.fixAll.ts": "explicit"
   },
-
   // Use Prettier as the default formatter for consistent import ordering
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
-
   // Language-specific settings
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"

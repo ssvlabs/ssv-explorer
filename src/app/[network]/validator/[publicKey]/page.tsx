@@ -1,14 +1,12 @@
 import type { Metadata } from "next"
 import Link from "next/link"
-import { getValidatorPerformanceV2, searchDuties } from "@/api/duties"
+import { searchDuties } from "@/api/duties"
 import { getValidator } from "@/api/validators"
 import { type SearchParams } from "nuqs"
+import { FaEthereum } from "react-icons/fa"
 
 import { getNativeCurrency, type ChainName } from "@/config/chains"
-import {
-  dutiesSearchParamsCache,
-  type DutiesSearchSchema,
-} from "@/lib/search-parsers/duties-search-parsers"
+import { dutiesSearchParamsCache } from "@/lib/search-parsers/duties-search-parsers"
 import { cn } from "@/lib/utils"
 import { formatGwei } from "@/lib/utils/number"
 import { shortenAddress } from "@/lib/utils/strings"
@@ -61,19 +59,14 @@ export default async function Page(props: IndexPageProps) {
   }
 
   const awaitedSearchParams = await props.searchParams
-  const searchParams = dutiesSearchParamsCache.parse(
-    awaitedSearchParams
-  ) as DutiesSearchSchema
+  const searchParams = dutiesSearchParamsCache.parse(awaitedSearchParams)
 
   const duties = searchDuties({
     ...searchParams,
     validatorPublicKey: publicKey,
     network,
   })
-  const performanceV2 = await getValidatorPerformanceV2({
-    publicKey,
-    network,
-  })
+
   let validator
   try {
     validator = await getValidator({
@@ -91,22 +84,6 @@ export default async function Page(props: IndexPageProps) {
   }
 
   const nativeCurrency = getNativeCurrency(network)
-
-  // Merge performance V2 data with operators
-  const operatorsWithPerformanceV2 = validator.operators.map((operator) => {
-    const performanceData = performanceV2?.operatorsPerformance?.find(
-      (perf) => perf.operatorId === operator.id
-    )
-    return {
-      ...operator,
-      performanceV2: performanceData
-        ? {
-            dailyPerformance: performanceData.dailyPerformance,
-            monthlyPerformance: performanceData.monthlyPerformance,
-          }
-        : operator.performanceV2,
-    }
-  })
 
   return (
     <Shell className="gap-6">
@@ -150,9 +127,8 @@ export default async function Page(props: IndexPageProps) {
             <CopyBtn text={validator.cluster} />
           </Outline>
         </div>
-        <div className="flex items-center gap-6 align-sub">
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-6">
           <Stat
-            className="flex-1"
             title="Status"
             content={
               <Text
@@ -165,16 +141,20 @@ export default async function Page(props: IndexPageProps) {
               </Text>
             }
           />
-          <div className="h-full border-r border-gray-500" />
           <Stat
             className="flex-1"
-            title={`${nativeCurrency.symbol} Balance`}
-            content={`${formatGwei(BigInt(validator.validator_info.effective_balance || 0n))} ${nativeCurrency.symbol}`}
+            title="Effective Balance"
+            content={
+              <div className="flex items-center gap-1">
+                <FaEthereum className="size-5 text-gray-800" />
+                <span>{`${formatGwei(BigInt(validator.validator_info.effective_balance || 0n))} ${nativeCurrency.symbol}`}</span>
+              </div>
+            }
           />
         </div>
       </Card>
 
-      <OperatorsList operators={operatorsWithPerformanceV2} />
+      <OperatorsList operators={validator.operators} />
 
       <Card>
         <DutiesTable dataPromise={duties} network={network} />

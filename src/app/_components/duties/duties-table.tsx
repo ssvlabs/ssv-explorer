@@ -66,7 +66,7 @@ export const DutiesTable = withErrorBoundary(
               {response.pagination.total}
             </Badge>
             <div className="flex-1"></div>
-            <DataTableViewOptions table={table} />
+            {/* <DataTableViewOptions table={table} /> */}
           </div>
           <DataTable table={table} />
         </TableProvider>

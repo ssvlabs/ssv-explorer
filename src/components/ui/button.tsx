@@ -166,16 +166,10 @@ export const IconButton: ButtonFC = React.forwardRef<
     const Comp = as ?? "button"
 
     const copiedChildren = React.useMemo(() => {
-      if (React.isValidElement(children)) {
+      if (React.isValidElement<{ className?: string }>(children)) {
         return React.cloneElement(children, {
           ...props,
-          // @ts-expect-error className is not a valid prop
-          className: cn(
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-            "className" in children.props ? children.props.className : "",
-            className,
-            "size-[65%]"
-          ),
+          className: cn(children.props.className, className, "size-[65%]"),
         })
       }
     }, [children, className, props])

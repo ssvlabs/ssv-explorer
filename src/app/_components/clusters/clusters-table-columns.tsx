@@ -1,11 +1,12 @@
 "use client"
 
+import Image from "next/image"
 import Link from "next/link"
 import { type ColumnDef } from "@tanstack/react-table"
 import { formatDistanceToNowStrict } from "date-fns"
 
 import { type Cluster } from "@/types/api"
-import { formatSSV } from "@/lib/utils/number"
+import { formatSSV, numberFormatter } from "@/lib/utils/number"
 import { remove0x, shortenAddress } from "@/lib/utils/strings"
 import { useNetworkParam } from "@/hooks/app/useNetworkParam"
 import { CopyBtn } from "@/components/ui/copy-btn"
@@ -65,7 +66,7 @@ export const clustersTableColumns: ColumnDefWithTitle<Cluster>[] = [
       <DataTableColumnHeader column={column} title="Operators" />
     ),
     cell: ({ row }) => (
-      <div className="flex gap-1">
+      <div className="flex gap-px">
         {row.original.operators.map((operator) => {
           return (
             <Tooltip
@@ -75,11 +76,11 @@ export const clustersTableColumns: ColumnDefWithTitle<Cluster>[] = [
               content={<OperatorInfo operator={operator} />}
             >
               <Link
-                // eslint-disable-next-line react-hooks/rules-of-hooks
                 href={`/${useNetworkParam()}/operator/${operator.id}`}
                 key={operator.id}
               >
                 <OperatorAvatar
+                  size="sm"
                   src={operator.logo}
                   isPrivate={operator.is_private}
                 />
@@ -91,26 +92,78 @@ export const clustersTableColumns: ColumnDefWithTitle<Cluster>[] = [
     ),
     enableSorting: false,
   },
+  // {
+  //   accessorKey: "balance",
+  //   header: ({ column }) => (
+  //     <DataTableColumnHeader column={column} title="Balance" />
+  //   ),
+  //   cell: ({ row }) => {
+  //     const { ethBalance, balance, migrated } = row.original
+
+  //     return (
+  //       <div className="flex items-center gap-2">
+  //         <Image
+  //           src={
+  //             migrated
+  //               ? "/images/networks/dark.svg"
+  //               : "/images/ssvIcons/icon.svg"
+  //           }
+  //           alt={migrated ? "ETH" : "SSV"}
+  //           width={16}
+  //           height={16}
+  //           className="object-fit size-4"
+  //         />
+  //         <Text>{formatSSV(BigInt(migrated ? ethBalance : balance))}</Text>
+  //       </div>
+  //     )
+  //   },
+  //   enableSorting: false,
+  // },
   {
-    accessorKey: "balance",
+    accessorKey: "effectiveBalance",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Balance" />
+      <DataTableColumnHeader column={column} title="Effective Balance" />
     ),
-    cell: ({ row }) => <div>{formatSSV(BigInt(row.original.balance))} SSV</div>,
+    cell: ({ row }) => {
+      const effectiveBalance = BigInt(row.original.effectiveBalance || 0)
+      if (effectiveBalance > 0) {
+        return (
+          <div className="flex items-center gap-2">
+            <Image
+              src="/images/networks/dark.svg"
+              alt="ETH"
+              width={16}
+              height={16}
+              className="object-fit size-4"
+            />
+            <Text>{numberFormatter.format(Number(effectiveBalance))}</Text>
+          </div>
+        )
+      }
+      return <Text className="text-gray-400">-</Text>
+    },
   },
   {
     accessorKey: "validatorCount",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Validator Count" />
+      <DataTableColumnHeader column={column} title="Validators" />
     ),
     cell: ({ row }) => <div>{row.original.validatorCount}</div>,
   },
   {
     accessorKey: "active",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Active" />
+      <DataTableColumnHeader
+        className="justify-end text-right"
+        column={column}
+        title="Status"
+      />
     ),
-    cell: ({ row }) => <ClusterStatusBadge active={row.original.active} />,
+    cell: ({ row }) => (
+      <div className="flex justify-end">
+        <ClusterStatusBadge active={row.original.active} size="xs" />
+      </div>
+    ),
   },
   {
     accessorKey: "createdAt",
@@ -133,7 +186,8 @@ export const clustersTableDefaultColumnsKeys: ClusterColumnsAccessorKeys[] = [
   "ownerAddress",
   "operators",
   "validatorCount",
-  "balance",
+  // "balance",
+  "effectiveBalance",
   "active",
 ]
 

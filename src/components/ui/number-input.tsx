@@ -184,6 +184,7 @@ export interface NumberInputProps
   onChange: (value: number) => void
   decimals?: number
   step?: number
+  clearZeroOnMount?: boolean
   render?: (
     props: {
       onInput: (ev: React.FormEvent<HTMLInputElement>) => void
@@ -218,6 +219,7 @@ export const NumberInput: NumberInputFC = forwardRef<
       allowNegative = false,
       onChange,
       render,
+      clearZeroOnMount = false,
       ...props
     },
     ref
@@ -231,9 +233,10 @@ export const NumberInput: NumberInputFC = forwardRef<
       return new RegExp(decimals > 0 ? `${left}${right}` : left)
     }, [decimals])
 
-    const [displayValue, setDisplayValue] = useState(
-      formatNumber(value, decimals)
-    )
+    const [displayValue, setDisplayValue] = useState(() => {
+      if (!value && clearZeroOnMount) return ""
+      return formatNumber(value, decimals)
+    })
     const [showMaxSet, setShowMaxSet] = useState(false)
     const [showMinSet, setShowMinSet] = useState(false)
     useDebounce(() => setShowMaxSet(false), 2500, [showMaxSet])

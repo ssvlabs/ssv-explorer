@@ -1,7 +1,12 @@
 "use client"
 
-import { use } from "react"
-import { TableProvider } from "@/context/table-context"
+import {
+  use,
+  type ComponentPropsWithoutRef,
+  type FC,
+  type ReactNode,
+} from "react"
+import { TableProvider, useTable } from "@/context/table-context"
 import { withErrorBoundary } from "react-error-boundary"
 
 import {
@@ -10,6 +15,7 @@ import {
   type OperatorsSearchResponse,
 } from "@/types/api"
 import { operatorSearchSort } from "@/lib/search-parsers/operator-search-parsers"
+import { cn } from "@/lib/utils"
 import { useOperatorsSearchParams } from "@/hooks/search/use-custom-search-params"
 import { useDataTable } from "@/hooks/use-data-table"
 import { useLocalStorage } from "@/hooks/use-local-storage"
@@ -30,72 +36,150 @@ import {
   type OperatorColumnsAccessorKeys,
 } from "./operators-table-columns"
 
-interface OperatorsTableProps extends OperatorTableFiltersProps {
+type UseOperatorsTableOptions = {
   dataPromise: Promise<OperatorsSearchResponse>
   hideColumns?: OperatorColumnsAccessorKeys[]
 }
 
-export const OperatorsTable = withErrorBoundary(
-  ({ dataPromise: data, hideColumns, ...filters }: OperatorsTableProps) => {
-    const { operators, pagination } = use(data)
-    const [enablePerformanceV2] = useLocalStorage("ENABLE_PERFORMANCE_V2")
+const useOperatorsTable = ({
+  dataPromise,
+  hideColumns,
+}: UseOperatorsTableOptions) => {
+  const { operators, pagination } = use(dataPromise)
+  const [enablePerformanceV2] = useLocalStorage("ENABLE_PERFORMANCE_V2")
 
-    const columns = enablePerformanceV2
-      ? operatorsTableColumns
-      : operatorsTableColumns.filter(
-          (column) =>
-            column !== operatorColumns.performanceV2_24h &&
-            column !== operatorColumns.performanceV2_30d
-        )
+  const columns = enablePerformanceV2
+    ? operatorsTableColumns
+    : operatorsTableColumns.filter(
+        (column) =>
+          column !== operatorColumns.performanceV2_24h &&
+          column !== operatorColumns.performanceV2_30d
+      )
 
-    const visibleColumns = hideColumns
-      ? columns.filter((column) => !hideColumns.includes(column.accessorKey))
-      : columns
+  const visibleColumns = hideColumns
+    ? columns.filter((column) => !hideColumns.includes(column.accessorKey))
+    : columns
 
-    const { table } = useDataTable<Operator, OperatorSortingKeys>({
-      name: "operators-table",
-      data: operators,
-      columns: visibleColumns,
-      pageCount: pagination.pages,
-      getRowId: (originalRow, index) => `${originalRow.id}-${index}`,
-      shallow: false,
-      clearOnDefault: true,
-      initialState: {
-        sorting: operatorSearchSort.ordering.defaultValue,
-        columnVisibility: { ...operatorsDefaultColumnVisibility },
-      },
-      meta: {
-        total: pagination.total,
-        defaultColumns: { ...operatorsDefaultColumnVisibility },
-      },
-    })
+  const { table } = useDataTable<Operator, OperatorSortingKeys>({
+    name: "operators-table",
+    data: operators,
+    columns: visibleColumns,
+    pageCount: pagination.pages,
+    getRowId: (originalRow, index) => `${originalRow.id}-${index}`,
+    shallow: false,
+    clearOnDefault: true,
+    initialState: {
+      sorting: operatorSearchSort.ordering.defaultValue,
+      columnVisibility: { ...operatorsDefaultColumnVisibility },
+    },
+    meta: {
+      total: pagination.total,
+      defaultColumns: { ...operatorsDefaultColumnVisibility },
+    },
+  })
 
-    const { enabledFilters } = useOperatorsSearchParams()
+  const { enabledFilters } = useOperatorsSearchParams()
 
-    return (
-      <>
-        <TableProvider table={table}>
-          <div className="flex items-center gap-2">
-            <Text variant="headline4">Operators</Text>
-            <div className="flex-1" />
-            <DataTableMenuButton enabledFilters={enabledFilters} />
-            <DataTableViewOptions table={table} tableName="operators" />
-          </div>
-          <OperatorTableFilters {...filters} />
-          <DataTable table={table} />
-        </TableProvider>
-      </>
-    )
+  return { table, enabledFilters }
+}
+
+type OperatorsTableRootProps = {
+  dataPromise: Promise<OperatorsSearchResponse>
+  hideColumns?: OperatorColumnsAccessorKeys[]
+  children: ReactNode
+}
+
+const OperatorsTableRoot = withErrorBoundary(
+  ({ dataPromise, hideColumns, children }: OperatorsTableRootProps) => {
+    const { table } = useOperatorsTable({ dataPromise, hideColumns })
+    return <TableProvider table={table}>{children}</TableProvider>
   },
   {
-    fallbackRender: ({ error }) => {
-      return (
-        <ErrorCard
-          className="bg-transparent"
-          errorMessage={(error as Error).message}
-          title="Couldn't load  Operators"
-        />
-      )
-    },
+    fallbackRender: ({ error }) => (
+      <ErrorCard
+        className="bg-transparent"
+        errorMessage={(error as Error).message}
+        title="Couldn't load Operators"
+      />
+    ),
   }
 )
+
+type OperatorsTableHeaderProps = {
+  title?: string
+}
+
+type OperatorsTableHeaderFC = FC<
+  Omit<ComponentPropsWithoutRef<"div">, keyof OperatorsTableHeaderProps> &
+    OperatorsTableHeaderProps
+>
+
+const OperatorsTableHeader: OperatorsTableHeaderFC = ({
+  title = "Operators",
+  className,
+  ...props
+}) => (
+  <div className={cn("flex items-center gap-2", className)} {...props}>
+    <Text variant="headline4">{title}</Text>
+    <div className="flex-1" />
+    <OperatorsTableMenuButton />
+    <OperatorsTableViewOptions />
+  </div>
+)
+
+const OperatorsTableMenuButton = () => {
+  const { enabledFilters } = useOperatorsSearchParams()
+  return <DataTableMenuButton enabledFilters={enabledFilters} />
+}
+
+const OperatorsTableViewOptions = () => {
+  const { table } = useTable<Operator>()
+  return <DataTableViewOptions table={table} tableName="operators" />
+}
+
+type OperatorsTableContentProps = object
+
+type OperatorsTableContentFC = FC<
+  Omit<ComponentPropsWithoutRef<"div">, keyof OperatorsTableContentProps> &
+    OperatorsTableContentProps
+>
+
+const OperatorsTableContent: OperatorsTableContentFC = ({
+  className,
+  ...props
+}) => {
+  const { table } = useTable<Operator>()
+  return <DataTable table={table} className={cn(className)} {...props} />
+}
+
+const OperatorsTableFilters = OperatorTableFilters
+
+type OperatorsTableProps = {
+  dataPromise: Promise<OperatorsSearchResponse>
+  hideColumns?: OperatorColumnsAccessorKeys[]
+} & OperatorTableFiltersProps
+
+const OperatorsTable: FC<OperatorsTableProps> = ({
+  dataPromise,
+  hideColumns,
+  ...filterProps
+}) => (
+  <OperatorsTableRoot dataPromise={dataPromise} hideColumns={hideColumns}>
+    <OperatorsTableHeader />
+    <OperatorsTableFilters {...filterProps} />
+    <OperatorsTableContent />
+  </OperatorsTableRoot>
+)
+
+export {
+  OperatorsTable,
+  useOperatorsTable,
+  OperatorsTableRoot,
+  OperatorsTableHeader,
+  OperatorsTableMenuButton,
+  OperatorsTableViewOptions,
+  OperatorsTableFilters,
+  OperatorsTableContent,
+}
+
+export type { OperatorsTableProps, OperatorTableFiltersProps }

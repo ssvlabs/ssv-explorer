@@ -29,7 +29,7 @@ export const getAccountEvents = async (
           params.network,
           "events/ownerAddress",
           params.ownerAddress,
-          `?${searchParams}`
+          searchParams
         )
       )
       return response

@@ -20,3 +20,23 @@ export const getOperatorStatistics = async (params: { network: ChainName }) => {
     }
   )()
 }
+
+export const getTotalEffectiveBalance = async (params: {
+  network: ChainName
+}) => {
+  return await unstable_cache(
+    async () => {
+      const url = endpoint(params.network, "statistics/totalEffectiveBalance")
+      const response = await api.get<{
+        total_effective_balance: string
+      }>(url)
+      // Return the string value as cache doesn't serialize BigInt
+      return response.total_effective_balance
+    },
+    [JSON.stringify(params)],
+    {
+      revalidate: 30,
+      tags: ["statistics/totalEffectiveBalance"],
+    }
+  )()
+}

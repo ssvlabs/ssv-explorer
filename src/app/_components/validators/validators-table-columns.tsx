@@ -1,9 +1,12 @@
 "use client"
 
+import Image from "next/image"
 import Link from "next/link"
 import { type ColumnDef } from "@tanstack/react-table"
 
 import { type Operator, type SearchValidator } from "@/types/api"
+import { getRelativeTime } from "@/lib/utils/date"
+import { formatGwei } from "@/lib/utils/number"
 import { add0x, remove0x, shortenAddress } from "@/lib/utils/strings"
 import { useNetworkParam } from "@/hooks/app/useNetworkParam"
 import { CopyBtn } from "@/components/ui/copy-btn"
@@ -21,7 +24,9 @@ export type ValidatorTableColumnAccessorKey =
   | "cluster"
   | "ownerAddress"
   | "operators"
+  | "effectiveBalance"
   | "status"
+  | "createdAt"
 
 export const validatorColumns: Record<
   ValidatorTableColumnAccessorKey,
@@ -102,7 +107,6 @@ export const validatorColumns: Record<
             content={<OperatorInfo operator={operator} />}
           >
             <Link
-              // eslint-disable-next-line react-hooks/rules-of-hooks
               href={`/${useNetworkParam()}/operator/${operator.id}`}
               key={operator.id}
             >
@@ -117,6 +121,33 @@ export const validatorColumns: Record<
     ),
     enableSorting: false,
   },
+  effectiveBalance: {
+    accessorKey: "effectiveBalance",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Effective Balance" />
+    ),
+    cell: ({ row }) => {
+      const effectiveBalance = BigInt(
+        row.original.validator_info?.effective_balance || 0
+      )
+      if (effectiveBalance > 0n) {
+        return (
+          <div className="flex items-center gap-2">
+            <Image
+              src="/images/networks/dark.svg"
+              alt="ETH"
+              width={16}
+              height={16}
+              className="object-fit size-4"
+            />
+            <Text>{formatGwei(effectiveBalance)}</Text>
+          </div>
+        )
+      }
+      return <Text className="text-gray-400">-</Text>
+    },
+    enableSorting: false,
+  },
   status: {
     accessorKey: "status",
     header: ({ column }) => (
@@ -128,10 +159,24 @@ export const validatorColumns: Record<
     ),
     cell: ({ row }) => (
       <div className="flex justify-end">
-        <ValidatorStatusBadge size="sm" status={row.original.status} />
+        <ValidatorStatusBadge size="xs" status={row.original.status} />
       </div>
     ),
     enableSorting: true,
+  },
+  createdAt: {
+    accessorKey: "createdAt",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Registered" />
+    ),
+    cell: ({ row }) => (
+      <Tooltip content={row.original.created_at} asChild alignOffset={30}>
+        <Text variant="body-3-medium" className="text-gray-600">
+          {getRelativeTime(row.original.created_at)}
+        </Text>
+      </Tooltip>
+    ),
+    enableSorting: false,
   },
 }
 
@@ -142,7 +187,9 @@ export const validatorsTableColumns: ColumnDefWithTitle<
   validatorColumns.cluster,
   validatorColumns.ownerAddress,
   validatorColumns.operators,
+  validatorColumns.effectiveBalance,
   validatorColumns.status,
+  validatorColumns.createdAt,
 ]
 
 export const validatorsOverviewTableColumns: ColumnDef<

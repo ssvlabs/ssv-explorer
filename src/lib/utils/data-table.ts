@@ -47,6 +47,9 @@ export function getCommonPinningStyles<TData>({
     position: isPinned ? "sticky" : "relative",
     // background: isPinned ? "hsl(var(--background))" : "hsl(var(--background))",
     width: column.getSize(),
+    minWidth: column.columnDef.minSize,
+    maxWidth: column.columnDef.maxSize,
+    boxSizing: "border-box",
     zIndex: isPinned ? 1 : 0,
   }
 }
