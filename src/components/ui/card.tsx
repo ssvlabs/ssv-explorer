@@ -39,6 +39,7 @@ export const Card: FCProps = ({
   className,
   asChild,
   variant,
+  gap,
   children,
   ...props
 }) => {
@@ -46,7 +47,7 @@ export const Card: FCProps = ({
   return (
     <Comp
       tabIndex={-1}
-      className={cn(variants({ variant, className }), "outline-none")}
+      className={cn(variants({ variant, gap, className }), "outline-none")}
       {...props}
     >
       {children}
