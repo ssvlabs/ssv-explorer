@@ -114,6 +114,7 @@ const ValidatorsTableRoot = withErrorBoundary(
 
 type ValidatorsTableHeaderProps = {
   title?: string
+  count?: number
 }
 
 type ValidatorsTableHeaderFC = FC<
@@ -123,11 +124,15 @@ type ValidatorsTableHeaderFC = FC<
 
 const ValidatorsTableHeader: ValidatorsTableHeaderFC = ({
   title = "Validators",
+  count,
   className,
   ...props
 }) => (
   <div className={cn("flex items-center gap-2", className)} {...props}>
     <Text variant="headline4">{title}</Text>
+    <Text variant="body-2-medium" className="px-2 text-gray-800">
+      {count}
+    </Text>
     <div className="flex-1" />
     <ValidatorsTableFilterButton />
     <ValidatorsTableViewOptions />
@@ -175,13 +180,17 @@ const ValidatorsTable: FC<ValidatorsTableProps> = ({
   dataPromise,
   columns,
   ...filterProps
-}) => (
-  <ValidatorsTableRoot dataPromise={dataPromise} columns={columns}>
-    <ValidatorsTableHeader />
-    <ValidatorsTableFilters {...filterProps} />
-    <ValidatorsTableContent />
-  </ValidatorsTableRoot>
-)
+}) => {
+  const response = use(dataPromise)
+
+  return (
+    <ValidatorsTableRoot dataPromise={dataPromise} columns={columns}>
+      <ValidatorsTableHeader count={response.pagination.total} />
+      <ValidatorsTableFilters {...filterProps} />
+      <ValidatorsTableContent />
+    </ValidatorsTableRoot>
+  )
+}
 
 // ============================================================================
 // Exports
