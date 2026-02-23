@@ -158,7 +158,7 @@ export default async function Page(props: IndexPageProps) {
       <Card className="gap-0 p-0">
         <ValidatorsTableRoot
           dataPromise={validators}
-          columns={["publicKey", "status", "createdAt"]}
+          columns={["publicKey", "status", "createdAt", "effectiveBalance"]}
         >
           <div className="flex items-center gap-2 p-5">
             <Tab

@@ -87,7 +87,7 @@ export const ValidatorTableFilters = ({
         />
         <StatusFilter />
         <DateRangeFilter
-          name="Created At"
+          name="Registration Date"
           searchQueryKey="dateRange"
           parser={validatorsSearchParsers.dateRange}
         />

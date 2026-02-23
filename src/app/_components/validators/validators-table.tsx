@@ -20,10 +20,10 @@ import { cn } from "@/lib/utils"
 import { useValidatorsSearchParams } from "@/hooks/search/use-custom-search-params"
 import { useDataTable } from "@/hooks/use-data-table"
 import { ErrorCard } from "@/components/ui/error-card"
-import { Text } from "@/components/ui/text"
 import { DataTableMenuButton } from "@/components/data-table/data-table-filters-button"
 import { DataTableViewOptions } from "@/components/data-table/data-table-view-options"
 import { DataTable } from "@/components/data-table/elastic-10k-table/data-table"
+import { useTableName } from "@/app/_components/validators/use-table-name"
 import {
   ValidatorTableFilters,
   type ValidatorTableFiltersProps,
@@ -52,9 +52,7 @@ const useValidatorsTable = ({
   const cols = useMemo(
     () =>
       (columns
-        ? columns.map((column) =>
-            validatorsTableColumns.find((c) => c.accessorKey === column)
-          )
+        ? validatorsTableColumns.filter((c) => columns.includes(c.accessorKey))
         : validatorsTableColumns) as typeof validatorsTableColumns,
     [columns]
   )
@@ -64,8 +62,13 @@ const useValidatorsTable = ({
     [response.validators]
   )
 
+  // Table name is used as the localStorage key for column visibility and view options.
+  // Must be unique per page/context so each validator table has its own settings.
+  // If shared, hiding a column on one page would hide it on all others.
+  const tableName = useTableName()
+
   const { table } = useDataTable({
-    name: "validators-table",
+    name: tableName,
     data: validators,
     columns: cols,
     pageCount: response.pagination.pages,
@@ -122,12 +125,10 @@ type ValidatorsTableHeaderFC = FC<
 >
 
 const ValidatorsTableHeader: ValidatorsTableHeaderFC = ({
-  title = "Validators",
   className,
   ...props
 }) => (
   <div className={cn("flex items-center gap-2", className)} {...props}>
-    <Text variant="headline4">{title}</Text>
     <div className="flex-1" />
     <ValidatorsTableFilterButton />
     <ValidatorsTableViewOptions />
@@ -188,17 +189,17 @@ const ValidatorsTable: FC<ValidatorsTableProps> = ({
 // ============================================================================
 
 export {
-  // Combined (default usage)
-  ValidatorsTable,
   // Hook
   useValidatorsTable,
+  // Combined (default usage)
+  ValidatorsTable,
+  ValidatorsTableContent,
+  ValidatorsTableFilterButton,
+  ValidatorsTableFilters,
+  ValidatorsTableHeader,
   // Individual parts
   ValidatorsTableRoot,
-  ValidatorsTableHeader,
-  ValidatorsTableFilterButton,
   ValidatorsTableViewOptions,
-  ValidatorsTableFilters,
-  ValidatorsTableContent,
 }
 
 export type { ValidatorsTableProps, ValidatorTableFiltersProps }
