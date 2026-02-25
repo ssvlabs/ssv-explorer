@@ -89,16 +89,6 @@ export const useClusterContractBalance = (params: {
         // Use getBalance for ETH clusters (migrated), getBalanceSSV for SSV clusters
         const functionName = cluster.migrated ? "getBalance" : "getBalanceSSV"
 
-        console.log("Fetching cluster balance:", {
-          clusterHash: cluster.clusterId,
-          migrated: cluster.migrated,
-          functionName,
-          contractAddress: networkDetails.getterContractAddress,
-          ownerAddress: cluster.ownerAddress,
-          operatorIds,
-          clusterData,
-        })
-
         const result = await publicClient.readContract({
           address: networkDetails.getterContractAddress as Address,
           abi: ssvNetworkViewsAbi,
@@ -110,15 +100,8 @@ export const useClusterContractBalance = (params: {
           ],
         })
 
-        console.log("Contract balance result:", result)
         setBalance(result)
       } catch (err) {
-        console.error("Error fetching cluster balance:", {
-          clusterHash: cluster.clusterId,
-          error: err,
-          errorMessage: err instanceof Error ? err.message : "Unknown error",
-          errorStack: err instanceof Error ? err.stack : undefined,
-        })
         setError(err instanceof Error ? err : new Error("Unknown error"))
       } finally {
         setIsLoading(false)
