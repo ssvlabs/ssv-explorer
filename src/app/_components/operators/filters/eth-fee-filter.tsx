@@ -46,8 +46,8 @@ export function EthFeeFilter() {
         defaultRange={defaultRange}
         apply={apply}
         remove={remove}
-        step={0.01}
-        decimals={2}
+        step={0.0001}
+        decimals={4}
         inputs={{
           start: {
             rightSlot: (
