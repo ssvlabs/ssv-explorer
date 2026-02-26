@@ -1,29 +1,20 @@
 import "abitype"
 
-import { Address, isAddress } from "viem"
+import { isAddress } from "viem"
 import { z } from "zod"
 
 import { type ChainName } from "@/config/chains"
 
-// const networksString =
-//   process.env.SSV_NETWORKS || process.env.NEXT_PUBLIC_SSV_NETWORKS
+const networksString =
+  process.env.SSV_NETWORKS || process.env.NEXT_PUBLIC_SSV_NETWORKS
 
-const NETWORKS = [
-  {
-    networkId: 560048,
-    apiVersion: "v4",
-    apiNetwork: "hoodi",
-    api: "https://api.hoodi.ssv.network/api",
-    explorerUrl: "https://explorer.hoodi.ssv.network/",
-    insufficientBalanceUrl: "https://faucet.ssv.network",
-    googleTagSecret: "GTM-K3GR7M5",
-    tokenAddress: "0x9F5d4Ec84fC4785788aB44F9de973cF34F7A038e",
-    setterContractAddress:
-      "0x58410Bef803ECd7E63B23664C586A6DB72DAf59c" as Address,
-    getterContractAddress:
-      "0x5AdDb3f1529C5ec70D77400499eE4bbF328368fe" as Address,
-  },
-]
+if (!networksString) {
+  throw new Error(
+    "SSV_NETWORKS or NEXT_PUBLIC_SSV_NETWORKS is not defined in the environment variables"
+  )
+}
+
+const NETWORKS = JSON.parse(networksString)
 
 const networkSchema = z
   .array(
@@ -43,8 +34,8 @@ const networkSchema = z
   .min(1)
 
 const additionalEnvSchema = z.object({
-  COINCECKO_API_URL: z.string().url().optional(),
-  COINCECKO_API_KEY: z.string().optional(),
+  COINGECKO_API_URL: z.string().url().optional(),
+  COINGECKO_API_KEY: z.string().optional(),
 })
 
 if (!NETWORKS) {
