@@ -78,8 +78,8 @@ export const getSSVNetworkDetails = (chainName?: ChainName) => {
 export const getAdditionalEnvDetails = () => {
   const env = parsedAdditionalEnv.data
   return {
-    COINGECKO_API_URL: env?.NEXT_PUBLIC_COINGECKO_API_URL,
-    COINGECKO_API_KEY: env?.NEXT_PUBLIC_COINGECKO_API_KEY,
+    COINGECKO_API_URL: process.env?.NEXT_PUBLIC_COINGECKO_API_URL,
+    COINGECKO_API_KEY: process.env?.NEXT_PUBLIC_COINGECKO_API_KEY,
     networks,
   }
 }
