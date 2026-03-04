@@ -1,5 +1,4 @@
 import type { Metadata } from "next"
-import Image from "next/image"
 import Link from "next/link"
 import { getCluster } from "@/api/clusters"
 import { searchValidators } from "@/api/validators"
@@ -8,7 +7,7 @@ import { type Hex } from "viem"
 import { type ChainName } from "@/config/chains"
 import { validatorsSearchParamsCache } from "@/lib/search-parsers/validators-search-parsers"
 import { cn } from "@/lib/utils"
-import { formatSSV, numberFormatter } from "@/lib/utils/number"
+import { numberFormatter } from "@/lib/utils/number"
 import { remove0x, shortenAddress } from "@/lib/utils/strings"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
@@ -26,6 +25,8 @@ import {
   ValidatorsTableFilters,
   ValidatorsTableRoot,
 } from "@/app/_components/validators/validators-table"
+
+import { ClusterBalanceStat } from "./_components/cluster-balance-stat"
 
 interface IndexPageProps {
   params: Promise<{ id: Hex; network: ChainName }>
@@ -116,31 +117,7 @@ export default async function Page(props: IndexPageProps) {
               </Text>
             }
           />
-          {/* <Stat
-            title="Current Balance"
-            content={
-              <div className="flex items-center gap-0.5">
-                <Image
-                  src={
-                    cluster.migrated
-                      ? "/images/networks/dark.svg"
-                      : "/images/ssvIcons/icon.svg"
-                  }
-                  alt={cluster.migrated ? "ETH" : "SSV"}
-                  width={20}
-                  height={20}
-                  className="object-fit size-5"
-                />
-                <Text>
-                  {formatSSV(
-                    BigInt(
-                      cluster.migrated ? cluster.ethBalance : cluster.balance
-                    )
-                  )}
-                </Text>
-              </div>
-            }
-          /> */}
+          <ClusterBalanceStat cluster={cluster} network={network} />
           <Stat
             title="Effective Balance"
             tooltip="ETH staked across all validators in this cluster"
