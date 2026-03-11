@@ -1,8 +1,8 @@
 import { type ExtractAbiEventNames } from "abitype"
 
-import { type SETTER_ABI } from "@/lib/abi/setter"
+import { type ssvNetworkAbi } from "@/lib/abi/setter"
 
-export type AccountEventName = ExtractAbiEventNames<typeof SETTER_ABI>
+export type AccountEventName = ExtractAbiEventNames<typeof ssvNetworkAbi>
 
 export const ACCOUNT_EVENTS_EMOJI_MAP: Partial<
   Record<AccountEventName, string>
