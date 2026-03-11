@@ -1,4 +1,4 @@
-export const SETTER_ABI = [
+export const ssvNetworkAbi = [
   {
     inputs: [],
     stateMutability: "nonpayable",

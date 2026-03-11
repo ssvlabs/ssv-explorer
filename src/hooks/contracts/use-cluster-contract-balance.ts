@@ -6,7 +6,7 @@ import { mainnet } from "viem/chains"
 
 import { type Cluster } from "@/types/api"
 import { chainByName, type ChainName } from "@/config/chains"
-import { ssvNetworkViewsAbi } from "@/lib/contracts/ssv-network-views-abi"
+import { ssvNetworkViewsAbi } from "@/lib/abi/getter"
 import { getSSVNetworkDetails } from "@/lib/utils/ssv-network-details"
 
 export const useClusterContractBalance = (params: {
