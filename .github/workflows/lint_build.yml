@@ -27,8 +27,8 @@ jobs:
             "googleTagSecret": "87987987987",
             "tokenAddress": "0x746c33ccc28b1363c35c09badaf41b2ffa7e6d56",
             "bAppContractAddress": "0x40d959B95e7c56962D6d388d87921c03734b9C2C",
-            "setterContractAddress": "0x746c33ccc28b1363c35c09badaf41b2ffa7e6d56",
-            "getterContractAddress": "0x746c33ccc28b1363c35c09badaf41b2ffa7e6d56"
+            "setterContractAddress": "0xc07B3E9671f884FDa67E1e7D43d952E0e1369fd8",
+            "getterContractAddress": "0x3234e84b7d1eE1AF8b586E26814d4e268336D142"
           }
         ]
 
