@@ -5,6 +5,7 @@ import { searchValidators } from "@/api/validators"
 import { type Hex } from "viem"
 
 import { type ChainName } from "@/config/chains"
+import { getClusterBalance } from "@/lib/contracts/get-cluster-balance"
 import { validatorsSearchParamsCache } from "@/lib/search-parsers/validators-search-parsers"
 import { cn } from "@/lib/utils"
 import { numberFormatter } from "@/lib/utils/number"
@@ -74,6 +75,12 @@ export default async function Page(props: IndexPageProps) {
     )
   }
 
+  // Fetch cluster balance from contract (server-side)
+  const { balance, isMigrated } = await getClusterBalance({
+    cluster,
+    network,
+  }).catch(() => ({ balance: 0n, isMigrated: false }))
+
   return (
     <Shell className="gap-6">
       <Card>
@@ -117,7 +124,7 @@ export default async function Page(props: IndexPageProps) {
               </Text>
             }
           />
-          <ClusterBalanceStat cluster={cluster} network={network} />
+          <ClusterBalanceStat balance={balance} isMigrated={isMigrated} />
           <Stat
             title="Effective Balance"
             tooltip="ETH staked across all validators in this cluster"
