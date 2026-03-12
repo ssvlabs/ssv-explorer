@@ -89,10 +89,6 @@ export async function getClusterBalance(params: {
   let ethBalance = 0n
   let ssvBalance = 0n
 
-  console.log("🔍 Fetching cluster balance for:", cluster.clusterId)
-  console.log("📊 ETH Cluster data:", clusterDataETH)
-  console.log("📊 SSV Cluster data:", clusterDataSSV)
-
   try {
     ethBalance = await publicClient.readContract({
       address: networkDetails.getterContractAddress as Address,
@@ -104,9 +100,8 @@ export async function getClusterBalance(params: {
         clusterDataETH,
       ],
     })
-    console.log("✅ getBalance (ETH) returned:", ethBalance.toString())
   } catch (error) {
-    console.log("❌ getBalance (ETH) failed:", error)
+    // getBalance failed, cluster might be SSV-based
   }
 
   try {
@@ -120,17 +115,14 @@ export async function getClusterBalance(params: {
         clusterDataSSV,
       ],
     })
-    console.log("✅ getBalanceSSV (SSV) returned:", ssvBalance.toString())
   } catch (error) {
-    console.log("❌ getBalanceSSV (SSV) failed:", error)
+    // getBalanceSSV failed, cluster might be ETH-based
   }
 
   // Return whichever has a non-zero balance
   if (ethBalance > 0n) {
-    console.log("🎯 Using ETH balance:", ethBalance.toString())
     return { balance: ethBalance, isMigrated: true }
   }
 
-  console.log("🎯 Using SSV balance:", ssvBalance.toString())
   return { balance: ssvBalance, isMigrated: false }
 }
