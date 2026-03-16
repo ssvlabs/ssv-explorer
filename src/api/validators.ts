@@ -94,3 +94,19 @@ export const getTotalEffectiveBalance = async (params: {
       tags: ["validator"],
     }
   )()
+
+export const countActiveValidators = async (params: { network: ChainName }) =>
+  await unstable_cache(
+    async () => {
+      const response = await api.get<{ data: number }>(
+        endpoint(params.network, "validators", "countActiveValidators") +
+          "?isLiquidated=false"
+      )
+      return response.data
+    },
+    [`${params.network}/countActiveValidators`],
+    {
+      revalidate: 30,
+      tags: ["validators"],
+    }
+  )()

@@ -4,7 +4,7 @@ import {
   getOperatorStatistics,
   getTotalEffectiveBalance,
 } from "@/api/statistics"
-import { searchValidators } from "@/api/validators"
+import { countActiveValidators, searchValidators } from "@/api/validators"
 import { type SearchParams } from "@/types"
 
 import { getNativeCurrency, type ChainName } from "@/config/chains"
@@ -39,6 +39,7 @@ export default async function Page(props: IndexPageProps) {
   const [
     operatorsPromise,
     updatedOperatorsFrom7DaysAgoPromise,
+    totalValidatorsPromise,
     validatorsPromise,
     updatedValidatorsFrom7DaysAgoPromise,
     operatorStatisticsPromise,
@@ -53,6 +54,7 @@ export default async function Page(props: IndexPageProps) {
       network,
       updatedAt: 7,
     }),
+    countActiveValidators({ network }),
     searchValidators({
       ...validatorsSearchParamsCache.parse({}), // add default search params
       network,
@@ -68,6 +70,7 @@ export default async function Page(props: IndexPageProps) {
 
   const operators = getValue(operatorsPromise)
   const operators7daysAgo = getValue(updatedOperatorsFrom7DaysAgoPromise)
+  const totalValidatorsCount = getValue(totalValidatorsPromise)
   const validators = getValue(validatorsPromise)
   const validators7daysAgo = getValue(updatedValidatorsFrom7DaysAgoPromise)
   const operatorStatistics = getValue(operatorStatisticsPromise)
@@ -81,7 +84,7 @@ export default async function Page(props: IndexPageProps) {
   const totalOperators = operators?.pagination.total ?? 0
   const updatedOperatorsFrom7DaysAgo = operators7daysAgo?.pagination.total ?? 0
 
-  const totalValidators = validators?.pagination.total ?? 0
+  const totalValidators = totalValidatorsCount ?? 0
   const updatedValidatorsFrom7DaysAgo =
     validators7daysAgo?.pagination.total ?? 0
   const validatorsIncreasePercent =
