@@ -193,6 +193,16 @@ export const ssvNetworkAbi = [
   },
   {
     inputs: [],
+    name: "InvalidOperatorFeeIncreaseLimit",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidOperatorFeeRange",
+    type: "error",
+  },
+  {
+    inputs: [],
     name: "InvalidOperatorIdsLength",
     type: "error",
   },
