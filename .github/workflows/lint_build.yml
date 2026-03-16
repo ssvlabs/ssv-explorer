@@ -24,11 +24,34 @@ jobs:
             "api": "https://api.stage.ops.ssvlabsinternal.com/api",
             "explorerUrl": "https://hoodi-explorer.stage.ssv.network",
             "insufficientBalanceUrl": "https://faucet.stage.ssv.network",
-            "googleTagSecret": "87987987987",
             "tokenAddress": "0x746c33ccc28b1363c35c09badaf41b2ffa7e6d56",
-            "bAppContractAddress": "0x40d959B95e7c56962D6d388d87921c03734b9C2C",
             "setterContractAddress": "0xc07B3E9671f884FDa67E1e7D43d952E0e1369fd8",
             "getterContractAddress": "0x3234e84b7d1eE1AF8b586E26814d4e268336D142"
+          }
+        ]
+      MAIN_PREVIEW_SSV_NETWORKS: >
+        [
+          {
+            "networkId": 560048,
+            "apiVersion": "v4",
+            "apiNetwork": "hoodi",
+            "api": "https://api.hoodi.ssv.network/api",
+            "explorerUrl": "https://hoodi.etherscan.io",
+            "insufficientBalanceUrl": "https://faucet.ssv.network/",
+            "tokenAddress": "0x9F5d4Ec84fC4785788aB44F9de973cF34F7A038e",
+            "setterContractAddress": "0x58410Bef803ECd7E63B23664C586A6DB72DAf59c",
+            "getterContractAddress": "0x5AdDb3f1529C5ec70D77400499eE4bbF328368fe"
+          },
+          {
+            "networkId": 1,
+            "apiVersion": "v4",
+            "apiNetwork": "mainnet",
+            "api": "https://api.ssv.network/api",
+            "explorerUrl": "https://etherscan.io",
+            "insufficientBalanceUrl": "https://faucet.ssv.network/",
+            "tokenAddress": "0x9D65fF81a3c488d585bBfb0Bfe3c7707c7917f54",
+            "setterContractAddress": "0xDD9BC35aE942eF0cFa76930954a156B3fF30a4E1",
+            "getterContractAddress": "0xafE830B6Ee262ba11cce5F32fDCd760FFE6a66e4"
           }
         ]
 
@@ -66,6 +89,16 @@ jobs:
           SSV_NETWORKS: "${{ env.STAGE_SSV_NETWORKS }}"
           NEXT_PUBLIC_SSV_NETWORKS: "${{ env.STAGE_SSV_NETWORKS }}"
           SITE_URL: "https://explorer.stage.ssv.network"
+          NEXT_PUBLIC_COINGECKO_API_URL: "https://api.coingecko.com/api/"
+
+        run: pnpm build
+
+      - name: Run test main-preview build
+        if: github.ref == 'refs/heads/main-preview'
+        env:
+          SSV_NETWORKS: "${{ env.MAIN_PREVIEW_SSV_NETWORKS }}"
+          NEXT_PUBLIC_SSV_NETWORKS: "${{ env.MAIN_PREVIEW_SSV_NETWORKS }}"
+          SITE_URL: "https://explorer.ssv.network"
           NEXT_PUBLIC_COINGECKO_API_URL: "https://api.coingecko.com/api/"
 
         run: pnpm build
