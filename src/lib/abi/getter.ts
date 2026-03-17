@@ -26,6 +26,11 @@ export const ssvNetworkViewsAbi = [
     type: "error",
   },
   {
+    inputs: [],
+    name: "CallerNotOwner",
+    type: "error",
+  },
+  {
     inputs: [
       {
         internalType: "address",
@@ -39,6 +44,11 @@ export const ssvNetworkViewsAbi = [
       },
     ],
     name: "CallerNotOwnerWithData",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "CallerNotWhitelisted",
     type: "error",
   },
   {
@@ -100,6 +110,17 @@ export const ssvNetworkViewsAbi = [
         type: "uint64",
       },
     ],
+    name: "ExceedValidatorLimit",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint64",
+        name: "operatorId",
+        type: "uint64",
+      },
+    ],
     name: "ExceedValidatorLimitWithData",
     type: "error",
   },
@@ -150,6 +171,11 @@ export const ssvNetworkViewsAbi = [
     type: "error",
   },
   {
+    inputs: [],
+    name: "IncorrectValidatorState",
+    type: "error",
+  },
+  {
     inputs: [
       {
         internalType: "bytes",
@@ -167,12 +193,27 @@ export const ssvNetworkViewsAbi = [
   },
   {
     inputs: [],
-    name: "InvalidContractAddress",
+    name: "InsufficientCSSVSupply",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidOperatorFeeIncreaseLimit",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidOperatorFeeRange",
     type: "error",
   },
   {
     inputs: [],
     name: "InvalidOperatorIdsLength",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidOracleId",
     type: "error",
   },
   {
@@ -218,6 +259,11 @@ export const ssvNetworkViewsAbi = [
   },
   {
     inputs: [],
+    name: "MaxPrecisionExceeded",
+    type: "error",
+  },
+  {
+    inputs: [],
     name: "MaxRequestsAmountReached",
     type: "error",
   },
@@ -228,17 +274,17 @@ export const ssvNetworkViewsAbi = [
   },
   {
     inputs: [],
+    name: "MustUseLatestRoot",
+    type: "error",
+  },
+  {
+    inputs: [],
     name: "NewBlockPeriodIsBelowMinimum",
     type: "error",
   },
   {
     inputs: [],
     name: "NoFeeDeclared",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "NotAuthorized",
     type: "error",
   },
   {
@@ -303,6 +349,11 @@ export const ssvNetworkViewsAbi = [
   },
   {
     inputs: [],
+    name: "SameOracleAddressNotAllowed",
+    type: "error",
+  },
+  {
+    inputs: [],
     name: "StakeTooLow",
     type: "error",
   },
@@ -314,6 +365,11 @@ export const ssvNetworkViewsAbi = [
   {
     inputs: [],
     name: "StaleUpdate",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "TargetModuleDoesNotExist",
     type: "error",
   },
   {
@@ -348,6 +404,11 @@ export const ssvNetworkViewsAbi = [
     type: "error",
   },
   {
+    inputs: [],
+    name: "ValidatorAlreadyExists",
+    type: "error",
+  },
+  {
     inputs: [
       {
         internalType: "bytes",
@@ -356,6 +417,22 @@ export const ssvNetworkViewsAbi = [
       },
     ],
     name: "ValidatorAlreadyExistsWithData",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bytes",
+        name: "publicKey",
+        type: "bytes",
+      },
+      {
+        internalType: "address",
+        name: "owner",
+        type: "address",
+      },
+    ],
+    name: "ValidatorAlreadyRegistered",
     type: "error",
   },
   {
@@ -376,6 +453,11 @@ export const ssvNetworkViewsAbi = [
   {
     inputs: [],
     name: "ZeroAmount",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "ZeroCSSVSupply",
     type: "error",
   },
   {
