@@ -6,7 +6,7 @@ import { type ColumnDef } from "@tanstack/react-table"
 import { formatDistanceToNowStrict } from "date-fns"
 
 import { type Cluster } from "@/types/api"
-import { formatSSV, numberFormatter } from "@/lib/utils/number"
+import { numberFormatter } from "@/lib/utils/number"
 import { remove0x, shortenAddress } from "@/lib/utils/strings"
 import { useNetworkParam } from "@/hooks/app/useNetworkParam"
 import { CopyBtn } from "@/components/ui/copy-btn"
@@ -92,33 +92,6 @@ export const clustersTableColumns: ColumnDefWithTitle<Cluster>[] = [
     ),
     enableSorting: false,
   },
-  // {
-  //   accessorKey: "balance",
-  //   header: ({ column }) => (
-  //     <DataTableColumnHeader column={column} title="Balance" />
-  //   ),
-  //   cell: ({ row }) => {
-  //     const { ethBalance, balance, migrated } = row.original
-
-  //     return (
-  //       <div className="flex items-center gap-2">
-  //         <Image
-  //           src={
-  //             migrated
-  //               ? "/images/networks/dark.svg"
-  //               : "/images/ssvIcons/icon.svg"
-  //           }
-  //           alt={migrated ? "ETH" : "SSV"}
-  //           width={16}
-  //           height={16}
-  //           className="object-fit size-4"
-  //         />
-  //         <Text>{formatSSV(BigInt(migrated ? ethBalance : balance))}</Text>
-  //       </div>
-  //     )
-  //   },
-  //   enableSorting: false,
-  // },
   {
     accessorKey: "effectiveBalance",
     header: ({ column }) => (
@@ -186,7 +159,6 @@ export const clustersTableDefaultColumnsKeys: ClusterColumnsAccessorKeys[] = [
   "ownerAddress",
   "operators",
   "validatorCount",
-  // "balance",
   "effectiveBalance",
   "active",
 ]

@@ -35,13 +35,13 @@ export const getSSVRates = async () => {
       return await api
         .get<CoinGeckoResponse>(
           urlJoin(
-            additionalEnvDetails.COINCECKO_API_URL || "",
+            additionalEnvDetails.COINGECKO_API_URL || "",
             "v3/simple/price",
             "?vs_currencies=usd&ids=ssv-network&include_24hr_change=true"
           ),
           {
             headers: {
-              "x-cg-demo-api-key": additionalEnvDetails.COINCECKO_API_KEY,
+              "x-cg-demo-api-key": additionalEnvDetails.COINGECKO_API_KEY,
             },
           }
         )
