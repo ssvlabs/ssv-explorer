@@ -193,6 +193,11 @@ export const ssvNetworkViewsAbi = [
   },
   {
     inputs: [],
+    name: "InsufficientCSSVSupply",
+    type: "error",
+  },
+  {
+    inputs: [],
     name: "InvalidOperatorFeeIncreaseLimit",
     type: "error",
   },
@@ -448,6 +453,11 @@ export const ssvNetworkViewsAbi = [
   {
     inputs: [],
     name: "ZeroAmount",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "ZeroCSSVSupply",
     type: "error",
   },
   {
