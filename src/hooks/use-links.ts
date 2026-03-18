@@ -1,11 +1,12 @@
 "use client"
 
 import { useMemo } from "react"
+import { env } from "@/env"
 
 import { useNetworkQuery } from "@/hooks/search/use-network-query"
 
 export const useLinks = () => {
-  const isProduction = false // TODO: fix this
+  const isProduction = env.NEXT_PUBLIC_ENV === "production"
   const { chain } = useNetworkQuery()
 
   return useMemo(() => {
