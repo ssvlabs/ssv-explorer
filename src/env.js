@@ -28,6 +28,9 @@ export const env = createEnv({
    */
   client: {
     // NEXT_PUBLIC_CLIENTVAR: z.string(),
+    NEXT_PUBLIC_ENV: z
+      .enum(["development", "stage", "production"])
+      .default("development"),
     NEXT_PUBLIC_SSV_NETWORKS: z
       .string()
       .default(
@@ -42,6 +45,7 @@ export const env = createEnv({
   runtimeEnv: {
     NODE_ENV: process.env.NODE_ENV,
     SSV_NETWORKS: process.env.SSV_NETWORKS,
+    NEXT_PUBLIC_ENV: process.env.NEXT_PUBLIC_ENV,
     NEXT_PUBLIC_SSV_NETWORKS: process.env.NEXT_PUBLIC_SSV_NETWORKS,
     SITE_URL: process.env.SITE_URL,
   },
