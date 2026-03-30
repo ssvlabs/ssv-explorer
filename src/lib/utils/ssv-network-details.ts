@@ -35,8 +35,7 @@ const networkSchema = z
   .min(1)
 
 const additionalEnvSchema = z.object({
-  NEXT_PUBLIC_COINGECKO_API_URL: z.string().url().optional(),
-  NEXT_PUBLIC_COINGECKO_API_KEY: z.string().optional(),
+  COINGECKO_API_KEY: z.string().optional(),
 })
 
 if (!NETWORKS) {
@@ -74,13 +73,4 @@ export const getSSVNetworkDetails = (chainName?: ChainName) => {
   return parsed.data.find(
     (network) => network.apiNetwork === chainName?.toLowerCase()
   )
-}
-
-export const getAdditionalEnvDetails = () => {
-  const env = parsedAdditionalEnv.data
-  return {
-    COINGECKO_API_URL: process.env?.NEXT_PUBLIC_COINGECKO_API_URL,
-    COINGECKO_API_KEY: process.env?.NEXT_PUBLIC_COINGECKO_API_KEY,
-    networks,
-  }
 }
