@@ -34,14 +34,9 @@ const networkSchema = z
   )
   .min(1)
 
-const additionalEnvSchema = z.object({
-  COINGECKO_API_KEY: z.string().optional(),
-})
-
 if (!NETWORKS) {
   throw new Error("SSV_NETWORKS is not defined in the environment variables")
 }
-const parsedAdditionalEnv = additionalEnvSchema.safeParse(process.env)
 
 const parsed = networkSchema.safeParse(NETWORKS)
 
@@ -57,17 +52,6 @@ Invalid network schema in SSV_NETWORKS environment variable:
 }
 
 export const networks = parsed.data
-
-if (!parsedAdditionalEnv.success) {
-  throw new Error(
-    `
-Invalid Additional Env schema:
-\t${parsedAdditionalEnv.error?.errors
-      .map((error) => `${error.path.join(".")} -> ${error.message}`)
-      .join("\n\t")}
-    `
-  )
-}
 
 export const getSSVNetworkDetails = (chainName?: ChainName) => {
   return parsed.data.find(
