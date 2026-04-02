@@ -19,6 +19,7 @@ export type RangeProps = {
   name: string
   defaultRange: [number, number]
   searchRange: [number, number] | null
+  showSlider?: boolean
   step?: number
   min?: number
   max?: number
@@ -37,6 +38,7 @@ export const Range: FC<ComponentPropsWithoutRef<"form"> & RangeProps> = ({
   inputs,
   min,
   max,
+  showSlider = true,
   step = 0.01,
   decimals = 0,
   searchRange,
@@ -137,13 +139,15 @@ export const Range: FC<ComponentPropsWithoutRef<"form"> & RangeProps> = ({
               onChange={(newEnd) => setRange([range[0], newEnd])}
             />
           </div>
-          <RangeSlider
-            className="py-1"
-            value={form.watch("range")}
-            max={defaultRange[1]}
-            step={step}
-            onValueChange={(values) => setRange(values as [number, number])}
-          />
+          {showSlider ? (
+            <RangeSlider
+              className="py-1"
+              value={form.watch("range")}
+              max={defaultRange[1]}
+              step={step}
+              onValueChange={(values) => setRange(values as [number, number])}
+            />
+          ) : null}
         </div>
         <div className="flex justify-end gap-2 border-t border-gray-300 p-4">
           <Button
