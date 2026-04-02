@@ -43,7 +43,7 @@ export const effectiveBalanceParser = parseAsTuple(
     postParse: sortNumbers,
   }
 )
-  .withDefault([0, 25000])
+  .withDefault([0, 2048 * 3000])
   .withOptions(defaultSearchOptions)
 
 const bigintTuple = z.tuple([
@@ -80,8 +80,8 @@ export const getEffectiveBalanceParser = ({
       }
     },
     serialize: ([_min, _max]) => {
-      const min = serializeToGwei ? Number(parseGwei(`${_min}`)) : _min
-      const max = serializeToGwei ? Number(parseGwei(`${_max}`)) : _max
+      const min = serializeToGwei ? parseGwei(`${_min}`).toString() : `${_min}`
+      const max = serializeToGwei ? parseGwei(`${_max}`).toString() : `${_max}`
       if (min && max) return `${min},${max}`
       if (min) return `${min},`
       if (max) return `,${max}`
