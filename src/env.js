@@ -13,7 +13,7 @@ export const env = createEnv({
     SSV_NETWORKS: z
       .string()
       .default(
-        '[{"networkId":560048,"apiVersion":"v4","apiNetwork":"hoodi","api":"https://api.stage.ops.ssvlabsinternal.com/api","explorerUrl":"https://hoodi.explorer.ssv.network","insufficientBalanceUrl":"https://faucet.ssv.network"}]'
+        '[{"networkId":560048,"apiVersion":"v4","apiNetwork":"hoodi","api":"https://api.stage.ops.ssvlabsinternal.com/api","explorerUrl":"https://hoodi.explorer.ssv.network","insufficientBalanceUrl":"https://faucet.ssv.network","cTokenAddress":"0xd15Dbea3e279042e2EaB4f02D49331Dc37B5b7E6"}]'
       ),
     SITE_URL: z
       .string()
@@ -31,7 +31,7 @@ export const env = createEnv({
     NEXT_PUBLIC_SSV_NETWORKS: z
       .string()
       .default(
-        '[{"networkId":560048,"apiVersion":"v4","apiNetwork":"hoodi","api":"https://api.stage.ops.ssvlabsinternal.com/api","explorerUrl":"https://hoodi.explorer.ssv.network","insufficientBalanceUrl":"https://faucet.ssv.network"}]'
+        '[{"networkId":560048,"apiVersion":"v4","apiNetwork":"hoodi","api":"https://api.stage.ops.ssvlabsinternal.com/api","explorerUrl":"https://hoodi.explorer.ssv.network","insufficientBalanceUrl":"https://faucet.ssv.network","cTokenAddress":"0xd15Dbea3e279042e2EaB4f02D49331Dc37B5b7E6"}]'
       ),
   },
 

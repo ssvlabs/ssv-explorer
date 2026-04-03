@@ -6,8 +6,6 @@ await import("./src/env.js")
 
 /** @type {import("next").NextConfig} */
 const nextConfig = {
-  typescript: { ignoreBuildErrors: true },
-
   // Enable compression for better performance
   compress: true,
 

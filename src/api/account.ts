@@ -16,22 +16,32 @@ import {
 import { stringifyBigints } from "@/lib/utils/bigint"
 import { unstable_cache } from "@/lib/utils/unstable-cache"
 
+const serializeEffectiveBalance = ([min, max]: [number, number]) =>
+  [
+    formatGwei(parseEther(min.toString())),
+    formatGwei(parseEther(max.toString())),
+  ].join(",")
+
 export const searchAccounts = async (
   params: Partial<AccountsSearchSchema> & { network: ChainName }
 ): Promise<PaginatedAccountsResponse> =>
   await unstable_cache(
     async () => {
-      const augmentedParams = {
-        ...params,
-        effectiveBalance: params.effectiveBalance
-          ? (params.effectiveBalance.map(
-              (value) => +formatGwei(parseEther(value.toString()))
-            ) as [number, number])
-          : params.effectiveBalance,
+      const searchParams = new URLSearchParams(
+        accountSearchParamsSerializer(params)
+      )
+      if (params.effectiveBalance) {
+        searchParams.set(
+          "effectiveBalance",
+          serializeEffectiveBalance(params.effectiveBalance)
+        )
       }
-
-      const searchParams = accountSearchParamsSerializer(augmentedParams)
-      const url = endpoint(params.network, "accounts", searchParams)
+      const serializedSearchParams = searchParams.toString()
+      const url = endpoint(
+        params.network,
+        "accounts",
+        serializedSearchParams ? `?${serializedSearchParams}` : ""
+      )
       return api.get<PaginatedAccountsResponse>(url)
     },
     [JSON.stringify(stringifyBigints(params))],
