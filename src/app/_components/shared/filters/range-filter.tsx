@@ -1,7 +1,7 @@
 "use client"
 
 import { isEqual } from "lodash-es"
-import { useQueryState, type ParserBuilder } from "nuqs"
+import { useQueryState, type SingleParserBuilder } from "nuqs"
 
 import { Text } from "@/components/ui/text"
 import { FilterButton } from "@/components/filter/filter-button"
@@ -10,8 +10,11 @@ import { Range, type RangeProps } from "@/components/filter/range-filter"
 type Props<TSearchKey extends string = string> = {
   name: string
   searchQueryKey: TSearchKey
-  parser: ParserBuilder<[number, number]> & { defaultValue: [number, number] }
+  parser: SingleParserBuilder<[number, number]> & {
+    defaultValue: [number, number]
+  }
   inputs?: RangeProps["inputs"]
+  showSlider?: RangeProps["showSlider"]
   suffix?: string
   step?: number
   decimals?: number
@@ -21,6 +24,7 @@ export const RangeFilter = <TSearchKey extends string = string>({
   searchQueryKey,
   parser,
   inputs,
+  showSlider,
   suffix,
   step = 0.1,
   decimals = 1,
@@ -57,6 +61,7 @@ export const RangeFilter = <TSearchKey extends string = string>({
         defaultRange={defaultRange}
         apply={apply}
         remove={remove}
+        showSlider={showSlider}
         step={step}
         decimals={decimals}
         inputs={
