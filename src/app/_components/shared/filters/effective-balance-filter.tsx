@@ -12,7 +12,7 @@ type Props<TSearchKey extends string = string> = {
   name: string
   searchQueryKey: TSearchKey
   parser: SingleParserBuilder<[number, number]> & {
-    defaultValue: [number, number]
+    defaultValue?: [number, number]
   }
 }
 export function EffectiveBalanceFilter<TSearchKey extends string = string>({
@@ -23,7 +23,7 @@ export function EffectiveBalanceFilter<TSearchKey extends string = string>({
   const popup = useDisclosure()
 
   const [searchRange, setSearchRange] = useQueryState(searchQueryKey, parser)
-  const defaultRange = parser.defaultValue
+  const defaultRange = parser.defaultValue ?? [0, 0]
 
   const isActive = !isEqual(searchRange, defaultRange) && Boolean(searchRange)
 
@@ -55,6 +55,7 @@ export function EffectiveBalanceFilter<TSearchKey extends string = string>({
         name={name}
         searchRange={searchRange}
         defaultRange={defaultRange}
+        min={0}
         apply={apply}
         remove={remove}
         step={1}
