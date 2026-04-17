@@ -42,9 +42,7 @@ export const effectiveBalanceParser = parseAsTuple(
   {
     postParse: sortNumbers,
   }
-)
-  .withDefault([0, 2048 * 3000])
-  .withOptions(defaultSearchOptions)
+).withOptions(defaultSearchOptions)
 
 const bigintTuple = z.tuple([
   z.bigint({ coerce: true }),

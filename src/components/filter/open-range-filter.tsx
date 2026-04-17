@@ -103,8 +103,8 @@ export const OpenRange: FC<
           <div className="flex items-center justify-between">
             <NumberInput
               id="first-input"
-              min={min ?? defaultRange[0]}
-              max={max ?? defaultRange[1]}
+              min={min}
+              max={max}
               decimals={decimals}
               {...inputs?.start}
               step={step}
@@ -120,8 +120,8 @@ export const OpenRange: FC<
               }}
             />
             <NumberInput
-              min={min ?? defaultRange[0]}
-              max={max ?? defaultRange[1]}
+              min={min}
+              max={max}
               decimals={decimals}
               {...inputs?.end}
               step={step}
