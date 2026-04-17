@@ -1,14 +1,8 @@
-import {
-  useEffect,
-  useState,
-  type ComponentPropsWithoutRef,
-  type FC,
-} from "react"
+import { useEffect, type ComponentPropsWithoutRef, type FC } from "react"
 import { isEqual } from "lodash-es"
 import { useForm } from "react-hook-form"
 
 import { cn } from "@/lib/utils"
-import { useReactiveRef as useRef } from "@/hooks/use-reactive-ref"
 import { Button } from "@/components/ui/button"
 import { Form } from "@/components/ui/form"
 import { RangeSlider } from "@/components/ui/slider"
@@ -139,15 +133,13 @@ export const Range: FC<ComponentPropsWithoutRef<"form"> & RangeProps> = ({
               onChange={(newEnd) => setRange([range[0], newEnd])}
             />
           </div>
-          {showSlider ? (
-            <RangeSlider
-              className="py-1"
-              value={form.watch("range")}
-              max={defaultRange[1]}
-              step={step}
-              onValueChange={(values) => setRange(values as [number, number])}
-            />
-          ) : null}
+          <RangeSlider
+            className={cn("py-1", !showSlider && "hidden")}
+            value={form.watch("range")}
+            max={defaultRange[1]}
+            step={step}
+            onValueChange={(values) => setRange(values as [number, number])}
+          />
         </div>
         <div className="flex justify-end gap-2 border-t border-gray-300 p-4">
           <Button
