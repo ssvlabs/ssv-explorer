@@ -47,7 +47,7 @@ export function SiteHeader() {
             <NetworkSwitcher />
             <Button
               as={Link}
-              href="https://app.ssv.network/join"
+              href="https://preview.app.ssv.network/join"
               target="_blank"
               variant="secondary"
               className={cn(
