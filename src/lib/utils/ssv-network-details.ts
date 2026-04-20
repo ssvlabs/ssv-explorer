@@ -27,21 +27,16 @@ const networkSchema = z
       insufficientBalanceUrl: z.string(),
       googleTagSecret: z.string().optional(),
       tokenAddress: z.string().refine(isAddress).optional(),
+      cTokenAddress: z.string().refine(isAddress).optional(),
       setterContractAddress: z.string().refine(isAddress).optional(),
       getterContractAddress: z.string().refine(isAddress).optional(),
     })
   )
   .min(1)
 
-const additionalEnvSchema = z.object({
-  NEXT_PUBLIC_COINGECKO_API_URL: z.string().url().optional(),
-  NEXT_PUBLIC_COINGECKO_API_KEY: z.string().optional(),
-})
-
 if (!NETWORKS) {
   throw new Error("SSV_NETWORKS is not defined in the environment variables")
 }
-const parsedAdditionalEnv = additionalEnvSchema.safeParse(process.env)
 
 const parsed = networkSchema.safeParse(NETWORKS)
 
@@ -58,28 +53,8 @@ Invalid network schema in SSV_NETWORKS environment variable:
 
 export const networks = parsed.data
 
-if (!parsedAdditionalEnv.success) {
-  throw new Error(
-    `
-Invalid Additional Env schema:
-\t${parsedAdditionalEnv.error?.errors
-      .map((error) => `${error.path.join(".")} -> ${error.message}`)
-      .join("\n\t")}
-    `
-  )
-}
-
 export const getSSVNetworkDetails = (chainName?: ChainName) => {
   return parsed.data.find(
     (network) => network.apiNetwork === chainName?.toLowerCase()
   )
-}
-
-export const getAdditionalEnvDetails = () => {
-  const env = parsedAdditionalEnv.data
-  return {
-    COINGECKO_API_URL: process.env?.NEXT_PUBLIC_COINGECKO_API_URL,
-    COINGECKO_API_KEY: process.env?.NEXT_PUBLIC_COINGECKO_API_KEY,
-    networks,
-  }
 }

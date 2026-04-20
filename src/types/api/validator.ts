@@ -3,10 +3,12 @@ import {
   type ValidatorStatus,
 } from "@/lib/utils/validator-status-mapping"
 
-import type { Operator } from "./operator"
+import type { MinimalOperator, Operator } from "./operator"
 import { type WithInfinitePagination } from "./paginations"
 
-export interface SearchValidator<T extends Operator | string = string> {
+export interface SearchValidator<
+  T extends Operator | MinimalOperator | string = MinimalOperator,
+> {
   block: number
   cluster: string
   created_at: string

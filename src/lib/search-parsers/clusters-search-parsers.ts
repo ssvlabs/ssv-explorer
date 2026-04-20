@@ -5,6 +5,7 @@ import {
   parseAsArrayOf,
   parseAsBoolean,
   parseAsString,
+  parseAsStringEnum,
 } from "nuqs/server"
 import { z } from "zod"
 
@@ -53,7 +54,12 @@ export const clusterSearchSort = {
 }
 
 export const operatorDetailsFilter = {
-  operatorDetails: parseAsBoolean.withDefault(true),
+  operatorDetails: parseAsStringEnum(["true", "false", "minimal"])
+    .withDefault("minimal")
+    .withOptions({
+      ...defaultSearchOptions,
+      clearOnDefault: false,
+    }),
 }
 
 export const clustersSearchParamsCache = createSearchParamsCache({

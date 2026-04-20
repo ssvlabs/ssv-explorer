@@ -1,30 +1,27 @@
 "use client"
 
+import Link from "next/link"
 import { usePathname } from "next/navigation"
 
 import { cn } from "@/lib/utils"
 import { currencyFormatter } from "@/lib/utils/number"
 import { useNetworkParam } from "@/hooks/app/useNetworkParam"
 import { useSSVRates } from "@/hooks/use-ssv-rates"
+/* eslint-disable @next/next/no-img-element */
 import { Button } from "@/components/ui/button"
 import { Text } from "@/components/ui/text"
-import { GlobalSearch } from "@/components/global-search/global-search"
-import { MobileSiteHeader } from "@/components/layouts/mobile-site-header"
 import { ThemeSwitcher } from "@/components/layouts/theme-switcher"
 import { Logo } from "@/components/logo"
 import { NetworkSwitcher } from "@/components/network-switcher"
-import { Link } from "@/components/nextjs/custom-link"
 import { ValueChangeIndicator } from "@/components/value-change-indicator"
 
-export function SiteHeader() {
-  const network = useNetworkParam()
-  const pathname = usePathname()
-  const isOverview = pathname.includes(`/${network}/overview`)
-  const { data: rates } = useSSVRates()
+const DISCORD_LINK = "https://discord.com/invite/ssvnetworkofficial"
 
+export const Maintenance = () => {
+  const network = useNetworkParam()
+  const { data: rates } = useSSVRates()
   return (
-    <>
-      <MobileSiteHeader />
+    <div className="flex h-screen w-full flex-col items-center">
       <header className="container hidden w-full px-6 backdrop-blur md:block">
         <div className="flex h-[60px] items-center border-b border-gray-300 font-mono">
           <Link
@@ -59,52 +56,24 @@ export function SiteHeader() {
             <ThemeSwitcher className="ml-1" />
           </nav>
         </div>
-        <div className="flex h-[60px] items-center justify-between gap-6">
-          <div className="flex gap-6">
-            <Text
-              as={Link}
-              variant="body-3-medium"
-              href={`/${network}/overview`}
-              className="data-[active=true]:text-primary-500"
-            >
-              Overview
-            </Text>
-            <Text
-              as={Link}
-              variant="body-3-medium"
-              href={`/${network}/operators`}
-              className="data-[active=true]:text-primary-500"
-            >
-              Operators
-            </Text>
-            <Text
-              as={Link}
-              variant="body-3-medium"
-              href={`/${network}/validators`}
-              className="data-[active=true]:text-primary-500"
-            >
-              Validators
-            </Text>
-            <Text
-              as={Link}
-              variant="body-3-medium"
-              href={`/${network}/clusters`}
-              className="data-[active=true]:text-primary-500"
-            >
-              Clusters
-            </Text>
-            <Text
-              as={Link}
-              variant="body-3-medium"
-              href={`/${network}/accounts`}
-              className="data-[active=true]:text-primary-500"
-            >
-              Accounts
-            </Text>
-          </div>
-          {!isOverview && <GlobalSearch className="w-[600px] max-w-full" />}
-        </div>
       </header>
-    </>
+      <div className="flex flex-1 flex-col items-center justify-center">
+        <img src="/images/maintenance.svg" alt="Maintenance" className="w-40" />
+        <Text variant="headline2" className="mt-16 text-gray-700">
+          The site is currently down for maintenance
+        </Text>
+        <div className="mt-7 flex flex-col gap-2 text-center">
+          <Text variant="body-1-medium">
+            We&apos;ll be back up and running again shortly
+          </Text>
+          <Text variant="body-3-medium" className="text-gray-600">
+            You can reach us on{" "}
+            <Button variant="link" as="a" href={DISCORD_LINK} target="_blank">
+              Discord
+            </Button>
+          </Text>
+        </div>
+      </div>
+    </div>
   )
 }

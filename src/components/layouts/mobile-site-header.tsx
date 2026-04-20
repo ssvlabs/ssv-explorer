@@ -148,18 +148,7 @@ export function MobileSiteHeader() {
                 />
                 <Button
                   as={Link}
-                  href="https://explorer.ssv.network/"
-                  target="_blank"
-                  variant="secondary"
-                  className={cn(
-                    "w-fit gap-1 border border-primary-200 bg-primary-100 px-3 font-sans text-sm capitalize text-primary-500 hover:bg-primary-200"
-                  )}
-                >
-                  Mainnet Explorer
-                </Button>
-                <Button
-                  as={Link}
-                  href="https://preview.app.ssv.network/join"
+                  href="https://app.ssv.network/join"
                   target="_blank"
                   variant="secondary"
                   className={cn(

@@ -45,6 +45,7 @@ export const AccountTableFilters = () => {
           name="ETH Managed"
           searchQueryKey="totalOperatorEthManaged"
           parser={accountsSearchFilters.totalOperatorEthManaged}
+          showSlider={false}
           suffix=""
           step={1}
           decimals={0}
