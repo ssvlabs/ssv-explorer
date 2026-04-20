@@ -6,13 +6,29 @@ import { useEventsSearchParams } from "@/hooks/search/use-custom-search-params"
 import { Button } from "@/components/ui/button"
 import { textVariants } from "@/components/ui/text"
 import { EntityFilter } from "@/app/_components/events/filters/entity"
+import { EventFilter } from "@/app/_components/events/filters/event"
 
-export const EventsTableFilters = () => {
+export type EventsTableFiltersProps = {
+  className?: string
+  showEntity?: boolean
+  showEvent?: boolean
+}
+
+export const EventsTableFilters = ({
+  className,
+  showEntity = true,
+  showEvent = false,
+}: EventsTableFiltersProps) => {
   const { isFiltersOpen } = useTable()
   const { enabledFilters, clearFilters } = useEventsSearchParams()
 
   return (
-    <Collapse isOpened={isFiltersOpen}>
+    <Collapse
+      isOpened={isFiltersOpen}
+      theme={{
+        collapse: cn("ReactCollapse--collapse", className),
+      }}
+    >
       <div
         className={cn(
           "flex flex-wrap items-center gap-2 overflow-hidden border-t border-gray-300 py-2 transition-opacity duration-300",
@@ -23,7 +39,8 @@ export const EventsTableFilters = () => {
         )}
         aria-hidden={!isFiltersOpen}
       >
-        <EntityFilter />
+        {showEntity && <EntityFilter />}
+        {showEvent && <EventFilter />}
         {enabledFilters.count > 0 && (
           <Button
             variant="ghost"

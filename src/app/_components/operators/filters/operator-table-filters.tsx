@@ -11,7 +11,9 @@ import { Button } from "@/components/ui/button"
 import { textVariants } from "@/components/ui/text"
 import { MevRelaysFilter } from "@/app/_components/operators/filters/mev-relays-filter"
 import { HexFilter } from "@/app/_components/shared/filters/address-filter"
+import { EffectiveBalanceFilter } from "@/app/_components/shared/filters/effective-balance-filter"
 
+import { EthFeeFilter } from "./eth-fee-filter"
 import { Eth1ClientFilter } from "./eth1-client-filter"
 import { Eth2ClientFilter } from "./eth2-client-filter"
 import { FeeFilter } from "./fee-filter"
@@ -20,6 +22,7 @@ import { LocationFilter } from "./location-filter"
 import { NameFilter } from "./name-filter"
 import { Performance24hFilter } from "./performance-24h-filter"
 import { Performance30dFilter } from "./performance-30d-filter"
+import { SsvClientFilter } from "./ssv-client-filter"
 import { StatusFilter } from "./status-filter"
 import { ValidatorsFilter } from "./validators-filter"
 import { VerifiedFilter } from "./verified-filter"
@@ -27,16 +30,23 @@ import { IsPrivateFilter } from "./visibility-filter"
 
 export type OperatorTableFiltersProps = {
   hideOwnerAddressFilter?: boolean
+  className?: string
 }
 
 export const OperatorTableFilters = ({
   hideOwnerAddressFilter,
+  className,
 }: OperatorTableFiltersProps) => {
   const { isFiltersOpen } = useTable()
   const { enabledFilters, clearFilters } = useOperatorsSearchParams()
 
   return (
-    <Collapse isOpened={isFiltersOpen}>
+    <Collapse
+      isOpened={isFiltersOpen}
+      theme={{
+        collapse: cn("ReactCollapse--collapse", className),
+      }}
+    >
       <div
         className={cn(
           "flex flex-wrap items-center gap-2 overflow-hidden border-t border-gray-300 py-2 transition-opacity duration-300",
@@ -60,10 +70,16 @@ export const OperatorTableFilters = ({
         <LocationFilter />
         <Eth1ClientFilter />
         <Eth2ClientFilter />
-        <FeeFilter />
+        <SsvClientFilter />
         <MevRelaysFilter />
+        <EthFeeFilter />
+        <FeeFilter />
+        <EffectiveBalanceFilter<OperatorSearchFilterKeys>
+          name="ETH Managed"
+          searchQueryKey="effectiveBalance"
+          parser={operatorSearchParsers.effectiveBalance}
+        />
         <ValidatorsFilter />
-        {/* <ManagedEthFilter /> */}
         <Performance24hFilter />
         <Performance30dFilter />
         <StatusFilter />

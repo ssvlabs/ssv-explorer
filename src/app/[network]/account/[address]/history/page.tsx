@@ -4,7 +4,13 @@ import { type Address } from "viem"
 
 import { type ChainName } from "@/config/chains"
 import { eventsSearchParamsCache } from "@/lib/search-parsers/events-search-parsers"
-import { AccountEventsTable } from "@/app/_components/events/events-table"
+import {
+  EventsTableContent,
+  EventsTableFilters,
+  EventsTableMenuButton,
+  EventsTableRoot,
+  EventsTableViewOptions,
+} from "@/app/_components/events/events-table"
 
 interface IndexPageProps {
   params: Promise<{ address: Address; network: ChainName }>
@@ -22,5 +28,14 @@ export default async function IndexPage({
     ownerAddress: address,
     network: network,
   })
-  return <AccountEventsTable dataPromise={events} />
+  return (
+    <EventsTableRoot dataPromise={events}>
+      <div className="flex items-center justify-end gap-2 p-5">
+        <EventsTableMenuButton />
+        <EventsTableViewOptions />
+      </div>
+      <EventsTableFilters className="col-span-2 px-5" />
+      <EventsTableContent className="col-span-2" />
+    </EventsTableRoot>
+  )
 }

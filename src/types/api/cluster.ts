@@ -18,10 +18,13 @@ export type Cluster<T extends (Operator | number)[] = Operator[]> = {
   ownerAddress: string
   index: string
   isLiquidated: boolean
+  effectiveBalance: string
   clusterId: string
   blockNumber: string
   balance: string
+  ethBalance: string
   active: boolean
+  migrated: boolean
   updatedAt: Date
   createdAt: Date
   operators: T

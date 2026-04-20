@@ -15,6 +15,7 @@ import {
   addressesParser,
   clustersParser,
   defaultSearchOptions,
+  getEffectiveBalanceParser,
   publicKeysParser,
 } from "@/lib/search-parsers/shared/parsers"
 import { sortNumbers } from "@/lib/utils/number"
@@ -44,6 +45,7 @@ export const validatorsSearchFilters = {
       postParse: sortNumbers,
     }
   ).withOptions(defaultSearchOptions),
+  effectiveBalance: getEffectiveBalanceParser({ serializeToGwei: true }),
 }
 
 export type ValidatorSearchFilterKeys = keyof typeof validatorsSearchFilters

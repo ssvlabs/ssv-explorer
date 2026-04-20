@@ -40,8 +40,6 @@ export type ComponentWithAs<Component extends As, Props extends object = {}> = {
     >
   ): React.ReactNode
   displayName?: string
-  propTypes?: React.WeakValidationMap<any>
-  contextTypes?: React.ValidationMap<any>
   defaultProps?: Partial<any>
   id?: string
 }

@@ -5,6 +5,8 @@ export type PaginatedEventsResponse = WithPagination<{
   data: AccountEvent[]
 }>
 
+export type AllOperatorEventsResponse = AccountEvent[]
+
 export interface AccountEvent {
   network: string
   version: string

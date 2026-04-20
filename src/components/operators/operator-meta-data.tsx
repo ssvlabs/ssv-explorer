@@ -8,6 +8,7 @@ import { LuChevronDown } from "react-icons/lu"
 
 import { type Operator } from "@/types/api"
 import { cn } from "@/lib/utils"
+import { formatETH, formatSSV } from "@/lib/utils/number"
 import { getYearlyFee } from "@/lib/utils/operator"
 import { Button } from "@/components/ui/button"
 import { CopyBtn } from "@/components/ui/copy-btn"
@@ -45,9 +46,26 @@ export const OperatorMetaData: OperatorMetaDataFC = ({
                 <Text variant="caption-medium" className="text-gray-500">
                   Fee (Yearly):
                 </Text>
-                <Text variant="body-3-medium">
-                  {getYearlyFee(BigInt(operator.fee), { format: true })}
-                </Text>
+                <div className="flex items-center gap-2">
+                  {BigInt(operator.eth_fee || 0) > 0 ? (
+                    <Text variant="body-3-medium">
+                      {formatETH(getYearlyFee(BigInt(operator.eth_fee)))} ETH
+                    </Text>
+                  ) : (
+                    <Text variant="body-3-medium" className="text-gray-400">
+                      - ETH
+                    </Text>
+                  )}
+                  {BigInt(operator.fee || 0) > 0 ? (
+                    <Text variant="body-3-medium">
+                      {formatSSV(getYearlyFee(BigInt(operator.fee)))} SSV
+                    </Text>
+                  ) : (
+                    <Text variant="body-3-medium" className="text-gray-400">
+                      - SSV
+                    </Text>
+                  )}
+                </div>
               </Outline>
               <Outline>
                 <Text variant="caption-medium" className="text-gray-500">

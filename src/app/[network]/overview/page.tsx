@@ -4,17 +4,13 @@ import {
   getOperatorStatistics,
   getTotalEffectiveBalance,
 } from "@/api/statistics"
-import { searchValidators } from "@/api/validators"
+import { countActiveValidators, searchValidators } from "@/api/validators"
 import { type SearchParams } from "@/types"
 
 import { getNativeCurrency, type ChainName } from "@/config/chains"
 import { operatorsSearchParamsCache } from "@/lib/search-parsers/operator-search-parsers"
 import { validatorsSearchParamsCache } from "@/lib/search-parsers/validators-search-parsers"
-import {
-  formatGwei,
-  numberFormatter,
-  percentageFormatter,
-} from "@/lib/utils/number"
+import { numberFormatter, percentageFormatter } from "@/lib/utils/number"
 import { Card } from "@/components/ui/card"
 import { ErrorCard } from "@/components/ui/error-card"
 import { Stat } from "@/components/ui/stat"
@@ -43,6 +39,7 @@ export default async function Page(props: IndexPageProps) {
   const [
     operatorsPromise,
     updatedOperatorsFrom7DaysAgoPromise,
+    totalValidatorsPromise,
     validatorsPromise,
     updatedValidatorsFrom7DaysAgoPromise,
     operatorStatisticsPromise,
@@ -57,6 +54,7 @@ export default async function Page(props: IndexPageProps) {
       network,
       updatedAt: 7,
     }),
+    countActiveValidators({ network }),
     searchValidators({
       ...validatorsSearchParamsCache.parse({}), // add default search params
       network,
@@ -72,6 +70,7 @@ export default async function Page(props: IndexPageProps) {
 
   const operators = getValue(operatorsPromise)
   const operators7daysAgo = getValue(updatedOperatorsFrom7DaysAgoPromise)
+  const totalValidatorsCount = getValue(totalValidatorsPromise)
   const validators = getValue(validatorsPromise)
   const validators7daysAgo = getValue(updatedValidatorsFrom7DaysAgoPromise)
   const operatorStatistics = getValue(operatorStatisticsPromise)
@@ -85,15 +84,13 @@ export default async function Page(props: IndexPageProps) {
   const totalOperators = operators?.pagination.total ?? 0
   const updatedOperatorsFrom7DaysAgo = operators7daysAgo?.pagination.total ?? 0
 
-  const totalValidators = validators?.pagination.total ?? 0
+  const totalValidators = totalValidatorsCount ?? 0
   const updatedValidatorsFrom7DaysAgo =
     validators7daysAgo?.pagination.total ?? 0
   const validatorsIncreasePercent =
     (100 * updatedValidatorsFrom7DaysAgo) / totalValidators
 
-  const totalStakedEth = totalEffectiveBalance
-    ? BigInt(totalEffectiveBalance)
-    : 0n
+  const totalStakedEth = totalEffectiveBalance ?? 0
 
   const nativeCurrency = getNativeCurrency(network)
 
@@ -151,7 +148,7 @@ export default async function Page(props: IndexPageProps) {
             className="flex-1"
             title={`${nativeCurrency.symbol} Staked`}
             tooltip={`Total amount of ${nativeCurrency.symbol} staked across all validators on the network`}
-            content={`${formatGwei(totalStakedEth)} ${nativeCurrency.symbol}`}
+            content={`${numberFormatter.format(Number(totalStakedEth))} ${nativeCurrency.symbol}`}
           />
         </Card>
       </div>

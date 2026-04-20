@@ -5,6 +5,7 @@ import {
   parseAsArrayOf,
   parseAsBoolean,
   parseAsString,
+  parseAsStringEnum,
 } from "nuqs/server"
 import { z } from "zod"
 
@@ -14,6 +15,7 @@ import {
   addressesParser,
   clustersParser,
   defaultSearchOptions,
+  getEffectiveBalanceParser,
 } from "@/lib/search-parsers/shared/parsers"
 import { getSortingStateParser, parseAsTuple } from "@/lib/utils/parsers"
 
@@ -32,6 +34,7 @@ export const clustersSearchFilters = {
       postParse: (values) => values.sort((a, b) => +a - +b),
     }
   ).withOptions(defaultSearchOptions),
+  effectiveBalance: getEffectiveBalanceParser({ serializeToGwei: false }),
   operatorDetails: parseAsBoolean
     .withOptions(defaultSearchOptions)
     .withDefault(true),
@@ -51,7 +54,12 @@ export const clusterSearchSort = {
 }
 
 export const operatorDetailsFilter = {
-  operatorDetails: parseAsBoolean.withDefault(true),
+  operatorDetails: parseAsStringEnum(["true", "false", "minimal"])
+    .withDefault("minimal")
+    .withOptions({
+      ...defaultSearchOptions,
+      clearOnDefault: false,
+    }),
 }
 
 export const clustersSearchParamsCache = createSearchParamsCache({

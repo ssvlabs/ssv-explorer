@@ -9,7 +9,6 @@ import { MdOutlineLock } from "react-icons/md"
 import { type Operator } from "@/types/api"
 import { cn } from "@/lib/utils"
 import { useNetworkParam } from "@/hooks/app/useNetworkParam"
-import { useLocalStorage } from "@/hooks/use-local-storage"
 import { Outline } from "@/components/ui/outline"
 import { Text } from "@/components/ui/text"
 import { OperatorAvatar } from "@/components/operators/operator-avatar"
@@ -30,14 +29,13 @@ export const OperatorCard: OperatorCardFC = ({
   operator,
   ...props
 }) => {
-  const [enablePerformanceV2] = useLocalStorage("ENABLE_PERFORMANCE_V2")
   return (
     <div
       className={cn(
         "flex size-full flex-col items-center gap-3 rounded-2xl border px-5 py-6",
         {
           "border-transparent bg-gray-50": operator.is_active === 1,
-          "border-error-200 bg-error-50": operator.is_active === 0,
+          "border-error-200": operator.is_active === 0,
         },
         className
       )}
@@ -53,7 +51,6 @@ export const OperatorCard: OperatorCardFC = ({
       <div className="flex items-center gap-[6px]">
         <Text
           as={Link}
-          // eslint-disable-next-line react-hooks/rules-of-hooks
           href={`/${useNetworkParam()}/operator/${operator.id}`}
           variant="body-3-medium"
           className="line-clamp-1 cursor-pointer"
@@ -84,19 +81,6 @@ export const OperatorCard: OperatorCardFC = ({
             variant="body-3-medium"
           />
         </Outline>
-        {!!enablePerformanceV2 && (
-          <Outline>
-            <PerformanceIcon />
-            <Text
-              as={PerformanceText}
-              performance={operator.performanceV2?.dailyPerformance}
-              variant="body-3-medium"
-            />
-            <Text variant="caption-medium" className="text-gray-500">
-              v2
-            </Text>
-          </Outline>
-        )}
       </div>
     </div>
   )

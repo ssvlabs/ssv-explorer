@@ -13,7 +13,7 @@ export const env = createEnv({
     SSV_NETWORKS: z
       .string()
       .default(
-        '[{"networkId":560048,"apiVersion":"v4","apiNetwork":"hoodi","api":"https://api.stage.ops.ssvlabsinternal.com/api","explorerUrl":"https://hoodi.explorer.ssv.network","insufficientBalanceUrl":"https://faucet.ssv.network"}]'
+        '[{"networkId":560048,"apiVersion":"v4","apiNetwork":"hoodi","api":"https://api.stage.ops.ssvlabsinternal.com/api","explorerUrl":"https://hoodi.explorer.ssv.network","insufficientBalanceUrl":"https://faucet.ssv.network","cTokenAddress":"0xd15Dbea3e279042e2EaB4f02D49331Dc37B5b7E6"}]'
       ),
     SITE_URL: z
       .string()
@@ -28,10 +28,13 @@ export const env = createEnv({
    */
   client: {
     // NEXT_PUBLIC_CLIENTVAR: z.string(),
+    NEXT_PUBLIC_ENV: z
+      .enum(["development", "stage", "production"])
+      .default("development"),
     NEXT_PUBLIC_SSV_NETWORKS: z
       .string()
       .default(
-        '[{"networkId":560048,"apiVersion":"v4","apiNetwork":"hoodi","api":"https://api.stage.ops.ssvlabsinternal.com/api","explorerUrl":"https://hoodi.explorer.ssv.network","insufficientBalanceUrl":"https://faucet.ssv.network"}]'
+        '[{"networkId":560048,"apiVersion":"v4","apiNetwork":"hoodi","api":"https://api.stage.ops.ssvlabsinternal.com/api","explorerUrl":"https://hoodi.explorer.ssv.network","insufficientBalanceUrl":"https://faucet.ssv.network","cTokenAddress":"0xd15Dbea3e279042e2EaB4f02D49331Dc37B5b7E6"}]'
       ),
   },
 
@@ -42,6 +45,7 @@ export const env = createEnv({
   runtimeEnv: {
     NODE_ENV: process.env.NODE_ENV,
     SSV_NETWORKS: process.env.SSV_NETWORKS,
+    NEXT_PUBLIC_ENV: process.env.NEXT_PUBLIC_ENV,
     NEXT_PUBLIC_SSV_NETWORKS: process.env.NEXT_PUBLIC_SSV_NETWORKS,
     SITE_URL: process.env.SITE_URL,
   },

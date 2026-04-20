@@ -1,8 +1,7 @@
+"use server"
+
 import { unstable_cache } from "next/cache"
 import { api } from "@/api/api-client"
-import urlJoin from "url-join"
-
-import { getAdditionalEnvDetails } from "@/lib/utils/ssv-network-details"
 
 interface CoinGeckoResponse {
   "ssv-network": {
@@ -29,17 +28,14 @@ export interface SSVRates {
 export const getSSVRates = async () => {
   return await unstable_cache(
     async (): Promise<SSVRates> => {
-      const additionalEnvDetails = getAdditionalEnvDetails()
       return await api
         .get<CoinGeckoResponse>(
-          urlJoin(
-            additionalEnvDetails.COINCECKO_API_URL || "",
-            "v3/simple/price",
-            "?vs_currencies=usd&ids=ssv-network&include_24hr_change=true"
-          ),
+          "https://api.coingecko.com/api/v3/simple/price?vs_currencies=usd&ids=ssv-network&include_24hr_change=true",
           {
             headers: {
-              "x-cg-demo-api-key": additionalEnvDetails.COINCECKO_API_KEY,
+              ...(process.env.COINGECKO_API_KEY && {
+                "x-cg-demo-api-key": process.env.COINGECKO_API_KEY,
+              }),
             },
           }
         )

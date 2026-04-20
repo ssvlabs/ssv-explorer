@@ -27,8 +27,8 @@ jobs:
             "googleTagSecret": "87987987987",
             "tokenAddress": "0x746c33ccc28b1363c35c09badaf41b2ffa7e6d56",
             "bAppContractAddress": "0x40d959B95e7c56962D6d388d87921c03734b9C2C",
-            "setterContractAddress": "0x746c33ccc28b1363c35c09badaf41b2ffa7e6d56",
-            "getterContractAddress": "0x746c33ccc28b1363c35c09badaf41b2ffa7e6d56"
+            "setterContractAddress": "0xc07B3E9671f884FDa67E1e7D43d952E0e1369fd8",
+            "getterContractAddress": "0x3234e84b7d1eE1AF8b586E26814d4e268336D142"
           }
         ]
 
@@ -39,11 +39,11 @@ jobs:
 
       - uses: actions/setup-node@3235b876344d2a9aa001b8d1453c930bba69e610 # v3
         with:
-          node-version: 20.12.2
+          node-version: 20.19.6
 
       - uses: pnpm/action-setup@v2
         with:
-          version: 9.0.6
+          version: 10.20.0
 
       - uses: actions/cache@6f8efc29b200d32929f49075959781ed54ec270c # v3
         with:
@@ -56,7 +56,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Run lint
-        run: pnpm lint
+        run: pnpm typegen && pnpm lint
         env:
           SKIP_ENV_VALIDATION: true
 
@@ -66,6 +66,5 @@ jobs:
           SSV_NETWORKS: "${{ env.STAGE_SSV_NETWORKS }}"
           NEXT_PUBLIC_SSV_NETWORKS: "${{ env.STAGE_SSV_NETWORKS }}"
           SITE_URL: "https://explorer.stage.ssv.network"
-          COINCECKO_API_URL: "https://api.coingecko.com/api/"
 
         run: pnpm build

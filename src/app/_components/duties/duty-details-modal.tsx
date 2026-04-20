@@ -49,7 +49,6 @@ export function DutyDetailsModal({
     network: network,
     enabled: open && !!selectedDuty,
   })
-
   const handleOpenChange = (newOpen: boolean) => {
     onOpenChange(newOpen)
   }
@@ -67,12 +66,15 @@ export function DutyDetailsModal({
     post_consensus?: number[]
   }[] = dutyDetails?.round_changes || []
 
-  rounds[rounds.length ? rounds.length - 1 : 0] = {
-    ...rounds[rounds.length - 1],
-    post_consensus: dutyDetails?.post_consensus.length
-      ? dutyDetails?.post_consensus
-      : [],
+  if (dutyDetails?.hasConsensusRoundChanges) {
+    rounds[rounds.length - 1] = {
+      ...rounds[rounds.length - 1],
+      post_consensus: dutyDetails?.post_consensus.length
+        ? dutyDetails?.post_consensus
+        : [],
+    }
   }
+
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogContent className="max-h-[522px] min-w-[400px] max-w-[800px] p-6">

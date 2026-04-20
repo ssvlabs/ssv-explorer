@@ -1,4 +1,5 @@
-import { isAddress, type Address } from "viem"
+import { type ReactNode } from "react"
+import { isAddress } from "viem"
 
 import { shortenAddress } from "@/lib/utils/strings"
 import { Card } from "@/components/ui/card"
@@ -12,15 +13,14 @@ import { Shell } from "@/components/shell"
 import { TableNavigation } from "./_components/table-navigations"
 import { AccountStats } from "./account-stats"
 
-interface IndexPageProps {
-  children: React.ReactNode
-  params: Promise<{ address: Address }>
+type LayoutProps = {
+  children: ReactNode
+  params: Promise<{
+    address: string
+  }>
 }
 
-export default async function AccountLayout({
-  params,
-  children,
-}: IndexPageProps) {
+export default async function AccountLayout({ params, children }: LayoutProps) {
   const { address } = await params
 
   if (!isAddress(address)) {
@@ -57,8 +57,10 @@ export default async function AccountLayout({
           </div>
           <AccountStats ownerAddress={address} />
         </Card>
-        <Card className="">
-          <TableNavigation ownerAddress={address} />
+        <Card className="grid grid-cols-[auto_1fr] gap-0 p-0">
+          <div className="flex items-center gap-2 overflow-x-auto p-5">
+            <TableNavigation ownerAddress={address} />
+          </div>
           {children}
         </Card>
       </div>

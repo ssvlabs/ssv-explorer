@@ -29,7 +29,7 @@ export function FeeFilter() {
 
   return (
     <FilterButton
-      name="Fee"
+      name="Fee (SSV)"
       isActive={isActive}
       onClear={remove}
       popover={{
@@ -40,7 +40,7 @@ export function FeeFilter() {
     >
       <Range
         className="w-[400px] max-w-full"
-        name="Fee"
+        name="Fee (SSV)"
         searchRange={filters.fee}
         defaultRange={defaultRange}
         apply={apply}

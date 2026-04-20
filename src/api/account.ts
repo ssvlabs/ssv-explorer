@@ -2,7 +2,7 @@
 
 import { endpoint } from "@/api"
 import { api } from "@/api/api-client"
-import { type Address } from "viem"
+import { formatGwei, parseEther, type Address } from "viem"
 
 import type {
   AccountStatsResponse,
@@ -16,13 +16,32 @@ import {
 import { stringifyBigints } from "@/lib/utils/bigint"
 import { unstable_cache } from "@/lib/utils/unstable-cache"
 
+const serializeEffectiveBalance = ([min, max]: [number, number]) =>
+  [
+    formatGwei(parseEther(min.toString())),
+    formatGwei(parseEther(max.toString())),
+  ].join(",")
+
 export const searchAccounts = async (
   params: Partial<AccountsSearchSchema> & { network: ChainName }
 ): Promise<PaginatedAccountsResponse> =>
   await unstable_cache(
     async () => {
-      const searchParams = accountSearchParamsSerializer(params)
-      const url = endpoint(params.network, "accounts", `?${searchParams}`)
+      const searchParams = new URLSearchParams(
+        accountSearchParamsSerializer(params)
+      )
+      if (params.effectiveBalance) {
+        searchParams.set(
+          "effectiveBalance",
+          serializeEffectiveBalance(params.effectiveBalance)
+        )
+      }
+      const serializedSearchParams = searchParams.toString()
+      const url = endpoint(
+        params.network,
+        "accounts",
+        serializedSearchParams ? `?${serializedSearchParams}` : ""
+      )
       return api.get<PaginatedAccountsResponse>(url)
     },
     [JSON.stringify(stringifyBigints(params))],

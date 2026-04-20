@@ -1,8 +1,10 @@
 import {
   createSearchParamsCache,
-  parseAsBoolean,
   parseAsInteger,
+  parseAsStringEnum,
 } from "nuqs/server"
+
+import { defaultSearchOptions } from "@/lib/search-parsers/shared/parsers"
 
 export const paginationParser = {
   page: parseAsInteger.withDefault(1),
@@ -14,5 +16,10 @@ export const overviewParserCache = createSearchParamsCache({
 })
 
 export const enhancementParsers = {
-  fullOperatorData: parseAsBoolean.withDefault(true),
+  includeOperatorData: parseAsStringEnum(["true", "false", "minimal"])
+    .withDefault("minimal")
+    .withOptions({
+      ...defaultSearchOptions,
+      clearOnDefault: false,
+    }),
 }

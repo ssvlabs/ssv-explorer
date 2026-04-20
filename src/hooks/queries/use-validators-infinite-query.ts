@@ -19,7 +19,6 @@ export const useValidatorsInfiniteQuery = (
         page: pageParam ?? 1,
         perPage: params.perPage,
         search: params.search,
-        fullOperatorData: false,
       }),
     select: (data) => data.pages.flatMap((page) => page.validators),
     initialPageParam: 1,
