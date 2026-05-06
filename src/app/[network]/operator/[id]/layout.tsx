@@ -21,7 +21,6 @@ import { OperatorMetaData } from "@/components/operators/operator-meta-data"
 import { PerformanceText } from "@/components/operators/performance-text"
 import { VerifiedOperatorBadge } from "@/components/operators/verified-operator-badge"
 import { Shell } from "@/components/shell"
-import { TableNavigation } from "@/app/[network]/operator/[id]/_components/table-navigations"
 
 interface IndexPageProps {
   params: Promise<{ id: string; network: string }>
@@ -217,10 +216,6 @@ export default async function Layout(props: IndexPageProps) {
                 />
               </div>
               <Card gap="none" className="overflow-hidden">
-                <TableNavigation
-                  operatorId={id}
-                  validatorCount={operator.validators_count}
-                />
                 {props.children}
               </Card>
             </div>

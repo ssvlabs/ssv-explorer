@@ -25,12 +25,33 @@ export const operatorHistoryEventTypes = [
   "OperatorWhitelistingContractUpdated",
 ] as const satisfies readonly AccountEventName[]
 
+export const validatorHistoryEventTypes = [
+  "ValidatorAdded",
+  "ValidatorRemoved",
+  "ValidatorExited",
+] as const satisfies readonly AccountEventName[]
+
+export const clusterHistoryEventTypes = [
+  "ClusterDeposited",
+  "ClusterWithdrawn",
+  "ClusterReactivated",
+  "ClusterLiquidated",
+  "ClusterMigratedToETH",
+  "ClusterBalanceUpdated",
+  "ValidatorAdded",
+  "ValidatorRemoved",
+] as const satisfies readonly AccountEventName[]
+
 export const eventsSearchFilters = {
   entity: parseAsStringEnum(["operator", "cluster", "validator"]).withOptions(
     defaultSearchOptions
   ),
   event: parseAsArrayOf(
-    parseAsStringEnum<AccountEventName>([...operatorHistoryEventTypes])
+    parseAsStringEnum<AccountEventName>([
+      ...operatorHistoryEventTypes,
+      ...clusterHistoryEventTypes,
+      ...validatorHistoryEventTypes,
+    ])
   )
     .withDefault([])
     .withOptions(defaultSearchOptions),
