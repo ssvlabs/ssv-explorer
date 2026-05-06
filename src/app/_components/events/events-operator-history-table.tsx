@@ -65,27 +65,16 @@ const EventsOperatorHistoryTableContent = () => {
   return <DataTable className="w-full" table={table} />
 }
 
-export const EventsOperatorHistoryTable = withErrorBoundary(
-  ({ dataPromise }: EventsOperatorHistoryTableProps) => (
-    <EventsOperatorHistoryTableRoot dataPromise={dataPromise}>
-      <div className="flex items-center justify-end">
-        <EventsOperatorHistoryMenuButton />
-      </div>
-      <EventsTableFilters className="col-span-2" showEntity={false} showEvent />
-      <EventsOperatorHistoryTableContent />
-    </EventsOperatorHistoryTableRoot>
-  ),
-  {
-    fallbackRender: ({ error }) => {
-      return (
-        <ErrorCard
-          className="bg-transparent"
-          errorMessage={(error as Error).message}
-          title="Couldn't load Operator History Events"
-        />
-      )
-    },
-  }
+export const EventsOperatorHistoryTable = ({
+  dataPromise,
+}: EventsOperatorHistoryTableProps) => (
+  <EventsOperatorHistoryTableRoot dataPromise={dataPromise}>
+    <div className="flex items-center justify-end">
+      <EventsOperatorHistoryMenuButton />
+    </div>
+    <EventsTableFilters className="col-span-2" showEntity={false} showEvent />
+    <EventsOperatorHistoryTableContent />
+  </EventsOperatorHistoryTableRoot>
 )
 
 export {

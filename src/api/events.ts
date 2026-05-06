@@ -128,7 +128,7 @@ export const getOperatorHistoryEvents = async (
           "events",
           "operator",
           params.operatorId,
-          `?${searchParams}`
+          searchParams
         )
       )
       return response
