@@ -1,14 +1,8 @@
-import {
-  useEffect,
-  useState,
-  type ComponentPropsWithoutRef,
-  type FC,
-} from "react"
+import { useEffect, type ComponentPropsWithoutRef, type FC } from "react"
 import { isEqual } from "lodash-es"
 import { useForm } from "react-hook-form"
 
 import { cn } from "@/lib/utils"
-import { useReactiveRef as useRef } from "@/hooks/use-reactive-ref"
 import { Button } from "@/components/ui/button"
 import { Form } from "@/components/ui/form"
 import { RangeSlider } from "@/components/ui/slider"
@@ -19,6 +13,7 @@ export type RangeProps = {
   name: string
   defaultRange: [number, number]
   searchRange: [number, number] | null
+  showSlider?: boolean
   step?: number
   min?: number
   max?: number
@@ -37,6 +32,7 @@ export const Range: FC<ComponentPropsWithoutRef<"form"> & RangeProps> = ({
   inputs,
   min,
   max,
+  showSlider = true,
   step = 0.01,
   decimals = 0,
   searchRange,
@@ -138,7 +134,7 @@ export const Range: FC<ComponentPropsWithoutRef<"form"> & RangeProps> = ({
             />
           </div>
           <RangeSlider
-            className="py-1"
+            className={cn("py-1", !showSlider && "hidden")}
             value={form.watch("range")}
             max={defaultRange[1]}
             step={step}

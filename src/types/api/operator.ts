@@ -47,6 +47,11 @@ export interface Operator {
   status: "No Validators" | "Active" | "Inactive" | "Removed"
 }
 
+export type MinimalOperator = Pick<
+  Operator,
+  "id" | "name" | "logo" | "is_private" | "is_deleted" | "type"
+>
+
 export type OperatorSortingKeys = Pick<
   Operator,
   "validators_count" | "fee" | "status" | "id"
