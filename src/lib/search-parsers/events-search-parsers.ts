@@ -28,7 +28,6 @@ export const operatorHistoryEventTypes = [
 export const validatorHistoryEventTypes = [
   "ValidatorAdded",
   "ValidatorRemoved",
-  "ValidatorExited",
 ] as const satisfies readonly AccountEventName[]
 
 export const clusterHistoryEventTypes = [
