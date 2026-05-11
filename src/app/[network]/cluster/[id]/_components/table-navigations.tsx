@@ -4,12 +4,12 @@ import { useNetworkParam } from "@/hooks/app/useNetworkParam"
 import { RouteTabLink } from "@/components/ui/route-tab-link"
 
 interface TableNavigationProps {
-  operatorId: string
+  clusterId: string
   validatorCount?: number
 }
 
 export function TableNavigation({
-  operatorId,
+  clusterId,
   validatorCount,
 }: TableNavigationProps) {
   const network = useNetworkParam()
@@ -18,12 +18,12 @@ export function TableNavigation({
     <div className="flex items-center gap-2 overflow-auto">
       <RouteTabLink
         count={validatorCount}
-        href={`/${network}/operator/${operatorId}/`}
+        href={`/${network}/cluster/${clusterId}/`}
       >
         Validators
       </RouteTabLink>
-      <RouteTabLink href={`/${network}/operator/${operatorId}/history`}>
-        Operator History
+      <RouteTabLink href={`/${network}/cluster/${clusterId}/history`}>
+        Cluster History
       </RouteTabLink>
     </div>
   )

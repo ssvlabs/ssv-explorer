@@ -118,7 +118,7 @@ const EventsTableViewOptions = () => {
   return <DataTableViewOptions table={table} tableName="events" />
 }
 
-type EventsTableContentProps = object
+type EventsTableContentProps = { className?: string }
 
 type EventsTableContentFC = FC<
   Omit<ComponentPropsWithoutRef<"div">, keyof EventsTableContentProps> &

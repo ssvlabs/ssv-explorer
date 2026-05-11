@@ -94,7 +94,6 @@ export const eventsTableColumns = [
 
 export const overviewEventsTableColumns = [
   eventsColumns.event,
-  eventsColumns.ownerAddress,
   eventsColumns.blockNumber,
 ].map((c) => ({ ...c, enableSorting: false }))
 

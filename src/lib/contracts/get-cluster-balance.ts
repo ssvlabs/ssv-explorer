@@ -1,10 +1,14 @@
 import { createPublicClient, defineChain, http, type Address } from "viem"
-import { mainnet } from "viem/chains"
 
 import { type Cluster } from "@/types/api"
 import { chainByName, type ChainName } from "@/config/chains"
 import { ssvNetworkViewsAbi } from "@/lib/abi/getter"
 import { getSSVNetworkDetails } from "@/lib/utils/ssv-network-details"
+
+const rpcUrls: Record<ChainName, string | undefined> = {
+  mainnet: process.env.MAINNET_RPC_URL,
+  hoodi: process.env.HOODI_RPC_URL,
+}
 
 /**
  * Server-side function to fetch cluster balance directly from contract
@@ -27,32 +31,17 @@ export async function getClusterBalance(params: {
     throw new Error(`Chain configuration not found for network: ${network}`)
   }
 
-  // Define chain and RPC based on network
-  let chain
-  let rpcUrl: string | undefined
-
-  if (network === "mainnet") {
-    chain = mainnet
-    rpcUrl =
-      "https://ethereum-rpc.publicnode.com/d8a2cc6e7483872e917d7899f9403d738b001c80e37d66834f4e40e9efb54a27"
-  } else if (network === "hoodi") {
-    chain = defineChain({
-      id: chainConfig.chainId,
-      name: chainConfig.displayName,
-      nativeCurrency: chainConfig.nativeCurrency,
-      rpcUrls: {
-        default: {
-          http: [
-            "https://ethereum-hoodi-rpc.publicnode.com/d8a2cc6e7483872e917d7899f9403d738b001c80e37d66834f4e40e9efb54a27",
-          ],
-        },
-      },
-    })
-    rpcUrl =
-      "https://ethereum-hoodi-rpc.publicnode.com/d8a2cc6e7483872e917d7899f9403d738b001c80e37d66834f4e40e9efb54a27"
-  } else {
-    throw new Error(`Unsupported network: ${network}`)
+  const rpcUrl = rpcUrls[network]
+  if (!rpcUrl) {
+    throw new Error(`RPC URL not configured for network: ${network}`)
   }
+
+  const chain = defineChain({
+    id: chainConfig.chainId,
+    name: chainConfig.displayName,
+    nativeCurrency: chainConfig.nativeCurrency,
+    rpcUrls: { default: { http: [rpcUrl] } },
+  })
 
   const publicClient = createPublicClient({
     chain,

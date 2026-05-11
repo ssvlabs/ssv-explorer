@@ -1,7 +1,7 @@
 "use client"
 
-import { use } from "react"
-import { TableProvider } from "@/context/table-context"
+import { use, type ReactNode } from "react"
+import { TableProvider, useTable } from "@/context/table-context"
 import {
   getCoreRowModel,
   getPaginationRowModel,
@@ -24,10 +24,12 @@ interface EventsOperatorHistoryTableProps {
   dataPromise: Promise<AllOperatorEventsResponse>
 }
 
-export const EventsOperatorHistoryTable = withErrorBoundary(
-  ({ dataPromise: data }: EventsOperatorHistoryTableProps) => {
+const EventsOperatorHistoryTableRoot = withErrorBoundary(
+  ({
+    dataPromise: data,
+    children,
+  }: EventsOperatorHistoryTableProps & { children: ReactNode }) => {
     const events = use(data)
-    const { enabledFilters } = useEventsSearchParams()
 
     const table = useReactTable<AccountEvent>({
       data: events,
@@ -38,19 +40,7 @@ export const EventsOperatorHistoryTable = withErrorBoundary(
       getPaginationRowModel: getPaginationRowModel(),
     })
 
-    return (
-      <TableProvider table={table}>
-        <div className="flex items-center justify-end">
-          <DataTableMenuButton enabledFilters={enabledFilters} />
-        </div>
-        <EventsTableFilters
-          className="col-span-2 px-5"
-          showEntity={false}
-          showEvent
-        />
-        <DataTable className="w-full" table={table} />
-      </TableProvider>
-    )
+    return <TableProvider table={table}>{children}</TableProvider>
   },
   {
     fallbackRender: ({ error }) => {
@@ -64,3 +54,31 @@ export const EventsOperatorHistoryTable = withErrorBoundary(
     },
   }
 )
+
+const EventsOperatorHistoryMenuButton = () => {
+  const { enabledFilters } = useEventsSearchParams()
+  return <DataTableMenuButton enabledFilters={enabledFilters} />
+}
+
+const EventsOperatorHistoryTableContent = () => {
+  const { table } = useTable<AccountEvent>()
+  return <DataTable className="w-full" table={table} />
+}
+
+export const EventsOperatorHistoryTable = ({
+  dataPromise,
+}: EventsOperatorHistoryTableProps) => (
+  <EventsOperatorHistoryTableRoot dataPromise={dataPromise}>
+    <div className="flex items-center justify-end">
+      <EventsOperatorHistoryMenuButton />
+    </div>
+    <EventsTableFilters className="col-span-2" showEntity={false} showEvent />
+    <EventsOperatorHistoryTableContent />
+  </EventsOperatorHistoryTableRoot>
+)
+
+export {
+  EventsOperatorHistoryTableRoot,
+  EventsOperatorHistoryMenuButton,
+  EventsOperatorHistoryTableContent,
+}
