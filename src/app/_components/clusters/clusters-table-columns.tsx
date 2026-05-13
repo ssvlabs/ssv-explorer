@@ -95,13 +95,17 @@ export const clustersTableColumns: ColumnDefWithTitle<Cluster>[] = [
   {
     accessorKey: "effectiveBalance",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Effective Balance" />
+      <DataTableColumnHeader
+        className="justify-end text-right"
+        column={column}
+        title="Effective Balance"
+      />
     ),
     cell: ({ row }) => {
       const effectiveBalance = BigInt(row.original.effectiveBalance || 0)
       if (effectiveBalance > 0) {
         return (
-          <div className="flex items-center gap-2">
+          <div className="flex items-center justify-end gap-2">
             <Image
               src="/images/networks/dark.svg"
               alt="ETH"
@@ -113,15 +117,25 @@ export const clustersTableColumns: ColumnDefWithTitle<Cluster>[] = [
           </div>
         )
       }
-      return <Text className="text-gray-400">-</Text>
+      return (
+        <div className="flex justify-end">
+          <Text className="text-gray-400">-</Text>
+        </div>
+      )
     },
   },
   {
     accessorKey: "validatorCount",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Validators" />
+      <DataTableColumnHeader
+        className="justify-end text-right"
+        column={column}
+        title="Validators"
+      />
     ),
-    cell: ({ row }) => <div>{row.original.validatorCount}</div>,
+    cell: ({ row }) => (
+      <div className="text-right">{row.original.validatorCount}</div>
+    ),
   },
   {
     accessorKey: "active",
