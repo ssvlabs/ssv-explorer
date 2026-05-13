@@ -47,6 +47,7 @@ export const optionalNumberRangeParser = createParser<[number, number]>({
     }
   },
   serialize: ([min, max]) => {
+    // 0 means "no limit" — intentionally falsy so it's omitted from the URL
     if (min && max) return `${min},${max}`
     if (min) return `${min},`
     if (max) return `,${max}`
@@ -96,6 +97,7 @@ export const getEffectiveBalanceParser = ({
       }
     },
     serialize: ([_min, _max]) => {
+      if (_min === 0 && _max === 0) return ""
       const min = serializeToGwei ? parseGwei(`${_min}`).toString() : `${_min}`
       const max = serializeToGwei ? parseGwei(`${_max}`).toString() : `${_max}`
       if (min && max) return `${min},${max}`
@@ -111,8 +113,9 @@ export const getEffectiveBalanceParser = ({
 export const balanceRangeParser = createParser<[number, number]>({
   parse: (value) => {
     try {
+      const parts = value.split(",").map((v) => (v === "" ? "0" : v))
       const parsed = bigintTuple
-        .parse(value.split(","))
+        .parse(parts)
         .map((v) => Number(formatUnits(v, 18)))
       return parsed as [number, number]
     } catch {

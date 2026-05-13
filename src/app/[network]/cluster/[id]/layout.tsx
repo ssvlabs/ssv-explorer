@@ -47,7 +47,6 @@ export default async function Layout({ children, params }: LayoutProps) {
   const network = networkStr as ChainName
 
   const cluster = await getCluster({ id, network }).catch(() => null)
-  console.log("cluster runway:", cluster?.runway)
 
   if (!cluster) {
     return (

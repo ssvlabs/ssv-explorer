@@ -14,7 +14,10 @@ import { IsLiquidatedFilter } from "@/app/_components/clusters/filters/is-liquid
 import { OperatorsFilter } from "@/app/_components/clusters/filters/operators-filter"
 import { StatusFilter } from "@/app/_components/clusters/filters/status-filter"
 import { HexFilter } from "@/app/_components/shared/filters/address-filter"
-import { EffectiveBalanceFilter } from "@/app/_components/shared/filters/effective-balance-filter"
+import {
+  EffectiveBalanceFilter,
+  OpenRangeFilter,
+} from "@/app/_components/shared/filters/effective-balance-filter"
 
 export type ClusterTableFiltersProps = {
   hideClusterIdFilter?: boolean
@@ -70,7 +73,7 @@ export const ClusterTableFilters = ({
           parser={clustersSearchFilters.effectiveBalance}
         />
         <BalanceAssetFilter />
-        <EffectiveBalanceFilter<ClusterSearchFilterKeys>
+        <OpenRangeFilter<ClusterSearchFilterKeys>
           name="Balance"
           searchQueryKey="balance"
           parser={clustersSearchFilters.balance}
@@ -79,7 +82,7 @@ export const ClusterTableFilters = ({
             end: { placeholder: "To" },
           }}
         />
-        <EffectiveBalanceFilter<ClusterSearchFilterKeys>
+        <OpenRangeFilter<ClusterSearchFilterKeys>
           name="Runway"
           searchQueryKey="runway"
           parser={clustersSearchFilters.runway}
