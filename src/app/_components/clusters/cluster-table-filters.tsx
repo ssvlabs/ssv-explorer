@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils"
 import { useClustersSearchParams } from "@/hooks/search/use-custom-search-params"
 import { Button } from "@/components/ui/button"
 import { textVariants } from "@/components/ui/text"
+import { BalanceAssetFilter } from "@/app/_components/clusters/filters/balance-asset-filter"
 import { IsLiquidatedFilter } from "@/app/_components/clusters/filters/is-liquidated-filter"
 import { OperatorsFilter } from "@/app/_components/clusters/filters/operators-filter"
 import { StatusFilter } from "@/app/_components/clusters/filters/status-filter"
@@ -67,6 +68,25 @@ export const ClusterTableFilters = ({
           name="Effective Balance"
           searchQueryKey="effectiveBalance"
           parser={clustersSearchFilters.effectiveBalance}
+        />
+        <BalanceAssetFilter />
+        <EffectiveBalanceFilter<ClusterSearchFilterKeys>
+          name="Balance"
+          searchQueryKey="balance"
+          parser={clustersSearchFilters.balance}
+          inputs={{
+            start: { placeholder: "From" },
+            end: { placeholder: "To" },
+          }}
+        />
+        <EffectiveBalanceFilter<ClusterSearchFilterKeys>
+          name="Runway"
+          searchQueryKey="runway"
+          parser={clustersSearchFilters.runway}
+          inputs={{
+            start: { placeholder: "From" },
+            end: { placeholder: "To (days)" },
+          }}
         />
         <StatusFilter />
         <IsLiquidatedFilter />

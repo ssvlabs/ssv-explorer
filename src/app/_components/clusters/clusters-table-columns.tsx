@@ -6,7 +6,7 @@ import { type ColumnDef } from "@tanstack/react-table"
 import { formatDistanceToNowStrict } from "date-fns"
 
 import { type Cluster } from "@/types/api"
-import { numberFormatter } from "@/lib/utils/number"
+import { formatETH, formatSSV, numberFormatter } from "@/lib/utils/number"
 import { remove0x, shortenAddress } from "@/lib/utils/strings"
 import { useNetworkParam } from "@/hooks/app/useNetworkParam"
 import { CopyBtn } from "@/components/ui/copy-btn"
@@ -93,6 +93,56 @@ export const clustersTableColumns: ColumnDefWithTitle<Cluster>[] = [
     enableSorting: false,
   },
   {
+    accessorKey: "balance",
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        className="justify-end text-right"
+        column={column}
+        title="Balance"
+      />
+    ),
+    cell: ({ row }) => {
+      const ethBalance = BigInt(row.original.ethBalance || 0)
+      const useEth = ethBalance > 0n || row.original.migrated
+      const value = useEth
+        ? formatETH(ethBalance)
+        : formatSSV(BigInt(row.original.balance || 0))
+      return (
+        <div className="flex items-center justify-end gap-2">
+          <Image
+            src={
+              useEth ? "/images/networks/dark.svg" : "/images/ssvIcons/icon.svg"
+            }
+            alt={useEth ? "ETH" : "SSV"}
+            width={16}
+            height={16}
+            className="object-fit size-4"
+          />
+          <Text variant="body-3-medium" className="text-gray-600">
+            {value}
+          </Text>
+        </div>
+      )
+    },
+  },
+  {
+    accessorKey: "runway",
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        className="justify-end text-right"
+        column={column}
+        title="Runway"
+      />
+    ),
+    cell: ({ row }) => (
+      <div className="flex justify-end">
+        <Text variant="body-3-medium" className="text-gray-600">
+          {row.original.runway != null ? `${row.original.runway}` : "-"}
+        </Text>
+      </div>
+    ),
+  },
+  {
     accessorKey: "effectiveBalance",
     header: ({ column }) => (
       <DataTableColumnHeader
@@ -172,8 +222,9 @@ export const clustersTableDefaultColumnsKeys: ClusterColumnsAccessorKeys[] = [
   "clusterId",
   "ownerAddress",
   "operators",
-  "validatorCount",
+  "runway",
   "effectiveBalance",
+  "validatorCount",
   "active",
 ]
 

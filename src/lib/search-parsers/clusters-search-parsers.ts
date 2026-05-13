@@ -13,9 +13,11 @@ import { type Cluster } from "@/types/api"
 import { paginationParser } from "@/lib/search-parsers"
 import {
   addressesParser,
+  balanceRangeParser,
   clustersParser,
   defaultSearchOptions,
   getEffectiveBalanceParser,
+  optionalNumberRangeParser,
 } from "@/lib/search-parsers/shared/parsers"
 import { getSortingStateParser, parseAsTuple } from "@/lib/utils/parsers"
 
@@ -35,6 +37,11 @@ export const clustersSearchFilters = {
     }
   ).withOptions(defaultSearchOptions),
   effectiveBalance: getEffectiveBalanceParser({ serializeToGwei: false }),
+  balanceType: parseAsStringEnum(["eth", "ssv"] as const).withOptions(
+    defaultSearchOptions
+  ),
+  balance: balanceRangeParser,
+  runway: optionalNumberRangeParser.withDefault([0, 0]),
   operatorDetails: parseAsBoolean
     .withOptions(defaultSearchOptions)
     .withDefault(true),

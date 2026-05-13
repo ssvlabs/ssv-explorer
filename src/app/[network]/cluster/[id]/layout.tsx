@@ -47,6 +47,7 @@ export default async function Layout({ children, params }: LayoutProps) {
   const network = networkStr as ChainName
 
   const cluster = await getCluster({ id, network }).catch(() => null)
+  console.log("cluster runway:", cluster?.runway)
 
   if (!cluster) {
     return (
@@ -117,6 +118,10 @@ export default async function Layout({ children, params }: LayoutProps) {
           <Stat
             title="Validators"
             content={numberFormatter.format(+cluster.validatorCount)}
+          />
+          <Stat
+            title="Runway (days)"
+            content={cluster.runway != null ? `${cluster.runway}` : "-"}
           />
         </div>
       </Card>

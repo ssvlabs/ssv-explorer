@@ -103,8 +103,8 @@ export const Range: FC<ComponentPropsWithoutRef<"form"> & RangeProps> = ({
           <div className="flex items-center justify-between">
             <NumberInput
               id="first-input"
-              min={min || defaultRange[0]}
-              max={max || defaultRange[1]}
+              min={min ?? defaultRange[0]}
+              max={max ?? (defaultRange[1] || undefined)}
               decimals={decimals}
               {...inputs?.start}
               step={step}
@@ -119,8 +119,8 @@ export const Range: FC<ComponentPropsWithoutRef<"form"> & RangeProps> = ({
               }}
             />
             <NumberInput
-              min={min || defaultRange[0]}
-              max={max || defaultRange[1]}
+              min={min ?? defaultRange[0]}
+              max={max ?? (defaultRange[1] || undefined)}
               decimals={decimals}
               {...inputs?.end}
               step={step}

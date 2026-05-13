@@ -25,6 +25,7 @@ export type Cluster<T extends (Operator | number)[] = Operator[]> = {
   ethBalance: string
   active: boolean
   migrated: boolean
+  runway: number
   updatedAt: Date
   createdAt: Date
   operators: T
