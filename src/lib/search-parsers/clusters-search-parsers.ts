@@ -40,7 +40,7 @@ export const clustersSearchFilters = {
   balanceType: parseAsStringEnum(["eth", "ssv"] as const).withOptions(
     defaultSearchOptions
   ),
-  balance: balanceRangeParser,
+  currentBalance: balanceRangeParser,
   runway: optionalNumberRangeParser.withDefault([0, 0]),
   operatorDetails: parseAsBoolean
     .withOptions(defaultSearchOptions)

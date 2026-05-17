@@ -93,7 +93,7 @@ export const clustersTableColumns: ColumnDefWithTitle<Cluster>[] = [
     enableSorting: false,
   },
   {
-    accessorKey: "balance",
+    accessorKey: "currentBalance",
     header: ({ column }) => (
       <DataTableColumnHeader
         className="justify-end text-right"

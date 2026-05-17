@@ -75,8 +75,8 @@ export const ClusterTableFilters = ({
         <BalanceAssetFilter />
         <OpenRangeFilter<ClusterSearchFilterKeys>
           name="Balance"
-          searchQueryKey="balance"
-          parser={clustersSearchFilters.balance}
+          searchQueryKey="currentBalance"
+          parser={clustersSearchFilters.currentBalance}
           inputs={{
             start: { placeholder: "From" },
             end: { placeholder: "To" },
