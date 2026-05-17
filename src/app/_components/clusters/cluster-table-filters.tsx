@@ -9,11 +9,15 @@ import { cn } from "@/lib/utils"
 import { useClustersSearchParams } from "@/hooks/search/use-custom-search-params"
 import { Button } from "@/components/ui/button"
 import { textVariants } from "@/components/ui/text"
+import { BalanceAssetFilter } from "@/app/_components/clusters/filters/balance-asset-filter"
 import { IsLiquidatedFilter } from "@/app/_components/clusters/filters/is-liquidated-filter"
 import { OperatorsFilter } from "@/app/_components/clusters/filters/operators-filter"
 import { StatusFilter } from "@/app/_components/clusters/filters/status-filter"
 import { HexFilter } from "@/app/_components/shared/filters/address-filter"
-import { EffectiveBalanceFilter } from "@/app/_components/shared/filters/effective-balance-filter"
+import {
+  EffectiveBalanceFilter,
+  OpenRangeFilter,
+} from "@/app/_components/shared/filters/effective-balance-filter"
 
 export type ClusterTableFiltersProps = {
   hideClusterIdFilter?: boolean
@@ -67,6 +71,25 @@ export const ClusterTableFilters = ({
           name="Effective Balance"
           searchQueryKey="effectiveBalance"
           parser={clustersSearchFilters.effectiveBalance}
+        />
+        <BalanceAssetFilter />
+        <OpenRangeFilter<ClusterSearchFilterKeys>
+          name="Balance"
+          searchQueryKey="currentBalance"
+          parser={clustersSearchFilters.currentBalance}
+          inputs={{
+            start: { placeholder: "From" },
+            end: { placeholder: "To" },
+          }}
+        />
+        <OpenRangeFilter<ClusterSearchFilterKeys>
+          name="Runway"
+          searchQueryKey="runway"
+          parser={clustersSearchFilters.runway}
+          inputs={{
+            start: { placeholder: "From" },
+            end: { placeholder: "To (days)" },
+          }}
         />
         <StatusFilter />
         <IsLiquidatedFilter />
