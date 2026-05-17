@@ -23,6 +23,7 @@ export type Cluster<T extends (Operator | number)[] = Operator[]> = {
   blockNumber: string
   balance: string
   ethBalance: string
+  currentBalance: string
   active: boolean
   migrated: boolean
   runway: number

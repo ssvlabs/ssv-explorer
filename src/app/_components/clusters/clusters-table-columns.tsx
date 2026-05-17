@@ -102,11 +102,11 @@ export const clustersTableColumns: ColumnDefWithTitle<Cluster>[] = [
       />
     ),
     cell: ({ row }) => {
-      const ethBalance = BigInt(row.original.ethBalance || 0)
-      const useEth = ethBalance > 0n || row.original.migrated
+      const useEth = row.original.migrated
+      const currentBalance = BigInt(row.original.currentBalance || 0)
       const value = useEth
-        ? formatETH(ethBalance)
-        : formatSSV(BigInt(row.original.balance || 0))
+        ? formatETH(currentBalance)
+        : formatSSV(currentBalance)
       return (
         <div className="flex items-center justify-end gap-2">
           <Image
@@ -124,6 +124,7 @@ export const clustersTableColumns: ColumnDefWithTitle<Cluster>[] = [
         </div>
       )
     },
+    enableSorting: true,
   },
   {
     accessorKey: "runway",
