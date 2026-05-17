@@ -175,13 +175,19 @@ export const validatorColumns: Record<
   createdAt: {
     accessorKey: "createdAt",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Registered" />
+      <DataTableColumnHeader
+        column={column}
+        title="Registered"
+        className="justify-end text-right"
+      />
     ),
     cell: ({ row }) => (
       <Tooltip content={row.original.created_at} asChild alignOffset={30}>
-        <Text variant="body-3-medium" className="text-gray-600">
-          {getRelativeTime(row.original.created_at)}
-        </Text>
+        <div className="flex justify-end">
+          <Text variant="body-3-medium" className="text-gray-600">
+            {getRelativeTime(row.original.created_at)}
+          </Text>
+        </div>
       </Tooltip>
     ),
     enableSorting: false,

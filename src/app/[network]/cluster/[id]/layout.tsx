@@ -108,6 +108,10 @@ export default async function Layout({ children, params }: LayoutProps) {
           />
           <ClusterBalanceStat balance={balance} isMigrated={isMigrated} />
           <Stat
+            title="Runway (days)"
+            content={cluster.runway != null ? `${cluster.runway}` : "-"}
+          />
+          <Stat
             title="Effective Balance"
             tooltip="ETH staked across all validators in this cluster"
             content={
