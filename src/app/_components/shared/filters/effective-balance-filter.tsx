@@ -18,6 +18,8 @@ type Props<TSearchKey extends string = string> = {
     defaultValue?: [number, number]
   }
   inputs?: OpenRangeProps["inputs"]
+  step?: number
+  decimals?: number
 }
 
 export function OpenRangeFilter<TSearchKey extends string = string>({
@@ -25,6 +27,8 @@ export function OpenRangeFilter<TSearchKey extends string = string>({
   searchQueryKey,
   parser,
   inputs,
+  step = 1,
+  decimals = 0,
 }: Props<TSearchKey>) {
   const popup = useDisclosure()
 
@@ -64,8 +68,8 @@ export function OpenRangeFilter<TSearchKey extends string = string>({
         min={0}
         apply={apply}
         remove={remove}
-        step={1}
-        decimals={0}
+        step={step}
+        decimals={decimals}
         inputs={inputs}
       />
     </FilterButton>
