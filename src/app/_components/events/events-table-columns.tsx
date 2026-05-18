@@ -75,18 +75,17 @@ export const eventsColumns = {
     header: ({ column }) => (
       <DataTableColumnHeader
         column={column}
-        className="justify-center pl-[100px] text-center"
+        className="justify-end text-right"
         title="Block"
       />
     ),
     cell: ({ row }) => {
       return (
-        <Text
-          variant="body-3-medium"
-          className="pl-[100px] text-center text-gray-600"
-        >
-          {row.original.blockNumber}
-        </Text>
+        <div className="flex justify-end">
+          <Text variant="body-3-medium" className="text-gray-600">
+            {row.original.blockNumber}
+          </Text>
+        </div>
       )
     },
   },
@@ -123,13 +122,13 @@ export const eventsColumns = {
 export const eventsTableColumns = [
   eventsColumns.event,
   eventsColumns.blockNumber,
-  eventsColumns.createdAt,
+  // eventsColumns.createdAt,
 ] satisfies ColumnDef<AccountEvent>[]
 
 export const overviewEventsTableColumns = [
   eventsColumns.event,
   eventsColumns.blockNumber,
-  eventsColumns.createdAt,
+  // eventsColumns.createdAt,
 ].map((c) => ({ ...c, enableSorting: false }))
 
 export const eventsDefaultColumnVisibility: Partial<
@@ -137,7 +136,7 @@ export const eventsDefaultColumnVisibility: Partial<
 > = {
   event: true,
   blockNumber: true,
-  createdAt: true,
+  createdAt: false,
 }
 
 export const createEventColumnVisibility = () => ({
