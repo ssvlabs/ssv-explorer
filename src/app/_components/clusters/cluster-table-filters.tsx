@@ -77,6 +77,8 @@ export const ClusterTableFilters = ({
           name="Balance"
           searchQueryKey="currentBalance"
           parser={clustersSearchFilters.currentBalance}
+          step={0.0001}
+          decimals={4}
           inputs={{
             start: { placeholder: "From" },
             end: { placeholder: "To" },
