@@ -32,9 +32,7 @@ export const ClusterBalanceStat = ({
             height={20}
             className="object-fit size-5"
           />
-          <Text>
-            {formatSSV(balance)} {currencySymbol}
-          </Text>
+          <Text>{formatSSV(balance)}</Text>
         </div>
       }
     />
