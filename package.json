@@ -139,6 +139,11 @@
     "initVersion": "7.23.1"
   },
   "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "sharp",
+      "unrs-resolver"
+    ],
     "overrides": {
       "@types/react": "19.2.8",
       "@types/react-dom": "19.2.3"

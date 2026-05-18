@@ -6,7 +6,10 @@ import { SingleParserBuilder, useQueryState } from "nuqs"
 import { useDisclosure } from "@/hooks/use-disclosure"
 import { Text } from "@/components/ui/text"
 import { FilterButton } from "@/components/filter/filter-button"
-import { OpenRange } from "@/components/filter/open-range-filter"
+import {
+  OpenRange,
+  type OpenRangeProps,
+} from "@/components/filter/open-range-filter"
 
 type Props<TSearchKey extends string = string> = {
   name: string
@@ -14,11 +17,18 @@ type Props<TSearchKey extends string = string> = {
   parser: SingleParserBuilder<[number, number]> & {
     defaultValue?: [number, number]
   }
+  inputs?: OpenRangeProps["inputs"]
+  step?: number
+  decimals?: number
 }
-export function EffectiveBalanceFilter<TSearchKey extends string = string>({
+
+export function OpenRangeFilter<TSearchKey extends string = string>({
   name,
   searchQueryKey,
   parser,
+  inputs,
+  step = 1,
+  decimals = 0,
 }: Props<TSearchKey>) {
   const popup = useDisclosure()
 
@@ -58,27 +68,35 @@ export function EffectiveBalanceFilter<TSearchKey extends string = string>({
         min={0}
         apply={apply}
         remove={remove}
-        step={1}
-        decimals={0}
-        inputs={{
-          start: {
-            placeholder: "From",
-            rightSlot: (
-              <Text variant="body-3-medium" className="text-gray-500">
-                ETH
-              </Text>
-            ),
-          },
-          end: {
-            placeholder: "To",
-            rightSlot: (
-              <Text variant="body-3-medium" className="text-gray-500">
-                ETH
-              </Text>
-            ),
-          },
-        }}
+        step={step}
+        decimals={decimals}
+        inputs={inputs}
       />
     </FilterButton>
   )
+}
+
+const ethInputs: OpenRangeProps["inputs"] = {
+  start: {
+    placeholder: "From",
+    rightSlot: (
+      <Text variant="body-3-medium" className="text-gray-500">
+        ETH
+      </Text>
+    ),
+  },
+  end: {
+    placeholder: "To",
+    rightSlot: (
+      <Text variant="body-3-medium" className="text-gray-500">
+        ETH
+      </Text>
+    ),
+  },
+}
+
+export function EffectiveBalanceFilter<TSearchKey extends string = string>(
+  props: Omit<Props<TSearchKey>, "inputs">
+) {
+  return <OpenRangeFilter {...props} inputs={ethInputs} />
 }

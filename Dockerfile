@@ -11,7 +11,7 @@ ENV MODE=${MODE}
 WORKDIR /usr/app
 
 # Install PM2 globally
-RUN npm install -g pnpm
+RUN npm install -g pnpm@10.20.0
 
 # Copy package files for dependency installation
 # Utilise Docker cache to save re-installing dependencies if unchanged
