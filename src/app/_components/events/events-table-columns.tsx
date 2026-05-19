@@ -3,6 +3,7 @@
 
 import Link from "next/link"
 import { type ColumnDef } from "@tanstack/react-table"
+import { format, formatDistanceToNowStrict } from "date-fns"
 
 import { type AccountEvent } from "@/types/api/events"
 import { toSentenceCase } from "@/lib/utils"
@@ -21,6 +22,7 @@ import type { ColumnDefWithTitle } from "../utils/column-titles"
 export const eventsColumns = {
   event: {
     accessorKey: "event",
+    size: 500,
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Event" />
     ),
@@ -69,33 +71,65 @@ export const eventsColumns = {
   blockNumber: {
     accessorKey: "blockNumber",
     title: "Block",
+    size: 220,
     header: ({ column }) => (
       <DataTableColumnHeader
         column={column}
-        className="justify-end text-end"
+        className="justify-center pl-[100px] text-center"
         title="Block"
       />
     ),
     cell: ({ row }) => {
       return (
-        <Text variant="body-3-medium" className="text-end text-gray-600">
+        <Text
+          variant="body-3-medium"
+          className="pl-[100px] text-center text-gray-600"
+        >
           {row.original.blockNumber}
         </Text>
       )
     },
-    enableSorting: false,
+  },
+  createdAt: {
+    accessorKey: "createdAt",
+    title: "Age",
+    size: 160,
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        column={column}
+        className="justify-end text-end"
+        title="Age"
+      />
+    ),
+    cell: ({ row }) => {
+      const date = new Date(row.original.createdAt)
+      return (
+        <Tooltip
+          content={format(date, "MMM d, yyyy HH:mm:ss")}
+          asChild
+          align="end"
+        >
+          <div className="flex cursor-default justify-end">
+            <Text variant="body-3-medium" className="text-gray-600">
+              {formatDistanceToNowStrict(date, { addSuffix: true })}
+            </Text>
+          </div>
+        </Tooltip>
+      )
+    },
   },
 } satisfies Record<string, ColumnDefWithTitle<AccountEvent>>
 
 export const eventsTableColumns = [
   eventsColumns.event,
   eventsColumns.blockNumber,
+  eventsColumns.createdAt,
 ] satisfies ColumnDef<AccountEvent>[]
 
 export const overviewEventsTableColumns = [
   eventsColumns.event,
-  eventsColumns.ownerAddress,
   eventsColumns.blockNumber,
+  eventsColumns.createdAt,
 ].map((c) => ({ ...c, enableSorting: false }))
 
 export const eventsDefaultColumnVisibility: Partial<
@@ -103,6 +137,7 @@ export const eventsDefaultColumnVisibility: Partial<
 > = {
   event: true,
   blockNumber: true,
+  createdAt: true,
 }
 
 export const createEventColumnVisibility = () => ({

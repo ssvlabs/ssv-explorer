@@ -1,5 +1,5 @@
 import { createParser, parseAsArrayOf, type Options } from "nuqs/server"
-import { formatGwei, isAddress, parseGwei } from "viem"
+import { formatGwei, formatUnits, isAddress, parseGwei, parseUnits } from "viem"
 import { z } from "zod"
 
 import { sortNumbers } from "@/lib/utils/number"
@@ -36,6 +36,25 @@ export const numberRangeParser = parseAsTuple(
   ...defaultSearchOptions,
   throttleMs: 500,
 })
+
+export const optionalNumberRangeParser = createParser<[number, number]>({
+  parse: (value) => {
+    try {
+      const [a, b] = value.split(",").map(Number)
+      return [a ?? 0, b ?? 0] as [number, number]
+    } catch {
+      return null
+    }
+  },
+  serialize: ([min, max]) => {
+    // 0 means "no limit" — intentionally falsy so it's omitted from the URL
+    if (min && max) return `${min},${max}`
+    if (min) return `${min},`
+    if (max) return `,${max}`
+    return ""
+  },
+  eq: (a, b) => a[0] === b[0] && a[1] === b[1],
+}).withOptions({ ...defaultSearchOptions, throttleMs: 500 })
 
 export const effectiveBalanceParser = parseAsTuple(
   z.tuple([z.number({ coerce: true }), z.number({ coerce: true })]),
@@ -78,6 +97,7 @@ export const getEffectiveBalanceParser = ({
       }
     },
     serialize: ([_min, _max]) => {
+      if (_min === 0 && _max === 0) return ""
       const min = serializeToGwei ? parseGwei(`${_min}`).toString() : `${_min}`
       const max = serializeToGwei ? parseGwei(`${_max}`).toString() : `${_max}`
       if (min && max) return `${min},${max}`
@@ -89,3 +109,27 @@ export const getEffectiveBalanceParser = ({
     .withDefault([0, 0])
     .withOptions(defaultSearchOptions)
 }
+
+export const balanceRangeParser = createParser<[number, number]>({
+  parse: (value) => {
+    try {
+      const parts = value.split(",").map((v) => (v === "" ? "0" : v))
+      const parsed = bigintTuple
+        .parse(parts)
+        .map((v) => Number(formatUnits(v, 18)))
+      return parsed as [number, number]
+    } catch {
+      return null
+    }
+  },
+  serialize: ([_min, _max]) => {
+    const min = _min ? parseUnits(`${_min}`, 18).toString() : ""
+    const max = _max ? parseUnits(`${_max}`, 18).toString() : ""
+    if (min && max) return `${min},${max}`
+    if (min) return `${min},`
+    if (max) return `,${max}`
+    return ""
+  },
+})
+  .withDefault([0, 0])
+  .withOptions({ ...defaultSearchOptions, throttleMs: 500 })

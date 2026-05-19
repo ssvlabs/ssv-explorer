@@ -18,7 +18,5 @@ export const endpoint = (
     ...paths.map(String)
   )
 
-  // For debugging purposes
-  if (process.env.NODE_ENV === "development") console.log("endpoint:", url)
   return url
 }

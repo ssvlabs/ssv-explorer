@@ -202,7 +202,7 @@ type NumberInputFC = FC<NumberProps>
 
 const formatNumber = (value: number, decimals: number) => {
   if (isNaN(value)) return "0"
-  return value.toFixed(decimals).replace(/\.0+$/, "")
+  return value.toFixed(decimals).replace(/\.?0+$/, "") || "0"
 }
 
 export const NumberInput: NumberInputFC = forwardRef<

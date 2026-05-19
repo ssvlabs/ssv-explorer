@@ -124,7 +124,11 @@ export const validatorColumns: Record<
   effectiveBalance: {
     accessorKey: "effectiveBalance",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Effective Balance" />
+      <DataTableColumnHeader
+        className="justify-end text-right"
+        column={column}
+        title="Effective Balance"
+      />
     ),
     cell: ({ row }) => {
       const effectiveBalance = BigInt(
@@ -132,7 +136,7 @@ export const validatorColumns: Record<
       )
       if (effectiveBalance > 0n) {
         return (
-          <div className="flex items-center gap-2">
+          <div className="flex items-center justify-end gap-2">
             <Image
               src="/images/networks/dark.svg"
               alt="ETH"
@@ -144,7 +148,11 @@ export const validatorColumns: Record<
           </div>
         )
       }
-      return <Text className="text-gray-400">-</Text>
+      return (
+        <div className="flex justify-end">
+          <Text className="text-gray-400">-</Text>
+        </div>
+      )
     },
     enableSorting: false,
   },
@@ -167,13 +175,19 @@ export const validatorColumns: Record<
   createdAt: {
     accessorKey: "createdAt",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Registered" />
+      <DataTableColumnHeader
+        column={column}
+        title="Registered"
+        className="justify-end text-right"
+      />
     ),
     cell: ({ row }) => (
       <Tooltip content={row.original.created_at} asChild alignOffset={30}>
-        <Text variant="body-3-medium" className="text-gray-600">
-          {getRelativeTime(row.original.created_at)}
-        </Text>
+        <div className="flex justify-end">
+          <Text variant="body-3-medium" className="text-gray-600">
+            {getRelativeTime(row.original.created_at)}
+          </Text>
+        </div>
       </Tooltip>
     ),
     enableSorting: false,

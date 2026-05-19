@@ -28,9 +28,13 @@ export const operatorColumns = {
     title: "ID",
     maxSize: 65,
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Id" />
+      <DataTableColumnHeader
+        className="justify-end text-right"
+        column={column}
+        title="Id"
+      />
     ),
-    cell: ({ row }) => <div>{row.original.id}</div>,
+    cell: ({ row }) => <div className="text-right">{row.original.id}</div>,
     // enableSorting: false,
   },
   name: {
@@ -97,12 +101,16 @@ export const operatorColumns = {
     accessorKey: "ethFee",
     title: "Fee (ETH)",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Fee (ETH)" />
+      <DataTableColumnHeader
+        className="justify-end text-right"
+        column={column}
+        title="Fee (ETH)"
+      />
     ),
     cell: ({ row }) => {
       const ethFee = BigInt(row.original.eth_fee || 0)
       return (
-        <div className="flex items-center gap-2">
+        <div className="flex items-center justify-end gap-2">
           <Image
             src="/images/networks/dark.svg"
             alt="ETH"
@@ -119,12 +127,16 @@ export const operatorColumns = {
     accessorKey: "fee",
     title: "Fee (SSV)",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Fee (SSV)" />
+      <DataTableColumnHeader
+        className="justify-end text-right"
+        column={column}
+        title="Fee (SSV)"
+      />
     ),
     cell: ({ row }) => {
       const fee = BigInt(row.original.fee || 0)
       return (
-        <div className="flex items-center gap-2">
+        <div className="flex items-center justify-end gap-2">
           <Image
             src="/images/ssvIcons/icon.svg"
             alt="SSV"
@@ -140,9 +152,15 @@ export const operatorColumns = {
   validatorsCount: {
     accessorKey: "validatorsCount",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Validators" />
+      <DataTableColumnHeader
+        className="justify-end text-right"
+        column={column}
+        title="Validators"
+      />
     ),
-    cell: ({ row }) => row.original.validators_count,
+    cell: ({ row }) => (
+      <div className="text-right">{row.original.validators_count}</div>
+    ),
   },
   performance24h: {
     accessorKey: "performance24h",
@@ -237,10 +255,14 @@ export const operatorColumns = {
     accessorKey: "effectiveBalance",
     title: "ETH Managed",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="ETH Managed" />
+      <DataTableColumnHeader
+        className="justify-end text-right"
+        column={column}
+        title="ETH Managed"
+      />
     ),
     cell: ({ row }) => (
-      <div className="flex items-center gap-2">
+      <div className="flex items-center justify-end gap-2">
         <Image
           src="/images/networks/dark.svg"
           alt="ETH"

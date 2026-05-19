@@ -6,7 +6,7 @@ import { type ColumnDef } from "@tanstack/react-table"
 import { formatDistanceToNowStrict } from "date-fns"
 
 import { type Cluster } from "@/types/api"
-import { numberFormatter } from "@/lib/utils/number"
+import { formatETH, formatSSV, numberFormatter } from "@/lib/utils/number"
 import { remove0x, shortenAddress } from "@/lib/utils/strings"
 import { useNetworkParam } from "@/hooks/app/useNetworkParam"
 import { CopyBtn } from "@/components/ui/copy-btn"
@@ -93,15 +93,70 @@ export const clustersTableColumns: ColumnDefWithTitle<Cluster>[] = [
     enableSorting: false,
   },
   {
+    accessorKey: "currentBalance",
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        className="justify-end text-right"
+        column={column}
+        title="Balance"
+      />
+    ),
+    cell: ({ row }) => {
+      const useEth = row.original.migrated
+      const currentBalance = BigInt(row.original.currentBalance || 0)
+      const value = useEth
+        ? formatETH(currentBalance)
+        : formatSSV(currentBalance)
+      return (
+        <div className="flex items-center justify-end gap-2">
+          <Image
+            src={
+              useEth ? "/images/networks/dark.svg" : "/images/ssvIcons/icon.svg"
+            }
+            alt={useEth ? "ETH" : "SSV"}
+            width={16}
+            height={16}
+            className="object-fit size-4"
+          />
+          <Text variant="body-3-medium" className="text-gray-600">
+            {value}
+          </Text>
+        </div>
+      )
+    },
+    enableSorting: true,
+  },
+  {
+    accessorKey: "runway",
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        className="justify-end text-right"
+        column={column}
+        title="Runway (days)"
+      />
+    ),
+    cell: ({ row }) => (
+      <div className="flex justify-end">
+        <Text variant="body-3-medium" className="text-gray-600">
+          {row.original.runway != null ? `${row.original.runway}` : "-"}
+        </Text>
+      </div>
+    ),
+  },
+  {
     accessorKey: "effectiveBalance",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Effective Balance" />
+      <DataTableColumnHeader
+        className="justify-end text-right"
+        column={column}
+        title="Effective Balance"
+      />
     ),
     cell: ({ row }) => {
       const effectiveBalance = BigInt(row.original.effectiveBalance || 0)
       if (effectiveBalance > 0) {
         return (
-          <div className="flex items-center gap-2">
+          <div className="flex items-center justify-end gap-2">
             <Image
               src="/images/networks/dark.svg"
               alt="ETH"
@@ -113,15 +168,25 @@ export const clustersTableColumns: ColumnDefWithTitle<Cluster>[] = [
           </div>
         )
       }
-      return <Text className="text-gray-400">-</Text>
+      return (
+        <div className="flex justify-end">
+          <Text className="text-gray-400">-</Text>
+        </div>
+      )
     },
   },
   {
     accessorKey: "validatorCount",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Validators" />
+      <DataTableColumnHeader
+        className="justify-end text-right"
+        column={column}
+        title="Validators"
+      />
     ),
-    cell: ({ row }) => <div>{row.original.validatorCount}</div>,
+    cell: ({ row }) => (
+      <div className="text-right">{row.original.validatorCount}</div>
+    ),
   },
   {
     accessorKey: "active",
@@ -141,7 +206,7 @@ export const clustersTableColumns: ColumnDefWithTitle<Cluster>[] = [
   {
     accessorKey: "createdAt",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Created At" />
+      <DataTableColumnHeader column={column} title="Formation Date" />
     ),
     cell: ({ row }) => (
       <Text variant="body-3-medium" className="text-gray-600">
@@ -158,8 +223,9 @@ export const clustersTableDefaultColumnsKeys: ClusterColumnsAccessorKeys[] = [
   "clusterId",
   "ownerAddress",
   "operators",
-  "validatorCount",
+  "runway",
   "effectiveBalance",
+  "validatorCount",
   "active",
 ]
 
