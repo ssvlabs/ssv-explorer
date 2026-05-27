@@ -82,7 +82,11 @@ export const getValidatorEvents = async (
     [JSON.stringify(stringifyBigints(params))],
     {
       revalidate: 30,
-      tags: [`validator-events-${params.publicKey}`],
+      // Static tag — must NOT include the publicKey. A per-entity tag creates an
+      // unbounded number of unique tags that accumulate forever in Next's global
+      // `tagsManifest` Map (never evicted), causing a steady server memory leak.
+      // Per-entity cache isolation is already handled by the keyParts above.
+      tags: ["validator-events"],
     }
   )()
 
@@ -109,7 +113,9 @@ export const getClusterEvents = async (
     [JSON.stringify(stringifyBigints(params))],
     {
       revalidate: 30,
-      tags: [`cluster-events-${params.clusterHash}`],
+      // Static tag — see note on validator-events. A `cluster-events-${hash}` tag
+      // is unbounded and leaks into Next's global tagsManifest Map.
+      tags: ["cluster-events"],
     }
   )()
 
@@ -136,6 +142,8 @@ export const getOperatorHistoryEvents = async (
     [JSON.stringify(stringifyBigints(params))],
     {
       revalidate: 30,
-      tags: [`operator-events-${params.operatorId}`],
+      // Static tag — see note on validator-events. An `operator-events-${id}` tag
+      // is unbounded and leaks into Next's global tagsManifest Map.
+      tags: ["operator-events"],
     }
   )()
