@@ -48,7 +48,7 @@ export const getRecentSSVEvents = async (
     async () => {
       const searchParams = eventsSearchParamsSerializer(params)
       const response = await api.get<PaginatedEventsResponse>(
-        endpoint(params.network, "events", `?${searchParams}`)
+        endpoint(params.network, "events", searchParams)
       )
       return response
     },

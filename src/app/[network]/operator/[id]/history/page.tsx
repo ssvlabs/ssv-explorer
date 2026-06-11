@@ -28,7 +28,7 @@ export default async function Page(props: IndexPageProps) {
     ...search,
     operatorId: id,
     network: network as ChainName,
-    ordering: [{ id: "createdAt", desc: true }],
+    ordering: [{ id: "blockNumber", desc: true }],
   })
 
   return (
