@@ -78,7 +78,7 @@ export default async function Page(props: IndexPageProps) {
 
   const recentSSVEvents = getRecentSSVEvents({
     network,
-    ordering: [{ id: "createdAt", desc: true }],
+    ordering: [{ id: "blockNumber", desc: true }],
   })
 
   const totalOperators = operators?.pagination.total ?? 0
