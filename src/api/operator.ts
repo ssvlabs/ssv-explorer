@@ -9,6 +9,7 @@ import type {
   OperatorPerformanceChart,
   OperatorsSearchResponse,
 } from "@/types/api"
+import type { OperatorDKGHealthResponse } from "@/types/operators"
 import { type ChainName } from "@/config/chains"
 import {
   operatorPerformanceChartParamsSerializer,
@@ -77,6 +78,29 @@ export interface OperatorMetadata {
   dkgAddress: string
   logo: string
   signature: string
+}
+
+/**
+ * Probes the operators' DKG nodes through ssv-api, which calls each node
+ * server-side (self-signed certs, SSZ payload) and decodes the reported
+ * version.
+ *
+ * Bounded upstream: ssv-api gives each node 2s and, on timeout, answers with
+ * `version: null` rather than an error — so this never hangs and never throws
+ * per address. No client-side timeout is layered on top; one here would abort
+ * the round trip exactly as ssv-api's own probe is returning.
+ *
+ * Deliberately not wrapped in `unstable_cache` — the result is per-operator and
+ * reflects live node state.
+ */
+export const checkOperatorDKGHealth = async (
+  network: ChainName,
+  dkgAddresses: { id: string; address: string }[]
+) => {
+  return await api.post<OperatorDKGHealthResponse[]>(
+    endpoint(network, "operators", "dkg_health_check"),
+    { dkgAddresses }
+  )
 }
 
 export const getOperator = async (

@@ -10,9 +10,11 @@ import { type Operator } from "@/types/api"
 import { cn } from "@/lib/utils"
 import { formatETH, formatSSV } from "@/lib/utils/number"
 import { getYearlyFee } from "@/lib/utils/operator"
+import { useOperatorDkgAddress } from "@/hooks/queries/use-operator-dkg-address"
 import { Button } from "@/components/ui/button"
 import { CopyBtn } from "@/components/ui/copy-btn"
 import { Outline } from "@/components/ui/outline"
+import { Spinner } from "@/components/ui/spinner"
 import { Text } from "@/components/ui/text"
 import { MevRelaysDisplay } from "@/components/mev-relays-display"
 
@@ -30,6 +32,9 @@ export const OperatorMetaData: OperatorMetaDataFC = ({
   className,
 }) => {
   const [shouldShowMore, setShouldShowMore] = useState(false)
+  // TEMPORARY: masked unless the operator's DKG node reports >= 3.1.1. Resolves
+  // asynchronously — the rest of the page does not wait on it.
+  const { dkgAddress, isResolving } = useOperatorDkgAddress(operator)
   return (
     <Collapse
       isOpened={true}
@@ -124,10 +129,14 @@ export const OperatorMetaData: OperatorMetaDataFC = ({
                       DKG Endpoint:
                     </Text>
                     <Text variant="body-3-medium" className="flex-1 break-all">
-                      {operator.dkg_address || "N/A"}
+                      {isResolving ? (
+                        <Spinner size="sm" />
+                      ) : (
+                        dkgAddress || "N/A"
+                      )}
                     </Text>
                   </div>
-                  <CopyBtn text={operator.dkg_address} />
+                  <CopyBtn text={isResolving ? "" : dkgAddress} />
                 </Outline>
                 {operator.twitter_url && (
                   <Outline asChild>

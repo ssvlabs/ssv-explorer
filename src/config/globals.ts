@@ -24,6 +24,11 @@ export const globals = {
   MINIMUM_OPERATOR_FEE_PER_BLOCK: 1000000000n,
   MIN_VALIDATORS_COUNT_PER_BULK_REGISTRATION: 1,
   DEFAULT_ADDRESS_WHITELIST: "0x0000000000000000000000000000000000000000",
+  // TEMPORARY: the DKG endpoint is only revealed for operators whose DKG node
+  // already runs >= MIN_DKG_VERSION_FOR_ADDRESS. Everyone else sees the
+  // placeholder. Remove both once every operator has upgraded.
+  MIN_DKG_VERSION_FOR_ADDRESS: "3.1.1",
+  MASKED_DKG_ADDRESS: "https://0.0.0.0",
 }
 
 export const links = {
