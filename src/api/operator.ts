@@ -83,8 +83,12 @@ export interface OperatorMetadata {
 /**
  * Probes the operators' DKG nodes through ssv-api, which calls each node
  * server-side (self-signed certs, SSZ payload) and decodes the reported
- * version. Never throws per address: an unreachable node comes back with
- * `version: null`.
+ * version.
+ *
+ * Bounded upstream: ssv-api gives each node 2s and, on timeout, answers with
+ * `version: null` rather than an error — so this never hangs and never throws
+ * per address. No client-side timeout is layered on top; one here would abort
+ * the round trip exactly as ssv-api's own probe is returning.
  *
  * Deliberately not wrapped in `unstable_cache` — the result is per-operator and
  * reflects live node state.
