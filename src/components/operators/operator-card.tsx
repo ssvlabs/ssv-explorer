@@ -37,6 +37,11 @@ export const OperatorCard: OperatorCardFC = ({
     : operator.is_active === 1
       ? "active"
       : "offline"
+  const indicatorLabel = {
+    removed: "Removed",
+    active: "Active",
+    offline: "Inactive",
+  }[indicatorStatus]
 
   return (
     <div
@@ -56,8 +61,8 @@ export const OperatorCard: OperatorCardFC = ({
         <StatusIndicator
           className="absolute right-0 top-0 -translate-y-1/2 translate-x-1/2"
           status={indicatorStatus}
-          role={isRemoved ? "img" : undefined}
-          aria-label={isRemoved ? "Removed" : undefined}
+          role="img"
+          aria-label={indicatorLabel}
         />
       </div>
       <div className="flex items-center gap-[6px]">

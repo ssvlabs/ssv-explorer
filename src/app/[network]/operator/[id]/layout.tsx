@@ -319,16 +319,16 @@ export default async function Layout(props: IndexPageProps) {
                     height={20}
                     className="object-fit size-5"
                   />
-                  {!isRemoved && operator.effective_balance > 0 ? (
+                  {isRemoved ? (
+                    <EmptyValue />
+                  ) : operator.effective_balance > 0 ? (
                     <Text>
                       {numberFormatter.format(
                         Number(operator.effective_balance)
                       )}
                     </Text>
                   ) : (
-                    <Text className="text-gray-400">
-                      {isRemoved ? "—" : "-"}
-                    </Text>
+                    <Text className="text-gray-400">-</Text>
                   )}
                 </div>
               }
