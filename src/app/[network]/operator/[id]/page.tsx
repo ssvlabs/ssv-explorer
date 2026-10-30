@@ -24,9 +24,11 @@ export default async function Page(props: IndexPageProps) {
     await props.searchParams
   )
 
+  // Same params as the layout, so this reuses its cached response.
   const operator = await getOperator({
     network: network as ChainName,
     id: +id,
+    includeDeleted: true,
   }).catch(() => null)
 
   const validators = searchValidators({
@@ -40,7 +42,9 @@ export default async function Page(props: IndexPageProps) {
       <div className="flex items-center gap-2 pb-5">
         <TableNavigation
           operatorId={id}
-          validatorCount={operator?.validators_count}
+          validatorCount={
+            operator?.is_deleted ? undefined : operator?.validators_count
+          }
         />
         <div className="flex-1" />
         <ValidatorsTableFilterButton />

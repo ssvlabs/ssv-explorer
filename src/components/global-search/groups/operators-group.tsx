@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { CommandGroup, CommandItem } from "@/components/ui/command"
 import { Text } from "@/components/ui/text"
 import { OperatorInfo } from "@/components/operators/operator-info"
+import { OperatorStatusBadge } from "@/components/operators/operator-status-badge"
 
 interface OperatorsGroupProps {
   query: UseInfiniteQueryResult<Operator[], unknown>
@@ -31,7 +32,16 @@ export function OperatorsGroup({ query, onSelect }: OperatorsGroupProps) {
             onSelect("operator", operator)
           }}
         >
-          <OperatorInfo operator={operator} variant="full" />
+          <div className="flex w-full min-w-0 items-center justify-between gap-2">
+            <OperatorInfo
+              className="min-w-0"
+              operator={operator}
+              variant="full"
+            />
+            {operator.is_deleted && (
+              <OperatorStatusBadge status="Removed" size="xs" />
+            )}
+          </div>
         </CommandItem>
       ))}
       {query.hasNextPage && (
