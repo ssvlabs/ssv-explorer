@@ -46,26 +46,33 @@ export const OperatorMetaData: OperatorMetaDataFC = ({
                 <Text variant="caption-medium" className="text-gray-500">
                   Fee (Yearly):
                 </Text>
-                <div className="flex items-center gap-2">
-                  {BigInt(operator.eth_fee || 0) > 0 ? (
-                    <Text variant="body-3-medium">
-                      {formatETH(getYearlyFee(BigInt(operator.eth_fee)))} ETH
-                    </Text>
-                  ) : (
-                    <Text variant="body-3-medium" className="text-gray-400">
-                      - ETH
-                    </Text>
-                  )}
-                  {BigInt(operator.fee || 0) > 0 ? (
-                    <Text variant="body-3-medium">
-                      {formatSSV(getYearlyFee(BigInt(operator.fee)))} SSV
-                    </Text>
-                  ) : (
-                    <Text variant="body-3-medium" className="text-gray-400">
-                      - SSV
-                    </Text>
-                  )}
-                </div>
+                {operator.is_deleted ? (
+                  // A removed operator no longer charges a fee; don't show the stale one.
+                  <Text variant="body-3-medium" className="text-gray-400">
+                    —
+                  </Text>
+                ) : (
+                  <div className="flex items-center gap-2">
+                    {BigInt(operator.eth_fee || 0) > 0 ? (
+                      <Text variant="body-3-medium">
+                        {formatETH(getYearlyFee(BigInt(operator.eth_fee)))} ETH
+                      </Text>
+                    ) : (
+                      <Text variant="body-3-medium" className="text-gray-400">
+                        - ETH
+                      </Text>
+                    )}
+                    {BigInt(operator.fee || 0) > 0 ? (
+                      <Text variant="body-3-medium">
+                        {formatSSV(getYearlyFee(BigInt(operator.fee)))} SSV
+                      </Text>
+                    ) : (
+                      <Text variant="body-3-medium" className="text-gray-400">
+                        - SSV
+                      </Text>
+                    )}
+                  </div>
+                )}
               </Outline>
               <Outline>
                 <Text variant="caption-medium" className="text-gray-500">

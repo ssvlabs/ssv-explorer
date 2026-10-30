@@ -1,9 +1,11 @@
 import { type Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
+import { getOperatorHistoryEvents } from "@/api/events"
 import { getOperator } from "@/api/operator"
-import { MdOutlineLock } from "react-icons/md"
+import { MdErrorOutline, MdOutlineLock } from "react-icons/md"
 
+import { type AccountEvent } from "@/types/api/events"
 import { type ChainName } from "@/config/chains"
 import { cn } from "@/lib/utils"
 import { numberFormatter } from "@/lib/utils/number"
@@ -27,6 +29,62 @@ interface IndexPageProps {
   children: React.ReactNode
 }
 
+const OPERATOR_DESCRIPTION =
+  "View performance, status, and validator information for this Operator on the SSV Network."
+
+const REMOVED_OPERATOR_NOTICE =
+  "This operator has been removed by its owner. Clusters that include it should replace it."
+
+// Rendered on the server, so pin the timezone instead of using the server's.
+const removalDateFormatter = new Intl.DateTimeFormat("en-US", {
+  year: "numeric",
+  month: "short",
+  day: "numeric",
+  hour: "2-digit",
+  minute: "2-digit",
+  hourCycle: "h23",
+  timeZone: "UTC",
+  timeZoneName: "short",
+})
+
+/**
+ * The removal date must come from the on-chain `OperatorRemoved` event:
+ * `updated_at` on a removed operator keeps being bumped by the indexer.
+ * Returns null when no event is found or the request fails, so the page still
+ * renders and shows "—".
+ */
+const getOperatorRemovalEvent = async (
+  network: ChainName,
+  operatorId: string
+): Promise<AccountEvent | null> => {
+  const events = await getOperatorHistoryEvents({
+    network,
+    operatorId,
+    event: ["OperatorRemoved"],
+    ordering: [{ id: "blockNumber", desc: true }],
+  }).catch(() => null)
+
+  if (!Array.isArray(events)) return null
+
+  return events
+    .filter((event) => event.event === "OperatorRemoved")
+    .reduce<AccountEvent | null>(
+      (latest, event) =>
+        !latest || Number(event.blockNumber) > Number(latest.blockNumber)
+          ? event
+          : latest,
+      null
+    )
+}
+
+const formatRemovalDate = (event: AccountEvent | null) => {
+  if (!event?.createdAt) return null
+  const date = new Date(event.createdAt)
+  return Number.isNaN(date.getTime()) ? null : removalDateFormatter.format(date)
+}
+
+const EmptyValue = () => <Text className="text-gray-400">—</Text>
+
 export async function generateMetadata(
   props: IndexPageProps
 ): Promise<Metadata> {
@@ -35,9 +93,21 @@ export async function generateMetadata(
   const operator = await getOperator({
     network: network as ChainName,
     id: +id,
+    includeDeleted: true,
   }).catch(() => null)
 
   if (!operator) return {}
+
+  if (operator.is_deleted) {
+    // No OG image: it would advertise stale performance and validator numbers.
+    const title = `${operator.name} (Removed)`
+    return {
+      title,
+      description: REMOVED_OPERATOR_NOTICE,
+      openGraph: { title, description: REMOVED_OPERATOR_NOTICE },
+      twitter: { title, description: REMOVED_OPERATOR_NOTICE },
+    }
+  }
 
   const params = {
     id,
@@ -55,18 +125,15 @@ export async function generateMetadata(
 
   return {
     title: `${operator.name}`,
-    description:
-      "View performance, status, and validator information for this Operator on the SSV Network.",
+    description: OPERATOR_DESCRIPTION,
     openGraph: {
       title: `${operator.name}`,
-      description:
-        "View performance, status, and validator information for this Operator on the SSV Network.",
+      description: OPERATOR_DESCRIPTION,
       images: [ogUrl],
     },
     twitter: {
       title: `${operator.name}`,
-      description:
-        "View performance, status, and validator information for this Operator on the SSV Network.",
+      description: OPERATOR_DESCRIPTION,
       images: [ogUrl],
     },
   }
@@ -77,7 +144,11 @@ export default async function Layout(props: IndexPageProps) {
 
   let operator
   try {
-    operator = await getOperator({ network: network as ChainName, id: +id })
+    operator = await getOperator({
+      network: network as ChainName,
+      id: +id,
+      includeDeleted: true,
+    })
   } catch (error) {
     return (
       <Shell className="gap-2">
@@ -102,9 +173,29 @@ export default async function Layout(props: IndexPageProps) {
     )
   }
 
+  // `is_deleted` is the source of truth. `is_active` is frozen at its
+  // pre-removal value for removed operators and must not drive any UI here.
+  const isRemoved = operator.is_deleted === true
+  const removalEvent = isRemoved
+    ? await getOperatorRemovalEvent(network as ChainName, id)
+    : null
+  const removalDate = formatRemovalDate(removalEvent)
+  const status = isRemoved ? "Removed" : operator.status
+
   return (
     <Shell className="gap-2">
       <div className="flex flex-col gap-6">
+        {isRemoved && (
+          <div
+            role="status"
+            className="flex items-start gap-3 rounded-2xl border border-error-200 bg-error-50 px-5 py-4"
+          >
+            <MdErrorOutline className="mt-0.5 size-5 min-w-5 text-error-500" />
+            <Text variant="body-2-semibold" className="text-gray-800">
+              {REMOVED_OPERATOR_NOTICE}
+            </Text>
+          </div>
+        )}
         <Card>
           <div className="grid max-w-full grid-cols-[auto_1fr] gap-[14px] gap-y-3">
             <OperatorAvatar
@@ -165,30 +256,55 @@ export default async function Layout(props: IndexPageProps) {
           <div className="grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-6">
             <Stat
               title="Status"
-              tooltip="Based on whether the majority of assigned duties were performed in the last 10 epochs"
+              tooltip={
+                isRemoved
+                  ? "This operator was removed on-chain by its owner"
+                  : "Based on whether the majority of assigned duties were performed in the last 10 epochs"
+              }
               content={
                 <Text
                   className={cn({
-                    "text-success-700": operator.status === "Active",
-                    "text-gray-500": operator.status === "No Validators",
+                    "text-success-700": status === "Active",
+                    "text-gray-500": status === "No Validators",
                     "text-error-500":
-                      operator.status === "Inactive" ||
-                      operator.status === "Removed",
+                      status === "Inactive" || status === "Removed",
                   })}
                 >
-                  {operator.status}
+                  {status}
                 </Text>
               }
             />
+            {isRemoved && (
+              <Stat
+                title="Removal Date"
+                tooltip="When the operator was removed, taken from its OperatorRemoved event"
+                content={
+                  removalDate ? <Text>{removalDate}</Text> : <EmptyValue />
+                }
+                subContent={
+                  removalDate && removalEvent?.blockNumber
+                    ? `Block ${removalEvent.blockNumber}`
+                    : undefined
+                }
+              />
+            )}
             <Stat
               title="Performance (1D | 1M)"
               tooltip="Operator performance is calculated by the percentage of attended duties within the specified time-frame."
               content={
-                <div className="flex items-center gap-1">
-                  <PerformanceText performance={operator.performance["24h"]} />
-                  <Text className="font-thin text-gray-500">|</Text>
-                  <PerformanceText performance={operator.performance["30d"]} />
-                </div>
+                isRemoved ? (
+                  <EmptyValue />
+                ) : (
+                  <div className="flex items-center gap-1">
+                    <PerformanceText
+                      performance={operator.performance["24h"]}
+                    />
+                    <Text className="font-thin text-gray-500">|</Text>
+                    <PerformanceText
+                      performance={operator.performance["30d"]}
+                    />
+                  </div>
+                )
               }
             />
             <Stat
@@ -203,14 +319,16 @@ export default async function Layout(props: IndexPageProps) {
                     height={20}
                     className="object-fit size-5"
                   />
-                  {operator.effective_balance > 0 ? (
+                  {!isRemoved && operator.effective_balance > 0 ? (
                     <Text>
                       {numberFormatter.format(
                         Number(operator.effective_balance)
                       )}
                     </Text>
                   ) : (
-                    <Text className="text-gray-400">-</Text>
+                    <Text className="text-gray-400">
+                      {isRemoved ? "—" : "-"}
+                    </Text>
                   )}
                 </div>
               }
@@ -218,17 +336,26 @@ export default async function Layout(props: IndexPageProps) {
             <Stat
               title="Validators"
               tooltip="The number of validators serviced by this operator"
-              content={<Text>{operator.validators_count}</Text>}
+              content={
+                isRemoved ? (
+                  <EmptyValue />
+                ) : (
+                  <Text>{operator.validators_count}</Text>
+                )
+              }
             />
           </div>
         </Card>
-        <div className="flex flex-row gap-4">
-          <PerformanceChart
-            className="w-full"
-            operatorId={+id}
-            network={network as ChainName}
-          />
-        </div>
+        {/* Live performance metrics don't apply to a removed operator. */}
+        {!isRemoved && (
+          <div className="flex flex-row gap-4">
+            <PerformanceChart
+              className="w-full"
+              operatorId={+id}
+              network={network as ChainName}
+            />
+          </div>
+        )}
         <Card gap="none" className="overflow-hidden">
           {props.children}
         </Card>
