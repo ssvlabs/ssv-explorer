@@ -29,13 +29,23 @@ export const OperatorCard: OperatorCardFC = ({
   operator,
   ...props
 }) => {
+  // A removed operator keeps its pre-removal `is_active` value, so `is_deleted`
+  // must win over it everywhere on the card.
+  const isRemoved = operator.is_deleted === true
+  const indicatorStatus = isRemoved
+    ? "removed"
+    : operator.is_active === 1
+      ? "active"
+      : "offline"
+
   return (
     <div
       className={cn(
         "flex size-full flex-col items-center gap-3 rounded-2xl border px-5 py-6",
         {
-          "border-transparent bg-gray-50": operator.is_active === 1,
-          "border-error-200": operator.is_active === 0,
+          "border-transparent bg-gray-50":
+            !isRemoved && operator.is_active === 1,
+          "border-error-200": isRemoved || operator.is_active === 0,
         },
         className
       )}
@@ -45,7 +55,9 @@ export const OperatorCard: OperatorCardFC = ({
         <OperatorAvatar src={operator.logo} size="lg" variant="unstyled" />
         <StatusIndicator
           className="absolute right-0 top-0 -translate-y-1/2 translate-x-1/2"
-          status={operator.is_active === 1 ? "active" : "offline"}
+          status={indicatorStatus}
+          role={isRemoved ? "img" : undefined}
+          aria-label={isRemoved ? "Removed" : undefined}
         />
       </div>
       <div className="flex items-center gap-[6px]">
@@ -75,11 +87,17 @@ export const OperatorCard: OperatorCardFC = ({
         </Outline>
         <Outline>
           <PerformanceIcon />
-          <Text
-            as={PerformanceText}
-            performance={operator.performance["24h"]}
-            variant="body-3-medium"
-          />
+          {isRemoved ? (
+            <Text variant="body-3-medium" className="text-gray-400">
+              —
+            </Text>
+          ) : (
+            <Text
+              as={PerformanceText}
+              performance={operator.performance["24h"]}
+              variant="body-3-medium"
+            />
+          )}
         </Outline>
       </div>
     </div>
