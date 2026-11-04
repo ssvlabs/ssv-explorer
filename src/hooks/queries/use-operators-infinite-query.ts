@@ -20,6 +20,8 @@ export const useOperatorsInfiniteQuery = (
         perPage: params.perPage,
         search: params.search,
         ordering: [{ id: "id", desc: false }],
+        // Global search only: let users find removed operators by name/id.
+        includeDeleted: true,
       }),
     select: (data) => data.pages.flatMap((page) => page.operators),
     placeholderData: keepPreviousData,
